@@ -31,6 +31,10 @@ const config: Config = {
         blue: '#76A5EA',
         pink: '#E876EA',
       },
+      fontFamily: {
+        pre: 'Pretendard',
+        mon: 'Montserrat',
+      },
     },
   },
   plugins: [],
