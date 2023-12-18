@@ -1,7 +1,7 @@
-name: '♻️ Refactor'
-description: '리팩토링 템플릿'
-title: '[Refactor] '
-labels: 'refactor'
+name: "♻️ Refactor"
+description: "리팩토링 템플릿"
+title: "[Refactor] "
+labels: "refactor"
 body:
   - type: textarea
     attributes:
