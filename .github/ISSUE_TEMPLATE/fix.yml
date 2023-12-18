@@ -1,0 +1,19 @@
+name: '🛠️ Fix'
+description: '오류 수정 템틀릿'
+title: '[Fix] '
+labels: 'fix'
+body:
+  - type: textarea
+    attributes:
+      label: 📝 설명
+      description: 오류에 대해서 설명해주세요.
+      placeholder: 오류에 대해서 적어주세요.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ✅ 체크 사항
+      description: 수정한 오류를 체크해주세요.
+      placeholder: 수정한 오류에 대해서 나열해주세요.
+    validations:
+      required: true
