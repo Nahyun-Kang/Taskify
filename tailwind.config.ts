@@ -35,6 +35,10 @@ const config: Config = {
         pre: 'Pretendard',
         mon: 'Montserrat',
       },
+      screens: {
+        sm: '376px',
+        md: '745px',
+      },
     },
   },
   plugins: [],
