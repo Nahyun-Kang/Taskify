@@ -5,5 +5,3 @@ export default function Home() {
     </main>
   );
 }
-
-console.log('마일스톤 등록');
