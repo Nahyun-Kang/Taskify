@@ -11,6 +11,8 @@ const config: Config = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        largeLogo: "url('/logo/nav_logo_large.svg')",
+        smallLogo: "url('/logo/nav_lgoo_small.svg')",
       },
       colors: {
         black: '#171717',
@@ -34,6 +36,10 @@ const config: Config = {
       fontFamily: {
         pre: 'Pretendard',
         mon: 'Montserrat',
+      },
+      screens: {
+        sm: '376px',
+        md: '745px',
       },
     },
   },
