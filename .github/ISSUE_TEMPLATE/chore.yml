@@ -5,7 +5,7 @@ labels: 'chore'
 body:
   - type: textarea
     attributes:
-      label: 📝 설명⚙️
+      label: 📝 설명
       description: 변경한 설정에 대해서 설명해주세요.
       placeholder: 설정에 대해서 적어주세요.
     validations:
