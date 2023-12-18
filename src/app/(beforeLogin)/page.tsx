@@ -6,9 +6,9 @@ import heroImg from '@/public/images/hero.png';
 import landingImg1 from '@/public/images/landing1.png';
 import landingImg2 from '@/public/images/landing2.png';
 import Card from './_component/Card';
-import Email from './_component/Email';
-import FaceBook from './_component/FaceBook';
-import Instagram from './_component/Youtube';
+import EmailImg from '@/public/icons/email_icon.svg';
+import FaceBookImg from '@/public/icons/facebook_icon.svg';
+import InstagramImg from '@/public/icons/instagram_logo.svg';
 
 const ColCenter = 'flex flex-col justify-center';
 
@@ -87,16 +87,18 @@ export default function Home() {
             ))}
           </div>
         </section>
-        <footer className='text-center'>
-          <div>©codeit - 2023</div>
-          <div>
-            <span>Privacy Policy</span>
-            <span>FAQ</span>
-          </div>
-          <div className='m-auto flex w-fit items-center gap-[1.25rem]'>
-            <Email color='#171717' />
-            <FaceBook color='#171717' />
-            <Instagram color='#171717' />
+        <footer className='mt-10 w-full bg-[#000000] pb-[5.625rem] pt-[5.03rem] text-[0.75rem] text-gray40'>
+          <div className='m-auto max-w-[120rem] text-center'>
+            <div className='h-[0.875rem]'>©codeit - 2023</div>
+            <div className='mx-auto mb-[4.25rem] mt-3 flex h-[0.875rem] w-fit gap-5'>
+              <span>Privacy Policy</span>
+              <span>FAQ</span>
+            </div>
+            <div className='m-auto flex w-fit items-center gap-[1.25rem]'>
+              <Image src={EmailImg} alt='email' />
+              <Image src={FaceBookImg} alt='facebook' />
+              <Image src={InstagramImg} alt='instagram' />
+            </div>
           </div>
         </footer>
       </main>
