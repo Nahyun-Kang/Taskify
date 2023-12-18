@@ -1,0 +1,19 @@
+name: '⚙️ Chore'
+description: '설정 변경 템틀릿'
+title: '[Chore] '
+labels: 'chore'
+body:
+  - type: textarea
+    attributes:
+      label: 📝 설명
+      description: 변경한 설정에 대해서 설명해주세요.
+      placeholder: 설정에 대해서 적어주세요.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ✅ 체크 사항
+      description: 변경한 설정을 체크해주세요.
+      placeholder: 변경한 설정에 대해서 나열해주세요.
+    validations:
+      required: true
