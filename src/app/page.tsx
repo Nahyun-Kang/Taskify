@@ -6,3 +6,4 @@ export default function Home() {
   );
 }
 
+console.log('마일스톤 등록');
