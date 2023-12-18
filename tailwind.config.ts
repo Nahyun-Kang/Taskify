@@ -13,6 +13,9 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         largeLogo: "url('/logo/nav_logo_large.svg')",
         smallLogo: "url('/logo/nav_lgoo_small.svg')",
+        landingImg3: "url('/images/landing3.png')",
+        landingImg4: "url('/images/landing4.png')",
+        landingImg5: "url('/images/landing5.png')",
       },
       colors: {
         black: '#171717',
@@ -45,4 +48,5 @@ const config: Config = {
   },
   plugins: [],
 };
+
 export default config;
