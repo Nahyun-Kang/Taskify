@@ -36,8 +36,9 @@ const config: Config = {
         mon: 'Montserrat',
       },
       screens: {
-        sm: '376px',
+        sm: '375px',
         md: '745px',
+        lg: '1440px',
       },
     },
   },
