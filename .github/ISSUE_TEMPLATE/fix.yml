@@ -1,5 +1,5 @@
 name: '🛠️ Fix'
-description: '오류 수정 템틀릿'
+description: '오류 수정 템플릿'
 title: '[Fix] '
 labels: 'fix'
 body:
