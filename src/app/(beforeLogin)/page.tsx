@@ -7,20 +7,11 @@ import landingImg1 from '@/public/images/landing1.png';
 import landingImg2 from '@/public/images/landing2.png';
 import Card from './_component/Card';
 import EmailImg from '@/public/icons/email_icon.svg';
-import FaceBookImg from '@/public/icons/facebook_icon.svg';
-import InstagramImg from '@/public/icons/instagram_logo.svg';
+import githubImg from '@/public/icons/icons8-github.svg';
+import notionImg from '@/public/icons/icons8-notion.svg';
+import { CardValues } from './_constants/landing';
 
 const ColCenter = 'flex flex-col justify-center';
-
-const CardValues = [
-  {
-    src: 'bg-[url("/images/landing3.png")]',
-    title: '대시보드 설정',
-    description: '대시보드 사진과 이름을 변경할 수 있어요.',
-  },
-  { src: 'bg-[url("/images/landing4.png")]', title: '초대', description: '새로운 팀원을 초대할 수 있어요.' },
-  { src: 'bg-[url("/images/landing5.png")]', title: '구성원', description: '구성원을 초대하고 내보낼 수 있어요.' },
-];
 
 export default function Home() {
   return (
@@ -66,54 +57,63 @@ export default function Home() {
             </button>
           </Link>
         </section>
-        <section className='m-4 mt-20 w-full px-4 md:mt-[11.5rem]'>
+        <section className='m-4 mt-20 w-full px-4 sm:px-10 md:mt-[11.5rem]'>
           <div className='flex h-full flex-col  rounded-lg bg-gray10'>
-            <div className='min-h-[22.6875rem] flex-1 text-center'>
-              <div className='h-m-[1.375rem] mt-[3.75rem] text-[1.125rem] font-medium text-gray40'>Point 1</div>
-              <h2 className='m-auto mt-[3.8125rem] w-[14.1875rem] text-[2.25rem] font-bold leading-[3.125rem]'>
+            <div className='min-h-[22.6875rem] flex-1 text-center sm:min-h-[30.375rem] sm:pl-[3.75rem] sm:text-left'>
+              <div className='h-m-[1.375rem] mt-[3.75rem] text-[1.125rem] font-medium text-gray40 sm:mt-[3.9375rem] sm:text-[1.375rem]'>
+                Point 1
+              </div>
+              <h2 className='m-auto mt-[3.8125rem] w-[14.1875rem] text-[2.25rem] font-bold leading-[3.125rem] sm:mx-0 sm:mt-[6.25rem] sm:w-[18.875rem] sm:text-[3rem]'>
                 일의 우선순위를 관리하세요
               </h2>
             </div>
-            <div className='flex-1 pl-[2.9375rem]'>
+            <div className='flex-1 pl-[2.9375rem] sm:pl-[9.0625rem]'>
               <Image src={landingImg1} alt='랜딩 이미지' quality={100} className='ml-auto w-full  rounded-tl-lg' />
             </div>
           </div>
         </section>
-        <section className='mt-[3.6875rem] flex h-[42.875rem] w-[21.4375rem] flex-col justify-between rounded-lg bg-gray10'>
-          <div className='text-center'>
-            <div className='mt-[3.75rem] h-[1.375rem] text-[1.125rem] font-medium text-gray40'>Point 2</div>
-            <h2 className='m-auto mt-[3.8125rem] w-[10.8125rem] text-[2.25rem] font-bold leading-[3.125rem]'>
-              해야 할 일을 등록하세요
-            </h2>
+        <section className='m-4 mt-20 w-full px-4 sm:px-10 md:mt-[11.5rem]'>
+          <div className='flex h-full flex-col  rounded-lg bg-gray10'>
+            <div className='min-h-[22.6875rem] flex-1 text-center sm:min-h-[30.375rem] sm:pl-[3.75rem] sm:text-left'>
+              <div className='h-m-[1.375rem] mt-[3.75rem] text-[1.125rem] font-medium text-gray40 sm:mt-[3.9375rem] sm:text-[1.375rem]'>
+                Point 2
+              </div>
+              <h2 className='m-auto mt-[3.8125rem] w-[14.1875rem] text-[2.25rem] font-bold leading-[3.125rem] sm:mx-0 sm:mt-[6.25rem] sm:w-[14.375rem] sm:text-[3rem]'>
+                해야 할 일을 등록하세요
+              </h2>
+            </div>
+            <div className='flex-1 px-[3.9375rem]'>
+              <Image src={landingImg2} alt='랜딩 이미지' quality={100} className='mx-auto rounded-t-lg' />
+            </div>
           </div>
-          <Image
-            src={landingImg2}
-            alt='랜딩 이미지'
-            quality={100}
-            className='mx-auto h-[15.625rem] w-[13.5707rem] rounded-tl-lg'
-          />
         </section>
         <section className='mt-[5.625rem]'>
-          <h2 className='mx-auto mb-[2.625rem]  h-[1.625rem] w-fit text-[1.375rem] font-bold'>
+          <h2 className='mx-auto mb-[2.625rem] h-[1.625rem] w-fit text-[1.375rem] font-bold sm:mb-9 sm:text-[1.75rem]'>
             생산성을 높이는 다양한 설정⚡️
           </h2>
-          <div className='flex flex-col gap-[2.53rem]'>
+          <div className='flex flex-col gap-[2.53rem] sm:gap-12'>
             {CardValues.map((value, i) => (
               <Card value={value} key={i} />
             ))}
           </div>
         </section>
-        <footer className='mt-10 w-full bg-[#000000] pb-[5.625rem] pt-[5.03rem] text-[0.75rem] text-gray40'>
-          <div className='m-auto max-w-[120rem] text-center'>
-            <div className='h-[0.875rem]'>©codeit - 2023</div>
-            <div className='mx-auto mb-[4.25rem] mt-3 flex h-[0.875rem] w-fit gap-5'>
+        <footer className='mt-10 w-full bg-[#000000] pb-[5.625rem] pt-[5.03rem] text-[0.75rem] text-gray40 md:mt-40 md:h-[6.25rem] md:p-0 md:text-[1rem]'>
+          <div className='m-auto flex max-w-[120rem] flex-col items-center text-center md:h-full md:flex-row md:justify-between md:px-[8.8125rem]'>
+            <div className='h-[0.875rem] sm:h-[1rem]'>©codeit - 2023</div>
+            <div className='mx-auto mb-[4.25rem] mt-3 flex h-[0.875rem] w-fit gap-5 md:m-0 md:h-[1rem]'>
               <span>Privacy Policy</span>
               <span>FAQ</span>
             </div>
-            <div className='m-auto flex w-fit items-center gap-[1.25rem]'>
-              <Image src={EmailImg} alt='email' />
-              <Image src={FaceBookImg} alt='facebook' />
-              <Image src={InstagramImg} alt='instagram' />
+            <div className='m-auto flex w-fit items-center gap-[1.25rem] md:m-0'>
+              <a href='https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=gooma519@gmail.com' target='_blank'>
+                <Image src={EmailImg} alt='email' />
+              </a>
+              <Link href='https://github.com/Codeit-Part3-Team3/Taskify'>
+                <Image src={githubImg} alt='github' className='w-[1.375rem]' />
+              </Link>
+              <Link href='https://www.notion.so/c5a74ae4204744d5b46bd058b693ddb3'>
+                <Image src={notionImg} alt='notion' className='w-[1.375rem]' />
+              </Link>
             </div>
           </div>
         </footer>
