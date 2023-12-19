@@ -47,7 +47,7 @@ export default function SideMenu() {
     <div className='relative'>
       <div className='h-screen w-[4.1875rem] bg-white pl-[1.375rem] pr-[1.335rem] pt-[1.1875rem] sm:w-[10rem] md:w-[18.75rem]'>
         <Link href='/myboard'>
-          <div className='mb-[3.7456rem] flex items-center sm:mb-[2.4294rem]'>
+          <div className='mb-[2.4294rem] flex items-center sm:mb-[3.7456rem]'>
             <Image src={smallLogo} alt='로고' className='h-[33.069px] w-[1.8009rem] sm:flex-shrink-0' />
             <Image src={textLogo} alt='텍스트 로고' className='hidden sm:block' />
           </div>
