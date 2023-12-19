@@ -1,3 +1,8 @@
+export interface ColorsProp {
+  id: number;
+  color: string;
+  colorCode: string;
+}
 const TAG = {
   TO_DO: 'To Do',
   PROGRESS: 'On Progress',
@@ -11,4 +16,32 @@ const STATUS = {
   HIGH: '상',
 };
 
-export { TAG, STATUS };
+const COLORS: ColorsProp[] = [
+  {
+    id: 1,
+    color: 'bg-green',
+    colorCode: '#7AC555',
+  },
+  {
+    id: 2,
+    color: 'bg-purple',
+    colorCode: '#760DDE',
+  },
+  {
+    id: 3,
+    color: 'bg-orange',
+    colorCode: '#FFA500',
+  },
+  {
+    id: 4,
+    color: 'bg-blue',
+    colorCode: '#76A5EA',
+  },
+  {
+    id: 5,
+    color: 'bg-pink',
+    colorCode: '#E876EA',
+  },
+];
+
+export { TAG, STATUS, COLORS };
