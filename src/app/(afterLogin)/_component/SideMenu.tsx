@@ -48,7 +48,7 @@ export default function SideMenu() {
       <div className='h-screen w-[4.1875rem] bg-white pl-[1.375rem] pr-[1.335rem] pt-[1.1875rem] sm:w-[10rem] md:w-[18.75rem]'>
         <Link href='/myboard'>
           <div className='mb-[2.4294rem] flex items-center sm:mb-[3.7456rem]'>
-            <Image src={smallLogo} alt='로고' className='h-[33.069px] w-[1.8009rem] sm:flex-shrink-0' />
+            <Image src={smallLogo} alt='CI' className='h-[33.069px] w-[1.8009rem] sm:flex-shrink-0' />
             <Image src={textLogo} alt='텍스트 로고' className='hidden sm:block' />
           </div>
         </Link>
@@ -63,7 +63,7 @@ export default function SideMenu() {
                 <IdxIcon color={item.color} />
                 <div className='mr-[0.25rem] hidden text-base font-medium text-gray50 sm:block'>{item.title}</div>
                 {item.createdByMe === true && (
-                  <Image src={crown} alt='나의 대시보드 왕관 아이콘' className='hidden sm:block' />
+                  <Image src={crown} alt='내가 생성한 대시보드를 표시하는 왕관 아이콘' className='hidden sm:block' />
                 )}
               </div>
             );
