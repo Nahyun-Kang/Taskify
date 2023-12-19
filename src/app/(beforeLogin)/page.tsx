@@ -58,7 +58,7 @@ export default function Home() {
           </Link>
         </section>
         <section className='m-4 mt-20 w-full px-4 md:mt-[11.5rem] md:px-10'>
-          <div className='flex h-full flex-col  rounded-lg bg-gray10 md:m-auto md:w-[75rem] lg:h-[37.5rem] lg:flex-row'>
+          <div className='flex h-full flex-col  rounded-lg bg-gray10 md:m-auto md:max-w-[75rem] lg:h-[37.5rem] lg:flex-row'>
             <div className='min-h-[22.6875rem] flex-1 text-center md:min-h-[30.375rem] md:pl-[3.75rem] md:text-left'>
               <div className='h-m-[1.375rem] mt-[3.75rem] text-[1.125rem] font-medium text-gray40 md:mt-[3.9375rem] md:text-[1.375rem] lg:mt-[7.6875rem]'>
                 Point 1
@@ -73,7 +73,7 @@ export default function Home() {
           </div>
         </section>
         <section className='m-4 mt-20 w-full px-4 md:mt-[11.5rem] md:px-10'>
-          <div className='flex h-full flex-col  rounded-lg bg-gray10 md:m-auto md:w-[75rem] lg:h-[600px] lg:flex-row-reverse'>
+          <div className='flex h-full flex-col  rounded-lg bg-gray10 md:m-auto md:max-w-[75rem] lg:h-[37.5rem] lg:flex-row-reverse'>
             <div className='min-h-[22.6875rem] flex-1 text-center md:min-h-[30.375rem] md:pl-[3.75rem] md:text-left'>
               <div className='h-m-[1.375rem] mt-[3.75rem] text-[1.125rem] font-medium text-gray40 md:mt-[3.9375rem] md:text-[1.375rem] lg:mt-[7.6875rem]'>
                 Point 2
