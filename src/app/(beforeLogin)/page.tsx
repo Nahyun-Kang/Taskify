@@ -43,7 +43,7 @@ export default function Home() {
               새로운 일정 관리
             </span>
             <span
-              className={`${ColCenter} font-mon h-[3.1875rem] text-[2.625rem] tracking-[-0.0625rem] text-violet md:h-[4.0625rem] md:text-[4.375rem] lg:h-[4.0625rem] lg:text-[5.625rem]`}
+              className={`h-[3.1875rem] ${ColCenter} font-mon text-[2.625rem] tracking-[-0.0625rem] text-violet md:h-[4.0625rem] md:text-[4.375rem] lg:h-[4.0625rem] lg:text-[5.625rem]`}
             >
               Taskify
             </span>
