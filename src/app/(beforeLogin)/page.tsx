@@ -13,9 +13,13 @@ import InstagramImg from '@/public/icons/instagram_logo.svg';
 const ColCenter = 'flex flex-col justify-center';
 
 const CardValues = [
-  { src: 'bg-landingImg3', title: '대시보드 설정', description: '대시보드 사진과 이름을 변경할 수 있어요.' },
-  { src: 'bg-landingImg4', title: '초대', description: '새로운 팀원을 초대할 수 있어요.' },
-  { src: 'bg-landingImg5', title: '구성원', description: '구성원을 초대하고 내보낼 수 있어요.' },
+  {
+    src: 'bg-[url("/images/landing3.png")]',
+    title: '대시보드 설정',
+    description: '대시보드 사진과 이름을 변경할 수 있어요.',
+  },
+  { src: 'bg-[url("/images/landing4.png")]', title: '초대', description: '새로운 팀원을 초대할 수 있어요.' },
+  { src: 'bg-[url("/images/landing5.png")]', title: '구성원', description: '구성원을 초대하고 내보낼 수 있어요.' },
 ];
 
 export default function Home() {
@@ -31,37 +35,49 @@ export default function Home() {
           <Link href='/signup'>회원가입</Link>
         </div>
       </header>
-      <main className='flex flex-col items-center pt-[2.625rem]'>
-        <section className='text-center'>
-          <Image className='h-[10.5rem] w-[17.9375rem]' src={heroImg} alt='hero image' priority />
-          <h1 className='flex flex-col gap-[0.3125rem] pt-[1.625rem]'>
-            <div className={`${ColCenter} h-[3rem] align-baseline text-[2.5rem] font-bold tracking-[-0.125rem]`}>
+      <main className='flex flex-col items-center pt-[2.625rem] sm:pt-[5.875rem]'>
+        <section className='text-center sm:w-full'>
+          <div className='w-full sm:px-11 md:px-[6.4375rem]'>
+            <Image
+              className='h-[10.5rem] w-[17.9375rem] sm:flex sm:h-auto sm:w-full'
+              src={heroImg}
+              alt='hero image'
+              priority
+            />
+          </div>
+          <h1 className='flex flex-col items-center gap-[0.3125rem] pt-[1.625rem] md:flex-row md:justify-center md:gap-6 md:pt-[3.015rem] md:text-center'>
+            <span
+              className={`${ColCenter} h-[3rem] align-baseline text-[2.5rem] font-bold tracking-[-0.125rem] md:h-[6.25rem] md:text-[3.5rem]`}
+            >
               새로운 일정 관리
-            </div>
-            <span className={`${ColCenter} font-mon h-[3.1875rem] text-[2.625rem] tracking-[-0.0625rem] text-violet`}>
+            </span>
+            <span
+              className={`${ColCenter} font-mon h-[3.1875rem] text-[2.625rem] tracking-[-0.0625rem] text-violet md:h-[4.0625rem] md:text-[4.375rem]`}
+            >
               Taskify
             </span>
           </h1>
-          <div className='pt-[1.125rem] text-[0.75rem] tracking-[-0.0625rem]'>서비스의 메인 설명 들어갑니다.</div>
+          <div className='pt-[1.125rem] text-[0.75rem] tracking-[-0.0625rem] md:pt-6 md:text-[1rem]'>
+            서비스의 메인 설명 들어갑니다.
+          </div>
           <Link href='/login'>
-            <button className='mt-[4.375rem] h-[2.625rem] w-[14.7rem] rounded-lg bg-violet font-medium text-white'>
+            <button className='mt-[4.375rem] h-[2.625rem] w-[14.7rem] rounded-lg bg-violet font-medium text-white md:mt-[4.125rem] md:h-[3.125rem] md:w-[17.5rem] md:text-[1rem]'>
               로그인하기
             </button>
           </Link>
         </section>
-        <section className='mt-20 flex h-[42.875rem] w-[21.4375rem] flex-col justify-between rounded-lg bg-gray10'>
-          <div className='text-center'>
-            <div className='mt-[3.75rem] h-[1.375rem] text-[1.125rem] font-medium text-gray40'>Point 1</div>
-            <h2 className='m-auto mt-[3.8125rem] w-[14.1875rem] text-[2.25rem] font-bold leading-[3.125rem]'>
-              일의 우선순위를 관리하세요
-            </h2>
+        <section className='m-4 mt-20 w-full px-4 md:mt-[11.5rem]'>
+          <div className='flex h-full flex-col  rounded-lg bg-gray10'>
+            <div className='min-h-[22.6875rem] flex-1 text-center'>
+              <div className='h-m-[1.375rem] mt-[3.75rem] text-[1.125rem] font-medium text-gray40'>Point 1</div>
+              <h2 className='m-auto mt-[3.8125rem] w-[14.1875rem] text-[2.25rem] font-bold leading-[3.125rem]'>
+                일의 우선순위를 관리하세요
+              </h2>
+            </div>
+            <div className='flex-1 pl-[2.9375rem]'>
+              <Image src={landingImg1} alt='랜딩 이미지' quality={100} className='ml-auto w-full  rounded-tl-lg' />
+            </div>
           </div>
-          <Image
-            src={landingImg1}
-            alt='랜딩 이미지'
-            quality={100}
-            className='ml-auto h-[15.5rem] w-[18.507rem] rounded-tl-lg'
-          />
         </section>
         <section className='mt-[3.6875rem] flex h-[42.875rem] w-[21.4375rem] flex-col justify-between rounded-lg bg-gray10'>
           <div className='text-center'>
