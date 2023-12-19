@@ -39,11 +39,8 @@ export default function SideMenu() {
       console.log(error);
     }
   };
-  console.log(dashboards);
-
   useEffect(() => {
-    const res = getDashboards();
-    console.log(res);
+    getDashboards();
   }, []);
 
   return (
