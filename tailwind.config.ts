@@ -11,6 +11,8 @@ const config: Config = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        largeLogo: "url('/logo/nav_logo_large.svg')",
+        smallLogo: "url('/logo/nav_lgoo_small.svg')",
       },
       colors: {
         black: '#171717',
@@ -26,18 +28,32 @@ const config: Config = {
         violet8: '#F1EFFD',
         red: '#D6173A',
         green: '#7AC555',
+        green10: '#E7F7DB',
+        green20: '#86D549',
         purple: '#760DDE',
         orange: '#FFA500',
+        orange10: '#F9EEE3',
+        orange20: '#D58D49',
         blue: '#76A5EA',
+        blue10: '#DBE6F7',
+        blue20: '#4981D5',
         pink: '#E876EA',
+        pink10: '#F7DBF0',
+        pink20: '#D549B6',
       },
       fontFamily: {
         pre: 'Pretendard',
         mon: 'Montserrat',
         mp: ['Montserrat', 'Pretendard'],
       },
+      screens: {
+        sm: '376px',
+        md: '745px',
+        lg: '1440px',
+      },
     },
   },
   plugins: [],
 };
+
 export default config;
