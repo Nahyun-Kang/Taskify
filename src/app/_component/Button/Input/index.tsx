@@ -10,7 +10,7 @@ function Input({ size, onClick }: InputProps) {
   const { width, height, paddingY } = sizes[size];
   return (
     <button
-      className={`inline-flex items-center justify-center rounded-[0.25rem] border-gray30 bg-white px-[1.9375rem] ${paddingY} ${height} ${width} text-[0.75rem] text-violet`}
+      className={`inline-flex items-center justify-center rounded-[0.25rem] border border-gray30 bg-white px-[1.9375rem] text-center ${paddingY} ${height} ${width} text-[0.625rem] text-violet`}
       onClick={onClick}
     >
       입력
