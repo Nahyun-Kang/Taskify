@@ -1,6 +1,8 @@
+import { MouseEvent } from 'react';
+
 interface CancelProps {
   size: 'large' | 'small';
-  onClick: () => void;
+  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 export default function Cancel({ size, onClick }: CancelProps) {
   const sizes = {
