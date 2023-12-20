@@ -4,11 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import textLogo from '@/public/logo/logo_text_only.svg';
-import smallLogo from '@/public/logo/nav_lgoo_small.svg';
+import smallLogo from '@/public/logo/nav_logo_small.svg';
 import addIcon from '@/public/images/add_box_icon.svg';
 import crown from '@/public/images/crown_icon.svg';
 import IdxIcon from './IdxIcon';
-import { axiosInstance } from '../../_util/axiosInstance';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 
 interface Dashboard {
   color: string;
