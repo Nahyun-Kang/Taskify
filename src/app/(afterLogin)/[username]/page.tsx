@@ -1,3 +1,7 @@
 export default function Username() {
-  return <h1>username</h1>;
+  return (
+    <div>
+      <h1>username</h1>
+    </div>
+  );
 }
