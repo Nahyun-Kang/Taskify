@@ -5,7 +5,7 @@ interface AddProps {
   size: 'large' | 'small';
 }
 
-function Add({ size }: AddProps) {
+export default function Add({ size }: AddProps) {
   const divSize = size === 'small' ? 'w-[1.25rem] h-[1.25rem]' : 'w-[1.375rem] h-[1.375rem]';
   const imageSize = size === 'small' ? 14.545 : 16;
 
@@ -15,5 +15,3 @@ function Add({ size }: AddProps) {
     </div>
   );
 }
-
-export default Add;

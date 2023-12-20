@@ -6,7 +6,7 @@ interface StatusProps {
   content: string;
 }
 
-function Status({ size, content }: StatusProps) {
+export default function Status({ size, content }: StatusProps) {
   const fontSize = size === 'small' ? 'text-[0.625rem]' : 'text-[0.75rem]';
   return (
     <div
@@ -17,5 +17,3 @@ function Status({ size, content }: StatusProps) {
     </div>
   );
 }
-
-export default Status;

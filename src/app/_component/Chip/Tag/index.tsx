@@ -5,7 +5,7 @@ interface TagProps {
   content: string;
 }
 
-function Tag({ size, content }: TagProps) {
+export default function Tag({ size, content }: TagProps) {
   const sizes = {
     small: 'text-[0.625rem]',
     large: 'text-[0.75rem]',
@@ -29,5 +29,3 @@ function Tag({ size, content }: TagProps) {
     </div>
   );
 }
-
-export default Tag;

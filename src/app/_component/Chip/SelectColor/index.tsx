@@ -8,7 +8,7 @@ interface SelectColorProps {
   onSelect: (colorCode: string) => void;
 }
 
-function SelectColor({ onSelect }: SelectColorProps) {
+export default function SelectColor({ onSelect }: SelectColorProps) {
   const [selected, setSelected] = useState(1);
   const handleClick = (val: ColorsProp) => {
     setSelected((prevId) => (prevId === val.id ? 0 : val.id));
@@ -36,5 +36,3 @@ function SelectColor({ onSelect }: SelectColorProps) {
     </div>
   );
 }
-
-export default SelectColor;
