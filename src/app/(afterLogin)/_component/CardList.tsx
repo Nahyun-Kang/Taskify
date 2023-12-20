@@ -19,7 +19,7 @@ const mock = [
     tags: ['프로젝트', '상'],
     createdAt: '2022.12.31',
     color: 'green',
-    imageUrl: '/public/images/landing5.png',
+    imageUrl: '/images/landing5.png',
     nickname: 'BCDEF',
   },
   {
@@ -35,7 +35,7 @@ const mock = [
 
 export default function CardList() {
   return (
-    <div className='border-gray-20 flex max-w-[19.25rem] flex-grow-0 flex-col gap-[1.0625rem] rounded-[0.375rem] border bg-gray10 px-3 py-4 md:max-w-[584px] md:gap-[1.5625rem] md:p-5 lg:h-screen lg:max-w-[354px] lg:flex-col'>
+    <div className='border-gray-20 flex min-w-[19.25rem] max-w-[19.25rem] flex-grow-0 flex-col gap-[1.0625rem] rounded-[0.375rem] border bg-gray10 px-3 py-4 md:max-w-[36.5rem] md:gap-[1.5625rem] md:p-5 lg:h-screen lg:max-w-[22.25rem] lg:flex-col'>
       <div className='flex items-center gap-2'>
         <span
           className={`flex h-2 w-2 items-center justify-center rounded-3xl bg-violet text-[0.75rem] text-white`}

@@ -1,5 +1,4 @@
 import calendarIcon from '@/public/icons/calendar_icon.svg';
-import testImage from '@/public/images/landing3.png';
 import Image from 'next/image';
 import Tag from '../../_component/Chip/Tag';
 
@@ -24,7 +23,7 @@ export default function Card({ title, tags, createdAt, color, imageUrl, firstLet
     <div className='flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3  md:flex-row md:items-center lg:max-w-[19.625rem] lg:flex-col lg:items-stretch lg:p-5'>
       {imageUrl && (
         <div className='relative h-[9.4891rem] w-[16.125rem] md:h-[3.3125rem] md:w-[5.6725rem] lg:h-[10rem] lg:w-[17rem]'>
-          <Image src={testImage} fill alt={title} />
+          <Image src={imageUrl} fill alt={title} />
         </div>
       )}
       <div className='flex flex-1 flex-col gap-[0.625rem] md:flex-col'>
