@@ -1,3 +1,12 @@
+import Header from '../_component/Header/Header';
+import SideMenu from '../_component/SideMenu/SideMenu';
+
 export default function Username() {
-  return <h1>username</h1>;
+  return (
+    <div>
+      <SideMenu />
+      <Header />
+      <h1>username</h1>
+    </div>
+  );
 }
