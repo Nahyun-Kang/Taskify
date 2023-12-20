@@ -51,7 +51,7 @@ const members = {
 };
 
 export default function ProfileCollection() {
-  const [count, setCount] = useState(6);
+  const [count, setCount] = useState(0);
 
   //
   const arr = members.members.slice(0, count).filter((el) => !el.isOwner);
@@ -66,6 +66,7 @@ export default function ProfileCollection() {
   };
 
   useEffect(() => {
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
