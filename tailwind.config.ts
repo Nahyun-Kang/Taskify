@@ -34,6 +34,7 @@ const config: Config = {
       fontFamily: {
         pre: 'Pretendard',
         mon: 'Montserrat',
+        mp: ['Montserrat', 'Pretendard'],
       },
     },
   },
