@@ -47,7 +47,7 @@ export default function Profile({ idx, values, total, count }: Props) {
 
   return (
     <div
-      className={`${Size[idx]} ${color} font-mp flex h-[2.125rem] w-[2.125rem] items-center justify-center overflow-hidden rounded-full border-2 border-white  bg-contain text-[0.875rem] font-semibold  md:h-[2.375rem] md:w-[2.375rem] md:text-[1rem]`}
+      className={`flex h-[2.125rem] w-[2.125rem] items-center justify-center overflow-hidden rounded-full border-2 border-white bg-contain text-[0.875rem] font-semibold md:h-[2.375rem] md:w-[2.375rem] md:text-[1rem] ${Size[idx]} ${color} font-mp`}
     >
       {createContent()}
     </div>
