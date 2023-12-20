@@ -3,20 +3,20 @@ export interface ColorsProp {
   color: string;
   colorCode: string;
 }
-const TAG = {
+export const STATUS = {
   TO_DO: 'To Do',
   PROGRESS: 'On Progress',
   DONE: 'Done',
 };
 
-const STATUS = {
+export const TAG = {
   PROJECT: '프로젝트',
   NORMAL: '일반',
   BACKEND: '백엔드',
   HIGH: '상',
 };
 
-const COLORS: ColorsProp[] = [
+export const COLORS: ColorsProp[] = [
   {
     id: 1,
     color: 'bg-green',
@@ -43,5 +43,3 @@ const COLORS: ColorsProp[] = [
     colorCode: '#E876EA',
   },
 ];
-
-export { TAG, STATUS, COLORS };

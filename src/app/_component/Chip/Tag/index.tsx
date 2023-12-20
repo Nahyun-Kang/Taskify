@@ -1,4 +1,4 @@
-import { STATUS } from '@/src/app/_constant/Chip';
+import { TAG } from '@/src/app/_constant/Chip';
 
 interface TagProps {
   size: 'large' | 'small';
@@ -12,13 +12,13 @@ function Tag({ size, content }: TagProps) {
   };
 
   const colors = {
-    [STATUS.PROJECT]: { bgColor: 'bg-orange10', color: 'text-orange20' },
-    [STATUS.NORMAL]: { bgColor: 'bg-green10', color: 'text-green20' },
-    [STATUS.BACKEND]: { bgColor: 'bg-pink10', color: 'text-pink20' },
-    [STATUS.HIGH]: { bgColor: 'bg-blue10', color: 'text-blue20' },
+    [TAG.PROJECT]: { bgColor: 'bg-orange10', color: 'text-orange20' },
+    [TAG.NORMAL]: { bgColor: 'bg-green10', color: 'text-green20' },
+    [TAG.BACKEND]: { bgColor: 'bg-pink10', color: 'text-pink20' },
+    [TAG.HIGH]: { bgColor: 'bg-blue10', color: 'text-blue20' },
   };
 
-  const { bgColor, color } = colors[content] || colors[STATUS.PROJECT];
+  const { bgColor, color } = colors[content] || colors[TAG.PROJECT];
   const fontSize = sizes[size];
 
   return (
