@@ -2,7 +2,7 @@ interface ConfirmProps {
   size: 'large' | 'small';
   onClick: () => void;
 }
-function Confirm({ size, onClick }: ConfirmProps) {
+export default function Confirm({ size, onClick }: ConfirmProps) {
   const sizes = {
     large: { width: 'w-[7.5rem]', height: 'h-[3rem]', paddingY: 'py-[0.875rem]', paddingX: 'px-[2.875rem]' },
     small: { width: 'w-[8.625rem]', height: 'h-[2.625rem]', paddingY: 'py-[0.75rem]', paddingX: 'px-[3.5rem]' },
@@ -17,5 +17,3 @@ function Confirm({ size, onClick }: ConfirmProps) {
     </button>
   );
 }
-
-export default Confirm;
