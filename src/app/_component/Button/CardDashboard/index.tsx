@@ -1,15 +1,21 @@
-import crown from '@/public/icons/crown_icon.svg';
 import arrow from '@/public/icons/arrow_forward_icon.svg';
+import crown from '@/public/icons/crown_icon.svg';
 import Image from 'next/image';
 interface CardDashboardProps {
   screen: 'desktop' | 'mobile' | 'tablet';
   title: string;
-  color: string;
+  circleColor: string;
   createdByMe: boolean;
   onClick: () => void;
 }
 
-export default function CardDashboard({ screen = 'desktop', title, color, createdByMe, onClick }: CardDashboardProps) {
+export default function CardDashboard({
+  screen = 'desktop',
+  title,
+  circleColor,
+  createdByMe,
+  onClick,
+}: CardDashboardProps) {
   const screens = {
     desktop: {
       width: 'w-[20.75rem]',
@@ -22,8 +28,8 @@ export default function CardDashboard({ screen = 'desktop', title, color, create
     },
     mobile: {
       width: 'w-full',
-      height: 'h-[3.875rem]',
-      fontSize: 'text-[1.125rem]',
+      height: 'h-[3.625rem]',
+      fontSize: 'text-[0.875rem]',
       image: {
         width: 18,
         height: 14,
@@ -41,11 +47,10 @@ export default function CardDashboard({ screen = 'desktop', title, color, create
   };
 
   const { width, height, fontSize, image } = screens[screen];
-  const circleColor = `bg-[${color}]`;
 
   return (
     <button
-      className={`flex ${width} ${height} items-center justify-between rounded-[0.5rem] bg-white ${fontSize} border border-gray30 p-[1.875rem] font-semibold text-black80`}
+      className={`flex ${width} ${height} items-center justify-between rounded-[0.5rem] bg-white ${fontSize} border border-gray30 p-[1.25rem] font-semibold text-black80`}
       onClick={onClick}
     >
       <div className=' flex items-center justify-center'>
