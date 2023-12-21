@@ -7,6 +7,7 @@ import { ChangeEvent, useState } from 'react';
 
 interface Props {
   size: 'big' | 'small';
+  profileImageUrl?: string;
 }
 
 const Size = {
@@ -22,8 +23,8 @@ const Size = {
   },
 };
 
-export default function AddImageFile({ size = 'big' }: Props) {
-  const [image, setImage] = useState('');
+export default function AddImageFile({ size = 'big', profileImageUrl = '' }: Props) {
+  const [image, setImage] = useState(profileImageUrl);
   const style = { backgroundImage: image };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
