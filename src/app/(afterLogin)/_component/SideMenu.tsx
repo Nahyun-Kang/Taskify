@@ -7,7 +7,7 @@ import textLogo from '@/public/logo/logo_text_only.svg';
 import smallLogo from '@/public/logo/nav_logo_small.svg';
 import addIcon from '@/public/images/add_box_icon.svg';
 import crown from '@/public/images/crown_icon.svg';
-import IdxIcon from './IdxIcon';
+import IdxIcon from './Icons/IdxIcon';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 
 interface Dashboard {
