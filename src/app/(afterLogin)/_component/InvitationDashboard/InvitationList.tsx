@@ -3,7 +3,16 @@
 import { DUMMY, Dummy } from './DummyData';
 import IdxIcon from '../Icons/IdxIcon';
 
-export default function InvitationList() {
+interface Props {
+  value: string;
+}
+
+export default function InvitationList({ value }: Props) {
+  const filteredData = DUMMY.filter(
+    (item) =>
+      item.name.toLowerCase().includes(value.toLowerCase()) || item.inviter.toLowerCase().includes(value.toLowerCase()),
+  );
+
   const buttonClass =
     'flex w-full items-center justify-center rounded py-[.4375rem] text-[.75rem] font-medium md:w-[4.5rem] lg:w-[5.25rem]';
   const labelClass = 'text-gray40 text-[0.875rem] text-base';
@@ -17,7 +26,7 @@ export default function InvitationList() {
           <div className={`${mainLableClass} text-base md:w-[9.625rem] lg:w-[19.75rem]`}>수락 여부</div>
         </div>
       </div>
-      {DUMMY.map((item: Dummy, idx: number) => {
+      {filteredData.map((item: Dummy, idx: number) => {
         return (
           <div key={idx.toString()} className='md:mb-[1.25rem]'>
             <div className=' flex flex-col md:mb-[1.25rem] md:flex-row md:items-center'>
@@ -37,7 +46,7 @@ export default function InvitationList() {
                 <button className={`border-[.0625rem] border-gray30 text-violet ${buttonClass}`}>거절</button>
               </div>
             </div>
-            {idx !== DUMMY.length - 1 && <div className='mb-4 w-full border-b md:mb-[1.25rem]'></div>}
+            {idx !== filteredData.length - 1 && <div className='mb-4 w-full border-b md:mb-[1.25rem]'></div>}
           </div>
         );
       })}
