@@ -1,4 +1,7 @@
+'use client';
+
 import InputField from '../../Input/InputField';
+import { useState } from 'react';
 
 // 컬럼 생성 모달 메인내용
 export function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; labelTitle: string }) {

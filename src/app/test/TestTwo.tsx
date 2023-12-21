@@ -1,6 +1,6 @@
 'use client';
 
-import useRenderModal from '../_component/modal';
+import useRenderModal from '../_hook/useRenderModal';
 
 export default function Test() {
   const [modalType, callModal] = useRenderModal();
