@@ -1,7 +1,7 @@
 import settingIcon from '@/public/icons/settings_icon.svg';
+import Card from '@/src/app/(afterLogin)/_component/Card';
 import Number from '@/src/app/_component/Chip/Number';
 import Image from 'next/image';
-import Card from './Card';
 
 const mockData = {
   cursorId: 0,
@@ -31,8 +31,7 @@ const mockData = {
       tags: ['상', '프로젝트', '일반', '백엔드', '프로젝트', '프로젝트', '상', '프로젝트', '일반', '상', '프로젝트'],
       dueDate: '2022.7.31',
       assignee: {
-        profileImageUrl:
-          'https://png.pngtree.com/png-clipart/20190116/ourmid/pngtree-halloween-lovely-meng-meng-little-ghost-png-image_376546.jpg',
+        profileImageUrl: '/images/landing5.png',
         nickname: 'BCDEF',
         id: 0,
       },
