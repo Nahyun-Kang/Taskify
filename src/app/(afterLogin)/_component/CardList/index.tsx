@@ -1,5 +1,8 @@
+'use client';
+
 import settingIcon from '@/public/icons/settings_icon.svg';
 import Card from '@/src/app/(afterLogin)/_component/Card';
+import AddDashboard from '@/src/app/_component/Button/AddDashboard';
 import Number from '@/src/app/_component/Chip/Number';
 import Image from 'next/image';
 
@@ -117,7 +120,7 @@ export default function CardList() {
         </button>
       </div>
       <div className='flex max-w-[17.75rem] flex-col justify-center gap-[0.625rem] md:max-w-[34rem] md:gap-4'>
-        <button className='border-gray-30 h-8 border-[0.0625rem] bg-white lg:h-10'>버튼자리</button>
+        <AddDashboard screen='mobile' onClick={() => {}} />
         {mockData.cards.map((mockCard) => (
           <Card
             key={mockCard.id}
