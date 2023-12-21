@@ -19,10 +19,14 @@ interface ModalWrapperProps {
 function ModalWrapper({ children, btnName, btnSize, onClose }: ModalWrapperProps) {
   const handleComfirm = () => {};
   return (
-    <div className='relative w-[33.75rem] gap-[2rem]'>
-      <div className=' flex flex-col'>
+    <div
+      className='  sm: +(no) + + relative gap-[2rem] rounded-[0.5rem] 
+                   border border-red sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] lg:w-[33.75rem]
+                     lg:px-[1.75rem] lg:pt-[2rem]'
+    >
+      <div className=' flex flex-col gap-[2rem]'>
         {children}
-        <div className='flex justify-end'>
+        <div className='flex gap-[0.75rem] sm:justify-center lg:justify-end '>
           <Cancel size={btnSize} onClick={onClose} />
           <Confirm btnName={btnName} size={btnSize} onClick={handleComfirm} />
         </div>
@@ -30,14 +34,13 @@ function ModalWrapper({ children, btnName, btnSize, onClose }: ModalWrapperProps
     </div>
   );
 }
-ModalWrapper;
 
 // 컬럼 생성 모달 메인내용
 function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; labelTitle: string }) {
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <InputField labelText={labelTitle} placeholder='컬럼 제목을 입력해주세요' id='columnName' isRequired={true} />
+      <InputField labelText={labelTitle} placeholder='컬럼 제목을 입력해주세요' id='title' isRequired={true} />
     </>
   );
 }
@@ -50,7 +53,7 @@ function UpdateAndDeleteColumn({ mainTitle, labelTitle }: { mainTitle: string; l
       {!isDeleted ? (
         <>
           <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-          <InputField labelText={labelTitle} placeholder='컬럼 제목을 수정해주세요' id='columnName' isRequired={true} />
+          <InputField labelText={labelTitle} placeholder='컬럼 제목을 수정해주세요' id='title' isRequired={true} />
           <span
             onClick={handleRenderDeleteColumn}
             className='font-Pretendard absolute bottom-[1.75rem] left-[1.75rem]  text-[0.875rem] text-gray40 underline'
@@ -68,52 +71,46 @@ function UpdateAndDeleteColumn({ mainTitle, labelTitle }: { mainTitle: string; l
 function DeleteColumn({ mainTitle }: { mainTitle: string }) {
   return (
     <>
-      <span className='flex items-center justify-center text-[1rem]'>{mainTitle}</span>
+      <span className='flex items-center justify-center text-[1rem] font-medium text-black'>{mainTitle}</span>
     </>
   );
 }
-DeleteColumn;
 
 // 할 일 카드 생성 메인 내용
 function CreateToDo({ mainTitle }: { mainTitle: string }) {
   return (
     <>
-      <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>;
-      <DropdownAndFilter />;
-      <InputField labelText='제목' placeholder='제목을 입력해주세요' id='제목' isRequired={true} />
-      <InputField labelText='설명' placeholder='설명을 입력해주세요' id='설명' isRequired={true} />
-      <InputField.DateInput labelText='마감일' id='날짜' />
-      <InputField.TagInput labelText='태그' id='태그' placeholder='입력 후 Enter' />
-      <InputField.TagInput labelText='이미지' id='이미지' placeholder='아직 이미지인풋이 없네용' />
+      <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
+      <DropdownAndFilter />
+      <InputField labelText='제목' placeholder='제목을 입력해주세요' id='title' isRequired={true} />
+      <InputField labelText='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
+      <InputField.DateInput labelText='마감일' id='dueDate' />
+      <InputField.TagInput labelText='태그' id='tags' placeholder='입력 후 Enter' />
+      <InputField.TagInput labelText='이미지' id='imageUrl' placeholder='아직 이미지인풋이 없네용' />
     </>
   );
 }
-
+// 할 일 카드 수정 메인 내용
 function UpdateToDo({ mainTitle }: { mainTitle: string }) {
   return (
     <>
-      <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>;
-      <DropdownAndFilter />;
-      <InputField labelText='제목' placeholder='제목을 입력해주세요' id='제목' isRequired={true} />
-      <InputField labelText='설명' placeholder='설명을 입력해주세요' id='설명' isRequired={true} />
-      <InputField.DateInput labelText='마감일' id='날짜' />
-      <InputField.TagInput labelText='태그' id='태그' placeholder='입력 후 Enter' />
-      <InputField.TagInput labelText='이미지' id='이미지' placeholder='아직 이미지인풋이 없네용' />
+      <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
+      <DropdownAndFilter />
+      <InputField labelText='제목' placeholder='제목을 입력해주세요' id='title' isRequired={true} />
+      <InputField labelText='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
+      <InputField.DateInput labelText='마감일' id='dueDate' />
+      <InputField.TagInput labelText='태그' id='tags' placeholder='입력 후 Enter' />
+      <InputField.TagInput labelText='이미지' id='imageUrl' placeholder='아직 이미지인풋이 없네용' />
     </>
   );
 }
-
+// 새로운 대시보드 생성 메인 내용
 export function CreateDashboard({ mainTitle }: { mainTitle: string }) {
   const handleSelect = () => {};
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <InputField
-        labelText='대시보드 이름'
-        placeholder='대시보드 제목을 입력해주세요'
-        id='dashboardName'
-        isRequired={true}
-      />
+      <InputField labelText='대시보드 이름' placeholder='대시보드 제목을 입력해주세요' id='title' isRequired={true} />
       <SelectColor onSelect={handleSelect} />
     </>
   );
@@ -123,7 +120,7 @@ export function CreateDashboard({ mainTitle }: { mainTitle: string }) {
 function PasswordMismatch({ mainTitle }: { mainTitle: string }) {
   return (
     <>
-      <span className='flex items-center justify-center text-[1rem]'>{mainTitle}</span>
+      <span className=' flex items-center justify-center text-center text-[1rem] text-black'>{mainTitle}</span>
     </>
   );
 }
@@ -165,8 +162,8 @@ export function Modal({
     </ModalWrapper>
   );
 }
-// 모달 생성 함수 (특정 태그의 이벤트 아이디 값에 따라 조건부 렌더링)
-function createModal(modalName: string, setModalType: React.Dispatch<React.SetStateAction<React.ReactElement | null>>) {
+// 모달 리턴 함수 (특정 태그의 이벤트 아이디 값에 따라 조건부 렌더링)
+function returnModal(modalName: string, setModalType: React.Dispatch<React.SetStateAction<React.ReactElement | null>>) {
   switch (modalName) {
     case '새 칼럼 생성':
       return <Modal create btnName='생성' setModalType={setModalType} btnSize='large' />;
@@ -183,13 +180,13 @@ function createModal(modalName: string, setModalType: React.Dispatch<React.SetSt
   }
 }
 
-// 특정 모달과 모달호출함수를 리턴하는 커스텀 훅
+// 특정 모달 컴포넌트가 담겨져있는 state와 모달호출함수를 리턴하는 커스텀 훅
 export default function useRenderModal(): [React.ReactElement | null, (name: string) => void] {
   const [modalType, setModalType] = useState<React.ReactElement | null>(null);
 
   const callModal = (name: string) => {
-    const returnModal = createModal(name, setModalType);
-    if (returnModal) setModalType(returnModal);
+    const newReturnModal = returnModal(name, setModalType);
+    if (newReturnModal) setModalType(newReturnModal);
   };
 
   return [modalType, callModal];
