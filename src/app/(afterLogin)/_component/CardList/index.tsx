@@ -2,7 +2,7 @@
 
 import settingIcon from '@/public/icons/settings_icon.svg';
 import Card from '@/src/app/(afterLogin)/_component/Card';
-import AddDashboard from '@/src/app/_component/Button/AddDashboard';
+import AddTodo from '@/src/app/_component/Button/AddTodo';
 import Number from '@/src/app/_component/Chip/Number';
 import Image from 'next/image';
 
@@ -63,7 +63,7 @@ const mockData = {
     },
     {
       id: 4,
-      title: '일정 관리 Taskify 일정 관리 Taskify 일정 관리 Taskify 일정 관리 Taskify 일정 관리 Taskify',
+      title: '일정 관리 Taskify 일정 관리 Taskify 일정 관리 Taskify 일정 관리 Taskify 일정 관리 Taskify Taskify',
       description: 'string',
       tags: ['일반', '프론트엔드'],
       dueDate: '2024.1.23',
@@ -104,15 +104,15 @@ const mockColors: { [key: string]: string } = {
   3: 'bg-[#5534DA]',
 };
 
-export default function CardList() {
+export default function CardList({ columnTitle }: { columnTitle: string }) {
   return (
-    <div className='border-gray-20 flex-grow-1 flex min-w-[19.25rem] flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:gap-[1.5625rem] md:p-5 lg:min-h-screen lg:flex-col lg:border-b-0 lg:border-r'>
+    <div className='border-gray-20 flex-grow-1 md:min-w-none flex min-w-[19.25rem] flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:gap-[1.5625rem] md:p-5 lg:min-h-screen lg:flex-col lg:border-b-0 lg:border-r'>
       <div className='flex items-center gap-2'>
         <span
           className={`flex h-2 w-2 items-center justify-center rounded-3xl bg-violet text-[0.75rem] text-white`}
         ></span>
         <div className='flex items-center gap-3 text-[1rem] font-bold text-black md:text-[1.125rem]'>
-          <h3>To Do</h3>
+          <h3>{columnTitle}</h3>
           <Number num={mockData.cards.length} />
         </div>
         <button className='relative ml-auto h-[1.375rem] w-[1.375rem] md:h-[1.5rem] md:w-[1.5rem]'>
@@ -120,7 +120,9 @@ export default function CardList() {
         </button>
       </div>
       <div className='flex flex-col justify-center gap-[0.625rem] md:gap-4'>
-        <AddDashboard screen='mobile' onClick={() => {}} />
+        <div className='h-[2rem] md:h-[2.5rem]'>
+          <AddTodo screen='mobile' onClick={() => {}} />
+        </div>
         {mockData.cards.map((mockCard) => (
           <Card
             key={mockCard.id}
