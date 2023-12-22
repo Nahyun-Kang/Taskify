@@ -45,7 +45,7 @@ function InputWrapper({ children }: { children: ReactNode }) {
 function InputWithImageWrapper({ children, hasError }: { children: ReactNode; hasError: boolean }) {
   return (
     <div
-      className={`box-border flex gap-2 rounded-lg border px-4 py-[0.6875rem] placeholder:text-gray40 focus-within:border-violet ${
+      className={`box-border flex gap-2 rounded-lg border bg-white px-4 py-[0.6875rem] placeholder:text-gray40 focus-within:border-violet ${
         hasError ? 'border-red' : 'border-gray30'
       }`}
     >

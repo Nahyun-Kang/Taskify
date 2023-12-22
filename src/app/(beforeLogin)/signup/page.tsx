@@ -28,7 +28,7 @@ export default function SignUp() {
         <div className='mb-[21px] flex items-center gap-2'>
           <input
             type='checkbox'
-            className='form-checkbox rounded border border-gray30 checked:bg-violet checked:hover:bg-violet focus:outline-none focus:ring-transparent checked:focus:bg-violet'
+            className='checked:font-white h-[1.25rem] w-[1.25rem] rounded border border-gray30 checked:bg-violet checked:hover:bg-violet focus:outline-none focus:ring-transparent checked:focus:bg-violet'
           ></input>
           <label text-base font-normal>
             이용약관에 동의합니다
