@@ -1,4 +1,4 @@
-export default function Username() {
+export default function Dashboard() {
   return (
     <div>
       <h1>username</h1>
