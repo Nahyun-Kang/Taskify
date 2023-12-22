@@ -1,3 +1,16 @@
+export interface Message {
+  login?: {
+    welcome: string;
+    check: string;
+    link: string;
+  };
+  signUp?: {
+    welcome: string;
+    check: string;
+    link: string;
+  };
+}
+
 export const MESSAGE = {
   logIn: {
     welcome: '오늘도 만나서 반가워요!',
