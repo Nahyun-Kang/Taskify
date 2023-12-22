@@ -1,14 +1,15 @@
 'use client';
 
-import { DUMMY, Dummy } from './DummyData';
+import { Dummy } from './DummyData';
 import IdxIcon from '../Icons/IdxIcon';
 
 interface Props {
   value: string;
+  list?: Dummy[];
 }
 
-export default function InvitationList({ value }: Props) {
-  const filteredData = DUMMY.filter(
+export default function InvitationList({ value, list }: Props) {
+  const filteredData = list?.filter(
     (item) =>
       item.name.toLowerCase().includes(value.toLowerCase()) || item.inviter.toLowerCase().includes(value.toLowerCase()),
   );
@@ -26,11 +27,11 @@ export default function InvitationList({ value }: Props) {
           <div className={`${mainLableClass} text-base md:w-[9.625rem] lg:w-[19.75rem]`}>수락 여부</div>
         </div>
       </div>
-      {filteredData.map((item: Dummy, idx: number) => {
+      {filteredData?.map((item: Dummy, idx: number) => {
         return (
           <div key={idx.toString()} className='md:mb-[1.25rem]'>
             <div className=' flex flex-col md:mb-[1.25rem] md:flex-row md:items-center'>
-              <div className=' mb-[.625rem] flex grow md:flex-col'>
+              <div className=' mb-[.625rem] flex grow md:mb-0 md:flex-col'>
                 <div className={`${labelClass} w-[53px] text-[.875rem] md:hidden`}>이름</div>
                 <div className='flex items-center'>
                   <IdxIcon color={item.color} className='hidden md:block' />
