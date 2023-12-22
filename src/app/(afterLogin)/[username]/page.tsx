@@ -27,17 +27,17 @@ export default function Username() {
       <div onClick={handleRenderModal} id={MODALTYPE.DASHBOARD.CREATE}>
         새로운 대시보드 만들기 두둥
       </div>
-      <div onClick={handleRenderModal} id={MODALTYPE.MISMATCH.PW}>
-        비번 다시 부탁드려요
-      </div>
       <div onClick={handleRenderModal} id={MODALTYPE.TODO.DELETE}>
         할 일 카드 삭제
       </div>
       <div onClick={handleRenderModal} id={MODALTYPE.TODO.DETAIL}>
         할 일 카드 삭제
       </div>
-      <div onClick={handleRenderModal} id={MODALTYPE.TODO.DETAIL}>
-        할 일 카드 상세페이지
+      <div onClick={handleRenderModal} id={MODALTYPE.SIGN.MISMATCH}>
+        asd
+      </div>
+      <div onClick={handleRenderModal} id={MODALTYPE.SIGN.COMPLETE}>
+        가입완료
       </div>
       {modalType}
     </>

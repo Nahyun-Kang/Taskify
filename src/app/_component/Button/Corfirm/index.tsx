@@ -1,6 +1,7 @@
+import { MouseEvent } from 'react';
 interface ConfirmProps {
   size: 'large' | 'small';
-  onClick: () => void;
+  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
   btnName: string;
 }
 export default function Confirm({ size, onClick, btnName }: ConfirmProps) {

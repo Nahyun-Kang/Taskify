@@ -11,8 +11,14 @@ export const MODALTYPE = {
   },
   DASHBOARD: {
     CREATE: '새로운 대시보드',
+    INVITE: '초대하기',
   },
-  MISMATCH: {
-    PW: '비밀번호가 일치하지 않습니다.',
+  SIGN: {
+    MISMATCH: '비밀번호가 일치하지 않습니다.',
+    COMPLETE: '가입이 완료되었습니다!',
+    ALREADY_USE: '이미 사용 중인 이메일입니다.',
+  },
+  MY_PAGE: {
+    WRONG_PW: '현재 비밀번호가 틀렸습니다.',
   },
 };

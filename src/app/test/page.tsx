@@ -19,16 +19,16 @@ export default function Test() {
       <div onClick={handleRenderModal} id={MODALTYPE.TODO.CREATE}>
         할 일 생성
       </div>
-      <div onClick={handleRenderModal} id={MODALTYPE.DASHBOARD.CREATE}>
-        새로운 대시보드 만들기 두둥
+      <div onClick={handleRenderModal} id={MODALTYPE.TODO.DETAIL}>
+        할 일 상세
       </div>
-      <div onClick={handleRenderModal} id={MODALTYPE.MISMATCH.PW}>
-        비번 다시 부탁드려요
+      <div onClick={handleRenderModal} id={MODALTYPE.TODO.DELETE}>
+        할 일 삭제
       </div>
-      <div onClick={handleRenderModal} id='비밀번호 불일치'>
+      <div onClick={handleRenderModal} id={MODALTYPE.COLUMN.CREATE}>
         새 칼럼 생성
       </div>
-      <div onClick={handleRenderModal} id='비밀번호 불일치'>
+      <div onClick={handleRenderModal} id={MODALTYPE.COLUMN.UPDATE}>
         칼럼 관리
       </div>
       {modalType}
