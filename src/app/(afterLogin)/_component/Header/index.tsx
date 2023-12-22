@@ -19,6 +19,7 @@ export default function Header() {
 
   const titleClass = !isMyDashboard ? 'hidden lg:block' : '';
   const crownClass = !isMyDashboard ? 'lg:block' : '';
+  const marginClass = isMyDashboard ? 'ml-[5.6875rem]' : '';
   const folderName = isMyDashboard ? '내 대시보드' : DUMMY.folder;
 
   return (
@@ -26,7 +27,7 @@ export default function Header() {
       <div className='fixed left-0 right-0 top-0 h-[4.375rem] border-b-[.0625rem] bg-white'>
         <div className=' flex h-full items-center justify-between'>
           {/* 헤더영역 왼쪽 */}
-          <div className='ml-0 justify-end md:ml-[12.5rem] lg:ml-[21.25rem]'>
+          <div className={`${marginClass} justify-end md:ml-[12.5rem] lg:ml-[21.25rem]`}>
             <div className='flex items-center gap-2'>
               <div className={`text-black30 text-xl font-bold ${titleClass}`}>{folderName}</div>
               <Crown className={`hidden ${crownClass}`} />
