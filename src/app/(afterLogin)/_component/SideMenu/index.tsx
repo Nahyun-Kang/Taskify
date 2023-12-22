@@ -7,7 +7,7 @@ import textLogo from '@/public/logo/logo_text_only.svg';
 import smallLogo from '@/public/logo/nav_logo_small.svg';
 import addIcon from '@/public/images/add_box_icon.svg';
 import crown from '@/public/images/crown_icon.svg';
-import IdxIcon from './IdxIcon';
+import IdxIcon from '../Icons/IdxIcon';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 
 interface Dashboard {
@@ -60,8 +60,8 @@ export default function SideMenu() {
           {dashboards?.map((item: Dashboard, idx: number) => {
             return (
               <div className='mb-[1.6875rem] flex items-center' key={idx.toString()}>
-                <IdxIcon color={item.color} />
-                <div className='mr-[0.25rem] hidden text-base font-medium text-gray50 md:block'>{item.title}</div>
+                <IdxIcon color={item.color} className='md:mr-[1rem]' />
+                <div className='hidden text-base font-medium text-gray50 md:mr-[.375rem] md:block'>{item.title}</div>
                 {item.createdByMe === true && (
                   <Image src={crown} alt='내가 생성한 대시보드를 표시하는 왕관 아이콘' className='hidden md:block' />
                 )}
