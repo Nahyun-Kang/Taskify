@@ -145,7 +145,7 @@ function PasswordInput({ labelText, placeholder, id, hasError = false, errorMess
         <input
           id={id}
           type={inputType}
-          className='placeholder:text-gray4 inline-flex h-6 flex-1 bg-inherit outline-0'
+          className='placeholder:text-gray4 inline-flex h-6 flex-1 bg-inherit outline-none'
           placeholder={placeholder}
         />
         <button type='button' onClick={toggleShowPassword}>
