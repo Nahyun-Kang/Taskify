@@ -106,7 +106,7 @@ const mockColors: { [key: string]: string } = {
 
 export default function CardList() {
   return (
-    <div className='border-gray-20 flex min-w-[19.25rem] max-w-[19.25rem] flex-grow-0 flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:max-w-[36.5rem] md:gap-[1.5625rem] md:p-5 lg:min-h-screen lg:max-w-[22.25rem] lg:flex-col lg:border-b-0 lg:border-r'>
+    <div className='border-gray-20 flex-grow-1 flex min-w-[19.25rem] flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:gap-[1.5625rem] md:p-5 lg:min-h-screen lg:flex-col lg:border-b-0 lg:border-r'>
       <div className='flex items-center gap-2'>
         <span
           className={`flex h-2 w-2 items-center justify-center rounded-3xl bg-violet text-[0.75rem] text-white`}
@@ -119,7 +119,7 @@ export default function CardList() {
           <Image src={settingIcon.src} fill alt='설정 아이콘' />
         </button>
       </div>
-      <div className='flex max-w-[17.75rem] flex-col justify-center gap-[0.625rem] md:max-w-[34rem] md:gap-4'>
+      <div className='flex flex-col justify-center gap-[0.625rem] md:gap-4'>
         <AddDashboard screen='mobile' onClick={() => {}} />
         {mockData.cards.map((mockCard) => (
           <Card
