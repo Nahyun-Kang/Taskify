@@ -1,5 +1,5 @@
 'use client';
-import DropdownAndFilter from '@/src/app/DropdownAndFilter';
+import DropdownAndFilter from '../../Input/DropdownAndFilter';
 import InputField from '../../Input/InputField';
 import Image from 'next/image';
 import { useState } from 'react';
