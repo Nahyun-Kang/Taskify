@@ -1,9 +1,14 @@
 interface Props {
   idx: number;
   values?: {
+    id: number;
+    email: string;
     nickname: string;
-    profileImageUrl: string;
+    profileImageUrl: null | string;
+    createdAt: Date;
+    updatedAt: Date;
     isOwner: boolean;
+    userId: number;
   };
   total: number;
   count: number;
@@ -29,6 +34,7 @@ const Colors: Type = {
 };
 
 export default function Profile({ idx, values, total, count }: Props) {
+  console.log(idx, count);
   const color = idx === count - 2 ? 'bg-[#F4D7DA] text-[#D25B68]' : `${Colors[idx]} text-white`;
   const createContent = () => {
     if (idx === count - 2) {

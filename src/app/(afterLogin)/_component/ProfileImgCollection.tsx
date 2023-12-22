@@ -2,60 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import Profile from './ProfileImg';
-
-const members = {
-  members: [
-    {
-      nickname: '남궁수영',
-      profileImageUrl: '',
-      isOwner: true,
-    },
-    {
-      nickname: '이상혁',
-      profileImageUrl: '',
-      isOwner: false,
-    },
-    {
-      nickname: '강나현',
-      profileImageUrl:
-        'https://png.pngtree.com/png-clipart/20190116/ourmid/pngtree-halloween-lovely-meng-meng-little-ghost-png-image_376546.jpg',
-      isOwner: false,
-    },
-    {
-      nickname: 'Henry',
-      profileImageUrl: '',
-      isOwner: false,
-    },
-    {
-      nickname: '윤대호',
-      profileImageUrl: '',
-      isOwner: false,
-    },
-    {
-      nickname: '구혜지',
-      profileImageUrl: '',
-      isOwner: false,
-    },
-    {
-      nickname: '고민혁',
-      profileImageUrl: '',
-      isOwner: false,
-    },
-    {
-      nickname: 'Key',
-      profileImageUrl: '',
-      isOwner: false,
-    },
-  ],
-  totalCount: 8,
-};
+import useGetMembers from '../_util/useGetMembers';
+import { memberType } from '../_constant/type';
 
 export default function ProfileCollection() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(4);
+  const { data } = useGetMembers(19, 6);
+  console.log(data);
 
-  //
-  const arr = members.members.slice(0, count).filter((el) => !el.isOwner);
-  const newArr = arr.slice(0, count - 1);
+  const arr = data?.members.filter((el: memberType) => el.userId !== 31); // 유저 아이디
+  const profiles = arr?.slice(0, count - 1);
 
   const handleResize = () => {
     if (window.innerWidth > 1440) {
@@ -76,9 +32,10 @@ export default function ProfileCollection() {
 
   return (
     <div className='relative flex'>
-      {newArr.map((member, i) => (
-        <Profile idx={i} values={member} total={members.totalCount} key={i + 'p'} count={count} />
-      ))}
+      {data?.totalCount !== 0 &&
+        profiles?.map((member: memberType, i: number) => (
+          <Profile idx={i} values={member} total={data.totalCount} key={i + 'p'} count={count} />
+        ))}
     </div>
   );
 }
