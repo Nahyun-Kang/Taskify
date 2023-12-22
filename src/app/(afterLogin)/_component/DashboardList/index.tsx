@@ -3,7 +3,7 @@ import AddDashboard from '@/src/app/_component/Button/AddDashboard';
 import CardDashboard from '@/src/app/_component/Button/CardDashboard';
 import PageNation from '@/src/app/_component/Button/PageNation';
 
-interface DashBoardProps {
+interface DashBoardListProps {
   dashBoards: {
     id: number;
     title: string;
@@ -15,9 +15,9 @@ interface DashBoardProps {
   }[];
   totalPages: number;
 }
-export default function DashBoard({ dashBoards, totalPages }: DashBoardProps) {
+export default function DashboardList({ dashBoards, totalPages }: DashBoardListProps) {
   return (
-    <div className='flex w-full min-w-[375px] flex-col gap-6 bg-gray10 p-6 md:p-10'>
+    <div className='flex w-full max-w-[63.875rem] flex-col gap-6 bg-gray10 p-6 md:p-10'>
       <div className='flex flex-col gap-2 md:gap-3 '>
         <div className='grid grid-flow-row gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-3'>
           <AddDashboard screen='mobile' onClick={() => {}} />
