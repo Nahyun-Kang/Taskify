@@ -34,7 +34,7 @@ export default function InvitationList({ value, list }: Props) {
               <div className=' mb-[.625rem] flex grow md:mb-0 md:flex-col'>
                 <div className={`w-[53px] md:hidden ${labelClass}`}>이름</div>
                 <div className='flex items-center'>
-                  <IdxIcon color={item.color} className='hidden md:block' />
+                  <IdxIcon color={item.color} className='mr-[.875rem] hidden md:block lg:mr-[1.25rem]' />
                   <div className='text-[.875rem] md:text-base'>{item.name}</div>
                 </div>
               </div>
