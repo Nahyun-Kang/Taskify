@@ -12,10 +12,10 @@ export default function LogIn() {
     <AuthLayout message={MESSAGE.logIn}>
       <form className='w-full'>
         <div className='mb-[1rem]'>
-          <InputField.EmailInput labelText='이메일' placeholder='이메일을 입력해 주세요' id='미정' />
+          <InputField.EmailInput labelText='이메일' placeholder='이메일을 입력해 주세요' id='email' />
         </div>
         <div className='mb-[1.25rem]'>
-          <InputField.PasswordInput labelText='비밀번호' placeholder='비밀번호를 입력해 주세요' id='미정' />
+          <InputField.PasswordInput labelText='비밀번호' placeholder='비밀번호를 입력해 주세요' id='password' />
         </div>
         <Sign size='small' isActive={false} onClick={handleClick} />
       </form>
