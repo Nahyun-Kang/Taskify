@@ -37,7 +37,7 @@ export default function EditBoard({ boardName, dashboardId }: EditBoardProps) {
         id='editBoard'
       />
       <div className='flex justify-end'>
-        <Confirm size='large' onClick={handleUpdate} title='변경' />
+        <Confirm size='large' onClick={handleUpdate} btnName='변경' />
       </div>
     </div>
   );
