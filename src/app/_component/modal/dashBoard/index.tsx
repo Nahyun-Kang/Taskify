@@ -19,7 +19,7 @@ export function InviteDashboard({ mainTitle }: { mainTitle: string }) {
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <InputField labelText='대시보드 이름' placeholder='대시보드 제목을 입력해주세요' id='title' isRequired={true} />
+      <InputField labelText='이메일' placeholder='이메일을 입력해주세요' id='title' isRequired={true} />
     </>
   );
 }
