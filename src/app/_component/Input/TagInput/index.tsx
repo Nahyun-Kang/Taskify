@@ -18,7 +18,7 @@ export default function TagInput({ label, placeholder, id, validationRules = {},
     setInputText(e.target.value);
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       e.stopPropagation();
@@ -60,7 +60,7 @@ export default function TagInput({ label, placeholder, id, validationRules = {},
         <input
           value={inputText}
           onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
           type='text'
           id={id}
           placeholder={placeholder}
