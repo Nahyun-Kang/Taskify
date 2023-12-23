@@ -5,6 +5,8 @@ import Sign from '@/src/app/_component/Button/Sign';
 import { AUTH_MESSAGE } from '../_constants/auth';
 
 export default function SignUp() {
+  // const checkboxImage = useMemo(() => ({backgroundImage: 'url('/images/custom-checkbox-icon)'}))
+
   const handleClick = () => {};
   return (
     <AuthLayout message={AUTH_MESSAGE.signUp}>
@@ -25,10 +27,10 @@ export default function SignUp() {
             id='password_check'
           />
         </div>
-        <div className='mb-[21px] flex items-center gap-2'>
+        <div className='mb-[1.3125rem] flex gap-2'>
           <input
             type='checkbox'
-            className='checked:font-white h-[1.25rem] w-[1.25rem] rounded border border-gray30 checked:bg-violet checked:hover:bg-violet focus:outline-none focus:ring-transparent checked:focus:bg-violet'
+            className={`h-[1.25rem] w-[1.25rem] appearance-none rounded border border-gray30 bg-contain checked:bg-[url('/images/custom-checkbox-icon.svg')] focus:outline-none`}
           ></input>
           <label className='text-base font-normal'>이용약관에 동의합니다</label>
         </div>

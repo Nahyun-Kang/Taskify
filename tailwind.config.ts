@@ -6,6 +6,12 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  variants: {
+    extend: {
+      backgroundColor: ['checked'],
+      borderColor: ['checked'],
+    },
+  },
   theme: {
     extend: {
       backgroundImage: {
@@ -13,6 +19,7 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         largeLogo: "url('/logo/nav_logo_large.svg')",
         smallLogo: "url('/logo/nav_logo_small.svg')",
+        checkbox: "url('/images/custom-check-icon)",
       },
       colors: {
         black: '#171717',
