@@ -12,8 +12,8 @@ export default function AddColumn({ screen = 'desktop', onClick }: AddColumnProp
       fontSize: 'text-[1.125rem]',
     },
     mobile: {
-      width: 'w-[17.75rem]',
-      height: 'h-[3.75rem]',
+      width: 'w-full',
+      height: 'h-full',
       fontSize: 'text-[1rem]',
     },
     tablet: {
