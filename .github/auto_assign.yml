@@ -2,8 +2,8 @@
 addReviewers: true
 
 # Set to true to add assignees to pull requests
-addAssignees: false
-# AddAssignees: 해제
+addAssignees: author
+# addAssignees에서 ‘author’를 선택하면 PR을 open한 user가 assignee로 할당됩니다.
 
 # A list of reviewers to be added to pull requests (GitHub user name)
 reviewers:
