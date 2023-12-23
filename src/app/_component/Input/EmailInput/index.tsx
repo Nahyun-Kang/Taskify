@@ -6,7 +6,7 @@ export default function EmailInput({ label, placeholder, id, initialValue = '' }
 
   return (
     <InputWrapper>
-      <Label label={label} htmlFor={id} isRequired={true} />
+      <Label label={label} htmlFor={id} isRequired={false} />
       <input
         id={id}
         type='email'
