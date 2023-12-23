@@ -1,13 +1,14 @@
 import { MouseEvent } from 'react';
 
 interface CancelProps {
-  size: 'large' | 'small';
+  size: 'large' | 'small' | 'free';
   onClick: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 export default function Cancel({ size, onClick }: CancelProps) {
   const sizes = {
     large: { width: 'w-[7.5rem]', height: 'h-[3rem]', paddingY: 'py-[0.875rem]', paddingX: 'px-[2.875rem]' },
     small: { width: 'w-[8.625rem]', height: 'h-[2.625rem]', paddingY: 'py-[0.75rem]', paddingX: 'px-[3.5rem]' },
+    free: { width: 'w-full', height: 'h-full', paddingY: 'py-[0.75rem]', paddingX: 'px-[3.5rem]' },
   };
   const { width, height, paddingY, paddingX } = sizes[size];
   return (

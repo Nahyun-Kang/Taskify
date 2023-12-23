@@ -1,6 +1,6 @@
 import Add from '@/src/app/_component/Chip/Add';
 interface AddColumnProps {
-  screen: 'desktop' | 'mobile' | 'tablet';
+  screen: 'desktop' | 'mobile' | 'tablet' | 'free';
   onClick: () => void;
 }
 
@@ -19,6 +19,11 @@ export default function AddColumn({ screen = 'desktop', onClick }: AddColumnProp
     tablet: {
       width: 'w-[34rem]',
       height: 'h-[4.375rem]',
+      fontSize: 'text-[1.125rem]',
+    },
+    free: {
+      width: 'w-full',
+      height: 'h-full',
       fontSize: 'text-[1.125rem]',
     },
   };

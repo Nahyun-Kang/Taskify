@@ -1,5 +1,5 @@
 interface DeleteDashboardProps {
-  screen: 'desktop' | 'mobile' | 'tablet';
+  screen: 'desktop' | 'mobile' | 'tablet' | 'free';
   onClick: () => void;
 }
 
@@ -25,6 +25,13 @@ export default function DeleteDashboard({ screen = 'desktop', onClick }: DeleteD
       paddingY: 'py-[1rem]',
       paddingX: 'px-[4.25rem]',
       fontSize: 'text-[1rem]',
+    },
+    free: {
+      width: 'w-full',
+      height: 'h-full',
+      paddingY: 'py-[1.25rem]',
+      paddingX: 'px-[4.9375rem]',
+      fontSize: 'text-[1.125rem]',
     },
   };
   const { width, height, fontSize, paddingX, paddingY } = screens[screen];
