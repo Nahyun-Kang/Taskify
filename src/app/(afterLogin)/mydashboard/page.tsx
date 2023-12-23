@@ -1,6 +1,7 @@
 'use client';
 
-import DashboardList from '../_component/DashboardList';
+import DashboardList from '@/src/app/(afterLogin)/_component/DashboardList';
+import InvitationDashboard from '@/src/app/(afterLogin)/_component/InvitationDashboard';
 
 const mockDashboard = {
   cursorId: 0,
@@ -66,12 +67,17 @@ const mockDashboard = {
       color: 'string',
       createdAt: '2023-12-21T09:32:04.296Z',
       updatedAt: '2023-12-21T09:32:04.296Z',
-      createdByMe: true,
+      createdByMe: false,
       userId: 0,
     },
   ],
 };
 
-export default function MyBoard() {
-  return <DashboardList dashBoards={mockDashboard.dashboards} totalPages={mockDashboard.totalCount} />;
+export default function MyDashBoard() {
+  return (
+    <div className='flex max-w-[63.875rem] flex-col gap-11 p-6 px-10 md:p-10'>
+      <DashboardList dashBoards={mockDashboard.dashboards} totalPages={mockDashboard.totalCount} />
+      <InvitationDashboard />
+    </div>
+  );
 }

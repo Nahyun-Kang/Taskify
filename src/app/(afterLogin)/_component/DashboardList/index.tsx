@@ -17,7 +17,7 @@ interface DashBoardListProps {
 }
 export default function DashboardList({ dashBoards, totalPages }: DashBoardListProps) {
   return (
-    <div className='flex w-full max-w-[63.875rem] flex-col gap-6 bg-gray10 p-6 md:p-10'>
+    <div className='flex w-full flex-col gap-6 bg-gray10'>
       <div className='flex flex-col gap-2 md:gap-3 '>
         <div className='grid grid-flow-row gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-3'>
           <AddDashboard screen='mobile' onClick={() => {}} />
