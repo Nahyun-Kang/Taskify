@@ -39,7 +39,7 @@ const getInputClass = (hasError: boolean) =>
   }`;
 
 function InputWrapper({ children }: { children: ReactNode }) {
-  return <div className='flex max-w-[32.5rem] flex-col gap-2'>{children}</div>;
+  return <div className='flex max-w-full flex-col gap-2'>{children}</div>;
 }
 
 function InputWithImageWrapper({ children, hasError }: { children: ReactNode; hasError: boolean }) {
@@ -188,7 +188,7 @@ function CommentInput({ labelText, id, hasError = false, placeholder, handleClic
     <InputWrapper>
       <Label labelText={labelText} isRequired={false} htmlFor={id} />
       <div
-        className={`box-border flex flex-col gap-2 rounded-lg border px-4 py-[0.6875rem] placeholder:text-gray40 focus-within:border-violet ${
+        className={` box-border flex flex-col gap-2 rounded-lg border px-4 py-[0.6875rem] placeholder:text-gray40 focus-within:border-violet ${
           hasError ? 'border-red' : 'border-gray30'
         }`}
       >
