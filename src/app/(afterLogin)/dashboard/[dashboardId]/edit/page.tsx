@@ -1,6 +1,6 @@
 'use client';
-import DeleteDashboard from '../../_component/Button/DeleteDashboard';
-import useGetWindowSize from '../../_hook/useGetWindowSize';
+import DeleteDashboard from '@/src/app/_component/Button/DeleteDashboard';
+import useGetWindowSize from '@/src/app/_hook/useGetWindowSize';
 import EditBoard from './_component/EditBoard';
 import InviteList from './_component/InviteList';
 import MemberList from './_component/MemberList';
