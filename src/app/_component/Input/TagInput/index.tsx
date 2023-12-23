@@ -1,32 +1,32 @@
 import { CommonInputProps } from '@/src/app/_constant/Input';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import Tag from '../../Chip/Tag';
-import { ErrorMessage, InputWrapper, Label } from '../InputStyle';
+import { ErrorMessage, InputWrapper, Label, useInputField } from '../InputStyle';
 import CloseIcon from '../icons/CloseIcon';
 
 interface TagInputProps extends CommonInputProps {
   initialTags?: string[];
 }
 
-export default function TagInput({ label, placeholder, id, validationRules, initialTags = [] }: TagInputProps) {
+export default function TagInput({ label, placeholder, id, validationRules = {}, initialTags = [] }: TagInputProps) {
   const [tags, setTags] = useState(initialTags);
   const [inputText, setInputText] = useState('');
-  const {
-    setValue,
-    formState: { errors },
-  } = useFormContext();
+
+  const { errorMessage, setValue } = useInputField(id, validationRules);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
 
-  const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && inputText.trim() !== '') {
-      const newTags = [...tags, inputText.trim()];
-      setTags(newTags);
-      setValue(id, tags);
-      setInputText('');
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.stopPropagation();
+      if (inputText.trim() !== '') {
+        const newTags = [...tags, inputText.trim()];
+        setTags(newTags);
+        setInputText('');
+      }
     }
   };
 
@@ -35,8 +35,9 @@ export default function TagInput({ label, placeholder, id, validationRules, init
     setTags(newTags);
     setValue(id, newTags);
   };
-
-  const errorMessage = errors[id]?.message as string;
+  useEffect(() => {
+    setValue(id, tags);
+  }, [tags, id, setValue]);
 
   return (
     <InputWrapper>
@@ -59,9 +60,9 @@ export default function TagInput({ label, placeholder, id, validationRules, init
         <input
           value={inputText}
           onChange={handleInputChange}
-          onKeyUp={handleKeyUp}
-          id={id}
+          onKeyDown={handleKeyDown}
           type='text'
+          id={id}
           placeholder={placeholder}
           className='placeholder:text-gray4 inline-flex h-[1.125rem] flex-1 bg-inherit outline-0'
         />

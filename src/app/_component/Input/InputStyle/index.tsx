@@ -42,7 +42,9 @@ export function InputWithImageWrapper({ children, hasError }: { children: ReactN
 export function useInputField(id: string, validationRules: validationRulesProps) {
   const {
     register,
-    formState: { errors },
+    formState: { errors, isLoading },
+    setValue,
+    control,
   } = useFormContext();
   const errorMessage = (errors[id]?.message as string) || '';
 
@@ -50,6 +52,9 @@ export function useInputField(id: string, validationRules: validationRulesProps)
     register: register(id, validationRules),
     hasError: !!errorMessage,
     errorMessage,
+    isLoading,
+    setValue,
+    control,
   };
 }
 

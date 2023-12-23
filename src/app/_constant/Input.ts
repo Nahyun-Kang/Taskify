@@ -52,3 +52,10 @@ export const passwordValidate = {
     message: '비밀번호 패턴',
   },
 };
+
+export const dateValidate = {
+  required: {
+    value: true,
+    message: '날짜를 선택해주세요.',
+  },
+};
