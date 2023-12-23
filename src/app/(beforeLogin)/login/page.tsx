@@ -3,13 +3,13 @@
 import Sign from '../../_component/Button/Sign';
 import InputField from '../../_component/Input/InputField';
 import AuthLayout from '../_component/Auth/AuthLayout';
-import { MESSAGE } from '../_constants/auth';
+import { AUTH_MESSAGE } from '../_constants/auth';
 
 export default function LogIn() {
   const handleClick = () => {};
 
   return (
-    <AuthLayout message={MESSAGE.logIn}>
+    <AuthLayout message={AUTH_MESSAGE.logIn}>
       <form className='w-full'>
         <div className='mb-[1rem]'>
           <InputField.EmailInput labelText='이메일' placeholder='이메일을 입력해 주세요' id='email' />

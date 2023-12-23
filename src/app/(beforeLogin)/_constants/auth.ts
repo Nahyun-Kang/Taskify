@@ -7,7 +7,7 @@ export interface Message {
   };
 }
 
-export const MESSAGE = {
+export const AUTH_MESSAGE = {
   logIn: {
     welcome: '오늘도 만나서 반가워요!',
     check: '회원이 아니신가요?',

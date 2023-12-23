@@ -2,12 +2,12 @@
 import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
 import InputField from '@/src/app/_component/Input/InputField';
 import Sign from '@/src/app/_component/Button/Sign';
-import { MESSAGE } from '../_constants/auth';
+import { AUTH_MESSAGE } from '../_constants/auth';
 
 export default function SignUp() {
   const handleClick = () => {};
   return (
-    <AuthLayout message={MESSAGE.signUp}>
+    <AuthLayout message={AUTH_MESSAGE.signUp}>
       <form className='w-full'>
         <div className='mb-[16px]'>
           <InputField.EmailInput labelText='이메일' placeholder='이메일을 입력해 주세요' id='email' />
