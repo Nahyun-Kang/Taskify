@@ -5,7 +5,14 @@ interface CommentInputProps extends CommonInputProps {
   handleClick: () => void;
 }
 
-export default function CommentInput({ label, id, placeholder, handleClick, validationRules = {} }: CommentInputProps) {
+export default function CommentInput({
+  label,
+  id,
+  placeholder,
+  handleClick,
+  validationRules = {},
+  initialValue = '',
+}: CommentInputProps) {
   const { register, hasError, errorMessage } = useInputField(id, validationRules);
   return (
     <InputWrapper>
@@ -20,6 +27,7 @@ export default function CommentInput({ label, id, placeholder, handleClick, vali
           type='text'
           className='placeholder:text-gray4 inline-flex h-6 flex-1 bg-inherit outline-0'
           placeholder={placeholder}
+          defaultValue={initialValue}
           {...register}
         />
         <button

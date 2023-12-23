@@ -4,6 +4,7 @@ export interface CommonInputProps {
   id: string;
   isRequired?: boolean;
   apiError?: string;
+  initialValue?: string;
   validationRules?: {
     required?: {
       value: boolean;

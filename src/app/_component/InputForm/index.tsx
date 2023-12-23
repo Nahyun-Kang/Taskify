@@ -7,7 +7,8 @@ import EmailInput from '@/src/app/_component/Input/EmailInput';
 import PasswordInput from '@/src/app/_component/Input/PasswordInput';
 import TagInput from '@/src/app/_component/Input/TagInput';
 import TextInput from '@/src/app/_component/Input/TextInput';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
+import PasswordCheck from '../Input/PasswordCheck/index';
 
 export default function InputForm({
   children,
@@ -17,19 +18,18 @@ export default function InputForm({
   onSubmit: SubmitHandler<FieldValues>;
 }) {
   // [ ] isLoading으로 disabled
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onBlur' });
 
   const submit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    setIsLoading(true);
-    console.log(methods.formState.isLoading);
+    // setIsLoading(true);
     try {
       await onSubmit(data);
     } catch (error) {
       console.log(error);
-      setIsLoading(false);
+      // setIsLoading(false);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -44,6 +44,7 @@ export default function InputForm({
 
 InputForm.EmailInput = EmailInput;
 InputForm.PasswordInput = PasswordInput;
+InputForm.PasswordCheck = PasswordCheck;
 InputForm.TextInput = TextInput;
 InputForm.DateInput = DateInput;
 InputForm.TagInput = TagInput;
