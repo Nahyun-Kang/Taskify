@@ -1,14 +1,14 @@
 'use client';
 
-import InputField from '../../Input/InputField';
 import { useState } from 'react';
+import InputForm from '../../InputForm';
 
 // 컬럼 생성 모달 내용
 export function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; labelTitle: string }) {
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <InputField labelText={labelTitle} placeholder='컬럼 제목을 입력해주세요' id='title' isRequired={true} />
+      <InputForm.TextInput label={labelTitle} placeholder='컬럼 제목을 입력해주세요' id='title' isRequired={true} />
     </>
   );
 }
@@ -21,7 +21,7 @@ export function UpdateAndDeleteColumn({ mainTitle, labelTitle }: { mainTitle: st
       {!isDeleted ? (
         <>
           <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-          <InputField labelText={labelTitle} placeholder='컬럼 제목을 수정해주세요' id='title' isRequired={true} />
+          <InputForm.TextInput label={labelTitle} placeholder='컬럼 제목을 수정해주세요' id='title' isRequired={true} />
           <span
             onClick={handleRenderDeleteColumn}
             className='font-Pretendard absolute text-[0.875rem] text-gray40 underline sm:bottom-[4.5rem] sm:left-[1.25rem] md:bottom-[1.75rem] md:left-[1.75rem]'
