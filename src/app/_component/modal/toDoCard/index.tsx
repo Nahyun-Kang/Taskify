@@ -1,9 +1,10 @@
 'use client';
-import DropdownAndFilter from '../../Input/DropdownAndFilter';
-import InputField from '../../Input/InputField';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
 import Image from 'next/image';
 import { useState } from 'react';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { FieldValues } from 'react-hook-form';
+import DropdownAndFilter from '../../Input/DropdownAndFilter';
+import InputForm from '../../InputForm';
 import { DetailAssignee, DetailCardComment, DetailIconButton, DetailMainContent } from './DetailComponent';
 interface TodoProps {
   mainTitle: string;
@@ -15,11 +16,11 @@ export function CreateToDo({ mainTitle }: TodoProps) {
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
       <DropdownAndFilter />
-      <InputField labelText='제목' placeholder='제목을 입력해주세요' id='title' isRequired={true} />
-      <InputField labelText='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
-      <InputField.DateInput labelText='마감일' id='dueDate' />
-      <InputField.TagInput labelText='태그' id='tags' placeholder='입력 후 Enter' />
-      <InputField.TagInput labelText='이미지' id='imageUrl' placeholder='아직 이미지인풋이 없네용' />
+      <InputForm.TextInput label='제목' placeholder='제목을 입력해주세요' id='title' isRequired={true} />
+      <InputForm.TextInput label='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
+      <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 선택' />
+      <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' />
+      <InputForm.TagInput label='이미지' id='imageUrl' placeholder='아직 이미지인풋이 없네용' />
     </>
   );
 }
@@ -29,11 +30,23 @@ export function UpdateToDo({ mainTitle }: TodoProps) {
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
       <DropdownAndFilter />
-      <InputField labelText='제목' placeholder='제목을 입력해주세요' id='title' isRequired={true} />
-      <InputField labelText='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
-      <InputField.DateInput labelText='마감일' id='dueDate' />
-      <InputField.TagInput labelText='태그' id='tags' placeholder='입력 후 Enter' />
-      <InputField.TagInput labelText='이미지' id='imageUrl' placeholder='아직 이미지인풋이 없네용' />
+      <InputForm.TextInput
+        label='제목'
+        placeholder='제목을 입력해주세요'
+        id='title'
+        isRequired={true}
+        initialValue='기본값'
+      />
+      <InputForm.TextInput
+        label='설명'
+        placeholder='설명을 입력해주세요'
+        id='description'
+        isRequired={true}
+        initialValue='기본값'
+      />
+      <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 입력' initialDate={new Date('2023-12-24')} />
+      <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' initialTags={['기본값']} />
+      <InputForm.TagInput label='이미지' id='imageUrl' placeholder='아직 이미지인풋이 없네용' />
     </>
   );
 }
@@ -83,7 +96,7 @@ export function DetailToDo({ ToDoCardDetail, onClose }: { ToDoCardDetail: ToDoCa
   const [modalType, callModal] = useRenderModal();
 
   const handleRenderModal = (e: React.MouseEvent<HTMLParagraphElement>) => {
-    callModal(String((e.target as HTMLElement).id));
+    callModal(String((e.target as HTMLElement).id), (data: FieldValues) => console.log(data));
   };
 
   const handleKebab = () => setIsOpenPopOver(true);
@@ -98,7 +111,7 @@ export function DetailToDo({ ToDoCardDetail, onClose }: { ToDoCardDetail: ToDoCa
           <div className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'>
             <div
               className=' relative flex flex-col gap-[1rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem]
-             sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
+              sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
             >
               <DetailIconButton
                 handleKebab={handleKebab}
@@ -115,9 +128,10 @@ export function DetailToDo({ ToDoCardDetail, onClose }: { ToDoCardDetail: ToDoCa
                 <div className='relative flex sm:h-[8.3125rem] sm:w-[17.9375rem] md:h-[16.375rem] md:w-[28.125rem]'>
                   <Image src={imageUrl} fill alt='imageUrl' />
                 </div>
-                <InputField.CommentInput
+                <InputForm.CommentInput
                   id='comment'
-                  labelText='댓글'
+                  label='댓글'
+                  initialValue='기본값'
                   handleClick={handleClick}
                   placeholder='댓글을 입력해 주세요'
                 />

@@ -1,7 +1,9 @@
 import Confirm from '@/src/app/_component/Button/Confirm';
 import SelectColor from '@/src/app/_component/Chip/SelectColor';
-import InputField from '@/src/app/_component/Input/InputField';
+
+import InputForm from '@/src/app/_component/InputForm';
 import { useState } from 'react';
+import { FieldValues } from 'react-hook-form';
 
 interface EditBoardProps {
   dashboardId: string;
@@ -31,14 +33,12 @@ export default function EditBoard({ boardName, dashboardId }: EditBoardProps) {
         <p className='text-[1.25rem] font-bold text-black'>{boardName}</p>
         <SelectColor onSelect={handleSelectColor} />
       </div>
-      <InputField.TextInput
-        labelText='대시보드 이름'
-        placeholder='변경할 대시보드 이름을 입력해주세요.'
-        id='editBoard'
-      />
-      <div className='flex justify-end'>
-        <Confirm size='large' onClick={handleUpdate} btnName='변경' />
-      </div>
+      <InputForm onSubmit={(data: FieldValues) => console.log(data)}>
+        <InputForm.TextInput label='대시보드 이름' placeholder='변경할 대시보드 이름을 입력해주세요.' id='editBoard' />
+        <div className='flex justify-end'>
+          <Confirm size='large' onClick={handleUpdate} btnName='변경' />
+        </div>
+      </InputForm>
     </div>
   );
 }
