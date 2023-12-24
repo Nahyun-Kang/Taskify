@@ -5,10 +5,10 @@ import ko from 'date-fns/locale/ko';
 import { ChangeEvent, KeyboardEvent, MouseEvent, ReactNode, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import CalendarIcon from '@/public/icons/calendar_icon.svg';
-import CloseIcon from '@/public/icons/close_icon.svg';
-import EyeOffIcon from '@/public/icons/visibility_off_icon.svg';
-import EyeOnIcon from '@/public/icons/visibility_on_icon.svg';
+import CalendarIcon from '@/src/app/_component/Icons/CalendarIcon';
+import CloseIcon from '@/src/app/_component/Icons/CloseIcon';
+import EyeOffIcon from '@/src/app/_component/Icons/EyeOffIcon';
+import EyeOnIcon from '@/src/app/_component/Icons/EyeOnIcon';
 
 interface CommonInputProps {
   type?: string;
