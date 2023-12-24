@@ -19,7 +19,6 @@ const adminList: AdminProps[] = [
   { id: 6, adminName: '호날두' },
   { id: 7, adminName: '구혜지' },
 ];
-adminList;
 
 export default function DropdownAndFilter() {
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
@@ -86,10 +85,10 @@ export default function DropdownAndFilter() {
       inputRef.current.focus();
     }
   }, [isSelectionComplete]);
-  console.log(assignId);
+
   return (
     <div className='flex w-[13.5625rem] flex-col items-start gap-[0.625rem]'>
-      <label>담당자</label>
+      <label className='text-[1.125rem] text-black'>담당자</label>
       <div className='flex flex-col items-start gap-[0.125rem]'>
         <span className='relative'>
           {isSelectionComplete ? (
@@ -105,6 +104,7 @@ export default function DropdownAndFilter() {
             </div>
           ) : (
             <input
+              placeholder='이름을 입력해주세요'
               ref={inputRef}
               value={curretValue}
               onChange={handleOnChangeInput}
