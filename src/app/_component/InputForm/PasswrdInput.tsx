@@ -1,8 +1,14 @@
+import EyeOffIcon from '@/src/app/_component/Icons/EyeOffIcon';
+import EyeOnIcon from '@/src/app/_component/Icons/EyeOnIcon';
+import {
+  ErrorMessage,
+  InputWithImageWrapper,
+  InputWrapper,
+  Label,
+  useInputField,
+} from '@/src/app/_component/InputForm/InputStyle';
 import { CommonInputProps, passwordValidate } from '@/src/app/_constant/Input';
 import { useState } from 'react';
-import { ErrorMessage, InputWithImageWrapper, InputWrapper, Label, useInputField } from '../InputStyle';
-import EyeOffIcon from '../icons/EyeOffIcon';
-import EyeOnIcon from '../icons/EyeOnIcon';
 
 export default function PasswordInput({ label, placeholder, id, initialValue = '' }: CommonInputProps) {
   const { register, hasError, errorMessage } = useInputField(id, passwordValidate);

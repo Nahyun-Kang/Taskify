@@ -1,8 +1,8 @@
+import Tag from '@/src/app/_component/Chip/Tag';
+import CloseIcon from '@/src/app/_component/Icons/CloseIcon';
+import { ErrorMessage, InputWrapper, Label, useInputField } from '@/src/app/_component/InputForm/InputStyle';
 import { CommonInputProps } from '@/src/app/_constant/Input';
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
-import Tag from '../../Chip/Tag';
-import { ErrorMessage, InputWrapper, Label, useInputField } from '../InputStyle';
-import CloseIcon from '../icons/CloseIcon';
 
 interface TagInputProps extends CommonInputProps {
   initialTags?: string[];
@@ -18,11 +18,11 @@ export default function TagInput({ label, placeholder, id, validationRules = {},
     setInputText(e.target.value);
   };
 
-  const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       e.stopPropagation();
-      if (inputText.trim() !== '') {
+      if (inputText.trim() !== '' && !e.nativeEvent.isComposing) {
         const newTags = [...tags, inputText.trim()];
         setTags(newTags);
         setInputText('');
@@ -60,7 +60,7 @@ export default function TagInput({ label, placeholder, id, validationRules = {},
         <input
           value={inputText}
           onChange={handleInputChange}
-          onKeyUp={handleKeyUp}
+          onKeyDown={handleKeyDown}
           type='text'
           id={id}
           placeholder={placeholder}

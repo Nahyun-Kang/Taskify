@@ -1,5 +1,5 @@
+import { ErrorMessage, InputWrapper, Label, useInputField } from '@/src/app/_component/InputForm/InputStyle';
 import { CommonInputProps } from '@/src/app/_constant/Input';
-import { ErrorMessage, InputWrapper, Label, useInputField } from '../InputStyle';
 
 interface CommentInputProps extends CommonInputProps {
   handleClick: () => void;

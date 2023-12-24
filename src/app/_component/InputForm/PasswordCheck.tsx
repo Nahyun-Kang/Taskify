@@ -1,9 +1,9 @@
+import EyeOffIcon from '@/src/app/_component/Icons/EyeOffIcon';
+import EyeOnIcon from '@/src/app/_component/Icons/EyeOnIcon';
+import { ErrorMessage, InputWithImageWrapper, InputWrapper, Label } from '@/src/app/_component/InputForm/InputStyle';
 import { CommonInputProps } from '@/src/app/_constant/Input';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { ErrorMessage, InputWithImageWrapper, InputWrapper, Label } from '../InputStyle';
-import EyeOffIcon from '../icons/EyeOffIcon';
-import EyeOnIcon from '../icons/EyeOnIcon';
 
 interface PasswordCheckProps extends CommonInputProps {
   passwordId: string;

@@ -1,14 +1,14 @@
 'use client';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
-import CommentInput from '@/src/app/_component/Input/CommentInput';
-import DateInput from '@/src/app/_component/Input/DateInput';
-import EmailInput from '@/src/app/_component/Input/EmailInput';
-import PasswordInput from '@/src/app/_component/Input/PasswordInput';
-import TagInput from '@/src/app/_component/Input/TagInput';
-import TextInput from '@/src/app/_component/Input/TextInput';
+import CommentInput from '@/src/app/_component/InputForm/CommentInput';
+import DateInput from '@/src/app/_component/InputForm/DateInput';
+import EmailInput from '@/src/app/_component/InputForm/EmailInput';
+import PasswordCheck from '@/src/app/_component/InputForm/PasswordCheck';
+import PasswordInput from '@/src/app/_component/InputForm/PasswrdInput';
+import TagInput from '@/src/app/_component/InputForm/TagInput';
+import TextInput from '@/src/app/_component/InputForm/TextInput';
 import { ReactNode } from 'react';
-import PasswordCheck from '../Input/PasswordCheck/index';
 
 export default function InputForm({
   children,
