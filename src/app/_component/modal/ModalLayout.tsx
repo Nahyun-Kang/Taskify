@@ -1,6 +1,6 @@
 import Cancel from '@/src/app/_component/Button/Cancel';
+import Confirm from '@/src/app/_component/Button/Confirm';
 import { MouseEvent, ReactNode } from 'react';
-import Confirm from '../Button/Corfirm';
 
 interface ModalLayoutrProps {
   children: ReactNode;
