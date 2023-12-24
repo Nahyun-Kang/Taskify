@@ -1,4 +1,4 @@
-import { memberType } from '@/src/app/(afterLogin)/_constant/';
+import { memberType } from '@/src/app/(afterLogin)/_constant/type';
 
 interface Props {
   idx: number;
