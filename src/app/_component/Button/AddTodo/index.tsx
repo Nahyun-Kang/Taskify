@@ -10,7 +10,7 @@ export default function AddTodo({ screen = 'desktop', onClick }: AddTodoProps) {
       height: 'h-[2.5rem]',
     },
     mobile: {
-      height: 'h-[1.9375rem]',
+      height: 'h-full',
     },
     tablet: {
       height: 'h-[2.5rem]',

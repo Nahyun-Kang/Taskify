@@ -19,7 +19,7 @@ export default function SelectColor({ onSelect }: SelectColorProps) {
       {COLORS.map((val) => (
         <div
           key={val.id}
-          className={` h-[1.875rem] w-[1.875rem] rounded-[0.9375rem] ${val.color} relative translate-x-1/2  cursor-pointer`}
+          className={` h-[1.875rem] w-[1.875rem] rounded-[0.9375rem] ${val.color} relative cursor-pointer  rounded-[50%]`}
           onClick={() => handleClick(val)}
         >
           {val.id === selected && (
