@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import kebab from '@/public/icons/kebab.svg';
 import close from '@/public/icons/close_icon.svg';
@@ -6,31 +7,41 @@ import line from '@/public/icons/line.svg';
 import React from 'react';
 import Tag from '../../Chip/Tag';
 import circleProfile from '@/public/icons/circleProfile.svg';
+import { ToDoCardDetailProps } from '.';
 
 // 할 일 카드 상세 모달은 내용이 너무 많아서 일단 분리해 놓았습니다
 interface DetailIconButtonProps {
   handleKebab: () => void;
-  handleRenderModal: (e: React.MouseEvent<HTMLParagraphElement>) => void;
+  onUpdate: (e: React.MouseEvent<HTMLParagraphElement>, cardData: ToDoCardDetailProps) => void;
   isOpenPopOver: boolean;
   onClose: () => void;
+  onDelete: (e: React.MouseEvent<HTMLDivElement>) => void;
+  cardData: ToDoCardDetailProps;
 }
 
-export function DetailIconButton({ handleKebab, handleRenderModal, isOpenPopOver, onClose }: DetailIconButtonProps) {
+export function DetailIconButton({
+  handleKebab,
+  isOpenPopOver,
+  onUpdate,
+  onDelete,
+  onClose,
+  cardData,
+}: DetailIconButtonProps) {
   return (
     <div className=' absolute flex gap-[1.5rem] sm:right-[0.75rem] sm:top-[0.75rem] md:right-[1.75rem] md:top-[2rem]'>
       <span onClick={handleKebab} className=' relative h-[1.75rem] w-[1.75rem]'>
-        <Image src={kebab} alt='케밥' />
+        {kebab && <Image src={kebab} alt='케밥' />}
         {isOpenPopOver ? (
           <div className='h-[5.125rem] w-[5.8125rem] rounded-[0.375rem] border border-[#d9d9d9] bg-white p-[0.375rem] shadow-md'>
             <p
-              onClick={handleRenderModal}
+              onClick={(e) => onUpdate(e, cardData)}
               id={MODALTYPE.TODO.UPDATE}
               className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem]'
             >
               수정하기
             </p>
             <p
-              onClick={handleRenderModal}
+              onClick={onDelete}
               id={MODALTYPE.TODO.DELETE}
               className=' mt-[0.375rem] whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] '
             >
@@ -40,7 +51,7 @@ export function DetailIconButton({ handleKebab, handleRenderModal, isOpenPopOver
         ) : null}
       </span>
       <span onClick={onClose} className=' relative h-[2.125rem] w-[2.125rem]'>
-        <Image src={close} alt='닫기' />
+        {close && <Image src={close} alt='닫기' />}
       </span>
     </div>
   );
@@ -52,7 +63,7 @@ export function DetailMainContent({ tags, description }: { tags: string[]; descr
       <div className=' mb-[1rem] mt-[1.5rem] flex gap-[1.25rem]'>
         <div className=' flex gap-[1.25rem]'>
           <span>Todo</span>
-          <Image src={line} alt='line' width={0} height={20} />
+          {line && <Image src={line} alt='line' width={0} height={20} />}
         </div>
         <div className='flex flex-nowrap gap-[0.375rem]'>
           {tags.map((tag) => (
@@ -78,7 +89,9 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
       <div className='flex flex-col gap-[0.375rem]'>
         <span className='text-[0.75rem] font-semibold leading-5'>담당자</span>
         <div className='flex items-center  gap-[0.3125rem]'>
-          <Image src={assignee.profileImageUrl} width={34} height={34} alt='담당자 프로필' />
+          {assignee.profileImageUrl && (
+            <Image src={assignee.profileImageUrl} width={34} height={34} alt='담당자 프로필' />
+          )}
           <span>{assignee.nickname}</span>
         </div>
       </div>

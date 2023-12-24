@@ -6,6 +6,8 @@ import DropdownAndFilter from '../../Input/DropdownAndFilter';
 import InputForm from '../../InputForm';
 import { DetailAssignee, DetailCardComment, DetailIconButton, DetailMainContent } from './DetailComponent';
 import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { FieldValues } from 'react-hook-form';
 interface TodoProps {
   mainTitle: string;
 }
@@ -95,10 +97,26 @@ export function DetailToDo({ cardData, onClose }: { cardData: ToDoCardDetailProp
   const { title, description, tags, dueDate, assignee, imageUrl } = cardData;
   const [isOpenPopOver, setIsOpenPopOver] = useState(false);
   const [modalType, callModal] = useRenderModal();
-  const onSubmit = () => {};
-  const handleRenderModal = (e: React.MouseEvent<HTMLDivElement>) => {
+
+  const handleSubmit = async (form: FieldValues) => {
+    try {
+      const res = await axiosInstance.put('cards/60', { ...form });
+
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, cardData: ToDoCardDetailProps) => {
     if (typeof callModal === 'function') {
-      callModal({ name: (e.target as HTMLElement).id, onSubmit });
+      callModal({ name: (e.target as HTMLElement).id, onSubmit: handleSubmit, cardData });
+    }
+  };
+
+  const RenderDeleteModal = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof callModal === 'function') {
+      callModal({ name: (e.target as HTMLElement).id });
     }
   };
 
@@ -118,9 +136,11 @@ export function DetailToDo({ cardData, onClose }: { cardData: ToDoCardDetailProp
             >
               <DetailIconButton
                 handleKebab={handleKebab}
-                handleRenderModal={handleRenderModal}
+                onUpdate={RenderUpdatedoModal}
+                onDelete={RenderDeleteModal}
                 isOpenPopOver={isOpenPopOver}
                 onClose={onClose}
+                cardData={cardData}
               />
               <span className='flex text-[1.5rem] font-bold text-black'>{title}</span>
               <div className=' sm:flex  sm:flex-col-reverse md:flex md:flex-row md:justify-between'>
@@ -129,7 +149,7 @@ export function DetailToDo({ cardData, onClose }: { cardData: ToDoCardDetailProp
               </div>
               <div className=' flex flex-col gap-[1.5rem]  sm:w-[17.9375rem] md:w-[28.125rem]'>
                 <div className='relative flex sm:h-[8.3125rem] sm:w-[17.9375rem] md:h-[16.375rem] md:w-[28.125rem]'>
-                  <Image src={imageUrl} fill alt='imageUrl' />
+                  {imageUrl && <Image src={imageUrl} fill alt='imageUrl' />}
                 </div>
                 <InputForm.CommentInput
                   id='comment'

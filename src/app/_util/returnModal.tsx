@@ -5,14 +5,14 @@ import { ToDoCardDetailProps } from '../_component/modal/toDoCard';
 export default function returnModal(
   setModalType: React.Dispatch<React.SetStateAction<React.ReactElement | null>>,
   name: string,
-  onSubmit: SubmitHandler<FieldValues>,
+  onSubmit?: SubmitHandler<FieldValues>,
   cardData?: ToDoCardDetailProps,
 ) {
   switch (name) {
     case '새 칼럼 생성':
       return (
         <Modal
-          onSubmit={onSubmit}
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
           createColumn
           btnName='생성'
           setModalType={setModalType}
@@ -23,7 +23,7 @@ export default function returnModal(
     case '칼럼 관리':
       return (
         <Modal
-          onSubmit={onSubmit}
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
           updateOrDeleteColumn
           btnName='변경'
           setModalType={setModalType}
@@ -33,12 +33,19 @@ export default function returnModal(
       );
     case '할 일 생성':
       return (
-        <Modal onSubmit={onSubmit} createToDo btnName='생성' setModalType={setModalType} btnSize='large' sign={false} />
+        <Modal
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
+          createToDo
+          btnName='생성'
+          setModalType={setModalType}
+          btnSize='large'
+          sign={false}
+        />
       );
     case '할 일 수정':
       return (
         <Modal
-          onSubmit={onSubmit}
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
           updateToDo
           btnName='수정'
           setModalType={setModalType}
@@ -50,7 +57,7 @@ export default function returnModal(
     case '새로운 대시보드':
       return (
         <Modal
-          onSubmit={onSubmit}
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
           createDashboard
           btnName='생성'
           setModalType={setModalType}
@@ -60,16 +67,30 @@ export default function returnModal(
       );
     case '현재 비밀번호가 틀렸습니다.':
       return (
-        <Modal onSubmit={onSubmit} wrongPW btnName='확인' setModalType={setModalType} btnSize='large' sign={false} />
+        <Modal
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
+          wrongPW
+          btnName='확인'
+          setModalType={setModalType}
+          btnSize='large'
+          sign={false}
+        />
       );
     case '할 일 삭제':
       return (
-        <Modal onSubmit={onSubmit} deleteToDo btnName='삭제' setModalType={setModalType} btnSize='large' sign={false} />
+        <Modal
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
+          deleteToDo
+          btnName='삭제'
+          setModalType={setModalType}
+          btnSize='large'
+          sign={false}
+        />
       );
     case '할 일 카드 상세':
       return (
         <Modal
-          onSubmit={onSubmit}
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
           detailToDo
           btnName='?'
           setModalType={setModalType}
@@ -80,18 +101,41 @@ export default function returnModal(
       );
     case '가입이 완료되었습니다!':
       return (
-        <Modal onSubmit={onSubmit} signUpComplete btnName='확인' setModalType={setModalType} btnSize='large' sign />
+        <Modal
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
+          signUpComplete
+          btnName='확인'
+          setModalType={setModalType}
+          btnSize='large'
+          sign
+        />
       );
     case '비밀번호가 일치하지 않습니다.':
-      return <Modal onSubmit={onSubmit} mismatchPW btnName='확인' setModalType={setModalType} btnSize='large' sign />;
+      return (
+        <Modal
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
+          mismatchPW
+          btnName='확인'
+          setModalType={setModalType}
+          btnSize='large'
+          sign
+        />
+      );
     case '이미 사용 중인 이메일입니다.':
       return (
-        <Modal onSubmit={onSubmit} alreadyUseEmail btnName='확인' setModalType={setModalType} btnSize='large' sign />
+        <Modal
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
+          alreadyUseEmail
+          btnName='확인'
+          setModalType={setModalType}
+          btnSize='large'
+          sign
+        />
       );
     case '초대하기':
       return (
         <Modal
-          onSubmit={onSubmit}
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
           inviteDashBoard
           btnName='초대'
           setModalType={setModalType}

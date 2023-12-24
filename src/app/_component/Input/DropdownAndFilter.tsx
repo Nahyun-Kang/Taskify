@@ -15,7 +15,7 @@ interface AdminProps {
 const adminList: AdminProps[] = [
   { id: 1, adminName: '배유철' },
   { id: 119, adminName: '고민혁' },
-  { id: 3, adminName: '강나현' },
+  { id: 81, adminName: '강나현' },
   { id: 4, adminName: '남궁수영' },
   { id: 86, adminName: '윤대호' },
   { id: 6, adminName: '호날두' },
