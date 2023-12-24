@@ -1,11 +1,5 @@
-import {
-  ErrorMessage,
-  InputWrapper,
-  Label,
-  getInputClass,
-  useInputField,
-} from '@/src/app/_component/InputForm/InputStyle';
 import { CommonInputProps } from '@/src/app/_constant/Input';
+import { ErrorMessage, InputWrapper, Label, getInputClass, useInputField } from './InputStyle';
 
 export default function TextInput({
   label,

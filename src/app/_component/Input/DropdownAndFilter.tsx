@@ -2,10 +2,10 @@
 import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
 import circleProfile from '@/public/icons/circleProfile.svg';
+import { useInputField } from '@/src/app/_component/InputForm/InputStyle';
 import Image from 'next/image';
 import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useInputField } from './InputStyle';
 
 interface AdminProps {
   id: number;

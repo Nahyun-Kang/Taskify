@@ -93,10 +93,10 @@ interface ToDoCardDetailProps {
 export function DetailToDo({ ToDoCardDetail, onClose }: { ToDoCardDetail: ToDoCardDetailProps; onClose: () => void }) {
   const { title, description, tags, dueDate, assignee, imageUrl } = ToDoCardDetail;
   const [isOpenPopOver, setIsOpenPopOver] = useState(false);
-  const [modalType, callModal] = useRenderModal((data: FieldValues) => console.log(data));
+  const [modalType, callModal] = useRenderModal();
 
   const handleRenderModal = (e: React.MouseEvent<HTMLParagraphElement>) => {
-    callModal(String((e.target as HTMLElement).id));
+    callModal(String((e.target as HTMLElement).id), (data: FieldValues) => console.log(data));
   };
 
   const handleKebab = () => setIsOpenPopOver(true);
