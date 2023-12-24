@@ -14,6 +14,7 @@ export default function Cancel({ size, onClick }: CancelProps) {
     <button
       className={`flex items-center justify-center rounded-[0.5rem] border border-gray30 bg-white ${paddingX} ${paddingY} ${height} ${width} text-[0.8125rem] text-gray50`}
       onClick={onClick}
+      type='button'
     >
       취소
     </button>
