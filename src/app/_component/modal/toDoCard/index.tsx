@@ -2,10 +2,10 @@
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import Image from 'next/image';
 import { useState } from 'react';
-import { FieldValues } from 'react-hook-form';
 import DropdownAndFilter from '../../Input/DropdownAndFilter';
 import InputForm from '../../InputForm';
 import { DetailAssignee, DetailCardComment, DetailIconButton, DetailMainContent } from './DetailComponent';
+import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 interface TodoProps {
   mainTitle: string;
 }
@@ -20,12 +20,13 @@ export function CreateToDo({ mainTitle }: TodoProps) {
       <InputForm.TextInput label='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
       <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 선택' />
       <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' />
-      <InputForm.TagInput label='이미지' id='imageUrl' placeholder='아직 이미지인풋이 없네용' />
+      <AddImageFile size='big' />
     </>
   );
 }
 // 할 일 카드 수정 모달 내용
-export function UpdateToDo({ mainTitle }: TodoProps) {
+export function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardData: ToDoCardDetailProps }) {
+  cardData;
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
@@ -60,7 +61,7 @@ export function DeleteTodo({ mainTitle }: TodoProps) {
   );
 }
 
-export const ToDoCardDetail = {
+export const cardData = {
   id: 1,
   title: '일정 관리 Taskify 프로젝트',
   description: '안녕안녕안녕',
@@ -76,8 +77,8 @@ export const ToDoCardDetail = {
   createdAt: '2023-12-21T04:12:30.578Z',
   updatedAt: '2023-12-21T04:12:30.578Z',
 };
-ToDoCardDetail;
-interface ToDoCardDetailProps {
+
+export interface ToDoCardDetailProps {
   id: number;
   createdAt: string;
   updatedAt: string;
@@ -90,13 +91,15 @@ interface ToDoCardDetailProps {
 }
 
 // 할 일 카드 상세 모달 내용
-export function DetailToDo({ ToDoCardDetail, onClose }: { ToDoCardDetail: ToDoCardDetailProps; onClose: () => void }) {
-  const { title, description, tags, dueDate, assignee, imageUrl } = ToDoCardDetail;
+export function DetailToDo({ cardData, onClose }: { cardData: ToDoCardDetailProps; onClose: () => void }) {
+  const { title, description, tags, dueDate, assignee, imageUrl } = cardData;
   const [isOpenPopOver, setIsOpenPopOver] = useState(false);
   const [modalType, callModal] = useRenderModal();
-
-  const handleRenderModal = (e: React.MouseEvent<HTMLParagraphElement>) => {
-    callModal(String((e.target as HTMLElement).id), (data: FieldValues) => console.log(data));
+  const onSubmit = () => {};
+  const handleRenderModal = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof callModal === 'function') {
+      callModal({ name: (e.target as HTMLElement).id, onSubmit });
+    }
   };
 
   const handleKebab = () => setIsOpenPopOver(true);

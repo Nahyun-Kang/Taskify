@@ -14,7 +14,7 @@ interface AdminProps {
 // mock 데이터 입니다. 지금 스웨거 쓰기 애매해서 만들어 놓았습니다. profileImageUrl은 일단 생략했습니다. 임시로 다른 이미지 썼고, 나중에 SRC에 추가만 하면 작동하도록 만들어 놓았습니다.
 const adminList: AdminProps[] = [
   { id: 1, adminName: '배유철' },
-  { id: 2, adminName: '고민혁' },
+  { id: 119, adminName: '고민혁' },
   { id: 3, adminName: '강나현' },
   { id: 4, adminName: '남궁수영' },
   { id: 86, adminName: '윤대호' },

@@ -1,12 +1,14 @@
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { Modal } from '../_component/modal';
+import { ToDoCardDetailProps } from '../_component/modal/toDoCard';
 // 모달 리턴 함수 (특정 태그의 이벤트 아이디 값에 따라 조건부 렌더링)
 export default function returnModal(
-  modalName: string,
   setModalType: React.Dispatch<React.SetStateAction<React.ReactElement | null>>,
+  name: string,
   onSubmit: SubmitHandler<FieldValues>,
+  cardData?: ToDoCardDetailProps,
 ) {
-  switch (modalName) {
+  switch (name) {
     case '새 칼럼 생성':
       return (
         <Modal
@@ -35,7 +37,15 @@ export default function returnModal(
       );
     case '할 일 수정':
       return (
-        <Modal onSubmit={onSubmit} updateToDo btnName='수정' setModalType={setModalType} btnSize='large' sign={false} />
+        <Modal
+          onSubmit={onSubmit}
+          updateToDo
+          btnName='수정'
+          setModalType={setModalType}
+          btnSize='large'
+          sign={false}
+          cardData={cardData}
+        />
       );
     case '새로운 대시보드':
       return (
@@ -58,7 +68,15 @@ export default function returnModal(
       );
     case '할 일 카드 상세':
       return (
-        <Modal onSubmit={onSubmit} detailToDo btnName='?' setModalType={setModalType} btnSize='large' sign={false} />
+        <Modal
+          onSubmit={onSubmit}
+          detailToDo
+          btnName='?'
+          setModalType={setModalType}
+          btnSize='large'
+          sign={false}
+          cardData={cardData}
+        />
       );
     case '가입이 완료되었습니다!':
       return (

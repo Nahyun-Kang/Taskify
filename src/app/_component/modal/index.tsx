@@ -8,7 +8,7 @@ import InputForm from '../InputForm';
 import { CreateColumn, UpdateAndDeleteColumn } from './column';
 import { CreateDashboard, InviteDashboard } from './dashBoard';
 import { CompleteSignUp, MismatchPW, UseAlreadyEmail } from './sign';
-import { CreateToDo, DeleteTodo, DetailToDo, ToDoCardDetail, UpdateToDo } from './toDoCard';
+import { CreateToDo, DeleteTodo, DetailToDo, ToDoCardDetailProps, UpdateToDo } from './toDoCard';
 import { MyPageWrongPW } from './wrongPW';
 
 interface ModalProps {
@@ -29,6 +29,7 @@ interface ModalProps {
   alreadyUseEmail?: boolean;
   inviteDashBoard?: boolean;
   onSubmit: SubmitHandler<FieldValues>;
+  cardData?: ToDoCardDetailProps;
 }
 
 // 모달 컴포넌트 특정 프롭스에 따라 조건부 렌더링
@@ -50,6 +51,7 @@ export function Modal({
   signUpComplete,
   inviteDashBoard,
   onSubmit,
+  cardData,
 }: ModalProps) {
   const [mounted, setMounted] = useState(false);
   const closeModal = () => setModalType(null);
@@ -65,7 +67,7 @@ export function Modal({
                 {createColumn ? <CreateColumn mainTitle='새 칼럼 생성' labelTitle='이름' /> : null}
                 {updateOrDeleteColumn ? <UpdateAndDeleteColumn mainTitle='칼럼 관리' labelTitle='이름' /> : null}
                 {createToDo ? <CreateToDo mainTitle='할 일 생성' /> : null}
-                {updateToDo ? <UpdateToDo mainTitle='할 일 수정' /> : null}
+                {updateToDo && cardData ? <UpdateToDo mainTitle='할 일 수정' cardData={cardData} /> : null}
                 {createDashboard ? <CreateDashboard mainTitle='새로운 대시보드' /> : null}
                 {inviteDashBoard ? <InviteDashboard mainTitle='초대하기' /> : null}
                 {wrongPW ? <MyPageWrongPW mainTitle='비밀번호가 일치하지 않습니다' /> : null}
@@ -77,7 +79,7 @@ export function Modal({
             </InputForm>
           ) : (
             <InputForm onSubmit={onSubmit}>
-              <DetailToDo onClose={closeModal} ToDoCardDetail={ToDoCardDetail} />
+              <DetailToDo onClose={closeModal} cardData={cardData as ToDoCardDetailProps} />
             </InputForm>
           )}
         </>,

@@ -4,6 +4,8 @@ import addLargeImg from '@/public/icons/add_icon_large.svg';
 import Image from 'next/image';
 import penImg from '@/public/icons/pen.svg';
 import { ChangeEvent, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import uploadImageForServer from './uploadImage';
 
 interface Props {
   size: 'big' | 'small';
@@ -25,17 +27,20 @@ const Size = {
 
 export default function AddImageFile({ size = 'big', profileImageUrl = '' }: Props) {
   const [image, setImage] = useState(profileImageUrl);
-  const style = { backgroundImage: image };
+  const style = { backgroundImage: `url(${image})` };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const { setValue } = useFormContext();
+
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = (e.target as HTMLInputElement).files as FileList;
-    const fileURL = URL.createObjectURL(files[0]);
-    setImage(`url(${fileURL})`);
+    const fileURL = await uploadImageForServer(files[0]);
+    setImage(fileURL);
+    setValue('imageUrl', fileURL);
   };
 
   return (
     <div className={`relative overflow-hidden rounded-md bg-[#f5f5f5] bg-cover ${Size[size].wrapper}`} style={style}>
-      <input type='file' name='' id='avatar' className='hidden' onChange={handleChange} accept='image/*' />
+      <input id='avatar' type='file' className='hidden' onChange={handleChange} accept='image/*' />
       <label htmlFor='avatar' className='group flex h-full w-full items-center justify-center'>
         {!image && <Image src={addLargeImg} alt='이미지 추가 버튼' className={`${Size[size].iconSize}`} />}
         {image && (
