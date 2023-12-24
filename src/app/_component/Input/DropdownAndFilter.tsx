@@ -17,7 +17,7 @@ const adminList: AdminProps[] = [
   { id: 2, adminName: '고민혁' },
   { id: 3, adminName: '강나현' },
   { id: 4, adminName: '남궁수영' },
-  { id: 5, adminName: '윤대호' },
+  { id: 86, adminName: '윤대호' },
   { id: 6, adminName: '호날두' },
   { id: 7, adminName: '구혜지' },
 ];

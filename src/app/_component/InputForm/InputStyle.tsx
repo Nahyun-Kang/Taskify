@@ -44,7 +44,7 @@ export function useInputField(id: string, validationRules: validationRulesProps)
     register,
     formState: { errors, isLoading },
     setValue,
-    control,
+    watch,
   } = useFormContext();
   const errorMessage = (errors[id]?.message as string) || '';
 
@@ -54,7 +54,7 @@ export function useInputField(id: string, validationRules: validationRulesProps)
     errorMessage,
     isLoading,
     setValue,
-    control,
+    watch,
   };
 }
 
