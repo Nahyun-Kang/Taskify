@@ -47,7 +47,6 @@ export function UpdateToDo({ mainTitle }: TodoProps) {
       <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 입력' initialDate={new Date('2023-12-24')} />
       <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' initialTags={['기본값']} />
       <InputForm.TagInput label='이미지' id='imageUrl' placeholder='아직 이미지인풋이 없네용' />
-      <button type='submit'></button>
     </>
   );
 }

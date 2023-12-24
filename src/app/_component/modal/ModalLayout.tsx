@@ -19,7 +19,7 @@ export default function ModalLayout({ children, btnName, btnSize, onClose, sign 
       <div className='relative gap-[1.5rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:w-[33.75rem] md:px-[1.75rem] md:pt-[2rem]'>
         <div className=' flex flex-col gap-[2rem]'>
           {children}
-          <div className={`+ flex gap-[0.75rem]  md:justify-end ${SignBtnSize}`}>
+          <div className={`flex gap-[0.75rem]  md:justify-end ${SignBtnSize}`}>
             {sign ? null : <Cancel size={btnSize} onClick={onClose} />}
             {sign ? (
               <Confirm btnName={btnName} size={btnSize} onClick={onClose} />
