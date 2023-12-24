@@ -101,7 +101,7 @@ export default function InviteList() {
   const { invitations } = invitationsRes;
 
   return (
-    <div className='item-center flex max-w-[38.75rem] flex-col gap-[1.25rem] p-[1.75rem]'>
+    <div className='item-center flex w-full flex-col gap-[1.25rem] p-[1.75rem]'>
       <div className='flex w-full justify-between'>
         <p className='font-bold text-black sm:text-[1.25rem] md:text-[1.5rem]'>초대 내역</p>
         <div className='flex items-center gap-[1rem] sm:grow-0'>
@@ -113,7 +113,7 @@ export default function InviteList() {
             onClickBack={handlePageNation}
             onClickForward={handlePageNation}
           />
-          {windowSize > 435 && (
+          {windowSize > 510 && (
             <button
               className='flex h-[2rem] w-[6.5625rem] items-center justify-center gap-[0.5625rem] rounded-[0.25rem] bg-violet text-white'
               onClick={handleInvite}
@@ -126,7 +126,7 @@ export default function InviteList() {
       <div>
         <div className='flex justify-between'>
           <span className='text-[1rem] text-gray40 sm:text-[0.875rem]'>이메일</span>
-          {windowSize < 435 && (
+          {windowSize < 510 && (
             <button
               className='flex h-[2rem] w-[6.5625rem] items-center justify-center gap-[0.5625rem] rounded-[0.25rem] bg-violet text-white'
               onClick={handleInvite}

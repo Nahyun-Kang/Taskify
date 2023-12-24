@@ -26,7 +26,7 @@ export default function EditBoard({ boardName, dashboardId }: EditBoardProps) {
   };
 
   return (
-    <div className='item-center  flex max-h-[16rem] max-w-[38.75rem]  flex-col  gap-[1.25rem] rounded-[0.5rem] p-[1.75rem]'>
+    <div className='item-center flex max-h-[16rem] w-full flex-col gap-[1.25rem] rounded-[0.5rem] p-[1.75rem]'>
       <div className='flex w-full justify-between'>
         <p className='text-[1.25rem] font-bold text-black'>{boardName}</p>
         <SelectColor onSelect={handleSelectColor} />

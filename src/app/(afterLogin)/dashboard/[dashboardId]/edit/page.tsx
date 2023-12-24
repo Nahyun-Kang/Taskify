@@ -7,14 +7,14 @@ import MemberList from './_component/MemberList';
 
 export default function BoardEdit() {
   const windowSize = useGetWindowSize();
-  const isMobile = windowSize < 435 ? true : false;
+  const isMobile = windowSize < 510 ? true : false;
 
   const handleDelete = () => {
     //dashboard 삭제 api
   };
 
   return (
-    <div className='bg-white'>
+    <div className='mt-[4.3125rem] bg-white sm:w-full md:max-w-[34rem] lg:w-[38.75rem]'>
       <EditBoard boardName='비브리지' dashboardId='123' />
       <MemberList />
       <InviteList />
