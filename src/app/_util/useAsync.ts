@@ -23,6 +23,7 @@ export const useAsync = <T>(asyncFunction: () => Promise<AxiosResponse<T>>) => {
 
   useEffect(() => {
     execute();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { execute, loading, error, data };

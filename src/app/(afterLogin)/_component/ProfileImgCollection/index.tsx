@@ -2,19 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import Profile from './ProfileImg';
-import useGetMembers from '../_util/useGetMembers';
-import { memberType } from '../_constant/type';
+import useGetMembers from '@/src/app/(afterLogin)/_util/useGetMembers';
+import { memberType } from '@/src/app/(afterLogin)/_constant/type';
 
+// TODO: 현재 유저 아이디, 대시보드 아이디로 교체해야함
 export default function ProfileCollection() {
   const [count, setCount] = useState(4);
-  const { data } = useGetMembers(19, 6);
-  console.log(data);
+  const { data } = useGetMembers(14, 6);
 
-  const arr = data?.members.filter((el: memberType) => el.userId !== 31); // 유저 아이디
+  const arr = data?.members.filter((el: memberType) => el.userId !== 31);
   const profiles = arr?.slice(0, count - 1);
 
   const handleResize = () => {
-    if (window.innerWidth > 1440) {
+    if (window.innerWidth >= 1440) {
       setCount(6);
     } else if (window.innerWidth > 744) {
       setCount(4);

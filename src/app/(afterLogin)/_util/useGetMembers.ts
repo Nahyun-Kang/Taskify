@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { useAsync } from './useAsync';
+import { useAsync } from '@/src/app/_util/useAsync';
 import { axiosInstance } from '../../_util/axiosInstance';
 
 export default function useGetMembers(id = 1, size = 5, page = 1) {
@@ -10,7 +10,7 @@ export default function useGetMembers(id = 1, size = 5, page = 1) {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsInRlYW1JZCI6IjEtMyIsImlhdCI6MTcwMjk4MjAyMiwiaXNzIjoic3AtdGFza2lmeSJ9.CyJw1VGMNUVnP97QL8coPmhfCeaBZkMHZDU1KjOyAyo`,
         },
       }),
-    [],
+    [id, size, page],
   );
   const { execute, error, data } = useAsync(getMembers);
   useEffect(() => {
