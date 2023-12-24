@@ -13,7 +13,7 @@ export default function DeleteDashboard({ screen = 'desktop', onClick }: DeleteD
       fontSize: 'text-[1.125rem]',
     },
     mobile: {
-      width: 'w-[20rem]',
+      width: 'w-full',
       height: 'h-[3.875rem]',
       paddingY: 'py-[1.25rem]',
       paddingX: 'px-[4.9375rem]',
