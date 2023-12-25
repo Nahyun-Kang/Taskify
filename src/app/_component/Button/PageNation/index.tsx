@@ -5,7 +5,7 @@ import disabledForward from '@/public/icons/disabled_arrow_forward_icon.svg';
 import Image from 'next/image';
 
 interface PageNationProps {
-  size: 'large' | 'small';
+  size: 'large' | 'small' | 'free';
   isActiveBack: boolean;
   isActiveForward: boolean;
   onClickBack: () => void;
@@ -21,6 +21,7 @@ export default function PageNation({
   const sizes = {
     large: { width: 'w-[2.5rem]', height: 'h-[2.5rem]' },
     small: { width: 'w-[2.25rem]', height: 'h-[2.25rem]' },
+    free: { width: 'w-full', height: 'h-full' },
   };
   const { width, height } = sizes[size];
   return (

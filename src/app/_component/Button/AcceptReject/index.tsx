@@ -1,5 +1,5 @@
 interface LoginProps {
-  screen: 'desktop' | 'mobile' | 'tablet';
+  screen: 'desktop' | 'mobile' | 'tablet' | 'free';
   onAccept: () => void;
   onReject: () => void;
 }
@@ -26,6 +26,13 @@ export default function AcceptReject({ screen = 'desktop', onAccept, onReject }:
       paddingY: 'py-[0.4375rem]',
       paddingX: 'px-[2.3125rem]',
       fontSize: 'text-[0.75rem]',
+    },
+    free: {
+      width: 'w-full',
+      height: 'h-full',
+      paddingY: 'py-[0.4375rem]',
+      paddingX: 'px-[0.8125rem]',
+      fontSize: 'text-[0.875rem]',
     },
   };
   const { width, height, paddingY, paddingX, fontSize } = screens[screen];

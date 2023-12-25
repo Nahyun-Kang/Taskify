@@ -2,7 +2,7 @@ import crown from '@/public/icons/crown_icon.svg';
 import arrow from '@/public/icons/arrow_forward_icon.svg';
 import Image from 'next/image';
 interface CardDashboardProps {
-  screen: 'desktop' | 'mobile' | 'tablet';
+  screen: 'desktop' | 'mobile' | 'tablet' | 'free';
   title: string;
   color: string;
   createdByMe: boolean;
@@ -36,6 +36,15 @@ export default function CardDashboard({ screen = 'desktop', title, color, create
       image: {
         width: 15,
         height: 12,
+      },
+    },
+    free: {
+      width: 'w-full',
+      height: 'h-full',
+      fontSize: 'text-[1.125rem]',
+      image: {
+        width: 20,
+        height: 16,
       },
     },
   };

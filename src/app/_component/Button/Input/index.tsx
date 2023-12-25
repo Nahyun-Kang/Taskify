@@ -1,11 +1,12 @@
 interface InputProps {
-  size: 'large' | 'small';
+  size: 'large' | 'small' | 'free';
   onClick: () => void;
 }
 export default function Input({ size, onClick }: InputProps) {
   const sizes = {
     large: { width: 'w-[5.1875rem]', height: 'h-[2rem]', paddingY: 'py-[0.5625rem]' },
     small: { width: 'w-[84px]', height: 'h-[1.75rem]', paddingY: 'py-[0.4375rem]' },
+    free: { width: 'w-full', height: 'h-full', paddingY: 'py-[0.4375rem]' },
   };
   const { width, height, paddingY } = sizes[size];
   return (
