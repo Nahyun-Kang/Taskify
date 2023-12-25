@@ -34,7 +34,7 @@ export default function SignUp() {
           ></input>
           <label className='text-base font-normal'>이용약관에 동의합니다</label>
         </div>
-        <Sign size='small' isActive={false} onClick={handleClick} content='회원가입' />
+        <Sign size='free' isActive={false} onClick={handleClick} content='회원가입' />
       </form>
     </AuthLayout>
   );
