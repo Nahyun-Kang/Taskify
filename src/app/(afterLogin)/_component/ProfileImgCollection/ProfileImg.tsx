@@ -1,10 +1,8 @@
+import { memberType } from '@/src/app/(afterLogin)/_constant/type';
+
 interface Props {
   idx: number;
-  values?: {
-    nickname: string;
-    profileImageUrl: string;
-    isOwner: boolean;
-  };
+  values?: memberType;
   total: number;
   count: number;
 }
