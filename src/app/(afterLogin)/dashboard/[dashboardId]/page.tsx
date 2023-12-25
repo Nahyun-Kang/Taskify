@@ -267,7 +267,7 @@ const mockData = [
 
 export default function DashBoard() {
   return (
-    <div className='flex flex-col lg:flex-row'>
+    <div className='mt-[4.3125rem] flex flex-col lg:flex-row'>
       {mockData.map((column) => (
         <CardList
           key={column.cursorId}

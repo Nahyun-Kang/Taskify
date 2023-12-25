@@ -75,9 +75,11 @@ const mockDashboard = {
 
 export default function MyDashBoard() {
   return (
-    <div className='flex max-w-[63.875rem] flex-col gap-11 p-6 px-10 md:p-10'>
-      <DashboardList dashBoards={mockDashboard.dashboards} totalPages={mockDashboard.totalCount} />
-      <InvitationDashboard />
+    <div className='flex flex-1 bg-gray10'>
+      <div className='mt-[4.3125rem] flex max-w-[63.875rem] flex-col gap-11 p-6 px-10 md:p-10'>
+        <DashboardList dashBoards={mockDashboard.dashboards} totalPages={mockDashboard.totalCount} />
+        <InvitationDashboard />
+      </div>
     </div>
   );
 }
