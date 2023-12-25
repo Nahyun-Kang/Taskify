@@ -1,6 +1,6 @@
 import Add from '@/src/app/_component/Chip/Add';
 interface AddTodoProps {
-  screen: 'desktop' | 'mobile' | 'tablet';
+  screen: 'desktop' | 'mobile' | 'tablet' | 'free';
   onClick: () => void;
 }
 
@@ -14,6 +14,9 @@ export default function AddTodo({ screen = 'desktop', onClick }: AddTodoProps) {
     },
     tablet: {
       height: 'h-[2.5rem]',
+    },
+    free: {
+      height: 'h-full',
     },
   };
   const { height } = screens[screen];
