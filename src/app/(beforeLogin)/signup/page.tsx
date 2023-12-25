@@ -27,7 +27,7 @@ export default function SignUp() {
             id='password_check'
           />
         </div>
-        <div className='mb-[1.3125rem] flex gap-2'>
+        <div className='mb-[1.3125rem] flex items-center gap-2'>
           <input
             type='checkbox'
             className={`h-[1.25rem] w-[1.25rem] appearance-none rounded border border-gray30 bg-contain checked:bg-[url('/images/custom-checkbox-icon.svg')] focus:outline-none`}
