@@ -1,6 +1,6 @@
 import Add from '@/src/app/_component/Chip/Add';
 interface AddDashboardProps {
-  screen: 'desktop' | 'mobile' | 'tablet';
+  screen: 'desktop' | 'mobile' | 'tablet' | 'free';
   onClick: () => void;
 }
 
@@ -19,6 +19,11 @@ export default function AddDashboard({ screen = 'desktop', onClick }: AddDashboa
     tablet: {
       width: 'w-[15.4375rem]',
       height: 'h-[4.25rem]',
+      fontSize: 'text-[1rem]',
+    },
+    free: {
+      width: 'w-full',
+      height: 'h-full',
       fontSize: 'text-[1rem]',
     },
   };
