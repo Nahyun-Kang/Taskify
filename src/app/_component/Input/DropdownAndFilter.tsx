@@ -1,9 +1,11 @@
 'use client';
-import Image from 'next/image';
 import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
 import circleProfile from '@/public/icons/circleProfile.svg';
-import { FocusEvent, MouseEvent, ChangeEvent, useState, useRef, useEffect } from 'react';
+import { useInputField } from '@/src/app/_component/InputForm/InputStyle';
+import Image from 'next/image';
+import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 interface AdminProps {
   id: number;
@@ -15,11 +17,10 @@ const adminList: AdminProps[] = [
   { id: 2, adminName: '고민혁' },
   { id: 3, adminName: '강나현' },
   { id: 4, adminName: '남궁수영' },
-  { id: 5, adminName: '윤대호' },
+  { id: 86, adminName: '윤대호' },
   { id: 6, adminName: '호날두' },
   { id: 7, adminName: '구혜지' },
 ];
-adminList;
 
 export default function DropdownAndFilter() {
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
@@ -38,6 +39,7 @@ export default function DropdownAndFilter() {
       if (admin.adminName === e.currentTarget.value) {
         setIsSelectionComplete(true);
         setAssignId(admin.id);
+        setValue('assigneeUserId', admin.id);
         setOpenDropdown(false);
       }
     });
@@ -54,6 +56,7 @@ export default function DropdownAndFilter() {
     setOpenDropdown(false);
     setAssignId(id);
     setIsSelectionComplete(true);
+    setValue('assigneeUserId', id);
   };
 
   // 사용자 입력 받을 시 Dropdown filter 기능
@@ -79,17 +82,18 @@ export default function DropdownAndFilter() {
     setFocus(!focus);
     setOpenDropdown(!openDropdown);
   };
-
+  const { register } = useInputField('assigneeUserId', {});
+  const { setValue } = useFormContext();
   // 담당자 지정 후 수정을 위해 DIV박스 누르면 INPUT으로 바꾸고, 인풋창에 바로 포커스 (이렇게 안하면 두 번 클릭해야 포커스가 됨)
   useEffect(() => {
     if (!isSelectionComplete && inputRef.current !== null) {
       inputRef.current.focus();
     }
   }, [isSelectionComplete]);
-  console.log(assignId);
+
   return (
     <div className='flex w-[13.5625rem] flex-col items-start gap-[0.625rem]'>
-      <label>담당자</label>
+      <label className='text-[1.125rem] text-black'>담당자</label>
       <div className='flex flex-col items-start gap-[0.125rem]'>
         <span className='relative'>
           {isSelectionComplete ? (
@@ -105,6 +109,7 @@ export default function DropdownAndFilter() {
             </div>
           ) : (
             <input
+              placeholder='이름을 입력해주세요'
               ref={inputRef}
               value={curretValue}
               onChange={handleOnChangeInput}
@@ -116,7 +121,7 @@ export default function DropdownAndFilter() {
               }
             />
           )}
-          <input className='hidden' value={assignId} id='assigneeUserId' />
+          <input className='hidden' value={assignId} id='assigneeUserId' {...register} />
           <div onClick={handleOpenDropdown} className='absolute right-[1rem] top-[0.625rem] h-[1.625rem] w-[1.625rem]'>
             <Image fill src={dropdown} alt='dropdown' />
           </div>
@@ -145,6 +150,7 @@ export default function DropdownAndFilter() {
     </div>
   );
 }
+
 // 받아온 데이터에 있는 요소들을 표현한 컴포넌트
 export const AdminOption = ({
   onClick,

@@ -1,11 +1,14 @@
+import { MouseEvent } from 'react';
 interface ConfirmProps {
-  size: 'large' | 'small';
-  onClick: () => void;
+  size: 'large' | 'small' | 'free';
+  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
+  btnName: string;
 }
-export default function Confirm({ size, onClick }: ConfirmProps) {
+export default function Confirm({ size, onClick, btnName }: ConfirmProps) {
   const sizes = {
     large: { width: 'w-[7.5rem]', height: 'h-[3rem]', paddingY: 'py-[0.875rem]', paddingX: 'px-[2.875rem]' },
     small: { width: 'w-[8.625rem]', height: 'h-[2.625rem]', paddingY: 'py-[0.75rem]', paddingX: 'px-[3.5rem]' },
+    free: { width: 'w-full', height: 'h-full', paddingY: 'py-[0.75rem]', paddingX: 'px-[3.5rem]' },
   };
   const { width, height, paddingY, paddingX } = sizes[size];
   return (
@@ -13,7 +16,7 @@ export default function Confirm({ size, onClick }: ConfirmProps) {
       className={`flex items-center justify-center rounded-[0.5rem]  bg-violet ${paddingX} ${paddingY} ${height} ${width} text-[0.8125rem] text-white`}
       onClick={onClick}
     >
-      확인
+      {btnName}
     </button>
   );
 }
