@@ -1,6 +1,7 @@
 'use client';
 import CardList from '@/src/app/(afterLogin)/_component/CardList';
 import AddColumn from '@/src/app/_component/Button/AddColumn';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
 
 const mockData = [
   {
@@ -266,6 +267,11 @@ const mockData = [
 ];
 
 export default function DashBoard() {
+  const [modalType, callModal] = useRenderModal();
+
+  const handleAddClick = () => {
+    callModal('새 칼럼 생성', () => {});
+  };
   return (
     <div className='mt-[4.3125rem] flex flex-col lg:flex-row'>
       {mockData.map((column) => (
@@ -279,9 +285,10 @@ export default function DashBoard() {
       ))}
       <div className='border-gray-20 flex w-full flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:gap-[1.5625rem] md:p-5 lg:min-h-screen lg:flex-col lg:pt-[4.5rem]'>
         <div className='h-[3.75rem] md:h-[4.375rem] lg:w-[22.125rem]'>
-          <AddColumn screen='mobile' onClick={() => {}} />
+          <AddColumn screen='mobile' onClick={handleAddClick} />
         </div>
       </div>
+      {modalType}
     </div>
   );
 }
