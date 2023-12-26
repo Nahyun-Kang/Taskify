@@ -285,9 +285,6 @@ export default function DashBoard() {
 
   const handleManageButtonClick = () => {
     callModal('칼럼 관리', (data: FieldValues) => {
-      if (isActiveDeleteModal) {
-        return;
-      }
       editColumn(data, 667);
     });
   };
