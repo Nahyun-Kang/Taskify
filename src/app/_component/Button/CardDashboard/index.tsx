@@ -1,5 +1,5 @@
-import crown from '@/public/icons/crown_icon.svg';
 import arrow from '@/public/icons/arrow_forward_icon.svg';
+import crown from '@/public/icons/crown_icon.svg';
 import Image from 'next/image';
 interface CardDashboardProps {
   screen: 'desktop' | 'mobile' | 'tablet' | 'free';
