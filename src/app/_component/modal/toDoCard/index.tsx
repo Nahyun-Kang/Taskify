@@ -2,7 +2,7 @@
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import Image from 'next/image';
 import { useState } from 'react';
-import DropdownAndFilter from '../../Input/DropdownAndFilter';
+import DropdownAndFilter from '../../dropdown/filter';
 import InputForm from '../../InputForm';
 import { DetailAssignee, DetailCardComment, DetailIconButton, DetailMainContent } from './DetailComponent';
 import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';

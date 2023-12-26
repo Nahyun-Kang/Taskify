@@ -3,24 +3,21 @@ import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
 import circleProfile from '@/public/icons/circleProfile.svg';
 import { useInputField } from '@/src/app/_component/InputForm/InputStyle';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
 import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-interface AdminProps {
+interface Admin {
   id: number;
-  adminName: string;
+  email: string;
+  nickname: string;
+  profileImageUrl: string | null;
+  createdAt: string;
+  updatedAt: string;
+  isOwner: boolean;
+  userId: number;
 }
-// mock 데이터 입니다. 지금 스웨거 쓰기 애매해서 만들어 놓았습니다. profileImageUrl은 일단 생략했습니다. 임시로 다른 이미지 썼고, 나중에 SRC에 추가만 하면 작동하도록 만들어 놓았습니다.
-const adminList: AdminProps[] = [
-  { id: 1, adminName: '배유철' },
-  { id: 119, adminName: '고민혁' },
-  { id: 81, adminName: '강나현' },
-  { id: 4, adminName: '남궁수영' },
-  { id: 86, adminName: '윤대호' },
-  { id: 6, adminName: '호날두' },
-  { id: 7, adminName: '구혜지' },
-];
 
 export default function DropdownAndFilter() {
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
@@ -28,6 +25,10 @@ export default function DropdownAndFilter() {
   const [curretValue, setCurrentValue] = useState<string>(''); // 인풋에 대한 입력값 참조
   const [assignId, setAssignId] = useState(0); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
   const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 인풋에 이름 입력 다하거나 OR 드롭다운 내부에 있는 이름 클릭하면 TRUE가됨+ 인풋이 DIV로 바뀜 (IMG와 이름 가져오기 위해)
+  const [dropdownList, setDropdownList] = useState<Admin[] | null>(null);
+
+  const { register } = useInputField('assigneeUserId', {});
+  const { setValue } = useFormContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -35,11 +36,12 @@ export default function DropdownAndFilter() {
   const handleOnChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setOpenDropdown(true);
     setCurrentValue(e.target.value);
-    adminList.filter((admin) => {
-      if (admin.adminName === e.currentTarget.value) {
+    if (!dropdownList) return;
+    dropdownList.filter((admin) => {
+      if (admin.nickname === e.currentTarget.value) {
         setIsSelectionComplete(true);
-        setAssignId(admin.id);
-        setValue('assigneeUserId', admin.id);
+        setAssignId(admin.userId);
+        setValue('assigneeUserId', admin.userId);
         setOpenDropdown(false);
       }
     });
@@ -60,13 +62,15 @@ export default function DropdownAndFilter() {
   };
 
   // 사용자 입력 받을 시 Dropdown filter 기능
-  const SearchAdminName = adminList.filter((admin) => {
-    if (adminList.length > 0) {
-      if (admin.adminName.includes(curretValue)) {
+
+  const SearchAdminName = (dropdownList as Admin[])?.filter((admin) => {
+    if (!dropdownList) return;
+    if (dropdownList.length > 0) {
+      if (admin.nickname.includes(curretValue)) {
         return true;
       }
     } else {
-      return adminList;
+      return dropdownList;
     }
   });
 
@@ -82,15 +86,23 @@ export default function DropdownAndFilter() {
     setFocus(!focus);
     setOpenDropdown(!openDropdown);
   };
-  const { register } = useInputField('assigneeUserId', {});
-  const { setValue } = useFormContext();
+
   // 담당자 지정 후 수정을 위해 DIV박스 누르면 INPUT으로 바꾸고, 인풋창에 바로 포커스 (이렇게 안하면 두 번 클릭해야 포커스가 됨)
+  useEffect(() => {
+    const getMember = async () => {
+      const res = await axiosInstance.get('members?dashboardId=14');
+      const { members } = res.data;
+      setDropdownList(members);
+    };
+
+    getMember();
+  }, []);
+
   useEffect(() => {
     if (!isSelectionComplete && inputRef.current !== null) {
       inputRef.current.focus();
     }
   }, [isSelectionComplete]);
-
   return (
     <div className='flex w-[13.5625rem] flex-col items-start gap-[0.625rem]'>
       <label className='text-[1.125rem] text-black'>담당자</label>
@@ -127,20 +139,21 @@ export default function DropdownAndFilter() {
           </div>
         </span>
 
-        {openDropdown && SearchAdminName.length ? (
+        {openDropdown && SearchAdminName?.length ? (
           <div
             className={
               'flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none'
             }
           >
-            {SearchAdminName.map((admin) => {
+            {SearchAdminName?.map((admin) => {
               return (
                 <AdminOption
                   key={admin.id}
-                  name={admin.adminName}
+                  name={admin.nickname}
                   assignId={assignId}
-                  id={admin.id}
+                  userId={admin.userId}
                   onClick={handleOnChangeDropdown}
+                  profile={admin.profileImageUrl}
                 />
               );
             })}
@@ -155,28 +168,30 @@ export default function DropdownAndFilter() {
 export const AdminOption = ({
   onClick,
   name,
-  id,
+  userId,
   assignId,
+  profile,
 }: {
-  onClick: (e: MouseEvent<HTMLSpanElement>, id: number) => void;
+  onClick: (e: MouseEvent<HTMLSpanElement>, userId: number) => void;
   name: string;
-  id: number;
+  userId: number;
   assignId: number;
+  profile: string | null;
 }) => {
   const handleSelectDropdown = (e: MouseEvent<HTMLSpanElement>) => {
-    onClick(e, id);
+    onClick(e, userId);
   };
   return (
     <>
       {name ? (
         <div className='flex items-center gap-[0.375rem]'>
-          {assignId === id ? (
+          {assignId === userId ? (
             <Image src={check} alt='check' width={22} height={22} />
           ) : (
             <div className='w-[1.375rem]'></div>
           )}
           <div className='flex  gap-[0.5rem]'>
-            <Image src={circleProfile} alt='circleLogo' width={26} height={26} />
+            {profile ? <Image src={profile} alt='circleLogo' width={26} height={26} /> : null}
             <span onClick={handleSelectDropdown} className='text-[1rem]' id={name}>
               {name}
             </span>
