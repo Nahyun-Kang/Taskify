@@ -17,7 +17,10 @@ export default function Card({ title, tags, dueDate, bgColor, imageUrl, nickname
   return (
     <div className='flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3 md:flex-row lg:flex-col lg:items-stretch lg:p-5'>
       {imageUrl && (
-        <Link href='/' className='flex h-full w-full items-center md:w-[5.6725rem] lg:h-full lg:w-full'>
+        <Link
+          href='/'
+          className='flex h-full w-full items-center overflow-hidden rounded md:h-[3.3125rem] md:w-[5.6725rem] lg:h-full lg:w-full'
+        >
           <Image
             src={imageUrl}
             sizes='100vw'
