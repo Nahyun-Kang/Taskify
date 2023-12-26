@@ -1,9 +1,11 @@
 'use client';
+import { useParams } from 'next/navigation';
+
 import CardList from '@/src/app/(afterLogin)/_component/CardList';
 import AddColumn from '@/src/app/_component/Button/AddColumn';
-import { FormData } from '@/src/app/_constant/Input';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { FieldValue, FieldValues, SubmitHandler } from 'react-hook-form';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { FieldValues } from 'react-hook-form';
 
 const mockData = [
   {
@@ -270,13 +272,27 @@ const mockData = [
 
 export default function DashBoard() {
   const [modalType, callModal] = useRenderModal();
+  const params = useParams<{ dashboardId: string }>();
+
   const handleAddButtonClick = () => {
     callModal('새 칼럼 생성', (data: FieldValues) => {
       createColumn(data);
     });
   };
 
-  const createColumn = () => {};
+  const createColumn = async (data: FieldValues) => {
+    const BODY_DATA = {
+      title: data.title,
+      dashboardId: Number(params.dashboardId),
+    };
+
+    try {
+      const res = await axiosInstance.post('columns', BODY_DATA);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className='mt-[4.3125rem] flex flex-col lg:flex-row'>
