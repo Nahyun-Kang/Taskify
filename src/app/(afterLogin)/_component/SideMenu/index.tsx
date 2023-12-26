@@ -44,7 +44,7 @@ export default function SideMenu() {
   }, []);
 
   return (
-    <div className='relative z-10'>
+    <div className='fixed z-10'>
       <div className='h-screen w-[4.1875rem] border-r-[.0625rem] bg-white pl-[1.375rem] pr-[1.335rem] pt-[1.1875rem] md:w-[10rem] lg:w-[18.75rem]'>
         <Link href='/myboard'>
           <div className='mb-[2.4294rem] flex items-center md:mb-[3.7456rem]'>
@@ -59,13 +59,13 @@ export default function SideMenu() {
         <div className='flex flex-col items-center md:items-start'>
           {dashboards?.map((item: Dashboard, idx: number) => {
             return (
-              <div className='mb-[1.6875rem] flex items-center' key={idx.toString()}>
+              <Link href={`/dashboard/${item.id}`} className='mb-[1.6875rem] flex items-center' key={idx.toString()}>
                 <IdxIcon color={item.color} className='md:mr-[1rem]' />
                 <div className='hidden text-base font-medium text-gray50 md:mr-[.375rem] md:block'>{item.title}</div>
                 {item.createdByMe === true && (
                   <Image src={crown} alt='내가 생성한 대시보드를 표시하는 왕관 아이콘' className='hidden md:block' />
                 )}
-              </div>
+              </Link>
             );
           })}
         </div>

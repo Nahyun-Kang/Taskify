@@ -5,11 +5,9 @@ import SideMenu from './_component/SideMenu';
 export default function AfterLoginLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className='flex'>
-        <SideMenu />
-        {children}
-      </div>
       <Header />
+      <SideMenu />
+      <div className='flex pl-[4.1875rem] md:pl-[10rem] lg:pl-[18.75rem]'>{children}</div>
     </>
   );
 }

@@ -6,6 +6,8 @@ import HeaderButton from './HeaderButton';
 import add from '@/public/images/add_box_icon.svg';
 import manage from '@/public/images/manage_icon.svg';
 import ProfileCollection from '../ProfileImgCollection';
+import { useEffect } from 'react';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 
 const DUMMY = {
   folder: '강나현의 대시보드',
@@ -15,7 +17,7 @@ const DUMMY = {
 
 export default function Header() {
   const pathname = usePathname();
-  const isMyDashboard = pathname === '/mydashboard';
+  const isMyDashboard = pathname === '/myboard';
 
   const titleClass = !isMyDashboard ? 'hidden lg:block' : '';
   const crownClass = !isMyDashboard ? 'lg:block' : '';
@@ -23,7 +25,7 @@ export default function Header() {
   const folderName = isMyDashboard ? '내 대시보드' : DUMMY.folder;
 
   return (
-    <div className='relative'>
+    <div className='relative z-10'>
       <div className='fixed left-0 right-0 top-0 h-[4.375rem] border-b-[.0625rem] bg-white'>
         <div className=' flex h-full items-center justify-between'>
           {/* 헤더영역 왼쪽 */}
