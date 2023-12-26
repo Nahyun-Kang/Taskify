@@ -1,8 +1,6 @@
-export type Type = {
-  [key: number]: string;
-};
+import { TypeNumber } from './type';
 
-export const Colors: Type = {
+export const Colors: TypeNumber = {
   0: 'bg-[#FFC85A]',
   1: 'bg-[#FDD446]',
   2: 'bg-[#9DD7ED]',

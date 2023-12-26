@@ -1,5 +1,6 @@
 import { memberType } from '@/src/app/(afterLogin)/_constant/type';
-import { Type, Colors } from '@/src/app/(afterLogin)/_constant/color';
+import { Colors } from '@/src/app/(afterLogin)/_constant/color';
+import { TypeNumber } from '@/src/app/(afterLogin)/_constant/type';
 
 interface Props {
   idx: number;
@@ -8,7 +9,7 @@ interface Props {
   count: number;
 }
 
-const Size: Type = {
+const Size: TypeNumber = {
   0: '',
   1: 'absolute left-[1.5rem] md:left-[1.875rem]',
   2: 'absolute left-[3rem] md:left-[3.75rem]',

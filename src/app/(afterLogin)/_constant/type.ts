@@ -1,3 +1,10 @@
+export type TypeNumber = {
+  [key: number]: string;
+};
+
+export type TypeString = {
+  [key: string]: string;
+};
 export interface memberType {
   id: number;
   userId: number;
@@ -39,3 +46,13 @@ export type CardType = {
     updatedAt: Date;
   }[];
 };
+
+export interface FolderName {
+  id: number;
+  title: string;
+  color: string;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: number;
+  createdByMe: boolean;
+}

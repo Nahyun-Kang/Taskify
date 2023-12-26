@@ -6,8 +6,10 @@ import HeaderButton from './HeaderButton';
 import add from '@/public/images/add_box_icon.svg';
 import manage from '@/public/images/manage_icon.svg';
 import ProfileCollection from '../ProfileImgCollection';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { FolderName } from '@/src/app/(afterLogin)/_constant/type';
+import { TypeString } from '@/src/app/(afterLogin)/_constant/type';
 
 const DUMMY = {
   folder: '강나현의 대시보드',
@@ -17,12 +19,28 @@ const DUMMY = {
 
 export default function Header() {
   const pathname = usePathname();
+  const [folderName, setFolderName] = useState('');
+  const [createdByMe, setCreatedByMe] = useState(false);
   const isMyDashboard = pathname === '/myboard';
 
   const titleClass = !isMyDashboard ? 'hidden lg:block' : '';
-  const crownClass = !isMyDashboard ? 'lg:block' : '';
   const marginClass = isMyDashboard ? 'ml-[5.6875rem]' : '';
-  const folderName = isMyDashboard ? '내 대시보드' : DUMMY.folder;
+
+  const getFolderName = async () => {
+    if (isMyDashboard) {
+      setFolderName('내 대시보드');
+      setCreatedByMe(false);
+    } else {
+      const id = pathname.replace('dashboard/', '');
+      const { data } = await axiosInstance.get(`dashboards${id}`);
+      setFolderName(data?.title);
+      setCreatedByMe(data?.createdByMe);
+    }
+  };
+
+  useEffect(() => {
+    getFolderName();
+  }, [pathname]);
 
   return (
     <div className='relative z-10'>
@@ -32,7 +50,7 @@ export default function Header() {
           <div className={`${marginClass} justify-end md:ml-[12.5rem] lg:ml-[21.25rem]`}>
             <div className='flex items-center gap-2'>
               <div className={`text-black30 text-xl font-bold ${titleClass}`}>{folderName}</div>
-              <Crown className={`hidden ${crownClass}`} />
+              {createdByMe && <Crown />}
             </div>
           </div>
           {/* 헤더영역 오른쪽 */}
