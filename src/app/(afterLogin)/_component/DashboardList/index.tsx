@@ -17,9 +17,9 @@ interface DashBoardListProps {
 }
 export default function DashboardList({ dashBoards, totalPages }: DashBoardListProps) {
   return (
-    <div className='flex w-full flex-col gap-6 bg-gray10'>
+    <div className='flex w-full flex-col gap-2 bg-gray10 md:gap-6'>
       <div className='flex flex-col gap-2 md:gap-3'>
-        <div className='grid auto-rows-[3.625rem] gap-2 md:auto-rows-[4.25rem] md:grid-cols-2 md:gap-3 lg:auto-rows-[4.375rem]'>
+        <div className='grid auto-rows-[3.875rem] gap-2 md:auto-rows-[4.25rem] md:grid-cols-2 md:gap-3 lg:auto-rows-[4.375rem]'>
           <AddDashboard screen='free' onClick={() => {}} />
           {dashBoards.map((dashboard) => (
             <CardDashboard
@@ -28,7 +28,7 @@ export default function DashboardList({ dashBoards, totalPages }: DashBoardListP
               onClick={() => {}}
               title={dashboard.title}
               createdByMe={dashboard.createdByMe}
-              circleColor='bg-[#7AC555]'
+              color='bg-[#7AC555]'
             />
           ))}
         </div>
