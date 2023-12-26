@@ -28,7 +28,6 @@ interface CardListProps {
     updatedAt: string;
   }[];
   onClick: () => void;
-  onSubmit: () => void;
 }
 
 const mockColors: { [key: string]: string } = {

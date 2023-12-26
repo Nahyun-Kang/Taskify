@@ -326,7 +326,6 @@ export default function DashBoard() {
           cards={column.cards}
           totalCount={column.totalCount}
           onClick={handleManageButtonClick}
-          onSubmit={handleManageButtonClick}
         />
       ))}
       <div className='border-gray-20 flex w-full flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:gap-[1.5625rem] md:p-5 lg:min-h-screen lg:flex-col lg:pt-[4.5rem]'>
