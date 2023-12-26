@@ -1,5 +1,5 @@
-import { CommonInputProps } from '@/src/app/_constant/Input';
 import { ErrorMessage, InputWrapper, Label, getInputClass, useInputField } from './InputStyle';
+import { CommonInputProps } from '../../_constant/Input';
 
 export default function TextInput({
   label,

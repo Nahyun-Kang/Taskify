@@ -272,18 +272,43 @@ const mockData = [
 
 export default function DashBoard() {
   const [modalType, callModal] = useRenderModal();
-  const params = useParams<{ dashboardId: string }>();
 
-  const handleAddButtonClick = () => {
+  //useParams로 대시보드ID 받아오기
+  const params = useParams<{ dashboardId: string }>();
+  const DASHBOARD_ID = Number(params.dashboardId);
+
+  const handleCreateButtonClick = () => {
     callModal('새 칼럼 생성', (data: FieldValues) => {
-      createColumn(data);
+      createColumn(data, DASHBOARD_ID);
     });
   };
 
-  const createColumn = async (data: FieldValues) => {
+  const handleManageButtonClick = () => {
+    callModal('칼럼 관리', (data: FieldValues) => {
+      if (isActiveDeleteModal) {
+        return;
+      }
+      editColumn(data, 667);
+    });
+  };
+
+  const editColumn = async (data: FieldValues, columnId: number) => {
     const BODY_DATA = {
       title: data.title,
-      dashboardId: Number(params.dashboardId),
+    };
+
+    try {
+      const res = await axiosInstance.put(`columns/${columnId}`, BODY_DATA);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createColumn = async (data: FieldValues, dashboardId: number) => {
+    const BODY_DATA = {
+      title: data.title,
+      dashboardId: dashboardId,
     };
 
     try {
@@ -303,11 +328,13 @@ export default function DashBoard() {
           cursorId={column.cursorId}
           cards={column.cards}
           totalCount={column.totalCount}
+          onClick={handleManageButtonClick}
+          onSubmit={handleManageButtonClick}
         />
       ))}
       <div className='border-gray-20 flex w-full flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:gap-[1.5625rem] md:p-5 lg:min-h-screen lg:flex-col lg:pt-[4.5rem]'>
         <div className='h-[3.75rem] md:h-[4.375rem] lg:w-[22.125rem]'>
-          <AddColumn screen='mobile' onClick={handleAddButtonClick} />
+          <AddColumn screen='mobile' onClick={handleCreateButtonClick} />
         </div>
       </div>
       {modalType}
