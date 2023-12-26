@@ -19,11 +19,15 @@ interface Admin {
   userId: number;
 }
 
-export default function DropdownAndFilter() {
+export default function DropdownAndFilter({
+  assignee,
+}: {
+  assignee?: { profileImageUrl: string; nickname: string; id: number };
+}) {
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
   const [openDropdown, setOpenDropdown] = useState(false); // 드롭다운 개폐여부
-  const [curretValue, setCurrentValue] = useState<string>(''); // 인풋에 대한 입력값 참조
-  const [assignId, setAssignId] = useState(0); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
+  const [curretValue, setCurrentValue] = useState<string>(assignee?.nickname || ''); // 인풋에 대한 입력값 참조
+  const [assignId, setAssignId] = useState((assignee?.id as number) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
   const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 인풋에 이름 입력 다하거나 OR 드롭다운 내부에 있는 이름 클릭하면 TRUE가됨+ 인풋이 DIV로 바뀜 (IMG와 이름 가져오기 위해)
   const [dropdownList, setDropdownList] = useState<Admin[] | null>(null);
 
@@ -87,6 +91,12 @@ export default function DropdownAndFilter() {
     setOpenDropdown(!openDropdown);
   };
 
+  // const idToNickname = () => {
+  //   if (assignee === null) return;
+
+  //   const idForUpdate = dropdownList?.filter((dropdown) => dropdown.id === assignee);
+  //   if (idForUpdate) setCurrentValue(idForUpdate[0]?.nickname);
+  // };
   // 담당자 지정 후 수정을 위해 DIV박스 누르면 INPUT으로 바꾸고, 인풋창에 바로 포커스 (이렇게 안하면 두 번 클릭해야 포커스가 됨)
   useEffect(() => {
     const getMember = async () => {
@@ -96,6 +106,7 @@ export default function DropdownAndFilter() {
     };
 
     getMember();
+    // idToNickname();
   }, []);
 
   useEffect(() => {
@@ -103,6 +114,7 @@ export default function DropdownAndFilter() {
       inputRef.current.focus();
     }
   }, [isSelectionComplete]);
+  if (!assignId) return;
   return (
     <div className='flex w-[13.5625rem] flex-col items-start gap-[0.625rem]'>
       <label className='text-[1.125rem] text-black'>담당자</label>
@@ -128,12 +140,12 @@ export default function DropdownAndFilter() {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               className={
-                'flex w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem]  py-[0.625rem]  outline-none ' +
+                'flex h-[3rem] w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300  px-[1rem]  py-[0.625rem]  outline-none ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             />
           )}
-          <input className='hidden' value={assignId} id='assigneeUserId' {...register} />
+          <input className='hidden' value={assignId as number} id='assigneeUserId' {...register} />
           <div onClick={handleOpenDropdown} className='absolute right-[1rem] top-[0.625rem] h-[1.625rem] w-[1.625rem]'>
             <Image fill src={dropdown} alt='dropdown' />
           </div>
@@ -142,7 +154,7 @@ export default function DropdownAndFilter() {
         {openDropdown && SearchAdminName?.length ? (
           <div
             className={
-              'flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none'
+              '  z-50 flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none'
             }
           >
             {SearchAdminName?.map((admin) => {
@@ -150,7 +162,7 @@ export default function DropdownAndFilter() {
                 <AdminOption
                   key={admin.id}
                   name={admin.nickname}
-                  assignId={assignId}
+                  assignId={assignId as number}
                   userId={admin.userId}
                   onClick={handleOnChangeDropdown}
                   profile={admin.profileImageUrl}
@@ -179,12 +191,12 @@ export const AdminOption = ({
   profile: string | null;
 }) => {
   const handleSelectDropdown = (e: MouseEvent<HTMLSpanElement>) => {
-    onClick(e, userId);
+    onClick(e, userId as number);
   };
   return (
     <>
       {name ? (
-        <div className='flex items-center gap-[0.375rem]'>
+        <div className='  flex items-center gap-[0.375rem]'>
           {assignId === userId ? (
             <Image src={check} alt='check' width={22} height={22} />
           ) : (

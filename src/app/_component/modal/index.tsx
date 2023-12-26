@@ -29,6 +29,7 @@ interface ModalProps {
   alreadyUseEmail?: boolean;
   inviteDashBoard?: boolean;
   onSubmit: SubmitHandler<FieldValues>;
+  cardId?: number;
   cardData?: ToDoCardDetailProps;
 }
 
@@ -51,6 +52,7 @@ export function Modal({
   signUpComplete,
   inviteDashBoard,
   onSubmit,
+  cardId,
   cardData,
 }: ModalProps) {
   const [mounted, setMounted] = useState(false);
@@ -79,7 +81,7 @@ export function Modal({
             </InputForm>
           ) : (
             <InputForm onSubmit={onSubmit}>
-              <DetailToDo onClose={closeModal} cardData={cardData as ToDoCardDetailProps} />
+              <DetailToDo onClose={closeModal} cardId={cardId as number} />
             </InputForm>
           )}
         </>,

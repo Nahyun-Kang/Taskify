@@ -16,6 +16,7 @@ export function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; lab
 export function UpdateAndDeleteColumn({ mainTitle, labelTitle }: { mainTitle: string; labelTitle: string }) {
   const [isDeleted, setIsDeleted] = useState(false);
   const handleRenderDeleteColumn = () => setIsDeleted(true);
+
   return (
     <>
       {!isDeleted ? (
