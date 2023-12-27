@@ -10,6 +10,7 @@ interface ReturnModalType {
   cardId?: number;
   setModalType: React.Dispatch<React.SetStateAction<React.ReactElement | null>>;
   cardData?: ToDoCardDetailProps;
+  columnId?: number;
 }
 
 export default function returnModal({ name, onSubmit, cardId, setModalType, cardData }: ReturnModalType) {

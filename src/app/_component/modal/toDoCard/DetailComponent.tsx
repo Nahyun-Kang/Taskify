@@ -6,9 +6,8 @@ import { MODALTYPE } from '@/src/app/_constant/modalType';
 import line from '@/public/icons/line.svg';
 import React from 'react';
 import Tag from '../../Chip/Tag';
-import circleProfile from '@/public/icons/circleProfile.svg';
 import { ToDoCardDetailProps } from '.';
-
+import { commentType } from '@/src/app/_component/modal/toDoCard/index';
 // 할 일 카드 상세 모달은 내용이 너무 많아서 일단 분리해 놓았습니다
 interface DetailIconButtonProps {
   handleKebab: () => void;
@@ -56,7 +55,7 @@ export function DetailIconButton({
     </div>
   );
 }
-
+// column 넣을려면 대쉬보드아이디를 내려줘야됨
 export function DetailMainContent({ tags, description }: { tags: string[]; description: string }) {
   return (
     <div className='w-[60%]'>
@@ -89,10 +88,10 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
       <div className='flex flex-col gap-[0.375rem]'>
         <span className='text-[0.75rem] font-semibold leading-5'>담당자</span>
         <div className='flex items-center  gap-[0.3125rem]'>
-          {assignee.profileImageUrl && (
-            <Image src={assignee.profileImageUrl} width={34} height={34} alt='담당자 프로필' />
+          {assignee?.profileImageUrl && (
+            <Image src={assignee?.profileImageUrl} width={34} height={34} alt='담당자 프로필' />
           )}
-          <span>{assignee.nickname}</span>
+          <span>{assignee?.nickname}</span>
         </div>
       </div>
       <div className='flex flex-col gap-[0.375rem]'>
@@ -103,18 +102,18 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
   );
 }
 
-export function DetailCardComment() {
+export function DetailCardComment({ data }: { data: commentType }) {
   return (
     <div className='flex gap-[0.625rem]'>
       <div className='flex flex-col items-start'>
-        <Image src={circleProfile} width={34} height={34} alt='댓글 프로필' />
+        <Image src={data?.author?.profileImageUrl} width={34} height={34} alt='댓글 프로필' />
       </div>
       <div className='flex flex-col gap-[0.375rem]'>
         <div className='flex gap-[0.5rem]'>
-          <span className='text-[0.875rem] font-semibold text-black'>댓글 작성자</span>
-          <span className='text-[0.75rem] text-[#9fa6b2]'>날짜</span>
+          <span className='text-[0.875rem] font-semibold text-black'>{data.author.nickname}</span>
+          <span className='text-[0.75rem] text-[#9fa6b2]'>{data.createdAt}</span>
         </div>
-        <p className='text-[0.875rem] text-black'>댓글 내용</p>
+        <p className='text-[0.875rem] text-black'>{data.content}</p>
         <div className='flex gap-[0.75rem]'>
           <span className='text-[0.75rem] text-[#9fa6b2]'>수정</span>
           <span className='text-[0.75rem] text-[#9fa6b2]'>삭제</span>

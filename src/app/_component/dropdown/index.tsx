@@ -20,7 +20,7 @@ export default function Dropdown({ column }: { column?: number }) {
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
   const [openDropdown, setOpenDropdown] = useState(false); // 드롭다운 개폐여부
   const [curretValue, setCurrentValue] = useState<string>(''); // 인풋에 대한 입력값 참조
-  const [columnId, setColumnId] = useState<number | null>(column || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
+  const [columnId, setColumnId] = useState<number | null>(Number(column) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
   const [dropdownList, setDropdownList] = useState<Column[] | null>(null);
 
   const { register } = useInputField('columnId', {});
@@ -31,8 +31,8 @@ export default function Dropdown({ column }: { column?: number }) {
     const { innerText } = e.target as HTMLElement;
     setCurrentValue(innerText);
     setOpenDropdown(false);
-    setColumnId(id);
-    setValue('columnId', id);
+    setColumnId(+id);
+    setValue('columnId', +id);
   };
 
   // 각 종 동적 UI
@@ -42,7 +42,6 @@ export default function Dropdown({ column }: { column?: number }) {
     setOpenDropdown(!openDropdown);
   };
 
-  // 담당자 지정 후 수정을 위해 DIV박스 누르면 INPUT으로 바꾸고, 인풋창에 바로 포커스 (이렇게 안하면 두 번 클릭해야 포커스가 됨)
   useEffect(() => {
     const getMember = async () => {
       const res = await axiosInstance.get('columns?dashboardId=14');
@@ -59,8 +58,8 @@ export default function Dropdown({ column }: { column?: number }) {
     };
 
     getMember();
-  }, []);
-
+  }, [column]);
+  console.log(columnId);
   return (
     <div className='flex h-[3rem] w-[13.5625rem] flex-col items-start gap-[0.625rem]'>
       <label className='text-[1.125rem] text-black'>상태</label>
@@ -86,7 +85,7 @@ export default function Dropdown({ column }: { column?: number }) {
             )}
           </div>
 
-          <input className='hidden' value={columnId as number} id='columnId' {...register} />
+          <input className='hidden' value={Number(columnId) as number} id='columnId' {...register} />
           <div onClick={handleOpenDropdown} className='absolute right-[1rem] top-[0.625rem] h-[1.625rem] w-[1.625rem]'>
             <Image fill src={dropdown} alt='dropdown' />
           </div>

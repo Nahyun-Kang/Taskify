@@ -27,7 +27,7 @@ export default function DropdownAndFilter({
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
   const [openDropdown, setOpenDropdown] = useState(false); // 드롭다운 개폐여부
   const [curretValue, setCurrentValue] = useState<string>(assignee?.nickname || ''); // 인풋에 대한 입력값 참조
-  const [assignId, setAssignId] = useState((assignee?.id as number) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
+  const [assignId, setAssignId] = useState((Number(assignee?.id) as number) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
   const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 인풋에 이름 입력 다하거나 OR 드롭다운 내부에 있는 이름 클릭하면 TRUE가됨+ 인풋이 DIV로 바뀜 (IMG와 이름 가져오기 위해)
   const [dropdownList, setDropdownList] = useState<Admin[] | null>(null);
 
@@ -45,7 +45,7 @@ export default function DropdownAndFilter({
       if (admin.nickname === e.currentTarget.value) {
         setIsSelectionComplete(true);
         setAssignId(admin.userId);
-        setValue('assigneeUserId', admin.userId);
+        setValue('assigneeUserId', +admin.userId);
         setOpenDropdown(false);
       }
     });
@@ -62,7 +62,7 @@ export default function DropdownAndFilter({
     setOpenDropdown(false);
     setAssignId(id);
     setIsSelectionComplete(true);
-    setValue('assigneeUserId', id);
+    setValue('assigneeUserId', +id);
   };
 
   // 사용자 입력 받을 시 Dropdown filter 기능
@@ -114,7 +114,7 @@ export default function DropdownAndFilter({
       inputRef.current.focus();
     }
   }, [isSelectionComplete]);
-  if (!assignId) return;
+
   return (
     <div className='flex w-[13.5625rem] flex-col items-start gap-[0.625rem]'>
       <label className='text-[1.125rem] text-black'>담당자</label>
@@ -145,7 +145,7 @@ export default function DropdownAndFilter({
               }
             />
           )}
-          <input className='hidden' value={assignId as number} id='assigneeUserId' {...register} />
+          <input className='hidden' value={Number(assignId) as number} id='assigneeUserId' {...register} />
           <div onClick={handleOpenDropdown} className='absolute right-[1rem] top-[0.625rem] h-[1.625rem] w-[1.625rem]'>
             <Image fill src={dropdown} alt='dropdown' />
           </div>

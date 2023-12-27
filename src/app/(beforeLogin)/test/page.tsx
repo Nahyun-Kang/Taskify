@@ -1,6 +1,6 @@
 'use client';
 
-import useRenderModal from '../../_hook/useRenderModal';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '../../_constant/modalType';
 import { FieldValues } from 'react-hook-form';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
@@ -26,7 +26,7 @@ export default function Test() {
 
   const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (typeof callModal === 'function') {
-      callModal({ name: (e.target as HTMLElement).id, cardId: 60 });
+      callModal({ name: (e.target as HTMLElement).id, cardId: 59 });
     }
   };
 
