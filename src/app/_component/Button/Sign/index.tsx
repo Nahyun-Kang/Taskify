@@ -4,7 +4,7 @@ interface LoginProps {
   size: 'large' | 'small' | 'free';
   isActive: boolean;
   content?: string;
-  onClick: () => void;
+  onClick?: () => void;
   type?: ButtonType;
 }
 
