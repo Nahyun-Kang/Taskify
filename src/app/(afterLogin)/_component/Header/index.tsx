@@ -46,7 +46,7 @@ export default function Header() {
           <div className='flex'>
             {!isMyDashboard && (
               <div className='flex gap-[.375rem] md:gap-4'>
-                <Link href={`${pathname}/edit`}>
+                <Link href={`${pathname.includes('edit') ? pathname : pathname + '/edit'}`}>
                   <HeaderButton imageSrc={manage}>관리</HeaderButton>
                 </Link>
                 <HeaderButton imageSrc={add} onClick={handleInvitation}>
