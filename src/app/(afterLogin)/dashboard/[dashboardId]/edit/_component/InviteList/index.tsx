@@ -14,7 +14,7 @@ interface InviteListProps {
   };
 }
 
-export default function InviteList() {
+export default function InviteList({ dashboardId }: { dashboardId: string | undefined }) {
   const [inviteList, setInviteList] = useState([]);
   const [isActiveBack, setIsActiveBack] = useState(false);
   const [isActiveForward, setIsActiveForward] = useState(false);
@@ -22,27 +22,22 @@ export default function InviteList() {
 
   const [totalPage, setTotalPage] = useState(0);
   const getInviteList = async (page: number, pageSize: number) => {
-    const dashboardId = 163; //임시 ID 사이드바 공통화 뒤 삭제 예정
     const result = await getInvitations(dashboardId, page, pageSize);
+    if (result) {
+      setIsActiveBack(page > 1);
+      setIsActiveForward(result.totalCount > page * pageSize);
 
-    setIsActiveBack(page > 1);
-    setIsActiveForward(result.totalCount > page * pageSize);
-
-    setInviteList(result.invitations);
-    setTotalPage(result.totalCount % pageSize);
+      setInviteList(result.invitations);
+      setTotalPage(Math.ceil(result.totalCount / pageSize));
+    }
   };
 
-  const handlePageNation = async (direction: 'back' | 'forward') => {
-    const pageSize = 4; // 페이지당 아이템 수
-    const currentPage = page; // 초기 페이지
-
+  const handlePageNation = (direction: 'back' | 'forward') => {
     if (direction === 'back') {
       setPage((prevPage) => prevPage - 1);
     } else if (direction === 'forward') {
       setPage((prevPage) => prevPage + 1);
     }
-
-    await getInviteList(currentPage, pageSize);
   };
   const handleInvite = () => {
     //modal

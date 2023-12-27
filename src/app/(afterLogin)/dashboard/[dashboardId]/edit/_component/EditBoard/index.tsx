@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 
 interface EditBoardProps {
-  dashboardId: string;
+  dashboardId: string | undefined;
   boardName: string;
 }
 
