@@ -21,11 +21,6 @@ interface Dashboard {
   userId?: number;
 }
 
-// const Background: TypeString = {
-//   true: 'mb-[1.6875rem] flex items-center bg-violet8'',
-//   false: ,
-// };
-
 export default function SideMenu() {
   const [dashboards, setDashboards] = useState<Dashboard[] | null>(null);
   const pathName = usePathname();
