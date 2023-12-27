@@ -1,15 +1,15 @@
 'use client';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
-import InputForm from '../../_component/InputForm';
+import InputForm from '@/src/app/_component/InputForm';
 import Sign from '@/src/app/_component/Button/Sign';
-import { AUTH_MESSAGE } from '../_constants/auth';
+import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { nicknameValidate } from '@/src/app/_constant/Input';
-import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import { axiosInstance } from '../../_util/axiosInstance';
-import useRenderModal from '../../_hook/useRenderModal';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
 
 export default function SignUp() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
