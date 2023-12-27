@@ -66,7 +66,7 @@ export default function Card({ title, tags, dueDate, bgColor, imageUrl, nickname
                       alt={nickname}
                     />
                   ) : (
-                    nickname[0]
+                    nickname?.[0]
                   )}
                 </span>
               }

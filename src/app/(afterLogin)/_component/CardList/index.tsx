@@ -55,8 +55,8 @@ export default function CardList({ id, title }: CardListProps) {
               dueDate={card.dueDate}
               imageUrl={card.imageUrl}
               bgColor={Colors[card.id % 5]}
-              nickname={card.assignee.nickname}
-              profileImageUrl={card.assignee.profileImageUrl}
+              nickname={card.assignee?.nickname}
+              profileImageUrl={card.assignee?.profileImageUrl}
             />
           ))}
       </div>
