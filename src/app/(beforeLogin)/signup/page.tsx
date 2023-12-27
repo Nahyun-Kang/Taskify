@@ -7,6 +7,7 @@ import Sign from '@/src/app/_component/Button/Sign';
 import { AUTH_MESSAGE } from '../_constants/auth';
 import { nicknameValidate } from '@/src/app/_constant/Input';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { axiosInstance } from '../../_util/axiosInstance';
 
 export default function SignUp() {
   const methods = useForm<FieldValues>({ mode: 'onChange', reValidateMode: 'onBlur' });
@@ -17,9 +18,25 @@ export default function SignUp() {
     setChecked(event.target.checked);
   };
 
+  const handleSignUp = () => {
+    console.log(methods.getValues());
+    const { email, nickname, password } = methods.getValues();
+    const BODY_DATA = {
+      email: email,
+      nickname: nickname,
+      password: password,
+    };
+    try {
+      const res = axiosInstance.post('users', BODY_DATA);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(methods.getFieldState('nickname'));
+    handleSignUp();
   };
 
   return (
