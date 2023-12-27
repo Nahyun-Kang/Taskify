@@ -1,4 +1,6 @@
 'use client';
+import { Form } from 'react-hook-form';
+
 import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
 import InputField from '@/src/app/_component/Input/InputField';
 import Sign from '@/src/app/_component/Button/Sign';
@@ -7,10 +9,10 @@ import { AUTH_MESSAGE } from '../_constants/auth';
 export default function SignUp() {
   // const checkboxImage = useMemo(() => ({backgroundImage: 'url('/images/custom-checkbox-icon)'}))
 
-  const handleClick = () => {};
+  const handleSubmit = () => {};
   return (
     <AuthLayout message={AUTH_MESSAGE.signUp}>
-      <form className='w-full'>
+      <Form onSubmit={handleSubmit} method='post' action='users' className='w-full'>
         <div className='mb-[16px]'>
           <InputField.EmailInput labelText='이메일' placeholder='이메일을 입력해 주세요' id='email' />
         </div>
@@ -35,7 +37,7 @@ export default function SignUp() {
           <label className='text-base font-normal'>이용약관에 동의합니다</label>
         </div>
         <Sign size='free' isActive={false} onClick={handleClick} content='회원가입' />
-      </form>
+      </Form>
     </AuthLayout>
   );
 }
