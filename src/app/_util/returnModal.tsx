@@ -13,7 +13,7 @@ interface ReturnModalType {
   columnId?: number;
 }
 
-export default function returnModal({ name, onSubmit, cardId, setModalType, cardData }: ReturnModalType) {
+export default function returnModal({ name, onSubmit, cardId, setModalType, cardData, columnId }: ReturnModalType) {
   switch (name) {
     case '새 칼럼 생성':
       return (
@@ -30,11 +30,23 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
       return (
         <Modal
           onSubmit={onSubmit as SubmitHandler<FieldValues>}
-          updateOrDeleteColumn
+          updateColumn
           btnName='변경'
           setModalType={setModalType}
           btnSize='large'
           sign={false}
+          columnId={columnId}
+        />
+      );
+    case '칼럼 삭제':
+      return (
+        <Modal
+          deleteColumn
+          btnName='삭제'
+          setModalType={setModalType}
+          btnSize='large'
+          sign={false}
+          columnId={columnId}
         />
       );
     case '할 일 생성':

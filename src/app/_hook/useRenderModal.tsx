@@ -9,6 +9,7 @@ interface CallModalType {
     onSubmit?: SubmitHandler<FieldValues>;
     cardId?: number;
     cardData?: ToDoCardDetailProps;
+    columnId?: number;
   }): void;
 }
 

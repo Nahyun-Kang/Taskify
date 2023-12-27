@@ -5,7 +5,7 @@ import ModalLayout from './ModalLayout';
 import { createPortal } from 'react-dom';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import InputForm from '../InputForm';
-import { CreateColumn, UpdateAndDeleteColumn } from './column';
+import { CreateColumn, UpdateColumn, DeleteColumn } from './column';
 import { CreateDashboard, InviteDashboard } from './dashBoard';
 import { CompleteSignUp, MismatchPW, UseAlreadyEmail } from './sign';
 import { CreateToDo, DeleteTodo, DetailToDo, ToDoCardDetailProps, UpdateToDo } from './toDoCard';
@@ -20,7 +20,8 @@ interface ModalProps {
   deleteToDo?: boolean;
   createColumn?: boolean;
   btnName: string;
-  updateOrDeleteColumn?: boolean;
+  updateColumn?: boolean;
+  deleteColumn?: boolean;
   setModalType: React.Dispatch<React.SetStateAction<React.ReactElement | null>>;
   btnSize: 'small' | 'large';
   sign: boolean;
@@ -28,9 +29,10 @@ interface ModalProps {
   mismatchPW?: boolean;
   alreadyUseEmail?: boolean;
   inviteDashBoard?: boolean;
-  onSubmit: SubmitHandler<FieldValues>;
+  onSubmit?: SubmitHandler<FieldValues>;
   cardId?: number;
   cardData?: ToDoCardDetailProps;
+  columnId?: number;
 }
 
 // 모달 컴포넌트 특정 프롭스에 따라 조건부 렌더링
@@ -41,7 +43,8 @@ export function Modal({
   detailToDo,
   createColumn,
   btnName,
-  updateOrDeleteColumn,
+  updateColumn,
+  deleteColumn,
   setModalType,
   btnSize,
   deleteToDo,
@@ -54,6 +57,7 @@ export function Modal({
   onSubmit,
   cardId,
   cardData,
+  columnId,
 }: ModalProps) {
   const [mounted, setMounted] = useState(false);
   const closeModal = () => setModalType(null);
@@ -64,23 +68,36 @@ export function Modal({
     ? createPortal(
         <>
           {!detailToDo ? (
-            <InputForm onSubmit={onSubmit}>
-              <ModalLayout btnName={btnName} onClose={closeModal} btnSize={btnSize} sign={sign}>
-                {createColumn ? <CreateColumn mainTitle='새 칼럼 생성' labelTitle='이름' /> : null}
-                {updateOrDeleteColumn ? <UpdateAndDeleteColumn mainTitle='칼럼 관리' labelTitle='이름' /> : null}
-                {createToDo ? <CreateToDo mainTitle='할 일 생성' /> : null}
-                {updateToDo && cardData ? <UpdateToDo mainTitle='할 일 수정' cardData={cardData} /> : null}
-                {createDashboard ? <CreateDashboard mainTitle='새로운 대시보드' /> : null}
-                {inviteDashBoard ? <InviteDashboard mainTitle='초대하기' /> : null}
-                {wrongPW ? <MyPageWrongPW mainTitle='비밀번호가 일치하지 않습니다' /> : null}
-                {deleteToDo ? <DeleteTodo mainTitle='할 일 카드가 삭제됩니다' /> : null}
-                {signUpComplete ? <CompleteSignUp mainTitle='가입이 완료되었습니다!' /> : null}
-                {mismatchPW ? <MismatchPW mainTitle='비밀번호가 일치하지 않습니다.' /> : null}
-                {alreadyUseEmail ? <UseAlreadyEmail mainTitle='이미 사용 중인 이메일입니다.' /> : null}
-              </ModalLayout>
-            </InputForm>
+            !deleteColumn ? (
+              <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
+                <ModalLayout btnName={btnName} onClose={closeModal} btnSize={btnSize} sign={sign}>
+                  {createColumn ? <CreateColumn mainTitle='새 칼럼 생성' labelTitle='이름' /> : null}
+                  {updateColumn && columnId ? (
+                    <UpdateColumn mainTitle='칼럼 관리' labelTitle='이름' columnId={columnId} />
+                  ) : null}
+
+                  {createToDo ? <CreateToDo mainTitle='할 일 생성' /> : null}
+                  {updateToDo && cardData ? <UpdateToDo mainTitle='할 일 수정' cardData={cardData} /> : null}
+                  {createDashboard ? <CreateDashboard mainTitle='새로운 대시보드' /> : null}
+                  {inviteDashBoard ? <InviteDashboard mainTitle='초대하기' /> : null}
+                  {wrongPW ? <MyPageWrongPW mainTitle='비밀번호가 일치하지 않습니다' /> : null}
+                  {deleteToDo ? <DeleteTodo mainTitle='할 일 카드가 삭제됩니다' /> : null}
+                  {signUpComplete ? <CompleteSignUp mainTitle='가입이 완료되었습니다!' /> : null}
+                  {mismatchPW ? <MismatchPW mainTitle='비밀번호가 일치하지 않습니다.' /> : null}
+                  {alreadyUseEmail ? <UseAlreadyEmail mainTitle='이미 사용 중인 이메일입니다.' /> : null}
+                </ModalLayout>
+              </InputForm>
+            ) : (
+              <DeleteColumn
+                mainTitle='칼럼의 모든 카드가 삭제됩니다'
+                btnName={btnName}
+                btnSize={btnSize}
+                onClose={closeModal}
+                columnId={columnId as number}
+              />
+            )
           ) : (
-            <InputForm onSubmit={onSubmit}>
+            <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
               <DetailToDo onClose={closeModal} cardId={cardId as number} />
             </InputForm>
           )}

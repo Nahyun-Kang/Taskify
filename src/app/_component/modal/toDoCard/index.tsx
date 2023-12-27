@@ -119,7 +119,7 @@ export function DetailToDo({ cardId, onClose }: { cardId: number; onClose: () =>
   const [modalType, callModal] = useRenderModal();
 
   const { register } = useForm();
-
+  // 카드 수정 서브밋 함수
   const putCard = async (form: FieldValues) => {
     try {
       const res = await axiosInstance.put('cards/59', {
@@ -133,12 +133,14 @@ export function DetailToDo({ cardId, onClose }: { cardId: number; onClose: () =>
       console.log(error);
     }
   };
-
+  // 카드 수정 모달 호출 함수
   const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, card: ToDoCardDetailProps) => {
     if (typeof callModal === 'function') {
       callModal({ name: (e.target as HTMLElement).id, onSubmit: putCard, cardData: card });
     }
   };
+
+  // 카드 삭제 서브밋 함수
   const DeleteCard = async () => {
     try {
       await axiosInstance.delete('cards/59');
@@ -146,15 +148,13 @@ export function DetailToDo({ cardId, onClose }: { cardId: number; onClose: () =>
       console.log(error);
     }
   };
-
+  // 카드 삭제 모달 호출 함수
   const RenderDeleteModal = (e: React.MouseEvent<HTMLDivElement>) => {
     if (typeof callModal === 'function') {
       callModal({ name: (e.target as HTMLElement).id, onSubmit: DeleteCard });
     }
   };
-
-  const handleKebab = () => setIsOpenPopOver(true);
-
+  // 특정 카드 클릭 시 할 일 카드 상세 모달에 데이터 바인딩하기 위한 api 요청
   const handleRenderCard = async () => {
     try {
       const res = await axiosInstance.get(`cards/59`);
@@ -165,7 +165,7 @@ export function DetailToDo({ cardId, onClose }: { cardId: number; onClose: () =>
       console.log(error);
     }
   };
-
+  // 댓글 생성 함수
   const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     try {
       const res = await axiosInstance.post('comments', { ...data, columnId: 50, cardId: 59 });
@@ -175,7 +175,7 @@ export function DetailToDo({ cardId, onClose }: { cardId: number; onClose: () =>
       console.log(error);
     }
   };
-
+  // 할 일 카드 상세 모달 마운트 시 기존의 댓글을 보여주는 함수
   const getComment = async () => {
     try {
       const res = await axiosInstance.get('comments?size=10&cardId=59');
@@ -190,6 +190,8 @@ export function DetailToDo({ cardId, onClose }: { cardId: number; onClose: () =>
   //   await createComment(data);
   // };
 
+  const handleKebab = () => setIsOpenPopOver(true);
+  // 할 일 카드 상세 모달 마운트 시 해당 카드 및 댓글 데이터바인딩
   useEffect(() => {
     handleRenderCard();
     getComment();
