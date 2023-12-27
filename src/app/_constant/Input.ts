@@ -14,6 +14,14 @@ export interface CommonInputProps {
       value: RegExp;
       message: string;
     };
+    maxLength?: {
+      value: number;
+      message: string;
+    };
+    minLength?: {
+      value: number;
+      message: string;
+    };
   };
 }
 
@@ -62,5 +70,12 @@ export const dateValidate = {
   required: {
     value: true,
     message: '날짜를 선택해주세요.',
+  },
+};
+
+export const nicknameValidate = {
+  maxLength: {
+    value: 10,
+    message: '열 자 이하로 작성해주세요',
   },
 };

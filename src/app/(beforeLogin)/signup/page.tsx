@@ -3,6 +3,7 @@ import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
 import InputForm from '../../_component/InputForm';
 import Sign from '@/src/app/_component/Button/Sign';
 import { AUTH_MESSAGE } from '../_constants/auth';
+import { nicknameValidate } from '@/src/app/_constant/Input';
 
 export default function SignUp() {
   // const checkboxImage = useMemo(() => ({backgroundImage: 'url('/images/custom-checkbox-icon)'}))
@@ -16,7 +17,12 @@ export default function SignUp() {
             <InputForm.EmailInput label='이메일' placeholder='이메일을 입력해 주세요' id='email' />
           </div>
           <div className='mb-[16px]'>
-            <InputForm.TextInput label='닉네임' placeholder='닉네임을 입력해 주세요' id='nickname' />
+            <InputForm.TextInput
+              label='닉네임'
+              placeholder='닉네임을 입력해 주세요'
+              id='nickname'
+              validationRules={nicknameValidate}
+            />
           </div>
           <div className='mb-[20px]'>
             <InputForm.PasswordInput label='비밀번호' placeholder='비밀번호를 입력해 주세요' id='password' />
