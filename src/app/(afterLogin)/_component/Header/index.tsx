@@ -8,6 +8,7 @@ import manage from '@/public/images/manage_icon.svg';
 import ProfileCollection from '../ProfileImgCollection';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import submitInvitation from '../../_util/submitInvitation';
+import Link from 'next/link';
 
 const DUMMY = {
   folder: '강나현의 대시보드',
@@ -45,7 +46,9 @@ export default function Header() {
           <div className='flex'>
             {!isMyDashboard && (
               <div className='flex gap-[.375rem] md:gap-4'>
-                <HeaderButton imageSrc={manage}>관리</HeaderButton>
+                <Link href={`${pathname}/edit`}>
+                  <HeaderButton imageSrc={manage}>관리</HeaderButton>
+                </Link>
                 <HeaderButton imageSrc={add} onClick={handleInvitation}>
                   초대하기
                 </HeaderButton>
