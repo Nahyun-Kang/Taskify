@@ -19,18 +19,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   const [isActiveBack, setIsActiveBack] = useState(false);
   const [isActiveForward, setIsActiveForward] = useState(false);
   const [page, setPage] = useState(1);
-
   const [totalPage, setTotalPage] = useState(0);
-  const getInviteList = async (page: number, pageSize: number) => {
-    const result = await getInvitations(dashboardId, page, pageSize);
-    if (result) {
-      setIsActiveBack(page > 1);
-      setIsActiveForward(result.totalCount > page * pageSize);
-
-      setInviteList(result.invitations);
-      setTotalPage(Math.ceil(result.totalCount / pageSize));
-    }
-  };
 
   const handlePageNation = (direction: 'back' | 'forward') => {
     if (direction === 'back') {
@@ -39,15 +28,24 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
       setPage((prevPage) => prevPage + 1);
     }
   };
-  const handleInvite = () => {
+  const handleCancelInvite = () => {
     //modal
   };
 
   useEffect(() => {
-    getInviteList(page, 4);
-  }, [page]);
+    const getInviteList = async (page: number, pageSize: number) => {
+      const result = await getInvitations(dashboardId, page, pageSize);
+      if (result) {
+        setIsActiveBack(page > 1);
+        setIsActiveForward(result.totalCount > page * pageSize);
 
-  // const { invitations } = invitationsRes;
+        setInviteList(result.invitations);
+        setTotalPage(Math.ceil(result.totalCount / pageSize));
+      }
+    };
+
+    getInviteList(page, 4);
+  }, [page, dashboardId]);
 
   return (
     <div className='item-center flex w-full flex-col gap-[1.25rem] p-[1.75rem]'>
@@ -74,7 +72,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
             </div>
             <button
               className='flex h-[1.75rem] w-[5.375rem] items-center justify-center gap-[0.5625rem] rounded-[0.25rem] bg-violet text-[0.75rem] text-white md:h-[2rem] md:w-[105px]'
-              onClick={handleInvite}
+              onClick={handleCancelInvite}
             >
               <Image src={addBox.src} width={16} height={16} alt='초대 버튼' /> 초대하기
             </button>
@@ -90,7 +88,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
               className='max-h[4.375rem] flex items-center justify-between border-b-[0.0625rem] border-gray20 py-[1.75rem]'
             >
               <span className='text-black80 sm:text-[0.875rem] md:text-[1rem]'>{val.invitee.email}</span>
-              <CancelInvite size='large' onClick={handleInvite} />
+              <CancelInvite size='large' onClick={handleCancelInvite} />
             </div>
           ))}
       </div>
