@@ -1,6 +1,4 @@
 'use client';
-import { Form } from 'react-hook-form';
-
 import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
 import InputField from '@/src/app/_component/Input/InputField';
 import Sign from '@/src/app/_component/Button/Sign';
@@ -12,7 +10,7 @@ export default function SignUp() {
   const handleSubmit = () => {};
   return (
     <AuthLayout message={AUTH_MESSAGE.signUp}>
-      <Form onSubmit={handleSubmit} method='post' action='users' className='w-full'>
+      <form onSubmit={handleSubmit} className='w-full'>
         <div className='mb-[16px]'>
           <InputField.EmailInput labelText='이메일' placeholder='이메일을 입력해 주세요' id='email' />
         </div>
@@ -37,7 +35,7 @@ export default function SignUp() {
           <label className='text-base font-normal'>이용약관에 동의합니다</label>
         </div>
         <Sign type='submit' size='free' isActive={false} onClick={handleSubmit} content='회원가입' />
-      </Form>
+      </form>
     </AuthLayout>
   );
 }
