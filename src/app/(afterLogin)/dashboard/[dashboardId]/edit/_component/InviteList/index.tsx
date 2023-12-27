@@ -22,7 +22,8 @@ export default function InviteList() {
 
   const [totalPage, setTotalPage] = useState(0);
   const getInviteList = async (page: number, pageSize: number) => {
-    const result = await getInvitations(page, pageSize);
+    const dashboardId = 163; //임시 ID 사이드바 공통화 뒤 삭제 예정
+    const result = await getInvitations(dashboardId, page, pageSize);
 
     setIsActiveBack(page > 1);
     setIsActiveForward(result.totalCount > page * pageSize);
