@@ -25,6 +25,7 @@ export default function CardList({ id, title }: CardListProps) {
 
   useEffect(() => {
     getCard();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

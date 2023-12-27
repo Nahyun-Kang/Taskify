@@ -10,7 +10,6 @@ import crown from '@/public/images/crown_icon.svg';
 import IdxIcon from '../Icons/IdxIcon';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { usePathname } from 'next/navigation';
-import { TypeString } from '@/src/app/(afterLogin)/_constant/type';
 
 interface Dashboard {
   color: string;

@@ -8,8 +8,6 @@ import manage from '@/public/images/manage_icon.svg';
 import ProfileCollection from '../ProfileImgCollection';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import { FolderName } from '@/src/app/(afterLogin)/_constant/type';
-import { TypeString } from '@/src/app/(afterLogin)/_constant/type';
 
 const DUMMY = {
   folder: '강나현의 대시보드',
@@ -40,6 +38,7 @@ export default function Header() {
 
   useEffect(() => {
     getFolderName();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   return (
