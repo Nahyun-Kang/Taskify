@@ -50,7 +50,11 @@ export const passwordValidate = {
   },
   pattern: {
     value: VALIDATE.userPassword,
-    message: '비밀번호 패턴',
+    message: '숫자, 영문자, 특수문자 조합으로 8자리 이상으로 작성해주세요',
+  },
+  minLength: {
+    value: 8,
+    message: '8자 이상 작성해주세요',
   },
 };
 
