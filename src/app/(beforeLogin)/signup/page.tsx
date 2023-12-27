@@ -1,12 +1,15 @@
 'use client';
+
 import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
 import InputForm from '../../_component/InputForm';
 import Sign from '@/src/app/_component/Button/Sign';
 import { AUTH_MESSAGE } from '../_constants/auth';
 import { nicknameValidate } from '@/src/app/_constant/Input';
+import { useFormContext } from 'react-hook-form';
 
 export default function SignUp() {
-  // const checkboxImage = useMemo(() => ({backgroundImage: 'url('/images/custom-checkbox-icon)'}))
+  const { getFieldState } = useFormContext();
+  console.log(getFieldState('email'));
 
   const handleSubmit = () => {};
   return (

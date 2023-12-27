@@ -21,6 +21,8 @@ export default function InputForm({
   // const [isLoading, setIsLoading] = useState(false);
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onBlur' });
 
+  const { getFieldState } = useForm();
+
   const submit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     // setIsLoading(true);
     try {
