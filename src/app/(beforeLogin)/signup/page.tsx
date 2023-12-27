@@ -8,10 +8,11 @@ import { nicknameValidate } from '@/src/app/_constant/Input';
 import { useFormContext } from 'react-hook-form';
 
 export default function SignUp() {
-  const { getFieldState } = useFormContext();
-  console.log(getFieldState('email'));
+  const { methods } = useFormContext();
+  console.log(methods.getValues('email'));
 
   const handleSubmit = () => {};
+
   return (
     <AuthLayout message={AUTH_MESSAGE.signUp}>
       <div className='w-full'>
@@ -45,7 +46,7 @@ export default function SignUp() {
             ></input>
             <label className='text-base font-normal'>이용약관에 동의합니다</label>
           </div>
-          <Sign type='submit' size='free' isActive={false} onClick={handleSubmit} content='회원가입' />
+          <Sign type='submit' size='free' isActive={true} onClick={handleSubmit} content='회원가입' />
         </InputForm>
       </div>
     </AuthLayout>
