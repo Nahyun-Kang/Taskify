@@ -8,10 +8,12 @@ import { AUTH_MESSAGE } from '../_constants/auth';
 import { nicknameValidate } from '@/src/app/_constant/Input';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { axiosInstance } from '../../_util/axiosInstance';
+import useRenderModal from '../../_hook/useRenderModal';
 
 export default function SignUp() {
   const methods = useForm<FieldValues>({ mode: 'onChange', reValidateMode: 'onBlur' });
   const [isChecked, setChecked] = useState(false);
+  const [modalType] = useRenderModal();
   const isActiveButton = methods.formState.isDirty && methods.formState.isValid && isChecked;
 
   const handleChangeCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +21,6 @@ export default function SignUp() {
   };
 
   const handleSignUp = () => {
-    console.log(methods.getValues());
     const { email, nickname, password } = methods.getValues();
     const BODY_DATA = {
       email: email,
@@ -29,8 +30,10 @@ export default function SignUp() {
     try {
       const res = axiosInstance.post('users', BODY_DATA);
       console.log(res);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.response && error.response.status === 409) {
+        alert('문제다');
+      }
     }
   };
 
@@ -79,6 +82,7 @@ export default function SignUp() {
             <Sign type='submit' size='free' isActive={isActiveButton} content='회원가입' />
           </form>
         </div>
+        {modalType}
       </FormProvider>
     </AuthLayout>
   );
