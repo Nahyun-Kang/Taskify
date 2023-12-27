@@ -13,8 +13,9 @@ import useRenderModal from '../../_hook/useRenderModal';
 export default function LogIn() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
   const [modalType, callModal] = useRenderModal();
-  // const router = useRouter();
+  const router = useRouter();
 
+  //TODO: 에러 분기 처리
   const handleLogin = async () => {
     const { email, password } = methods.getValues();
     const BODY_DATA = {
@@ -24,8 +25,8 @@ export default function LogIn() {
     try {
       const res = await axiosInstance.post('auth/login', BODY_DATA);
       console.log(res);
-      // router.push('/boards');
-    } catch (error) {
+      router.push('/boards');
+    } catch (error: any) {
       console.log(error);
       if (error.response.status === 400 && error.response.data.message === '비밀번호가 일치하지 않습니다.') {
         callModal('비밀번호가 일치하지 않습니다.', () => {});
