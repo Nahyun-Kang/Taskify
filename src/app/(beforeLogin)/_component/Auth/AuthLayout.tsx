@@ -6,10 +6,7 @@ import TextLogo from '../Icons/TextLogo';
 interface Props {
   children?: ReactNode;
   message: {
-    welcome: string;
-    check: string;
-    link: string;
-    href: string;
+    [key: string]: string;
   };
 }
 
