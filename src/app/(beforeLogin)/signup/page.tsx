@@ -31,9 +31,10 @@ export default function SignUp() {
     };
     try {
       await axiosInstance.post('users', BODY_DATA);
-      callModal('가입이 완료되었습니다!', () => {});
-      router.push('/login');
-    } catch (error: unknown) {
+      callModal('가입이 완료되었습니다!', () => {
+        router.push('/login');
+      });
+    } catch (error: any) {
       if (error.response && error.response.status === 409) {
         callModal('이미 사용 중인 이메일입니다.', () => {});
       }

@@ -47,7 +47,7 @@ export const emailValidate = {
   },
   pattern: {
     value: VALIDATE.userEmail,
-    message: '올바른 이메일 주소가 아닙니다.',
+    message: '이메일 형식으로 작성해주세요.',
   },
 };
 
