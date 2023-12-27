@@ -1,102 +1,57 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import addBox from '@/public/icons/add_box.svg';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import CancelInvite from '@/src/app/_component/Button/CancelInvite';
+import { getInvitations } from '@/src/app/_api/Dashboards';
 
-const invitationsRes = {
-  totalCount: 0,
-  invitations: [
-    {
-      id: 1,
-      inviterUserId: 1,
-      teamId: 'string',
-      dashboard: {
-        title: 'string',
-        id: 1,
-      },
-      invitee: {
-        nickname: '하나',
-        email: 'testA@gmail.com',
-        id: 1,
-      },
-      inviteAccepted: true,
-    },
-    {
-      id: 2,
-      inviterUserId: 2,
-      teamId: 'string',
-      dashboard: {
-        title: 'string',
-        id: 2,
-      },
-      invitee: {
-        nickname: '둘',
-        email: 'testB@gmail.com',
-        id: 2,
-      },
-      inviteAccepted: true,
-    },
-    {
-      id: 3,
-      inviterUserId: 3,
-      teamId: 'string',
-      dashboard: {
-        title: 'string',
-        id: 3,
-      },
-      invitee: {
-        nickname: '셋',
-        email: 'testC@gmail.com',
-        id: 3,
-      },
-      inviteAccepted: true,
-    },
-    {
-      id: 4,
-      inviterUserId: 4,
-      teamId: 'string',
-      dashboard: {
-        title: 'string',
-        id: 4,
-      },
-      invitee: {
-        nickname: '넷',
-        email: 'testD@gmail.com',
-        id: 4,
-      },
-      inviteAccepted: true,
-    },
-    {
-      id: 5,
-      inviterUserId: 5,
-      teamId: 'string',
-      dashboard: {
-        title: 'string',
-        id: 5,
-      },
-      invitee: {
-        nickname: '다섯',
-        email: 'testE@gmail.com',
-        id: 5,
-      },
-      inviteAccepted: true,
-    },
-  ],
-};
+interface InviteListProps {
+  id: number;
+  invitee: {
+    id: number;
+    email: string;
+    nickname: string;
+  };
+}
 
 export default function InviteList() {
+  const [inviteList, setInviteList] = useState([]);
   const [isActiveBack, setIsActiveBack] = useState(false);
   const [isActiveForward, setIsActiveForward] = useState(false);
+  const [page, setPage] = useState(1);
 
-  const handlePageNation = () => {
-    console.log(setIsActiveBack, setIsActiveForward);
+  const [totalPage, setTotalPage] = useState(0);
+  const getInviteList = async (page: number, pageSize: number) => {
+    const result = await getInvitations(page, pageSize);
+
+    setIsActiveBack(page > 1);
+    setIsActiveForward(result.totalCount > page * pageSize);
+
+    setInviteList(result.invitations);
+    setTotalPage(result.totalCount % pageSize);
+  };
+
+  const handlePageNation = async (direction: 'back' | 'forward') => {
+    const pageSize = 4; // 페이지당 아이템 수
+    const currentPage = page; // 초기 페이지
+
+    if (direction === 'back') {
+      setPage((prevPage) => prevPage - 1);
+    } else if (direction === 'forward') {
+      setPage((prevPage) => prevPage + 1);
+    }
+
+    await getInviteList(currentPage, pageSize);
   };
   const handleInvite = () => {
     //modal
   };
 
-  const { invitations } = invitationsRes;
+  useEffect(() => {
+    getInviteList(page, 4);
+  }, [page]);
+
+  // const { invitations } = invitationsRes;
 
   return (
     <div className='item-center flex w-full flex-col gap-[1.25rem] p-[1.75rem]'>
@@ -110,13 +65,15 @@ export default function InviteList() {
         <div className='flex w-full flex-row items-center justify-end gap-3 md:items-start md:gap-4'>
           <div className='flex w-full flex-col items-end gap-[1rem] md:flex-row md:items-center md:justify-end'>
             <div className='flex w-full items-center justify-end gap-[1rem] md:w-auto'>
-              <span className='whitespace-nowrap text-black80 sm:text-[0.75rem] md:text-[0.875rem]'>1 페이지 중 1</span>
+              <span className='whitespace-nowrap text-black80 sm:text-[0.75rem] md:text-[0.875rem]'>
+                {totalPage} 페이지 중 {page}
+              </span>
               <PageNation
                 size='large'
                 isActiveBack={isActiveBack}
                 isActiveForward={isActiveForward}
-                onClickBack={handlePageNation}
-                onClickForward={handlePageNation}
+                onClickBack={() => handlePageNation('back')}
+                onClickForward={() => handlePageNation('forward')}
               />
             </div>
             <button
@@ -130,15 +87,16 @@ export default function InviteList() {
       </div>
       <div>
         <div className='flex justify-between'></div>
-        {invitations.map((val) => (
-          <div
-            key={val.id}
-            className='max-h[4.375rem] flex items-center justify-between border-b-[0.0625rem] border-gray20    py-[1.75rem]'
-          >
-            <span className='text-black80 sm:text-[0.875rem] md:text-[1rem]'>{val.invitee.email}</span>
-            <CancelInvite size='large' onClick={handleInvite} />
-          </div>
-        ))}
+        {inviteList &&
+          inviteList.map((val: InviteListProps) => (
+            <div
+              key={val.id}
+              className='max-h[4.375rem] flex items-center justify-between border-b-[0.0625rem] border-gray20 py-[1.75rem]'
+            >
+              <span className='text-black80 sm:text-[0.875rem] md:text-[1rem]'>{val.invitee.email}</span>
+              <CancelInvite size='large' onClick={handleInvite} />
+            </div>
+          ))}
       </div>
     </div>
   );
