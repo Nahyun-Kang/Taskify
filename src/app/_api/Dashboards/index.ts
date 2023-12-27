@@ -9,3 +9,13 @@ export async function getInvitations(dashboardId: string | undefined, page: numb
     throw error;
   }
 }
+
+export async function getMembers(dashboardId: string | undefined, page: number, size: number) {
+  try {
+    const response = await axiosInstance.get(`members?page=${page}&size=${size}&dashboardId=${dashboardId}`);
+    const result = response.data;
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
