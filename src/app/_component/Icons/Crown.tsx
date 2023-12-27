@@ -1,5 +1,5 @@
 interface Class {
-  className?: string;
+  className: string;
 }
 
 export default function Crown({ className }: Class) {

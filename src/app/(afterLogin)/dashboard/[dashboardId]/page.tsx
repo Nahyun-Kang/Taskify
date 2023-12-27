@@ -21,7 +21,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
   }, []);
 
   return (
-    <div className='mt-[4.3125rem] flex flex-col md:w-full lg:flex-row'>
+    <div className='mt-[4.3125rem] flex w-full flex-col lg:flex-row'>
       {columns.map((column: Column) => (
         <CardList key={column.id + 'col'} id={column.id} title={column.title} />
       ))}

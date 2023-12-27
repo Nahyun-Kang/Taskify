@@ -50,7 +50,7 @@ export default function Header() {
           <div className={`${marginClass} justify-end md:ml-[12.5rem] lg:ml-[21.25rem]`}>
             <div className='flex items-center gap-2'>
               <div className={`text-black30 text-xl font-bold ${titleClass}`}>{folderName}</div>
-              {createdByMe && <Crown />}
+              {createdByMe && <Crown className='hidden lg:block' />}
             </div>
           </div>
           {/* 헤더영역 오른쪽 */}
