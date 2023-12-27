@@ -11,16 +11,16 @@ import { axiosInstance } from '../../_util/axiosInstance';
 import useRenderModal from '../../_hook/useRenderModal';
 
 export default function SignUp() {
-  const methods = useForm<FieldValues>({ mode: 'onChange', reValidateMode: 'onBlur' });
+  const methods = useForm<FieldValues>({ mode: 'onChange', reValidateMode: 'onChange' });
   const [isChecked, setChecked] = useState(false);
-  const [modalType] = useRenderModal();
+  const [modalType, callModal] = useRenderModal();
   const isActiveButton = methods.formState.isDirty && methods.formState.isValid && isChecked;
 
   const handleChangeCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     const { email, nickname, password } = methods.getValues();
     const BODY_DATA = {
       email: email,
@@ -28,11 +28,11 @@ export default function SignUp() {
       password: password,
     };
     try {
-      const res = axiosInstance.post('users', BODY_DATA);
-      console.log(res);
+      await axiosInstance.post('users', BODY_DATA);
+      callModal('가입이 완료되었습니다!', () => {});
     } catch (error: any) {
       if (error.response && error.response.status === 409) {
-        alert('문제다');
+        callModal('이미 사용 중인 이메일입니다.', () => {});
       }
     }
   };
