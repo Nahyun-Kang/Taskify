@@ -1,4 +1,5 @@
 'use client';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
 import InputForm from '../../_component/InputForm';
@@ -8,11 +9,17 @@ import { nicknameValidate } from '@/src/app/_constant/Input';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 
 export default function SignUp() {
-  const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onBlur' });
+  const methods = useForm<FieldValues>({ mode: 'onChange', reValidateMode: 'onBlur' });
+  const [isChecked, setChecked] = useState(false);
+  const isActiveButton = methods.formState.isDirty && methods.formState.isValid && isChecked;
 
-  const handleSubmit = (e: any) => {
+  const handleChangeCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(methods.getValues('email'));
+    console.log(methods.getFieldState('nickname'));
   };
 
   return (
@@ -20,10 +27,10 @@ export default function SignUp() {
       <FormProvider {...methods}>
         <div className='w-full'>
           <form onSubmit={handleSubmit} noValidate>
-            <div className='mb-[16px]'>
+            <div className='mb-[1rem]'>
               <InputForm.EmailInput label='이메일' placeholder='이메일을 입력해 주세요' id='email' />
             </div>
-            <div className='mb-[16px]'>
+            <div className='mb-[1rem]'>
               <InputForm.TextInput
                 label='닉네임'
                 placeholder='닉네임을 입력해 주세요'
@@ -31,10 +38,10 @@ export default function SignUp() {
                 validationRules={nicknameValidate}
               />
             </div>
-            <div className='mb-[20px]'>
+            <div className='mb-[1.25rem]'>
               <InputForm.PasswordInput label='비밀번호' placeholder='비밀번호를 입력해 주세요' id='password' />
             </div>
-            <div className='mb-[20px]'>
+            <div className='mb-[1.25rem]'>
               <InputForm.PasswordCheck
                 label='비밀번호 확인'
                 placeholder='비밀번호를 한번 더 입력해 주세요'
@@ -42,14 +49,17 @@ export default function SignUp() {
                 passwordId='password'
               />
             </div>
-            <div className='mb-[1.3125rem] flex items-center gap-2'>
-              <input
-                type='checkbox'
-                className={`h-[1.25rem] w-[1.25rem] appearance-none rounded border border-gray30 bg-contain checked:bg-[url('/images/custom-checkbox-icon.svg')] focus:outline-none`}
-              ></input>
-              <label className='text-base font-normal'>이용약관에 동의합니다</label>
+            <div className='mb-[21px]'>
+              <label className='flex items-center gap-2 text-base font-normal'>
+                <input
+                  type='checkbox'
+                  className={`h-[20px] w-[20px] appearance-none rounded border border-gray30 bg-contain checked:bg-[url('/images/custom-checkbox-icon.svg')] focus:outline-none`}
+                  onChange={handleChangeCheckbox}
+                ></input>
+                이용약관에 동의합니다
+              </label>
             </div>
-            <Sign type='submit' size='free' isActive={true} content='회원가입' />
+            <Sign type='submit' size='free' isActive={isActiveButton} content='회원가입' />
           </form>
         </div>
       </FormProvider>
