@@ -6,6 +6,8 @@ import HeaderButton from './HeaderButton';
 import add from '@/public/images/add_box_icon.svg';
 import manage from '@/public/images/manage_icon.svg';
 import ProfileCollection from '../ProfileImgCollection';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
+import submitInvitation from '../../_util/submitInvitation';
 
 const DUMMY = {
   folder: '강나현의 대시보드',
@@ -16,11 +18,17 @@ const DUMMY = {
 export default function Header() {
   const pathname = usePathname();
   const isMyDashboard = pathname === '/mydashboard';
+  const [ModalType, callModal] = useRenderModal();
 
+  const dashboardId = pathname.replace(/[^0-9]/g, '');
   const titleClass = !isMyDashboard ? 'hidden lg:block' : '';
   const crownClass = !isMyDashboard ? 'lg:block' : '';
   const marginClass = isMyDashboard ? 'ml-[5.6875rem]' : '';
   const folderName = isMyDashboard ? '내 대시보드' : DUMMY.folder;
+
+  const handleInvitation = () => {
+    callModal('초대하기', submitInvitation(dashboardId));
+  };
 
   return (
     <div className='relative'>
@@ -38,7 +46,9 @@ export default function Header() {
             {!isMyDashboard && (
               <div className='flex gap-[.375rem] md:gap-4'>
                 <HeaderButton imageSrc={manage}>관리</HeaderButton>
-                <HeaderButton imageSrc={add}>초대하기</HeaderButton>
+                <HeaderButton imageSrc={add} onClick={handleInvitation}>
+                  초대하기
+                </HeaderButton>
               </div>
             )}
             {!isMyDashboard && (
@@ -59,6 +69,7 @@ export default function Header() {
           </div>
         </div>
       </div>
+      {ModalType}
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { useState } from 'react';
 import addBox from '@/public/icons/add_box.svg';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import CancelInvite from '@/src/app/_component/Button/CancelInvite';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
+import submitInvitation from '@/src/app/(afterLogin)/_util/submitInvitation';
 
 const invitationsRes = {
   totalCount: 0,
@@ -85,15 +87,16 @@ const invitationsRes = {
   ],
 };
 
-export default function InviteList() {
+export default function InviteList({ dashboardId }: { dashboardId: string }) {
   const [isActiveBack, setIsActiveBack] = useState(false);
   const [isActiveForward, setIsActiveForward] = useState(false);
+  const [modalType, callModal] = useRenderModal();
 
   const handlePageNation = () => {
     console.log(setIsActiveBack, setIsActiveForward);
   };
   const handleInvite = () => {
-    //modal
+    callModal('초대하기', submitInvitation(dashboardId));
   };
 
   const { invitations } = invitationsRes;
@@ -140,6 +143,7 @@ export default function InviteList() {
           </div>
         ))}
       </div>
+      {modalType}
     </div>
   );
 }
