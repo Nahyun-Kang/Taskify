@@ -69,24 +69,24 @@ export function Modal({
         <>
           {!detailToDo ? (
             !deleteColumn ? (
-              <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
-                <ModalLayout btnName={btnName} onClose={closeModal} btnSize={btnSize} sign={sign}>
-                  {createColumn ? <CreateColumn mainTitle='새 칼럼 생성' labelTitle='이름' /> : null}
-                  {updateColumn && columnId ? (
-                    <UpdateColumn mainTitle='칼럼 관리' labelTitle='이름' columnId={columnId} />
-                  ) : null}
+              <ModalLayout btnName={btnName} onClose={closeModal} btnSize={btnSize} sign={sign}>
+                {createColumn ? <CreateColumn mainTitle='새 칼럼 생성' labelTitle='이름' /> : null}
+                {updateColumn && columnId ? (
+                  <UpdateColumn mainTitle='칼럼 관리' labelTitle='이름' columnId={columnId} />
+                ) : null}
 
-                  {createToDo ? <CreateToDo mainTitle='할 일 생성' /> : null}
-                  {updateToDo && cardData ? <UpdateToDo mainTitle='할 일 수정' cardData={cardData} /> : null}
-                  {createDashboard ? <CreateDashboard mainTitle='새로운 대시보드' /> : null}
-                  {inviteDashBoard ? <InviteDashboard mainTitle='초대하기' /> : null}
-                  {wrongPW ? <MyPageWrongPW mainTitle='비밀번호가 일치하지 않습니다' /> : null}
-                  {deleteToDo ? <DeleteTodo mainTitle='할 일 카드가 삭제됩니다' /> : null}
+                {createToDo ? <CreateToDo mainTitle='할 일 생성' /> : null}
+                {updateToDo && cardData ? <UpdateToDo mainTitle='할 일 수정' cardData={cardData} /> : null}
+                {createDashboard ? <CreateDashboard mainTitle='새로운 대시보드' /> : null}
+                {inviteDashBoard ? <InviteDashboard mainTitle='초대하기' /> : null}
+                {wrongPW ? <MyPageWrongPW mainTitle='비밀번호가 일치하지 않습니다' /> : null}
+                {deleteToDo ? <DeleteTodo mainTitle='할 일 카드가 삭제됩니다' /> : null}
+                <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
                   {signUpComplete ? <CompleteSignUp mainTitle='가입이 완료되었습니다!' /> : null}
                   {mismatchPW ? <MismatchPW mainTitle='비밀번호가 일치하지 않습니다.' /> : null}
                   {alreadyUseEmail ? <UseAlreadyEmail mainTitle='이미 사용 중인 이메일입니다.' /> : null}
-                </ModalLayout>
-              </InputForm>
+                </InputForm>
+              </ModalLayout>
             ) : (
               <DeleteColumn
                 mainTitle='칼럼의 모든 카드가 삭제됩니다'

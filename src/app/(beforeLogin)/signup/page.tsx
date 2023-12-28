@@ -1,6 +1,6 @@
 'use client';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { Field, FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
@@ -17,15 +17,18 @@ export default function SignUp() {
   const [isChecked, setChecked] = useState(false);
   const [modalType, callModal] = useRenderModal();
 
+  console.log(modalType);
+
   const router = useRouter();
   const isActiveButton = methods.formState.isDirty && methods.formState.isValid && isChecked;
 
   const handleChangeCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-
+  // const { getValues } = useFormContext();
   const handleSignUp = async () => {
-    const { email, nickname, password } = methods.getValues();
+    const { email, password, nickname } = methods.getValues();
+    // const values = getValues();
     const BODY_DATA = {
       email: email,
       nickname: nickname,
@@ -56,8 +59,8 @@ export default function SignUp() {
   return (
     <AuthLayout message={AUTH_MESSAGE.signUp}>
       <FormProvider {...methods}>
-        <div className='w-full'>
-          <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit} noValidate>
+          <div className='w-full'>
             <div className='mb-[1rem]'>
               <InputForm.EmailInput label='이메일' placeholder='이메일을 입력해 주세요' id='email' />
             </div>
@@ -91,9 +94,9 @@ export default function SignUp() {
               </label>
             </div>
             <Sign type='submit' size='free' isActive={isActiveButton} content='회원가입' />
-          </form>
-        </div>
-        {modalType}
+          </div>
+          {modalType}
+        </form>
       </FormProvider>
     </AuthLayout>
   );
