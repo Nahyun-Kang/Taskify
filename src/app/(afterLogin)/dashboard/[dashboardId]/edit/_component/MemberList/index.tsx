@@ -12,40 +12,6 @@ interface membersProps {
   profileImageUrl: string;
   isOwner: boolean;
 }
-// const members = {
-//   members: [
-//     {
-//       id: 1,
-//       userId: 1,
-//       nickname: '윤대호',
-//       profileImageUrl: '',
-//       isOwner: true,
-//     },
-//     {
-//       id: 2,
-//       userId: 2,
-//       nickname: '구혜지',
-//       profileImageUrl: '',
-//       isOwner: false,
-//     },
-//     {
-//       id: 3,
-//       userId: 3,
-//       nickname: '고민혁',
-//       profileImageUrl:
-//         'https://github.com/Codeit-Part3-Team3/Taskify/assets/72487120/579aff92-5731-4f7e-9276-83a5b7ab6252',
-//       isOwner: false,
-//     },
-//     {
-//       id: 4,
-//       userId: 4,
-//       nickname: '강나현',
-//       profileImageUrl: '',
-//       isOwner: false,
-//     },
-//   ],
-//   totalCount: 8,
-// };
 
 export default function MemberList({ dashboardId }: { dashboardId: string | undefined }) {
   const [memberList, setMemberList] = useState([]);
