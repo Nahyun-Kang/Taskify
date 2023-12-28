@@ -3,17 +3,17 @@ import { FormEvent } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
-import Sign from '../../_component/Button/Sign';
+import Sign from '@/src/app/_component/Button/Sign';
 import InputForm from '../../_component/InputForm';
 import AuthLayout from '../_component/Auth/AuthLayout';
-import { AUTH_MESSAGE } from '../_constants/auth';
+import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { axiosInstance } from '../../_util/axiosInstance';
 import useRenderModal from '../../_hook/useRenderModal';
 
 export default function LogIn() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
   const [modalType, callModal] = useRenderModal();
-  const router = useRouter();
+  // const router = useRouter();
 
   //TODO: 에러 분기 처리
   const handleLogin = async () => {
@@ -23,13 +23,7 @@ export default function LogIn() {
       password: password,
     };
     try {
-      const res = await axiosInstance.post('auth/login', BODY_DATA, {
-        headers: {
-          withCredentials: true,
-          cookie:
-            'bearer = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsInRlYW1JZCI6IjEtMyIsImlhdCI6MTcwMjk4MjAyMiwiaXNzIjoic3AtdGFza2lmeSJ9.CyJw1VGMNUVnP97QL8coPmhfCeaBZkMHZDU1KjOyAyo',
-        },
-      });
+      const res = await axiosInstance.post('auth/login', BODY_DATA);
       console.log(res);
       // router.push('/boards');
     } catch (error: any) {

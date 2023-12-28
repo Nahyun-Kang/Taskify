@@ -9,3 +9,21 @@ export const dashboardState = atom<DashboardListProps>({
     totalCount: 0,
   },
 });
+
+export const userInfoState = atom({
+  key: 'userInfo',
+  default: {
+    email: null,
+    id: null,
+    nickname: null,
+    profileImageUrl: null,
+    updatedAt: null,
+  },
+});
+
+export const accessTokenState = atom({
+  key: 'accessToken',
+  default: {
+    token: null,
+  },
+});
