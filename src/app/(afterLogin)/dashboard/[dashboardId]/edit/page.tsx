@@ -15,8 +15,8 @@ export default function BoardEdit({ params }: { params: { dashboardId: string } 
 
   return (
     <div className='mt-[4.3125rem] bg-white sm:w-full md:max-w-[34rem] lg:w-[38.75rem]'>
-      <EditBoard boardName='비브리지' dashboardId='123' />
-      <MemberList />
+      <EditBoard boardName='비브리지' dashboardId='163' />
+      <MemberList dashboardId={params.dashboardId} />
       <InviteList dashboardId={params.dashboardId} />
       <div className='sm:item-center  flex  max-w-[38.75rem] flex-col gap-[1.25rem] p-[1.75rem]'>
         <DeleteDashboard screen={isMobile ? 'mobile' : 'desktop'} onClick={handleDelete} />
