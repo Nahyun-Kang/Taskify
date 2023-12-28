@@ -18,7 +18,7 @@ const DUMMY = {
 
 export default function Header() {
   const pathname = usePathname();
-  const isMyDashboard = pathname === '/mydashboard';
+  const isMyDashboard = pathname === '/myboard';
   const [ModalType, callModal] = useRenderModal();
 
   const dashboardId = pathname.replace(/[^0-9]/g, '');
