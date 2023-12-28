@@ -57,7 +57,7 @@ export default function MemberList() {
   };
 
   return (
-    <div className='item-center  flex  max-w-[38.75rem]  flex-col  gap-[1.25rem] p-[1.75rem]'>
+    <div className='item-center flex w-full flex-col gap-[1.25rem] p-[1.75rem]'>
       <div className='flex w-full justify-between'>
         <p className='font-bold text-black sm:text-[1.25rem] md:text-[1.5rem]'>구성원</p>
         <div className='flex items-center gap-[1rem]'>
