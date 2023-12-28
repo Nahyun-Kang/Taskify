@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import RecoilContextProvider from './_recoil/recoilContextProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -10,8 +11,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='ko'>
       <body className='font-pre text-black'>
-        {children}
-        <div id='modal' />
+        <RecoilContextProvider>
+          {children}
+          <div id='modal' />
+        </RecoilContextProvider>
       </body>
     </html>
   );

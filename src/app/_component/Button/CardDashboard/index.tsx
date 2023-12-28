@@ -1,5 +1,6 @@
 import arrow from '@/public/icons/arrow_forward_icon.svg';
 import crown from '@/public/icons/crown_icon.svg';
+import IdxIcon from '@/src/app/(afterLogin)/_component/Icons/IdxIcon';
 import Image from 'next/image';
 interface CardDashboardProps {
   screen: 'desktop' | 'mobile' | 'tablet' | 'free';
@@ -50,7 +51,6 @@ export default function CardDashboard({ screen = 'desktop', title, color, create
   };
 
   const { width, height, fontSize, image } = screens[screen];
-  const circleColor = `bg-[${color}]`;
 
   return (
     <button
@@ -58,10 +58,10 @@ export default function CardDashboard({ screen = 'desktop', title, color, create
       onClick={onClick}
     >
       <div className=' flex items-center justify-center'>
-        <div className={`mr-[0.75rem] h-[0.5rem] w-[0.5rem] rounded-[0.25rem] ${circleColor}`} />
+        <IdxIcon color={color} className='mr-[0.75rem] h-[0.5rem] w-[0.5rem] rounded-[0.25rem] ' />
         {title}
         {createdByMe && (
-          <Image className='ml-[0.5rem]' width={image.width} height={image.height} src={crown.src} alt='왕관' />
+          <Image className='ml-[0.5rem]' width={image.width} height={image.height} src={crown.src} alt='왕관 아이콘' />
         )}
       </div>
       <Image width={18} height={18} src={arrow.src} alt='화살표' />

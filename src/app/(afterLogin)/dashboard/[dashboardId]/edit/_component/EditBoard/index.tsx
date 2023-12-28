@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 
 interface EditBoardProps {
-  dashboardId: string;
+  dashboardId: string | undefined;
   boardName: string;
 }
 
@@ -35,7 +35,7 @@ export default function EditBoard({ boardName, dashboardId }: EditBoardProps) {
       </div>
       <InputForm onSubmit={(data: FieldValues) => console.log(data)}>
         <InputForm.TextInput label='대시보드 이름' placeholder='변경할 대시보드 이름을 입력해주세요.' id='editBoard' />
-        <div className='flex justify-end'>
+        <div className='my-[1.875rem] flex justify-end'>
           <Confirm size='large' onClick={handleUpdate} btnName='변경' />
         </div>
       </InputForm>
