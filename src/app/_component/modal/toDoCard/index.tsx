@@ -11,7 +11,9 @@ import { FieldValues, useFormContext } from 'react-hook-form';
 import Dropdown from '../../dropdown';
 import { useForm } from 'react-hook-form';
 import { SubmitHandler } from 'react-hook-form';
-
+import { useSetRecoilState } from 'recoil';
+import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
+import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 interface TodoProps {
   mainTitle: string;
 }
@@ -38,7 +40,7 @@ export function CreateToDo({ mainTitle }: TodoProps) {
   const imageUrl = watch('imageUrl');
   const tags = watch('tags');
 
-  const isButtonDisabled = !(title && description && assigneeUserId && dueDate && imageUrl && tags.length === 0);
+  const isButtonDisabled = !(title && description && assigneeUserId && dueDate && imageUrl && tags.length >= 1);
   setValue('isDisabled2', isButtonDisabled);
   return (
     <>
@@ -112,55 +114,66 @@ export interface commentType {
 }
 
 // 할 일 카드 상세 모달 내용
-export function DetailToDo({ cardId, onClose }: { cardId: number; onClose: () => void }) {
-  const [card, setCard] = useState<ToDoCardDetailProps | null>(null);
+export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onClose: () => void; columnId: number }) {
+  console.log('columnId', columnId);
+  const [show, setShow] = useState(true);
+  const setCards = useSetRecoilState(cardStateAboutColumn(columnId));
+
+  const [cardData, setCardData] = useState<ToDoCardDetailProps | null>(null);
   const [isOpenPopOver, setIsOpenPopOver] = useState(false);
   const [comments, setComments] = useState<commentType[] | null>(null);
-  const [modalType, callModal] = useRenderModal();
+  const [modalType, callModal, setModalType] = useRenderModal();
 
   const { register } = useForm();
   // 카드 수정 서브밋 함수
   const putCard = async (form: FieldValues) => {
     try {
-      const res = await axiosInstance.put('cards/59', {
+      const res = await axiosInstance.put(`cards/${cardId}`, {
         ...form,
         columnId: +form.columnId,
         assigneeUserId: +form.assigneeUserId,
       });
-      console.log(form);
-      console.log(res);
+      setCards((oldCards: CardInfo[]) => oldCards.map((item) => (item.id === cardId ? { ...res.data } : item)));
+      console.log('cards2', res.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setModalType(null);
     }
   };
   // 카드 수정 모달 호출 함수
-  const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, card: ToDoCardDetailProps) => {
+  const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, cardData: ToDoCardDetailProps) => {
     if (typeof callModal === 'function') {
-      callModal({ name: (e.target as HTMLElement).id, onSubmit: putCard, cardData: card });
+      callModal({ name: (e.target as HTMLElement).id, onSubmit: putCard, cardData: cardData });
+      setShow(false);
     }
   };
 
   // 카드 삭제 서브밋 함수
   const DeleteCard = async () => {
     try {
-      await axiosInstance.delete('cards/59');
+      await axiosInstance.delete(`cards/${cardId}`);
+      setCards((oldCards: CardInfo[]) => oldCards.filter((item) => item.id !== cardId));
     } catch (error) {
       console.log(error);
+    } finally {
+      setModalType(null);
     }
   };
   // 카드 삭제 모달 호출 함수
   const RenderDeleteModal = (e: React.MouseEvent<HTMLDivElement>) => {
     if (typeof callModal === 'function') {
       callModal({ name: (e.target as HTMLElement).id, onSubmit: DeleteCard });
+      setShow(false);
     }
   };
   // 특정 카드 클릭 시 할 일 카드 상세 모달에 데이터 바인딩하기 위한 api 요청
   const handleRenderCard = async () => {
     try {
-      const res = await axiosInstance.get(`cards/59`);
+      const res = await axiosInstance.get(`cards/${cardId}`);
 
       const newData = res.data;
-      setCard(newData);
+      setCardData(newData);
     } catch (error) {
       console.log(error);
     }
@@ -195,9 +208,13 @@ export function DetailToDo({ cardId, onClose }: { cardId: number; onClose: () =>
   useEffect(() => {
     handleRenderCard();
     getComment();
-  }, [cardId]);
+  }, []);
 
-  if (!card) return;
+  if (!cardData) return;
+
+  if (!show) {
+    return <>{modalType}</>;
+  }
   return (
     <>
       {modalType ? (
@@ -215,16 +232,16 @@ export function DetailToDo({ cardId, onClose }: { cardId: number; onClose: () =>
                 onDelete={RenderDeleteModal}
                 isOpenPopOver={isOpenPopOver}
                 onClose={onClose}
-                cardData={card}
+                cardData={cardData}
               />
-              <span className='flex text-[1.5rem] font-bold text-black'>{card.title}</span>
+              <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
               <div className=' sm:flex  sm:flex-col-reverse md:flex md:flex-row md:justify-between'>
-                <DetailMainContent tags={card.tags} description={card.description} />
-                <DetailAssignee assignee={card.assignee} dueDate={card.dueDate} />
+                <DetailMainContent tags={cardData.tags} description={cardData.description} />
+                <DetailAssignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
               </div>
               <div className=' flex flex-col gap-[1.5rem]  sm:w-[17.9375rem] md:w-[28.125rem]'>
                 <div className='relative flex sm:h-[8.3125rem] sm:w-[17.9375rem] md:h-[16.375rem] md:w-[28.125rem]'>
-                  {card.imageUrl && <Image src={card.imageUrl} fill alt='imageUrl' />}
+                  {cardData.imageUrl && <Image src={cardData.imageUrl} fill alt='imageUrl' />}
                 </div>
 
                 <InputForm onSubmit={createComment}>

@@ -71,6 +71,7 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           sign={false}
           cardId={cardId}
           cardData={cardData}
+          columnId={columnId}
         />
       );
     case '새로운 대시보드':
@@ -116,6 +117,7 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           btnSize='large'
           sign={false}
           cardId={cardId}
+          columnId={columnId}
         />
       );
     case '가입이 완료되었습니다!':

@@ -6,7 +6,8 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
 import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-
+import { useRecoilState } from 'recoil';
+import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
 interface Admin {
   id: number;
   email: string;
@@ -29,6 +30,8 @@ export default function DropdownAndFilter({
   const [assignId, setAssignId] = useState((Number(assignee?.id) as number) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
   const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 인풋에 이름 입력 다하거나 OR 드롭다운 내부에 있는 이름 클릭하면 TRUE가됨+ 인풋이 DIV로 바뀜 (IMG와 이름 가져오기 위해)
   const [dropdownList, setDropdownList] = useState<Admin[] | null>(null);
+
+  const [dashboardId] = useRecoilState(dashboardIdState);
 
   const { register } = useInputField('assigneeUserId', {});
   const { setValue } = useFormContext();
@@ -99,7 +102,7 @@ export default function DropdownAndFilter({
   // 담당자 지정 후 수정을 위해 DIV박스 누르면 INPUT으로 바꾸고, 인풋창에 바로 포커스 (이렇게 안하면 두 번 클릭해야 포커스가 됨)
   useEffect(() => {
     const getMember = async () => {
-      const res = await axiosInstance.get('members?dashboardId=14');
+      const res = await axiosInstance.get(`members?dashboardId=${dashboardId}`);
       const { members } = res.data;
       setDropdownList(members);
     };

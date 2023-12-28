@@ -47,6 +47,24 @@ export type CardType = {
   }[];
 };
 
+export type CardInfo = {
+  id: number;
+  title: string;
+  description: string;
+  tags: string[];
+  dueDate: string;
+  assignee: {
+    profileImageUrl: string;
+    nickname: string;
+    id: number;
+  };
+  imageUrl: string;
+  teamId: string;
+  columnId: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export interface FolderName {
   id: number;
   title: string;

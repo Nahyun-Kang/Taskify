@@ -98,7 +98,7 @@ export function Modal({
             )
           ) : (
             <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
-              <DetailToDo onClose={closeModal} cardId={cardId as number} />
+              <DetailToDo onClose={closeModal} cardId={cardId as number} columnId={columnId as number} />
             </InputForm>
           )}
         </>,

@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { MouseEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import circle from '@/public/icons/Ellipse 54.svg';
+import { useRecoilState } from 'recoil';
+import { dashboardIdState } from '../../_recoil/cardAtom';
 interface Column {
   id: number;
   title: string;
@@ -22,6 +24,7 @@ export default function Dropdown({ column }: { column?: number }) {
   const [curretValue, setCurrentValue] = useState<string>(''); // 인풋에 대한 입력값 참조
   const [columnId, setColumnId] = useState<number | null>(Number(column) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
   const [dropdownList, setDropdownList] = useState<Column[] | null>(null);
+  const [dashboardId] = useRecoilState(dashboardIdState);
 
   const { register } = useInputField('columnId', {});
   const { setValue } = useFormContext();
@@ -44,7 +47,7 @@ export default function Dropdown({ column }: { column?: number }) {
 
   useEffect(() => {
     const getMember = async () => {
-      const res = await axiosInstance.get('columns?dashboardId=14');
+      const res = await axiosInstance.get(`columns?dashboardId=${dashboardId}`);
       const { data } = res.data;
       if (column) {
         const MemberForUpdate: Column[] = data?.filter((dropdown: Column) => {
@@ -59,7 +62,7 @@ export default function Dropdown({ column }: { column?: number }) {
 
     getMember();
   }, [column]);
-  console.log(columnId);
+
   return (
     <div className='flex h-[3rem] w-[13.5625rem] flex-col items-start gap-[0.625rem]'>
       <label className='text-[1.125rem] text-black'>상태</label>
