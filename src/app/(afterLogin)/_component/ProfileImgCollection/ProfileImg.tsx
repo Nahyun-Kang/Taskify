@@ -1,4 +1,6 @@
 import { memberType } from '@/src/app/(afterLogin)/_constant/type';
+import { Colors } from '@/src/app/(afterLogin)/_constant/color';
+import { TypeNumber } from '@/src/app/(afterLogin)/_constant/type';
 
 interface Props {
   idx: number;
@@ -7,23 +9,12 @@ interface Props {
   count: number;
 }
 
-type Type = {
-  [key: number]: string;
-};
-
-const Size: Type = {
+const Size: TypeNumber = {
   0: '',
   1: 'absolute left-[1.5rem] md:left-[1.875rem]',
   2: 'absolute left-[3rem] md:left-[3.75rem]',
   3: 'absolute left-[4.5rem] md:left-[5.625rem]',
   4: 'absolute left-[6rem] md:left-[7.5rem]',
-};
-
-const Colors: Type = {
-  0: 'bg-[#FFC85A]',
-  1: 'bg-[#FDD446]',
-  2: 'bg-[#9DD7ED]',
-  3: 'bg-[#C4B1A2]',
 };
 
 export default function Profile({ idx, values, total, count }: Props) {
