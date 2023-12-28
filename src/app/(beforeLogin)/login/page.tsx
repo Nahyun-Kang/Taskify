@@ -1,7 +1,9 @@
 'use client';
 import { FormEvent } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+// import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 import Sign from '@/src/app/_component/Button/Sign';
 import InputForm from '../../_component/InputForm';
@@ -9,9 +11,12 @@ import AuthLayout from '../_component/Auth/AuthLayout';
 import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { axiosInstance } from '../../_util/axiosInstance';
 import useRenderModal from '../../_hook/useRenderModal';
+import { accessTokenState, userInfoState } from '../../_recoil/AuthAtom';
 
 export default function LogIn() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [token, setToken] = useRecoilState(accessTokenState);
   const [modalType, callModal] = useRenderModal();
   // const router = useRouter();
 
@@ -24,15 +29,26 @@ export default function LogIn() {
     };
     try {
       const res = await axiosInstance.post('auth/login', BODY_DATA);
-      console.log(res);
+      const userInfo = res.data.user;
+      const accessToken = res.data.accessToken;
+      setToken(accessToken);
+      setUserInfo(userInfo);
+
       // router.push('/boards');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
-      if (error.response.status === 400 && error.response.data.message === '비밀번호가 일치하지 않습니다.') {
-        callModal('비밀번호가 일치하지 않습니다.', () => {});
+      if (axios.isAxiosError(error)) {
+        const response = error.response;
+
+        if (response && response.status === 400 && response.data.message === '비밀번호가 일치하지 않습니다.') {
+          callModal({ name: '비밀번호가 일치하지 않습니다.', onSubmit: () => {} });
+        }
       }
     }
   };
+
+  console.log(userInfo);
+  console.log(token);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

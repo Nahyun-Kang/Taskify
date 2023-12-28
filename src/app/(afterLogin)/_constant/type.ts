@@ -16,17 +16,6 @@ export interface memberType {
   isOwner: boolean;
 }
 
-<<<<<<< HEAD
-export interface userInfoType {
-  email: string | null;
-  id: number | null;
-  nickname: string | null;
-  profileImageUrl: string | null;
-  updatedAt: string | null;
-}
-
-export type accessTokenType = string | null;
-=======
 export interface Invitations {
   id: number;
   inviter: {
@@ -88,4 +77,3 @@ export interface FolderName {
   userId: number;
   createdByMe: boolean;
 }
->>>>>>> main

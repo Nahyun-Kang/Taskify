@@ -10,11 +10,13 @@ import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { nicknameValidate } from '@/src/app/_constant/Input';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { AxiosError } from 'axios';
 
 export default function SignUp() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
   const [isChecked, setChecked] = useState(false);
   const [modalType, callModal] = useRenderModal();
+
   const router = useRouter();
   const isActiveButton = methods.formState.isDirty && methods.formState.isValid && isChecked;
 
@@ -31,12 +33,17 @@ export default function SignUp() {
     };
     try {
       await axiosInstance.post('users', BODY_DATA);
-      callModal('가입이 완료되었습니다!', () => {
-        router.push('/login');
+      callModal({
+        name: '가입이 완료되었습니다!',
+        onSubmit: () => {
+          router.push('/login');
+        },
       });
-    } catch (error: any) {
-      if (error.response && error.response.status === 409) {
-        callModal('이미 사용 중인 이메일입니다.', () => {});
+    } catch (error: unknown) {
+      console.log(error);
+      const { response } = error as unknown as AxiosError;
+      if (response && response.status === 409) {
+        callModal({ name: '이미 사용 중인 이메일입니다.', onSubmit: () => {} });
       }
     }
   };
