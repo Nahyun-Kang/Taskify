@@ -28,7 +28,7 @@ export default function Header() {
   const folderName = isMyDashboard ? '내 대시보드' : DUMMY.folder;
 
   const handleInvitation = () => {
-    callModal('초대하기', submitInvitation(dashboardId));
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
   };
 
   return (

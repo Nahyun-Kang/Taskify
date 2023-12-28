@@ -31,8 +31,9 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
       setPage((prevPage) => prevPage + 1);
     }
   };
+
   const handleInvite = () => {
-    callModal('초대하기', submitInvitation(dashboardId));
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
   };
 
   useEffect(() => {
