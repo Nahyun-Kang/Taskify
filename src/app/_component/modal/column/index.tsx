@@ -40,9 +40,7 @@ export function UpdateColumn({
     callModal({ name: (e.target as HTMLElement).id, columnId: columnId });
     setShow(false);
   };
-
-  const updateSubmit = () => {};
-
+  console.log(show);
   if (!show) return <>{modalType}</>;
 
   return (
@@ -67,7 +65,7 @@ export function UpdateColumn({
 
             <div className='flex gap-[0.75rem]  sm:justify-between md:justify-end'>
               <Cancel size={btnSize} onClick={onClose} />
-              <Confirm btnName={btnName} size={btnSize} onClick={updateSubmit} />
+              <Confirm btnName={btnName} size={btnSize} onClick={() => {}} />
             </div>
           </div>
         </div>
@@ -75,6 +73,7 @@ export function UpdateColumn({
     </>
   );
 }
+
 // 컬럼 삭제 모달 메인 내용
 
 interface DeleteColumnProps {
@@ -100,6 +99,7 @@ export function DeleteColumn({ mainTitle, btnName, btnSize, onClose, columnId }:
   //   setShow(true);
   //   onClose();
   // };
+
   return (
     <>
       <div className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'>

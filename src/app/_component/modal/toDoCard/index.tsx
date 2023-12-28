@@ -9,8 +9,7 @@ import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { FieldValues, useFormContext } from 'react-hook-form';
 import Dropdown from '../../dropdown';
-import { useForm } from 'react-hook-form';
-import { SubmitHandler } from 'react-hook-form';
+// import { SubmitHandler } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
@@ -124,7 +123,6 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   const [comments, setComments] = useState<commentType[] | null>(null);
   const [modalType, callModal, setModalType] = useRenderModal();
 
-  const { register } = useForm();
   // 카드 수정 서브밋 함수
   const putCard = async (form: FieldValues) => {
     try {
@@ -143,10 +141,8 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   };
   // 카드 수정 모달 호출 함수
   const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, cardData: ToDoCardDetailProps) => {
-    if (typeof callModal === 'function') {
-      callModal({ name: (e.target as HTMLElement).id, onSubmit: putCard, cardData: cardData });
-      setShow(false);
-    }
+    callModal({ name: (e.target as HTMLElement).id, onSubmit: putCard, cardData: cardData });
+    setShow(false);
   };
 
   // 카드 삭제 서브밋 함수
@@ -179,15 +175,17 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
     }
   };
   // 댓글 생성 함수
-  const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    try {
-      const res = await axiosInstance.post('comments', { ...data, columnId: 50, cardId: 59 });
-      setComments((prev) => [res.data, ...(prev ? prev : [])]);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+  // const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
+  //   console.log(data);
+  //   try {
+  //     const res = await axiosInstance.post('comments', { ...data, columnId: 50, cardId: 59 });
+  //     setComments((prev) => [res.data, ...(prev ? prev : [])]);
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   // 할 일 카드 상세 모달 마운트 시 기존의 댓글을 보여주는 함수
   const getComment = async () => {
     try {
@@ -212,10 +210,11 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   }, []);
 
   if (!cardData) return;
-
+  console.log(show);
   if (!show) {
     return <>{modalType}</>;
   }
+
   return (
     <>
       {modalType ? (
@@ -245,16 +244,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
                   {cardData.imageUrl && <Image src={cardData.imageUrl} fill alt='imageUrl' />}
                 </div>
 
-                <InputForm onSubmit={createComment}>
-                  <input
-                    id='content'
-                    type='text'
-                    className='placeholder:text-gray4 inline-flex h-6 flex-1 bg-inherit outline-0'
-                    placeholder='댓글을 입력해주세요'
-                    {...register('content', { required: true })}
-                  />
-                  <button type='submit'>입력</button>
-                </InputForm>
+                <InputForm.CommentInput id='content' placeholder='댓글을 입력해주세요' label='댓글' />
 
                 {comments?.map((comment) => {
                   return <DetailCardComment key={comment.id} data={comment} />;

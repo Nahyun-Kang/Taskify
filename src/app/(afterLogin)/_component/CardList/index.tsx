@@ -16,6 +16,7 @@ import { useSetRecoilState } from 'recoil';
 import { columnState } from '@/src/app/_recoil/cardAtom';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { CardInfo } from '../../_constant/type';
+import { showModalState } from '@/src/app/_recoil/cardAtom';
 interface CardListProps {
   id: number;
   title: string;
@@ -27,6 +28,9 @@ export default function CardList({ id, title, boardId }: CardListProps) {
   const [cardNumCount, setCardNumCount] = useState<number | null>(null);
   const [modalType, callModal, setModalType] = useRenderModal();
   const setColumns = useSetRecoilState(columnState);
+
+  const setShow = useSetRecoilState(showModalState);
+
   const getCard = async () => {
     const { data } = await axiosInstance.get(`cards?size=10&columnId=${id}`);
 
@@ -65,6 +69,7 @@ export default function CardList({ id, title, boardId }: CardListProps) {
   // 칼럼 수정 모달 호출을 위한 함수
 
   const handleRenderUpdateColumn = () => {
+    setShow(true);
     console.log('왜 안뜨지');
     callModal({
       name: '칼럼 관리',

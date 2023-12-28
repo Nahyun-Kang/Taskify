@@ -3,7 +3,10 @@ import Tag from '@/src/app/_component/Chip/Tag';
 import Image from 'next/image';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-
+import { SubmitHandler } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { useParams } from 'next/navigation';
 interface CardProps {
   title: string;
   tags: string[];
@@ -28,10 +31,27 @@ export default function Card({
   columnId,
 }: CardProps) {
   const [modalType, callModal] = useRenderModal();
+  const params = useParams();
+  console.log(params.dashboardId);
+  const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
+    console.log(data);
+    try {
+      const res = await axiosInstance.post('comments', {
+        ...data,
+        columnId,
+        cardId: id,
+        dashboardId: Number(params.dashboardId),
+      });
+      // setComments((prev) => [res.data, ...(prev ? prev : [])]);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // 할 일 카드 상세 모달을 호출하기 위한 함수
   const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (typeof callModal === 'function') {
-      callModal({ name: (e.target as HTMLElement).id, cardId: id, columnId: columnId });
+      callModal({ name: (e.target as HTMLElement).id, onSubmit: createComment, cardId: id, columnId });
     }
   };
 
