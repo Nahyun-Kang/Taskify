@@ -34,3 +34,18 @@ export async function deleteMember(memberId: number) {
     throw error;
   }
 }
+
+export async function deleteInvitation(dashboardId: string | undefined, invitationId: number) {
+  try {
+    const response = await axiosInstance.delete(`dashboards/${dashboardId}/invitations/${invitationId}`);
+    const status = response.status;
+    if (status === 204) {
+      alert('취소 되었습니다.');
+    } else {
+      alert('취소 실패!');
+    }
+    return status;
+  } catch (error) {
+    throw error;
+  }
+}
