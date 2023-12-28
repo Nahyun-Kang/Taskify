@@ -4,13 +4,27 @@ import useGetWindowSize from '@/src/app/_hook/useGetWindowSize';
 import EditBoard from './_component/EditBoard';
 import InviteList from './_component/InviteList';
 import MemberList from './_component/MemberList';
+import { deleteDashboard } from '@/src/app/_api/Dashboards';
+import { dashboardState } from '@/src/app/_recoil/dashboardAtoms';
+import { useRecoilState } from 'recoil';
+import { useRouter } from 'next/navigation';
 
 export default function BoardEdit({ params }: { params: { dashboardId: string } }) {
+  const router = useRouter();
+  const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
   const windowSize = useGetWindowSize();
   const isMobile = windowSize < 510 ? true : false;
 
-  const handleDelete = () => {
-    //dashboard 삭제 api
+  const handleDelete = async () => {
+    const result = await deleteDashboard(params.dashboardId);
+    if (!result) return;
+    if (result === 204) {
+      setDashboardData((prevDashboard) => ({
+        ...prevDashboard,
+        dashboards: prevDashboard.dashboards.filter((item) => item.id !== Number(params.dashboardId)),
+      }));
+      router.replace('/myboard');
+    }
   };
 
   return (
