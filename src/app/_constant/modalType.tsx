@@ -2,6 +2,7 @@ export const MODALTYPE = {
   COLUMN: {
     CREATE: '새 칼럼 생성',
     UPDATE: '칼럼 관리',
+    DELETE: '칼럼 삭제',
   },
   TODO: {
     CREATE: '할 일 생성',

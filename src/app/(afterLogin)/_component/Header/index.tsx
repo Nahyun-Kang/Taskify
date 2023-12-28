@@ -6,6 +6,11 @@ import HeaderButton from './HeaderButton';
 import add from '@/public/images/add_box_icon.svg';
 import manage from '@/public/images/manage_icon.svg';
 import ProfileCollection from '../ProfileImgCollection';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
+import submitInvitation from '../../_util/submitInvitation';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 
 const DUMMY = {
   folder: '강나현의 대시보드',
@@ -15,30 +20,57 @@ const DUMMY = {
 
 export default function Header() {
   const pathname = usePathname();
-  const isMyDashboard = pathname === '/mydashboard';
+  const isMyDashboard = pathname === '/myboard';
+  const [ModalType, callModal] = useRenderModal();
+  const [folderName, setFolderName] = useState('');
+  const [createdByMe, setCreatedByMe] = useState(false);
 
+  const dashboardId = pathname.replace(/[^0-9]/g, '');
   const titleClass = !isMyDashboard ? 'hidden lg:block' : '';
-  const crownClass = !isMyDashboard ? 'lg:block' : '';
   const marginClass = isMyDashboard ? 'ml-[5.6875rem]' : '';
-  const folderName = isMyDashboard ? '내 대시보드' : DUMMY.folder;
+
+  const getFolderName = async () => {
+    if (isMyDashboard) {
+      setFolderName('내 대시보드');
+      setCreatedByMe(false);
+    } else {
+      const id = pathname.replace('dashboard/', '');
+      const { data } = await axiosInstance.get(`dashboards${id}`);
+      setFolderName(data?.title);
+      setCreatedByMe(data?.createdByMe);
+    }
+  };
+
+  useEffect(() => {
+    getFolderName();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  const handleInvitation = () => {
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
+  };
 
   return (
-    <div className='relative'>
+    <div className='relative z-10'>
       <div className='fixed left-0 right-0 top-0 h-[4.375rem] border-b-[.0625rem] bg-white'>
         <div className=' flex h-full items-center justify-between'>
           {/* 헤더영역 왼쪽 */}
           <div className={`${marginClass} justify-end md:ml-[12.5rem] lg:ml-[21.25rem]`}>
             <div className='flex items-center gap-2'>
               <div className={`text-black30 text-xl font-bold ${titleClass}`}>{folderName}</div>
-              <Crown className={`hidden ${crownClass}`} />
+              {createdByMe && <Crown className='hidden lg:block' />}
             </div>
           </div>
           {/* 헤더영역 오른쪽 */}
           <div className='flex'>
             {!isMyDashboard && (
               <div className='flex gap-[.375rem] md:gap-4'>
-                <HeaderButton imageSrc={manage}>관리</HeaderButton>
-                <HeaderButton imageSrc={add}>초대하기</HeaderButton>
+                <Link href={`${pathname.includes('edit') ? pathname : pathname + '/edit'}`}>
+                  <HeaderButton imageSrc={manage}>관리</HeaderButton>
+                </Link>
+                <HeaderButton imageSrc={add} onClick={handleInvitation}>
+                  초대하기
+                </HeaderButton>
               </div>
             )}
             {!isMyDashboard && (
@@ -59,6 +91,7 @@ export default function Header() {
           </div>
         </div>
       </div>
+      {ModalType}
     </div>
   );
 }

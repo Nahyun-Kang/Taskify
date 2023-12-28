@@ -1,17 +1,45 @@
 'use client';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import Image from 'next/image';
-import { useState } from 'react';
-import { FieldValues } from 'react-hook-form';
-import DropdownAndFilter from '../../Input/DropdownAndFilter';
+import { useEffect, useState } from 'react';
+import DropdownAndFilter from '../../dropdown/filter';
 import InputForm from '../../InputForm';
 import { DetailAssignee, DetailCardComment, DetailIconButton, DetailMainContent } from './DetailComponent';
+import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { FieldValues, useFormContext } from 'react-hook-form';
+import Dropdown from '../../dropdown';
+import { useForm } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
+
 interface TodoProps {
   mainTitle: string;
 }
 
+export interface ToDoCardDetailProps {
+  columnId?: number;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  title: string;
+  description: string;
+  tags: string[];
+  dueDate: string;
+  imageUrl: string;
+  assignee: { profileImageUrl: string; nickname: string; id: number };
+}
 // 할 일 카드 생성 모달 내용
 export function CreateToDo({ mainTitle }: TodoProps) {
+  const { watch, setValue } = useFormContext();
+  const title = watch('title');
+  const description = watch('description');
+  const assigneeUserId = watch('assigneeUserId');
+  const dueDate = watch('dueDate');
+  const imageUrl = watch('imageUrl');
+  const tags = watch('tags');
+
+  const isButtonDisabled = !(title && description && assigneeUserId && dueDate && imageUrl && tags.length === 0);
+  setValue('isDisabled2', isButtonDisabled);
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
@@ -20,33 +48,43 @@ export function CreateToDo({ mainTitle }: TodoProps) {
       <InputForm.TextInput label='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
       <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 선택' />
       <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' />
-      <InputForm.TagInput label='이미지' id='imageUrl' placeholder='아직 이미지인풋이 없네용' />
+      <AddImageFile size='big' />
     </>
   );
 }
 // 할 일 카드 수정 모달 내용
-export function UpdateToDo({ mainTitle }: TodoProps) {
+export function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardData: ToDoCardDetailProps }) {
+  const { watch, setValue } = useFormContext();
+  const title = watch('title');
+  const description = watch('description');
+
+  const isButtonDisabled = !(title && description);
+  setValue('isDisabled', isButtonDisabled);
+
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <DropdownAndFilter />
+      <div className='flex justify-between'>
+        <Dropdown column={cardData.columnId} />
+        <DropdownAndFilter assignee={cardData.assignee} />
+      </div>
       <InputForm.TextInput
         label='제목'
         placeholder='제목을 입력해주세요'
         id='title'
         isRequired={true}
-        initialValue='기본값'
+        initialValue={cardData.title}
       />
       <InputForm.TextInput
         label='설명'
         placeholder='설명을 입력해주세요'
         id='description'
         isRequired={true}
-        initialValue='기본값'
+        initialValue={cardData.description}
       />
       <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 입력' initialDate={new Date('2023-12-24')} />
-      <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' initialTags={['기본값']} />
-      <InputForm.TagInput label='이미지' id='imageUrl' placeholder='아직 이미지인풋이 없네용' />
+      <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' initialTags={cardData.tags} />
+      <AddImageFile size='big' profileImageUrl={cardData.imageUrl} />
     </>
   );
 }
@@ -60,48 +98,106 @@ export function DeleteTodo({ mainTitle }: TodoProps) {
   );
 }
 
-export const ToDoCardDetail = {
-  id: 1,
-  title: '일정 관리 Taskify 프로젝트',
-  description: '안녕안녕안녕',
-  tags: ['프론트엔드', '넥스트'],
-  dueDate: '2022.12.31',
-  assignee: {
-    profileImageUrl: '/icons/circleProfile.svg',
-    nickname: '미녀기',
-    id: 0,
-  },
-  imageUrl: '/images/hero.png',
-  columnId: 0,
-  createdAt: '2023-12-21T04:12:30.578Z',
-  updatedAt: '2023-12-21T04:12:30.578Z',
-};
-ToDoCardDetail;
-interface ToDoCardDetailProps {
+export interface commentType {
   id: number;
+  content: string;
   createdAt: string;
   updatedAt: string;
-  title: string;
-  description: string;
-  tags: string[];
-  dueDate: string;
-  imageUrl: string;
-  assignee: { profileImageUrl: string; nickname: string; id: number };
+  cardId: number;
+  author: {
+    profileImageUrl: string;
+    nickname: string;
+    id: number;
+  };
 }
 
 // 할 일 카드 상세 모달 내용
-export function DetailToDo({ ToDoCardDetail, onClose }: { ToDoCardDetail: ToDoCardDetailProps; onClose: () => void }) {
-  const { title, description, tags, dueDate, assignee, imageUrl } = ToDoCardDetail;
+export function DetailToDo({ cardId, onClose }: { cardId: number; onClose: () => void }) {
+  const [card, setCard] = useState<ToDoCardDetailProps | null>(null);
   const [isOpenPopOver, setIsOpenPopOver] = useState(false);
+  const [comments, setComments] = useState<commentType[] | null>(null);
   const [modalType, callModal] = useRenderModal();
 
-  const handleRenderModal = (e: React.MouseEvent<HTMLParagraphElement>) => {
-    callModal(String((e.target as HTMLElement).id), (data: FieldValues) => console.log(data));
+  const { register } = useForm();
+  // 카드 수정 서브밋 함수
+  const putCard = async (form: FieldValues) => {
+    try {
+      const res = await axiosInstance.put('cards/59', {
+        ...form,
+        columnId: +form.columnId,
+        assigneeUserId: +form.assigneeUserId,
+      });
+      console.log(form);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // 카드 수정 모달 호출 함수
+  const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, card: ToDoCardDetailProps) => {
+    if (typeof callModal === 'function') {
+      callModal({ name: (e.target as HTMLElement).id, onSubmit: putCard, cardData: card });
+    }
   };
 
-  const handleKebab = () => setIsOpenPopOver(true);
+  // 카드 삭제 서브밋 함수
+  const DeleteCard = async () => {
+    try {
+      await axiosInstance.delete('cards/59');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // 카드 삭제 모달 호출 함수
+  const RenderDeleteModal = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof callModal === 'function') {
+      callModal({ name: (e.target as HTMLElement).id, onSubmit: DeleteCard });
+    }
+  };
+  // 특정 카드 클릭 시 할 일 카드 상세 모달에 데이터 바인딩하기 위한 api 요청
+  const handleRenderCard = async () => {
+    try {
+      const res = await axiosInstance.get(`cards/59`);
 
-  const handleClick = () => {};
+      const newData = res.data;
+      setCard(newData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // 댓글 생성 함수
+  const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
+    try {
+      const res = await axiosInstance.post('comments', { ...data, columnId: 50, cardId: 59 });
+      setComments((prev) => [res.data, ...(prev ? prev : [])]);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // 할 일 카드 상세 모달 마운트 시 기존의 댓글을 보여주는 함수
+  const getComment = async () => {
+    try {
+      const res = await axiosInstance.get('comments?size=10&cardId=59');
+      setComments(res.data.comments);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const onSubmit = async (data: FieldValues) => {
+  //   await createComment(data);
+  // };
+
+  const handleKebab = () => setIsOpenPopOver(true);
+  // 할 일 카드 상세 모달 마운트 시 해당 카드 및 댓글 데이터바인딩
+  useEffect(() => {
+    handleRenderCard();
+    getComment();
+  }, [cardId]);
+
+  if (!card) return;
   return (
     <>
       {modalType ? (
@@ -115,27 +211,36 @@ export function DetailToDo({ ToDoCardDetail, onClose }: { ToDoCardDetail: ToDoCa
             >
               <DetailIconButton
                 handleKebab={handleKebab}
-                handleRenderModal={handleRenderModal}
+                onUpdate={RenderUpdatedoModal}
+                onDelete={RenderDeleteModal}
                 isOpenPopOver={isOpenPopOver}
                 onClose={onClose}
+                cardData={card}
               />
-              <span className='flex text-[1.5rem] font-bold text-black'>{title}</span>
+              <span className='flex text-[1.5rem] font-bold text-black'>{card.title}</span>
               <div className=' sm:flex  sm:flex-col-reverse md:flex md:flex-row md:justify-between'>
-                <DetailMainContent tags={tags} description={description} />
-                <DetailAssignee assignee={assignee} dueDate={dueDate} />
+                <DetailMainContent tags={card.tags} description={card.description} />
+                <DetailAssignee assignee={card.assignee} dueDate={card.dueDate} />
               </div>
               <div className=' flex flex-col gap-[1.5rem]  sm:w-[17.9375rem] md:w-[28.125rem]'>
                 <div className='relative flex sm:h-[8.3125rem] sm:w-[17.9375rem] md:h-[16.375rem] md:w-[28.125rem]'>
-                  <Image src={imageUrl} fill alt='imageUrl' />
+                  {card.imageUrl && <Image src={card.imageUrl} fill alt='imageUrl' />}
                 </div>
-                <InputForm.CommentInput
-                  id='comment'
-                  label='댓글'
-                  initialValue='기본값'
-                  handleClick={handleClick}
-                  placeholder='댓글을 입력해 주세요'
-                />
-                <DetailCardComment />
+
+                <InputForm onSubmit={createComment}>
+                  <input
+                    id='content'
+                    type='text'
+                    className='placeholder:text-gray4 inline-flex h-6 flex-1 bg-inherit outline-0'
+                    placeholder='댓글을 입력해주세요'
+                    {...register('content', { required: true })}
+                  />
+                  <button type='submit'>입력</button>
+                </InputForm>
+
+                {comments?.map((comment) => {
+                  return <DetailCardComment key={comment.id} data={comment} />;
+                })}
               </div>
             </div>
           </div>

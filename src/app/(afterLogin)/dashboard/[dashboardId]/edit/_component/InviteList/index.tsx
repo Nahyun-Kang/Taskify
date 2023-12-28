@@ -4,6 +4,8 @@ import addBox from '@/public/icons/add_box.svg';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import CancelInvite from '@/src/app/_component/Button/CancelInvite';
 import { deleteInvitation, getInvitations } from '@/src/app/_api/Dashboards';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
+import submitInvitation from '@/src/app/(afterLogin)/_util/submitInvitation';
 
 interface InviteListProps {
   id: number;
@@ -20,6 +22,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   const [isActiveForward, setIsActiveForward] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
+  const [modalType, callModal] = useRenderModal();
 
   const handlePageNation = (direction: 'back' | 'forward') => {
     if (direction === 'back') {
@@ -28,6 +31,11 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
       setPage((prevPage) => prevPage + 1);
     }
   };
+
+  const handleInvite = () => {
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
+  };
+
   const handleCancelInvite = (inviteId: number) => {
     const result = deleteInvitation(dashboardId, inviteId);
     if (!result) return;
@@ -74,7 +82,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
             </div>
             <button
               className='flex h-[1.75rem] w-[5.375rem] items-center justify-center gap-[0.5625rem] rounded-[0.25rem] bg-violet text-[0.75rem] text-white md:h-[2rem] md:w-[105px]'
-              onClick={() => console.log()}
+              onClick={handleInvite}
             >
               <Image src={addBox.src} width={16} height={16} alt='초대 버튼' /> 초대하기
             </button>
@@ -94,6 +102,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
             </div>
           ))}
       </div>
+      {modalType}
     </div>
   );
 }
