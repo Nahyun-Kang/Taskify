@@ -14,7 +14,7 @@ interface CallModalType {
 }
 
 // 특정 모달 컴포넌트가 담겨져있는 state와 모달호출함수를 리턴하는 커스텀 훅
-export default function useRenderModal() {
+export default function useRenderModal(): [React.ReactElement | null, CallModalType] {
   const [modalType, setModalType] = useState<React.ReactElement | null>(null);
 
   const callModal: CallModalType = (condition) => {
