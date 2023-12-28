@@ -2,7 +2,7 @@ import { isAxiosError } from 'axios';
 import { axiosInstance } from '../../_util/axiosInstance';
 import { FieldValues } from 'react-hook-form';
 
-export default function submitInvitation(dashboardId: number) {
+export default function submitInvitation(dashboardId: string | undefined) {
   const postInvitation = async (data: FieldValues) => {
     try {
       await axiosInstance.post(`dashboards/${dashboardId}/invitations`, {
