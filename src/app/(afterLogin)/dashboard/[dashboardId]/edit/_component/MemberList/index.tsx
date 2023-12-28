@@ -3,7 +3,7 @@ import Delete from '@/src/app/_component/Button/Delete';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import { useEffect, useState } from 'react';
 import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
-import { getMembers } from '@/src/app/_api/Dashboards';
+import { deleteMember, getMembers } from '@/src/app/_api/Dashboards';
 
 interface membersProps {
   id: number;
@@ -28,8 +28,10 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
     }
   };
 
-  const handleDelete = (userId: number) => {
-    console.log(userId);
+  const handleDelete = (memberId: number) => {
+    const result = deleteMember(memberId);
+    if (!result) return;
+    setMemberList((prevMembers) => prevMembers.filter((member: membersProps) => member.id !== memberId));
   };
 
   useEffect(() => {
@@ -83,7 +85,7 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
                 )}
                 <span className='text-black80 sm:text-[0.875rem] md:text-[1rem]'>{val.nickname}</span>
               </div>
-              <Delete size='large' onClick={() => handleDelete(val.userId)} />
+              <Delete size='large' onClick={() => handleDelete(val.id)} />
             </div>
           ))}
       </div>

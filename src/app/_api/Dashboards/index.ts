@@ -19,3 +19,18 @@ export async function getMembers(dashboardId: string | undefined, page: number, 
     throw error;
   }
 }
+
+export async function deleteMember(memberId: number) {
+  try {
+    const response = await axiosInstance.delete(`members/${memberId}`);
+    const status = response.status;
+    if (status === 204) {
+      alert('삭제 되었습니다.');
+    } else {
+      alert('삭제 실패!');
+    }
+    return status;
+  } catch (error) {
+    throw error;
+  }
+}
