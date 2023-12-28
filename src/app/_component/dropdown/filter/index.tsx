@@ -1,7 +1,6 @@
 'use client';
 import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
-import circleProfile from '@/public/icons/circleProfile.svg';
 import { useInputField } from '@/src/app/_component/InputForm/InputStyle';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
@@ -128,7 +127,7 @@ export default function DropdownAndFilter({
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
-              <Image src={circleProfile} alt='circleLogo' width={26} height={26} />
+              {assignee ? <Image src={assignee.profileImageUrl} alt='circleLogo' width={26} height={26} /> : null}
               <span className='text-[1rem]'>{curretValue}</span>
             </div>
           ) : (
