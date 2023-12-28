@@ -23,9 +23,15 @@ export default function LogIn() {
       password: password,
     };
     try {
-      const res = await axiosInstance.post('auth/login', BODY_DATA);
+      const res = await axiosInstance.post('auth/login', BODY_DATA, {
+        headers: {
+          withCredentials: true,
+          cookie:
+            'bearer = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsInRlYW1JZCI6IjEtMyIsImlhdCI6MTcwMjk4MjAyMiwiaXNzIjoic3AtdGFza2lmeSJ9.CyJw1VGMNUVnP97QL8coPmhfCeaBZkMHZDU1KjOyAyo',
+        },
+      });
       console.log(res);
-      router.push('/boards');
+      // router.push('/boards');
     } catch (error: any) {
       console.log(error);
       if (error.response.status === 400 && error.response.data.message === '비밀번호가 일치하지 않습니다.') {
