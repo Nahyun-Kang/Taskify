@@ -12,9 +12,13 @@ import IdxIcon from '@/src/app/(afterLogin)/_component/Icons/IdxIcon';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtoms';
 import { useRecoilState } from 'recoil';
+import { usePathname } from 'next/navigation';
 
 export default function SideMenu() {
   const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
+  const pathName = usePathname();
+  const currentBoard = pathName.replace('/dashboard/', '');
+
   useEffect(() => {
     const fetchDashboard = async () => {
       const data = await getDashboards();
@@ -26,28 +30,42 @@ export default function SideMenu() {
   }, [setDashboardData]);
 
   return (
-    <div className='relative z-10'>
-      <div className='h-screen w-[4.1875rem] border-r-[.0625rem] bg-white pl-[1.375rem] pr-[1.335rem] pt-[1.1875rem] md:w-[10rem] lg:w-[18.75rem]'>
+    <div className='fixed z-10'>
+      <div className='h-screen w-[4.1875rem] border-r-[.0625rem] bg-white pt-[1.1875rem] md:w-[10rem] md:pl-[0.75rem] lg:w-[18.75rem]'>
         <Link href='/myboard'>
-          <div className='mb-[2.4294rem] flex items-center md:mb-[3.7456rem]'>
+          <div className='mb-[2.4294rem] flex items-center justify-center md:mb-[3.7456rem] md:justify-start'>
             <Image src={smallLogo} alt='CI' className='h-[33.069px] w-[1.8009rem] md:flex-shrink-0' />
             <Image src={textLogo} alt='텍스트 로고' className='hidden md:block' />
           </div>
         </Link>
-        <div className='mb-[1.875rem] flex items-center justify-between'>
-          <div className='hidden text-[.75rem] font-bold text-gray50 md:block'>Dash Board</div>
+        <div className='m-auto mb-[0.9375rem] flex w-fit items-center'>
+          <div className='hidden text-[.75rem] font-bold text-gray50 md:mr-6 md:block lg:mr-[10rem]'>Dash Board</div>
           <Image src={addIcon} alt='대시보드 추가 버튼' className='h-[1.25rem] w-[1.25rem] cursor-pointer' />
         </div>
-        <div className='flex flex-col items-center md:items-start'>
+        <div className='m-auto flex w-[2.5rem] flex-col items-center md:m-0 md:w-full md:items-start md:pr-3'>
           {dashboardData.dashboards.map((item: DashboardProps, idx: number) => {
             return (
-              <div className='mb-[1.6875rem] flex items-center' key={idx.toString()}>
-                <IdxIcon color={item.color} className='md:mr-[1rem]' />
-                <div className='hidden text-base font-medium text-gray50 md:mr-[.375rem] md:block'>{item.title}</div>
-                {item.createdByMe === true && (
-                  <Image src={crown} alt='내가 생성한 대시보드를 표시하는 왕관 아이콘' className='hidden md:block' />
-                )}
-              </div>
+              <Link
+                href={`/dashboard/${item.id}`}
+                key={idx.toString()}
+                className={`${
+                  item.id === Number(currentBoard) ? 'bg-violet8' : ''
+                } flex h-[2.5rem] w-full items-center justify-center  rounded md:h-[2.6875rem] md:justify-start md:pl-[0.75rem] lg:h-[2.8125rem]`}
+              >
+                <div className='flex items-center'>
+                  <IdxIcon color={item.color} className='md:mr-[1rem]' />
+                  <div
+                    className={`${
+                      item.createdByMe ? 'md:max-w-[50%]' : ''
+                    } hidden flex-grow-0 overflow-hidden text-ellipsis whitespace-nowrap text-base font-medium text-gray50 md:mr-[.375rem] md:block lg:max-w-[80%]`}
+                  >
+                    {item.title}
+                  </div>
+                  {item.createdByMe === true && (
+                    <Image src={crown} alt='내가 생성한 대시보드를 표시하는 왕관 아이콘' className='hidden md:block' />
+                  )}
+                </div>
+              </Link>
             );
           })}
         </div>
