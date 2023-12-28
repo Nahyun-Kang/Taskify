@@ -28,12 +28,12 @@ export default function DashboardList({ dashBoards, totalPages }: DashBoardListP
               onClick={() => {}}
               title={dashboard.title}
               createdByMe={dashboard.createdByMe}
-              color='bg-[#7AC555]'
+              color={dashboard.color}
             />
           ))}
         </div>
-        <div className='ml-auto grid auto-cols-[4.5rem] grid-flow-col items-center gap-3 text-[0.75rem] md:auto-cols-[5rem]'>
-          <span className='text-3 md:text-[0.875rem]'>{totalPages} 페이지 중 1</span>
+        <div className='ml-auto flex items-center gap-3'>
+          <span className='flex w-full text-[0.75rem] md:text-[0.875rem]'>{totalPages} 페이지 중 1</span>
           <PageNation
             size='small'
             isActiveBack={true}

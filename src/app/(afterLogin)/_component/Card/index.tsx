@@ -36,10 +36,7 @@ export default function Card({ title, tags, dueDate, bgColor, imageUrl, nickname
           {title}
         </Link>
         <div className='flex justify-between gap-4'>
-          <div
-            className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]
-'
-          >
+          <div className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]'>
             <div className='flex flex-wrap gap-[0.375rem]'>
               {tags.map((tag, index) => (
                 <Tag size='large' content={tag} key={tag + index} />

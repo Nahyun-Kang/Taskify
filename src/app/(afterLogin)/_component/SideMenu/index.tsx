@@ -1,51 +1,33 @@
 'use client';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect } from 'react';
 
-import textLogo from '@/public/logo/logo_text_only.svg';
-import smallLogo from '@/public/logo/nav_logo_small.svg';
 import addIcon from '@/public/images/add_box_icon.svg';
 import crown from '@/public/images/crown_icon.svg';
-import IdxIcon from '../Icons/IdxIcon';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import textLogo from '@/public/logo/logo_text_only.svg';
+import smallLogo from '@/public/logo/nav_logo_small.svg';
+import { getDashboards } from '@/src/app/(afterLogin)/_api/dashboard';
+import IdxIcon from '@/src/app/(afterLogin)/_component/Icons/IdxIcon';
+import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
+import { dashboardState } from '@/src/app/_recoil/dashboardAtoms';
+import { useRecoilState } from 'recoil';
 import { usePathname } from 'next/navigation';
 
-interface Dashboard {
-  color: string;
-  createdAt?: string;
-  createdByMe: boolean;
-  id?: number;
-  title?: string;
-  updatedAt?: string;
-  userId?: number;
-}
-
 export default function SideMenu() {
-  const [dashboards, setDashboards] = useState<Dashboard[] | null>(null);
+  const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
   const pathName = usePathname();
   const currentBoard = pathName.replace('/dashboard/', '');
 
-  const getDashboards = async () => {
-    try {
-      const res = await axiosInstance.get('dashboards?navigationMethod=infiniteScroll', {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsInRlYW1JZCI6IjEtMyIsImlhdCI6MTcwMjk4MjAyMiwiaXNzIjoic3AtdGFza2lmeSJ9.CyJw1VGMNUVnP97QL8coPmhfCeaBZkMHZDU1KjOyAyo`,
-        },
-      });
-
-      const {
-        data: { dashboards },
-      } = res;
-
-      setDashboards(dashboards);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
-    getDashboards();
-  }, []);
+    const fetchDashboard = async () => {
+      const data = await getDashboards();
+      if (data) {
+        setDashboardData(data);
+      }
+    };
+    fetchDashboard();
+  }, [setDashboardData]);
 
   return (
     <div className='fixed z-10'>
@@ -61,7 +43,7 @@ export default function SideMenu() {
           <Image src={addIcon} alt='대시보드 추가 버튼' className='h-[1.25rem] w-[1.25rem] cursor-pointer' />
         </div>
         <div className='m-auto flex w-[2.5rem] flex-col items-center md:m-0 md:w-full md:items-start md:pr-3'>
-          {dashboards?.map((item: Dashboard, idx: number) => {
+          {dashboardData.dashboards.map((item: DashboardProps, idx: number) => {
             return (
               <Link
                 href={`/dashboard/${item.id}`}
