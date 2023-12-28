@@ -208,6 +208,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   useEffect(() => {
     handleRenderCard();
     getComment();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!cardData) return;

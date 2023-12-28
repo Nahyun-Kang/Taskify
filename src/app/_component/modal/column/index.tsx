@@ -5,6 +5,7 @@ import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Cancel from '@/src/app/_component/Button/Cancel';
 import Confirm from '../../Button/Confirm';
+import { useState } from 'react';
 // 컬럼 생성 모달 내용
 export function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; labelTitle: string }) {
   return (
@@ -25,13 +26,14 @@ export function UpdateColumn({
   columnId: number;
 }) {
   const [modalType, callModal] = useRenderModal();
-
+  const [show, setShow] = useState(true);
   const handleRenderDeleteColumn = (e: React.MouseEvent<HTMLSpanElement>) => {
     if (typeof callModal === 'function') {
       callModal({ name: (e.target as HTMLElement).id, columnId: columnId });
+      setShow(false);
     }
   };
-
+  if (!show) return <>{modalType}</>;
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
@@ -69,8 +71,8 @@ export function DeleteColumn({ mainTitle, btnName, btnSize, onClose, columnId }:
   return (
     <>
       <div className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'>
-        <div className='relative flex h-[17.8956rem]  flex-col justify-around gap-[1.5rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:w-[33.75rem] md:px-[1.75rem] md:pt-[2rem]'>
-          <div className=' flex h-auto flex-col gap-[2rem]'>
+        <div className='relative gap-[1.5rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:w-[33.75rem] md:px-[1.75rem] md:pt-[2rem]'>
+          <div className=' flex flex-col gap-[2rem]'>
             <span className='mb-[3.125rem] flex items-center justify-center text-[1rem] font-medium text-black'>
               {mainTitle}
             </span>

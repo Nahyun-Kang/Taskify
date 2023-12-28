@@ -61,6 +61,7 @@ export default function Dropdown({ column }: { column?: number }) {
     };
 
     getMember();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [column]);
 
   return (
