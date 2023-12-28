@@ -67,14 +67,22 @@ export function Modal({
   return mounted
     ? createPortal(
         <>
-          {!detailToDo ? (
+          {updateColumn && columnId ? (
+            <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
+              <UpdateColumn
+                mainTitle='칼럼 관리'
+                labelTitle='이름'
+                btnName={btnName}
+                btnSize={btnSize}
+                onClose={closeModal}
+                columnId={columnId}
+              />
+            </InputForm>
+          ) : !detailToDo ? (
             !deleteColumn ? (
               <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
                 <ModalLayout btnName={btnName} onClose={closeModal} btnSize={btnSize} sign={sign}>
                   {createColumn ? <CreateColumn mainTitle='새 칼럼 생성' labelTitle='이름' /> : null}
-                  {updateColumn && columnId ? (
-                    <UpdateColumn mainTitle='칼럼 관리' labelTitle='이름' columnId={columnId} />
-                  ) : null}
 
                   {createToDo ? <CreateToDo mainTitle='할 일 생성' /> : null}
                   {updateToDo && cardData ? <UpdateToDo mainTitle='할 일 수정' cardData={cardData} /> : null}

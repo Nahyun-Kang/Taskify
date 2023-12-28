@@ -12,7 +12,8 @@ import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
 import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-
+import { useSetRecoilState } from 'recoil';
+import { columnState } from '@/src/app/_recoil/cardAtom';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { CardInfo } from '../../_constant/type';
 interface CardListProps {
@@ -25,7 +26,7 @@ export default function CardList({ id, title, boardId }: CardListProps) {
   const [cards, setCards] = useRecoilState<CardInfo[] | []>(cardStateAboutColumn(id));
   const [cardNumCount, setCardNumCount] = useState<number | null>(null);
   const [modalType, callModal, setModalType] = useRenderModal();
-
+  const setColumns = useSetRecoilState(columnState);
   const getCard = async () => {
     const { data } = await axiosInstance.get(`cards?size=10&columnId=${id}`);
 
@@ -46,9 +47,30 @@ export default function CardList({ id, title, boardId }: CardListProps) {
   };
   // 할 일 카드 생성 모달 호출 함수
   const handleRenderCreateTodoModal = (e: React.MouseEvent<HTMLElement>) => {
-    if (typeof callModal === 'function') {
-      callModal({ name: (e.target as HTMLElement).id, onSubmit: onSubmitForCreateToDo, columnId: id });
+    callModal({ name: (e.target as HTMLElement).id, onSubmit: onSubmitForCreateToDo, columnId: id });
+  };
+
+  // 칼럼 수정을 위한 서브밋 함수
+  const onSubmitForUpdateColumn = async (form: FieldValues) => {
+    try {
+      const res = await axiosInstance.put(`columns/${id}`, { ...form });
+      setColumns((oldColumns) => oldColumns.map((column) => (column.id === id ? { ...res.data } : column)));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setModalType(null);
     }
+  };
+
+  // 칼럼 수정 모달 호출을 위한 함수
+
+  const handleRenderUpdateColumn = () => {
+    console.log('왜 안뜨지');
+    callModal({
+      name: '칼럼 관리',
+      onSubmit: onSubmitForUpdateColumn,
+      columnId: id,
+    });
   };
 
   useEffect(() => {
@@ -67,7 +89,11 @@ export default function CardList({ id, title, boardId }: CardListProps) {
           <h3>{title}</h3>
           <CardCount num={cardNumCount} />
         </div>
-        <button className='relative ml-auto h-[1.375rem] w-[1.375rem] md:h-[1.5rem] md:w-[1.5rem]'>
+        <button
+          id={MODALTYPE.COLUMN.UPDATE}
+          className='relative ml-auto h-[1.375rem] w-[1.375rem] md:h-[1.5rem] md:w-[1.5rem]'
+          onClick={handleRenderUpdateColumn}
+        >
           <Image src={settingIcon.src} fill alt='설정 아이콘' />
         </button>
       </div>

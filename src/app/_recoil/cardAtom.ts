@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { CardInfo } from '../(afterLogin)/_constant/type';
+import { CardInfo, Column } from '../(afterLogin)/_constant/type';
 
 const atomCache = new Map();
 
@@ -17,4 +17,14 @@ export const cardStateAboutColumn = (columnId: number) => {
 export const dashboardIdState = atom<string>({
   key: 'dashboardIdState',
   default: '',
+});
+
+export const columnState = atom<Column[]>({
+  key: `columnState`,
+  default: [],
+});
+
+export const showModalState = atom<boolean>({
+  key: `showModalState`,
+  default: true,
 });

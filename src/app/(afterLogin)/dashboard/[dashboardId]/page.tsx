@@ -2,16 +2,17 @@
 import CardList from '@/src/app/(afterLogin)/_component/CardList';
 import AddColumn from '@/src/app/_component/Button/AddColumn';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { Column } from '../../_constant/type';
 import { useSetRecoilState } from 'recoil';
-import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
+import { columnState, dashboardIdState } from '@/src/app/_recoil/cardAtom';
 import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 
 export default function DashBoard({ params }: { params: { dashboardId: string } }) {
-  const [columns, setColumns] = useState<Column[] | []>([]);
+  const [columns, setColumns] = useRecoilState(columnState);
   const setDashBoardId = useSetRecoilState(dashboardIdState);
   const [modalType, callModal, setModalType] = useRenderModal();
 
