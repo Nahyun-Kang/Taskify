@@ -49,3 +49,18 @@ export async function deleteInvitation(dashboardId: string | undefined, invitati
     throw error;
   }
 }
+
+export async function deleteDashboard(dashboardId: string | undefined) {
+  try {
+    const response = await axiosInstance.delete(`dashboards/${dashboardId}`);
+    const status = response.status;
+    if (status === 204) {
+      alert('대시보드가 삭제 되었습니다.');
+    } else {
+      alert('대시보드 삭제 실패!');
+    }
+    return status;
+  } catch (error) {
+    throw error;
+  }
+}
