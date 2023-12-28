@@ -5,16 +5,18 @@ import AddImageFile from '../../_component/AddImageFile';
 import Confirm from '@/src/app/_component/Button/Confirm';
 import { getInputClass, InputWrapper, Label } from '@/src/app/_component/InputForm/InputStyle';
 import editUser from '@/src/app/_api/users/editUser';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
 
 export default function ProfileEdit() {
   const inputClass = getInputClass(false) + ' text-gray40';
+  const [modalType, callModal] = useRenderModal();
 
   return (
     <div>
       <div className='flex w-full'>
         <InputForm
           onSubmit={(data) => {
-            editUser(data);
+            editUser(data, callModal);
           }}
         >
           <div className='flex flex-col gap-6 md:flex-row md:gap-4'>
@@ -41,6 +43,7 @@ export default function ProfileEdit() {
         </InputForm>
         <div className='flex flex-grow flex-col justify-center gap-4 md:ml-4'></div>
       </div>
+      {modalType}
     </div>
   );
 }
