@@ -1,5 +1,5 @@
 interface NumProps {
-  num: number;
+  num: number | undefined;
 }
 
 export default function Number({ num }: NumProps) {
