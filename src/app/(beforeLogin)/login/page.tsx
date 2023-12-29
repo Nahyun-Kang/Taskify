@@ -35,7 +35,6 @@ export default function LogIn() {
 
       router.push('/boards');
     } catch (error: unknown) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
         const response = error.response;
 

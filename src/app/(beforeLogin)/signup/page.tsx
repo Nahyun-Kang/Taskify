@@ -42,7 +42,6 @@ export default function SignUp() {
         },
       });
     } catch (error: unknown) {
-      console.log(error);
       const { response } = error as unknown as AxiosError;
       if (response && response.status === 409) {
         callModal({ name: '이미 사용 중인 이메일입니다.', onSubmit: () => {} });
