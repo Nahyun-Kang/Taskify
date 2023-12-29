@@ -25,10 +25,8 @@ export default function SignUp() {
   const handleChangeCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-  // const { getValues } = useFormContext();
   const handleSignUp = async () => {
     const { email, password, nickname } = methods.getValues();
-    // const values = getValues();
     const BODY_DATA = {
       email: email,
       nickname: nickname,

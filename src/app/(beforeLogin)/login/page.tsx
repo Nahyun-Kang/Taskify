@@ -1,7 +1,7 @@
 'use client';
 import { FormEvent } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
@@ -15,12 +15,11 @@ import { accessTokenState, userInfoState } from '@/src/app/_recoil/AuthAtom';
 
 export default function LogIn() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [token, setToken] = useRecoilState(accessTokenState);
+  const setUserInfo = useSetRecoilState(userInfoState);
+  const setToken = useSetRecoilState(accessTokenState);
   const [modalType, callModal] = useRenderModal();
   const router = useRouter();
 
-  //TODO: 에러 분기 처리
   const handleLogin = async () => {
     const { email, password } = methods.getValues();
     const BODY_DATA = {
@@ -46,9 +45,6 @@ export default function LogIn() {
       }
     }
   };
-
-  console.log(userInfo);
-  console.log(token);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
