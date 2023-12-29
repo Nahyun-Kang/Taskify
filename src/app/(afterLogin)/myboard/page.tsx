@@ -2,7 +2,7 @@
 
 import DashboardList from '@/src/app/(afterLogin)/_component/DashboardList';
 import InvitationDashboard from '@/src/app/(afterLogin)/_component/InvitationDashboard';
-import { dashboardState } from '@/src/app/_recoil/dashboardAtoms';
+import { dashboardState } from '../../_recoil/dashboardAtom';
 import { useRecoilValue } from 'recoil';
 
 export default function MyBoard() {

@@ -1,6 +1,6 @@
 'use client';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Field, FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
@@ -34,6 +34,7 @@ export default function SignUp() {
       nickname: nickname,
       password: password,
     };
+
     try {
       await axiosInstance.post('users', BODY_DATA);
       callModal({
@@ -59,8 +60,8 @@ export default function SignUp() {
   return (
     <AuthLayout message={AUTH_MESSAGE.signUp}>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit} noValidate>
-          <div className='w-full'>
+        <div className='w-full'>
+          <form onSubmit={handleSubmit} noValidate>
             <div className='mb-[1rem]'>
               <InputForm.EmailInput label='이메일' placeholder='이메일을 입력해 주세요' id='email' />
             </div>
@@ -94,9 +95,9 @@ export default function SignUp() {
               </label>
             </div>
             <Sign type='submit' size='free' isActive={isActiveButton} content='회원가입' />
-          </div>
-          {modalType}
-        </form>
+          </form>
+        </div>
+        {modalType}
       </FormProvider>
     </AuthLayout>
   );

@@ -60,7 +60,9 @@ export function Modal({
   columnId,
 }: ModalProps) {
   const [mounted, setMounted] = useState(false);
-  const closeModal = () => setModalType(null);
+  const closeModal = () => {
+    setModalType(null);
+  };
 
   useEffect(() => setMounted(true), []);
 

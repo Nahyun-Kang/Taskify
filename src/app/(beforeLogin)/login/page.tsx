@@ -2,7 +2,7 @@
 import { FormEvent } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 import Sign from '@/src/app/_component/Button/Sign';
@@ -18,7 +18,7 @@ export default function LogIn() {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [token, setToken] = useRecoilState(accessTokenState);
   const [modalType, callModal] = useRenderModal();
-  // const router = useRouter();
+  const router = useRouter();
 
   //TODO: 에러 분기 처리
   const handleLogin = async () => {
@@ -34,7 +34,7 @@ export default function LogIn() {
       setToken(accessToken);
       setUserInfo(userInfo);
 
-      // router.push('/boards');
+      router.push('/boards');
     } catch (error: unknown) {
       console.log(error);
       if (axios.isAxiosError(error)) {
