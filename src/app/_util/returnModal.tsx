@@ -84,6 +84,17 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           sign={false}
         />
       );
+    case '현재 비밀번호가 틀렸습니다.':
+      return (
+        <Modal
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
+          wrongPW
+          btnName='확인'
+          setModalType={setModalType}
+          btnSize='large'
+          sign={false}
+        />
+      );
     case '할 일 삭제':
       return (
         <Modal
@@ -149,18 +160,6 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           setModalType={setModalType}
           btnSize='large'
           sign={false}
-        />
-      );
-    default:
-      return (
-        <Modal
-          onSubmit={onSubmit as SubmitHandler<FieldValues>}
-          base
-          btnName='확인'
-          setModalType={setModalType}
-          btnSize='large'
-          sign={true}
-          content={name}
         />
       );
   }
