@@ -19,7 +19,7 @@ export default function LogIn() {
   const setToken = useSetRecoilState(accessTokenState);
   const [modalType, callModal] = useRenderModal();
   const router = useRouter();
-  const values = methods.getValues();
+  const values = methods.watch();
 
   const handleLogin = async () => {
     try {

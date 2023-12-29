@@ -18,7 +18,7 @@ export default function SignUp() {
   const [modalType, callModal] = useRenderModal();
   const router = useRouter();
   const isActiveButton = methods.formState.isDirty && methods.formState.isValid && isChecked;
-  const values = methods.getValues();
+  const values = methods.watch();
 
   //체크박스 체크 여부에 따라 isChecked state를 하는 함수
   const handleChangeCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
