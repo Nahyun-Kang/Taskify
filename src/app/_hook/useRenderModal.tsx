@@ -1,7 +1,10 @@
 import { useState, Dispatch, SetStateAction, ReactElement, JSXElementConstructor } from 'react';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { useSetRecoilState } from 'recoil';
 import returnModal from '@/src/app/_util/returnModal';
 import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard';
+import { modalNameState } from '@/src/app/_recoil/ModalNameAtom';
+
 
 interface CallModalType {
   (condition: {
@@ -19,11 +22,17 @@ export default function useRenderModal(): [
   CallModalType,
   Dispatch<SetStateAction<ReactElement<unknown, string | JSXElementConstructor<unknown>> | null>>,
 ] {
+
   const [modalType, setModalType] = useState<React.ReactElement | null>(null);
+  const setRecoilModalType = useSetRecoilState(modalNameState);
 
   const callModal: CallModalType = (condition) => {
     const newReturnModal = returnModal({ ...condition, setModalType });
-    if (newReturnModal) setModalType(newReturnModal);
+    const modalName = condition.name;
+    if (newReturnModal) {
+      setModalType(newReturnModal);
+      setRecoilModalType(modalName);
+    }
   };
   return [modalType, callModal, setModalType];
 }

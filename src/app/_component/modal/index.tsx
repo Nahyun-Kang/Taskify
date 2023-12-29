@@ -4,6 +4,7 @@ import ModalLayout from '@/src/app/_component/modal/ModalLayout';
 
 import { createPortal } from 'react-dom';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
+
 import InputForm from '@/src/app/_component/InputForm';
 import { CreateColumn, UpdateColumn, DeleteColumn } from '@/src/app/_component/modal/column';
 import { CreateDashboard, InviteDashboard } from '@/src/app/_component/modal/dashBoard';
@@ -17,9 +18,10 @@ import {
 } from '@/src/app/_component/modal/toDoCard/';
 import { MyPageWrongPW } from '@/src/app/_component/modal/wrongPW';
 
+
 interface ModalProps {
   detailToDo?: boolean;
-  wrongPW?: boolean;
+  base?: boolean;
   createDashboard?: boolean;
   updateToDo?: boolean;
   createToDo?: boolean;
@@ -39,6 +41,7 @@ interface ModalProps {
   cardId?: number;
   cardData?: ToDoCardDetailProps;
   columnId?: number;
+  content?: string;
 }
 
 // 모달 컴포넌트 특정 프롭스에 따라 조건부 렌더링
@@ -57,13 +60,14 @@ export function Modal({
   createToDo,
   updateToDo,
   createDashboard,
-  wrongPW,
+  base,
   signUpComplete,
   inviteDashBoard,
   onSubmit,
   cardId,
   cardData,
   columnId,
+  content,
 }: ModalProps) {
   const closeModal = () => setModalType(null);
 
@@ -103,6 +107,7 @@ export function Modal({
       );
     }
 
+
     return (
       <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
         <ModalLayout btnName={btnName} onClose={closeModal} btnSize={btnSize} sign={sign}>
@@ -122,4 +127,5 @@ export function Modal({
   };
 
   return createPortal(renderModal(), document.getElementById('modal') as HTMLElement);
-}
+
+  

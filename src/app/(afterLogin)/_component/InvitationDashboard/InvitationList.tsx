@@ -1,17 +1,18 @@
 'use client';
 
-import { Dummy } from './DummyData';
+import { Invitations } from '../../_constant/type';
 import IdxIcon from '../Icons/IdxIcon';
 
 interface Props {
   value: string;
-  list?: Dummy[];
+  list?: Invitations[];
 }
 
 export default function InvitationList({ value, list }: Props) {
   const filteredData = list?.filter(
     (item) =>
-      item.name.toLowerCase().includes(value.toLowerCase()) || item.inviter.toLowerCase().includes(value.toLowerCase()),
+      item.dashboard.title.toLowerCase().includes(value.toLowerCase()) ||
+      item.inviter.nickname.toLowerCase().includes(value.toLowerCase()),
   );
 
   const buttonClass =
@@ -27,20 +28,20 @@ export default function InvitationList({ value, list }: Props) {
           <div className={`${mainLableClass} text-base md:w-[9.625rem] lg:w-[19.75rem]`}>수락 여부</div>
         </div>
       </div>
-      {filteredData?.map((item: Dummy, idx: number) => {
+      {filteredData?.map((item: Invitations, idx: number) => {
         return (
           <div key={idx.toString()} className='md:mb-[1.25rem]'>
             <div className=' flex flex-col md:mb-[1.25rem] md:flex-row md:items-center'>
               <div className=' mb-[.625rem] flex grow md:mb-0 md:flex-col'>
                 <div className={`w-[53px] md:hidden ${labelClass}`}>이름</div>
                 <div className='flex items-center'>
-                  <IdxIcon color={item.color} className='mr-[.875rem] hidden md:block lg:mr-[1.25rem]' />
-                  <div className='text-[.875rem] md:text-base'>{item.name}</div>
+                  <IdxIcon color={'#FF8989'} className='mr-[.875rem] hidden md:block lg:mr-[1.25rem]' />
+                  <div className='text-[.875rem] md:text-base'>{item.dashboard.title}</div>
                 </div>
               </div>
               <div className='flex md:w-[7rem] md:flex-col lg:w-[18.875rem]'>
                 <div className={`w-[53px] md:hidden ${labelClass}`}>초대자</div>
-                <div className='text-[.875rem] md:text-base'>{item.inviter}</div>
+                <div className='text-[.875rem] md:text-base'>{item.inviter.nickname}</div>
               </div>
               <div className='my-4 flex gap-[.625rem] md:my-0 md:w-[9.625rem] lg:w-[19.75rem]'>
                 <button className={`bg-violet text-white ${buttonClass}`}>수락</button>

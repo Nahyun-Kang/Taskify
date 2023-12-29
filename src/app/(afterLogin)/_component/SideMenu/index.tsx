@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 import addIcon from '@/public/images/add_box_icon.svg';
 import crown from '@/public/images/crown_icon.svg';
@@ -10,9 +11,8 @@ import smallLogo from '@/public/logo/nav_logo_small.svg';
 import { getDashboards } from '@/src/app/(afterLogin)/_api/dashboard';
 import IdxIcon from '@/src/app/(afterLogin)/_component/Icons/IdxIcon';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
-import { dashboardState } from '@/src/app/_recoil/dashboardAtoms';
+import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { useRecoilState } from 'recoil';
-import { usePathname } from 'next/navigation';
 
 export default function SideMenu() {
   const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
