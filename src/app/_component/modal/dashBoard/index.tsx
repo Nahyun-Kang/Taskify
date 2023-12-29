@@ -4,7 +4,6 @@ import InputForm from '../../InputForm';
 
 // 새로운 대시보드 생성 내용
 export function CreateDashboard({ mainTitle }: { mainTitle: string }) {
-  const handleSelect = () => {};
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
@@ -14,7 +13,7 @@ export function CreateDashboard({ mainTitle }: { mainTitle: string }) {
         id='title'
         isRequired={true}
       />
-      <SelectColor onSelect={handleSelect} />
+      <SelectColor />
     </>
   );
 }
