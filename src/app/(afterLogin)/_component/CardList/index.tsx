@@ -6,7 +6,7 @@ import AddTodo from '@/src/app/_component/Button/AddTodo';
 import CardCount from '@/src/app/_component/Chip/Number';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
@@ -16,16 +16,16 @@ import { useSetRecoilState } from 'recoil';
 import { columnState } from '@/src/app/_recoil/cardAtom';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { CardInfo } from '../../_constant/type';
-import { showModalState } from '@/src/app/_recoil/cardAtom';
+import { showModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
 interface CardListProps {
   id: number;
   title: string;
   boardId: string;
 }
 
-export default function CardList({ id, title, boardId }: CardListProps) {
+export function CardList({ id, title, boardId }: CardListProps) {
   const [cards, setCards] = useRecoilState<CardInfo[] | []>(cardStateAboutColumn(id));
-  const [cardNumCount, setCardNumCount] = useState<number | null>(null);
+  const [cardNumCount, setCardNumCount] = useRecoilState<number | null>(countAboutCardList(id));
   const [modalType, callModal, setModalType] = useRenderModal();
   const setColumns = useSetRecoilState(columnState);
 

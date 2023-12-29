@@ -28,3 +28,20 @@ export const showModalState = atom<boolean>({
   key: `showModalState`,
   default: true,
 });
+export const openPopOverState = atom<boolean>({
+  key: `openPopOverState`,
+  default: false,
+});
+const atomCardCount = new Map();
+
+export const countAboutCardList = (columnId: number) => {
+  if (!atomCardCount.has(columnId)) {
+    const countState = atom<number | null>({
+      key: `countState${columnId}`,
+      default: null,
+    });
+    atomCardCount.set(columnId, countState);
+  }
+
+  return atomCardCount.get(columnId);
+};

@@ -106,7 +106,7 @@ export function DetailCardComment({ data }: { data: commentType }) {
   return (
     <div className='flex gap-[0.625rem]'>
       <div className='flex flex-col items-start'>
-        <Image src={data?.author?.profileImageUrl} width={34} height={34} alt='댓글 프로필' />
+        {data ? <Image src={data?.author?.profileImageUrl} width={34} height={34} alt='댓글 프로필' /> : null}
       </div>
       <div className='flex flex-col gap-[0.375rem]'>
         <div className='flex gap-[0.5rem]'>

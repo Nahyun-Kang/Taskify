@@ -4,15 +4,18 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import DropdownAndFilter from '../../dropdown/filter';
 import InputForm from '../../InputForm';
-import { DetailAssignee, DetailCardComment, DetailIconButton, DetailMainContent } from './DetailComponent';
+import { DetailAssignee, DetailIconButton, DetailMainContent } from './DetailComponent';
 import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import { FieldValues, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import Dropdown from '../../dropdown';
 // import { SubmitHandler } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
+import { showModalState, openPopOverState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
+import { usePutCard } from '@/src/app/_hook/useMoveCard';
+
 interface TodoProps {
   mainTitle: string;
 }
@@ -55,12 +58,12 @@ export function CreateToDo({ mainTitle }: TodoProps) {
 }
 // 할 일 카드 수정 모달 내용
 export function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardData: ToDoCardDetailProps }) {
-  const { watch, setValue } = useFormContext();
-  const title = watch('title');
-  const description = watch('description');
+  // const { watch, setValue } = useFormContext();
+  // const title = watch('title');
+  // const description = watch('description');
 
-  const isButtonDisabled = !(title && description);
-  setValue('isDisabled', isButtonDisabled);
+  // const isButtonDisabled = !(title && description);
+  // setValue('isDisabled', isButtonDisabled);
 
   return (
     <>
@@ -114,31 +117,36 @@ export interface commentType {
 
 // 할 일 카드 상세 모달 내용
 export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onClose: () => void; columnId: number }) {
-  console.log('columnId', columnId);
-  const [show, setShow] = useState(true);
-  const setCards = useSetRecoilState(cardStateAboutColumn(columnId));
+  const [show, setShow] = useRecoilState(showModalState);
 
+  const setCards = useSetRecoilState(cardStateAboutColumn(columnId));
+  const setCount = useSetRecoilState(countAboutCardList(columnId));
   const [cardData, setCardData] = useState<ToDoCardDetailProps | null>(null);
-  const [isOpenPopOver, setIsOpenPopOver] = useState(false);
-  const [comments, setComments] = useState<commentType[] | null>(null);
+  const [isOpenPopOver, setIsOpenPopOver] = useRecoilState(openPopOverState);
+  // const [comments, setComments] = useState<commentType[] | null>(null);
   const [modalType, callModal, setModalType] = useRenderModal();
 
+  const { putCard, updatedCard } = usePutCard(cardId, columnId, setModalType);
+  const setCardsOtherColumn = useSetRecoilState(cardStateAboutColumn(updatedCard?.columnId as number));
+  const setCountOtherColumn = useSetRecoilState(countAboutCardList(updatedCard?.columnId as number));
+
   // 카드 수정 서브밋 함수
-  const putCard = async (form: FieldValues) => {
-    try {
-      const res = await axiosInstance.put(`cards/${cardId}`, {
-        ...form,
-        columnId: +form.columnId,
-        assigneeUserId: +form.assigneeUserId,
-      });
-      setCards((oldCards: CardInfo[]) => oldCards.map((item) => (item.id === cardId ? { ...res.data } : item)));
-      console.log('cards2', res.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setModalType(null);
-    }
-  };
+
+  // const putCard = async (form: FieldValues) => {
+  //   try {
+  //     const res = await axiosInstance.put(`cards/${cardId}`, {
+  //       ...form,
+  //       columnId: +form.columnId,
+  //       assigneeUserId: +form.assigneeUserId,
+  //     });
+  //     setCards((oldCards: CardInfo[]) => oldCards.map((item) => (item.id === cardId ? { ...res.data } : item)));
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setModalType(null);
+  //   }
+  // };
+
   // 카드 수정 모달 호출 함수
   const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, cardData: ToDoCardDetailProps) => {
     callModal({ name: (e.target as HTMLElement).id, onSubmit: putCard, cardData: cardData });
@@ -158,10 +166,8 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   };
   // 카드 삭제 모달 호출 함수
   const RenderDeleteModal = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (typeof callModal === 'function') {
-      callModal({ name: (e.target as HTMLElement).id, onSubmit: DeleteCard });
-      setShow(false);
-    }
+    callModal({ name: (e.target as HTMLElement).id, onSubmit: DeleteCard });
+    setShow(false);
   };
   // 특정 카드 클릭 시 할 일 카드 상세 모달에 데이터 바인딩하기 위한 api 요청
   const handleRenderCard = async () => {
@@ -187,15 +193,15 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   //   }
   // };
   // 할 일 카드 상세 모달 마운트 시 기존의 댓글을 보여주는 함수
-  const getComment = async () => {
-    try {
-      const res = await axiosInstance.get('comments?size=10&cardId=59');
-      setComments(res.data.comments);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getComment = async () => {
+  //   try {
+  //     const res = await axiosInstance.get('comments?size=10&cardId=59');
+  //     setComments(res.data.comments);
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // const onSubmit = async (data: FieldValues) => {
   //   await createComment(data);
@@ -205,9 +211,18 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   // 할 일 카드 상세 모달 마운트 시 해당 카드 및 댓글 데이터바인딩
   useEffect(() => {
     handleRenderCard();
-    getComment();
+    // getComment();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (updatedCard && updatedCard.columnId !== columnId) {
+      setCards((oldCards: CardInfo[]) => oldCards.filter((card) => card.columnId === columnId));
+      setCount((prev: number) => prev - 1);
+      setCardsOtherColumn((oldCards: CardInfo[]) => [updatedCard, ...oldCards]);
+      setCountOtherColumn((prev: number) => prev + 1);
+    }
+  }, [updatedCard, setCardsOtherColumn, columnId, setCards, setCount, setCountOtherColumn]);
 
   if (!cardData) return;
   console.log(show);
@@ -246,9 +261,9 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
 
                 <InputForm.CommentInput id='content' placeholder='댓글을 입력해주세요' label='댓글' />
 
-                {comments?.map((comment) => {
+                {/* {comments?.map((comment) => {
                   return <DetailCardComment key={comment.id} data={comment} />;
-                })}
+                })}: null */}
               </div>
             </div>
           </div>

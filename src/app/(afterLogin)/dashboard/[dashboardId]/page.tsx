@@ -1,5 +1,5 @@
 'use client';
-import CardList from '@/src/app/(afterLogin)/_component/CardList';
+import { CardList } from '@/src/app/(afterLogin)/_component/CardList';
 import AddColumn from '@/src/app/_component/Button/AddColumn';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useEffect } from 'react';
