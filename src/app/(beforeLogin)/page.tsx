@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import logoLarge from '@/public/logo/nav_logo_large.svg';
@@ -10,10 +11,14 @@ import EmailImg from '@/public/icons/email_icon.svg';
 import githubImg from '@/public/icons/icons8-github.svg';
 import notionImg from '@/public/icons/icons8-notion.svg';
 import { CardValues } from './_constants/landing';
+import { useRecoilValue } from 'recoil';
+import { accessTokenState } from '../_recoil/AuthAtom';
 
 const ColCenter = 'flex flex-col justify-center';
 
 export default function Home() {
+  const token = useRecoilValue(accessTokenState);
+  console.log(token);
   return (
     <div className='bg-white'>
       <header className='m-auto flex h-[3.75rem] max-w-[120rem] items-center justify-between px-6 md:pr-0'>
