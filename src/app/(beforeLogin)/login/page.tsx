@@ -1,24 +1,64 @@
 'use client';
+import { FormEvent } from 'react';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { useSetRecoilState } from 'recoil';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
-import Sign from '../../_component/Button/Sign';
-import InputField from '../../_component/Input/InputField';
-import AuthLayout from '../_component/Auth/AuthLayout';
-import { AUTH_MESSAGE } from '../_constants/auth';
+import Sign from '@/src/app/_component/Button/Sign';
+import InputForm from '@/src/app/_component/InputForm';
+import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
+import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { accessTokenState, userInfoState } from '@/src/app/_recoil/AuthAtom';
 
 export default function LogIn() {
-  const handleClick = () => {};
+  const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
+  const setUserInfo = useSetRecoilState(userInfoState);
+  const setToken = useSetRecoilState(accessTokenState);
+  const [modalType, callModal] = useRenderModal();
+  const router = useRouter();
+  const values = methods.watch();
+
+  const handleLogin = async () => {
+    try {
+      const res = await axiosInstance.post('auth/login', values);
+      const userInfo = res.data.user;
+      const accessToken = res.data.accessToken;
+      setToken(accessToken);
+      setUserInfo(userInfo);
+      router.push('/myboard');
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        const response = error.response;
+
+        if (response && response.status === 400 && response.data.message === '비밀번호가 일치하지 않습니다.') {
+          callModal({ name: '비밀번호가 일치하지 않습 니다.', onSubmit: () => {} });
+        }
+      }
+    }
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    handleLogin();
+  };
 
   return (
     <AuthLayout message={AUTH_MESSAGE.logIn}>
-      <form className='w-full'>
-        <div className='mb-[1rem]'>
-          <InputField.EmailInput labelText='이메일' placeholder='이메일을 입력해 주세요' id='email' />
-        </div>
-        <div className='mb-[1.25rem]'>
-          <InputField.PasswordInput labelText='비밀번호' placeholder='비밀번호를 입력해 주세요' id='password' />
-        </div>
-        <Sign size='small' isActive={false} onClick={handleClick} />
-      </form>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit} className='w-full' noValidate>
+          <div className='mb-[1rem]'>
+            <InputForm.EmailInput label='이메일' placeholder='이메일을 입력해 주세요' id='email' />
+          </div>
+          <div className='mb-[1.25rem]'>
+            <InputForm.PasswordInput label='비밀번호' placeholder='비밀번호를 입력해 주세요' id='password' />
+          </div>
+          <Sign size='small' isActive={true} type='submit' />
+        </form>
+        {modalType}
+      </FormProvider>
     </AuthLayout>
   );
 }

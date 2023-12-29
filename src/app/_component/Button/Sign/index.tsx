@@ -1,11 +1,14 @@
+type ButtonType = 'submit' | 'reset' | undefined | 'button';
+
 interface LoginProps {
   size: 'large' | 'small' | 'free';
   isActive: boolean;
   content?: string;
-  onClick: () => void;
+  onClick?: () => void;
+  type?: ButtonType;
 }
 
-export default function Sign({ size, isActive, content = '로그인', onClick }: LoginProps) {
+export default function Sign({ type, size, isActive, content = '로그인', onClick }: LoginProps) {
   const sizes = {
     large: {
       width: 'w-[32.5rem]',
@@ -33,6 +36,7 @@ export default function Sign({ size, isActive, content = '로그인', onClick }:
       className={`flex ${width} ${height} items-center justify-center gap-[0.625rem] rounded-[0.5rem] bg-violet ${paddingX} ${paddingY} text-[1.125rem] text-white disabled:bg-gray40`}
       disabled={!isActive}
       onClick={onClick}
+      type={type}
     >
       {content}
     </button>
