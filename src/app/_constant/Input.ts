@@ -14,6 +14,14 @@ export interface CommonInputProps {
       value: RegExp;
       message: string;
     };
+    maxLength?: {
+      value: number;
+      message: string;
+    };
+    minLength?: {
+      value: number;
+      message: string;
+    };
   };
 }
 
@@ -39,7 +47,7 @@ export const emailValidate = {
   },
   pattern: {
     value: VALIDATE.userEmail,
-    message: '올바른 이메일 주소가 아닙니다.',
+    message: '이메일 형식으로 작성해주세요.',
   },
 };
 
@@ -50,7 +58,11 @@ export const passwordValidate = {
   },
   pattern: {
     value: VALIDATE.userPassword,
-    message: '비밀번호 패턴',
+    message: '숫자, 영문자, 특수문자 조합으로 8자리 이상으로 작성해주세요',
+  },
+  minLength: {
+    value: 8,
+    message: '8자 이상 작성해주세요',
   },
 };
 
@@ -58,5 +70,12 @@ export const dateValidate = {
   required: {
     value: true,
     message: '날짜를 선택해주세요.',
+  },
+};
+
+export const nicknameValidate = {
+  maxLength: {
+    value: 10,
+    message: '열 자 이하로 작성해주세요',
   },
 };
