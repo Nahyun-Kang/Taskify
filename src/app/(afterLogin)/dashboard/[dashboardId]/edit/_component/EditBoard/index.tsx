@@ -12,33 +12,29 @@ interface EditBoardProps {
 
 export default function EditBoard({ boardName, dashboardId }: EditBoardProps) {
   const [state, setState] = useState({});
-  const [color, setColor] = useState('');
 
-  const handleSelectColor = (color: string) => {
-    setColor(color);
-  };
   const handleUpdate = () => {
     console.log(state, dashboardId);
     setState((prevState) => ({
       ...prevState,
       name: '',
-      color: color,
+      // color: color,
     }));
     //api post
   };
 
   return (
-    <div className='item-center flex max-h-[16rem] w-full flex-col gap-[1.25rem] rounded-[0.5rem] p-[1.75rem]'>
-      <div className='flex w-full justify-between'>
-        <p className='text-[1.25rem] font-bold text-black'>{boardName}</p>
-        <SelectColor onSelect={handleSelectColor} />
-      </div>
-      <InputForm onSubmit={(data: FieldValues) => console.log(data)}>
+    <InputForm onSubmit={(data: FieldValues) => console.log(data)}>
+      <div className='item-center flex max-h-[16rem] w-full flex-col gap-[1.25rem] rounded-[0.5rem] p-[1.75rem]'>
+        <div className='flex w-full justify-between'>
+          <p className='text-[1.25rem] font-bold text-black'>{boardName}</p>
+          <SelectColor selectedColor='#760DDE' />
+        </div>
         <InputForm.TextInput label='대시보드 이름' placeholder='변경할 대시보드 이름을 입력해주세요.' id='editBoard' />
-        <div className='my-[1.875rem] flex justify-end'>
+        <div className='flex justify-end'>
           <Confirm size='large' onClick={handleUpdate} btnName='변경' />
         </div>
-      </InputForm>
-    </div>
+      </div>
+    </InputForm>
   );
 }
