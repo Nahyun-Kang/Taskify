@@ -4,13 +4,9 @@ import AddColumn from '@/src/app/_component/Button/AddColumn';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useEffect, useState } from 'react';
 import { Column } from '../../_constant/type';
-import { useRecoilValue } from 'recoil';
-import { accessTokenState } from '@/src/app/_recoil/AuthAtom';
 
 export default function DashBoard({ params }: { params: { dashboardId: string } }) {
   const [columns, setColumns] = useState([]);
-
-  console.log(useRecoilValue(accessTokenState));
 
   const getData = async () => {
     const {
