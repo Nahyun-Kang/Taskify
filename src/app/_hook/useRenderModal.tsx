@@ -1,7 +1,6 @@
 import { useState, Dispatch, SetStateAction, ReactElement, JSXElementConstructor } from 'react';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
-
 import returnModal from '@/src/app/_util/returnModal';
 import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard';
 import { modalNameState } from '@/src/app/_recoil/ModalNameAtom';
