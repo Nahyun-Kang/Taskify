@@ -9,11 +9,11 @@ import { CreateColumn, UpdateColumn, DeleteColumn } from './column';
 import { CreateDashboard, InviteDashboard } from './dashBoard';
 import { CompleteSignUp, MismatchPW, UseAlreadyEmail } from './sign';
 import { CreateToDo, DeleteTodo, DetailToDo, ToDoCardDetailProps, UpdateToDo } from './toDoCard';
-import { MyPageWrongPW } from './wrongPW';
+import { Base } from './base';
 
 interface ModalProps {
   detailToDo?: boolean;
-  wrongPW?: boolean;
+  base?: boolean;
   createDashboard?: boolean;
   updateToDo?: boolean;
   createToDo?: boolean;
@@ -33,6 +33,7 @@ interface ModalProps {
   cardId?: number;
   cardData?: ToDoCardDetailProps;
   columnId?: number;
+  content?: string;
 }
 
 // 모달 컴포넌트 특정 프롭스에 따라 조건부 렌더링
@@ -51,13 +52,14 @@ export function Modal({
   createToDo,
   updateToDo,
   createDashboard,
-  wrongPW,
+  base,
   signUpComplete,
   inviteDashBoard,
   onSubmit,
   cardId,
   cardData,
   columnId,
+  content,
 }: ModalProps) {
   const [mounted, setMounted] = useState(false);
   const closeModal = () => {
