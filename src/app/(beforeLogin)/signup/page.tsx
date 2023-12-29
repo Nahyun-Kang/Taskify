@@ -8,7 +8,7 @@ import InputForm from '@/src/app/_component/InputForm';
 import Sign from '@/src/app/_component/Button/Sign';
 import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { nicknameValidate } from '@/src/app/_constant/Input';
-import { handleSignUp } from '@/src/app/_api/auth';
+import { handleSignUp } from '@/src/app/_api/users';
 
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 
