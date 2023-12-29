@@ -19,27 +19,22 @@ export default function LogIn() {
   const setToken = useSetRecoilState(accessTokenState);
   const [modalType, callModal] = useRenderModal();
   const router = useRouter();
+  const values = methods.getValues();
 
   const handleLogin = async () => {
-    const { email, password } = methods.getValues();
-    const BODY_DATA = {
-      email: email,
-      password: password,
-    };
     try {
-      const res = await axiosInstance.post('auth/login', BODY_DATA);
+      const res = await axiosInstance.post('auth/login', values);
       const userInfo = res.data.user;
       const accessToken = res.data.accessToken;
       setToken(accessToken);
       setUserInfo(userInfo);
-
       router.push('/myboard');
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const response = error.response;
 
         if (response && response.status === 400 && response.data.message === '비밀번호가 일치하지 않습니다.') {
-          callModal({ name: '비밀번호가 일치하지 않습니다.', onSubmit: () => {} });
+          callModal({ name: '비밀번호가 일치하지 않습 니다.', onSubmit: () => {} });
         }
       }
     }
