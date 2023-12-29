@@ -4,7 +4,7 @@ export interface ModalType {
   modalType: string;
 }
 
-export const modalTypeState = atom<string>({
-  key: 'modalType',
+export const modalNameState = atom<string>({
+  key: 'modalName',
   default: '',
 });

@@ -6,12 +6,12 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 import Sign from '@/src/app/_component/Button/Sign';
-import InputForm from '../../_component/InputForm';
-import AuthLayout from '../_component/Auth/AuthLayout';
+import InputForm from '@/src/app/_component/InputForm';
+import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
 import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
-import { axiosInstance } from '../../_util/axiosInstance';
-import useRenderModal from '../../_hook/useRenderModal';
-import { accessTokenState, userInfoState } from '../../_recoil/AuthAtom';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { accessTokenState, userInfoState } from '@/src/app/_recoil/AuthAtom';
 
 export default function LogIn() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });

@@ -1,11 +1,11 @@
 'use client';
+import { ReactNode } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useRouter, usePathname } from 'next/navigation';
 
 import Cancel from '@/src/app/_component/Button/Cancel';
 import Confirm from '@/src/app/_component/Button/Confirm';
-import { ReactNode } from 'react';
-import { modalTypeState } from '../../_recoil/ModalAtom';
+import { modalNameState } from '@/src/app/_recoil/ModalNameAtom';
 
 interface ModalLayoutrProps {
   children: ReactNode;
@@ -19,7 +19,7 @@ interface ModalLayoutrProps {
 export default function ModalLayout({ children, btnName, btnSize, onClose, sign }: ModalLayoutrProps) {
   const router = useRouter();
   const pathName = usePathname();
-  const currentModalName = useRecoilValue(modalTypeState);
+  const currentModalName = useRecoilValue(modalNameState);
 
   const handleSignConfirm = () => {
     if (pathName === '/signup' && currentModalName === '가입이 완료되었습니다!') {
