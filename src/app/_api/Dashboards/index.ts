@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-
+import { FieldValues } from 'react-hook-form';
 export async function getInvitations(dashboardId: string | undefined, page: number, size: number) {
   try {
     const response = await axiosInstance.get(`dashboards/${dashboardId}/invitations?page=${page}&size=${size}`);
@@ -60,6 +60,19 @@ export async function deleteDashboard(dashboardId: string | undefined) {
       alert('대시보드 삭제 실패!');
     }
     return status;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateDashboard(dashboardId: string | undefined, param: FieldValues) {
+  try {
+    const response = await axiosInstance.put(`dashboards/${dashboardId}`, {
+      title: param.editBoard,
+      color: param.color,
+    });
+    const result = response.data;
+    return result;
   } catch (error) {
     throw error;
   }
