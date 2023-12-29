@@ -6,12 +6,12 @@ import PageNation from '@/src/app/_component/Button/PageNation';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Dashboard } from '@/src/app/(afterLogin)/_constant/type';
+import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 
 export default function DashboardList() {
   const [ModalType, callModal] = useRenderModal();
   const router = useRouter();
-  const [dashboards, setDashboards] = useState<Dashboard[]>([]);
+  const [dashboards, setDashboards] = useState<DashboardProps[]>([]);
   const handleCreate = async () => {
     callModal({
       name: '새로운 대시보드',

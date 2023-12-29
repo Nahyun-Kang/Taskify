@@ -1,4 +1,4 @@
-import { DashboardListProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
+import { DashboardListProps } from '../../(afterLogin)/_constant/Dashboard';
 import { atom } from 'recoil';
 
 export const dashboardState = atom<DashboardListProps>({
