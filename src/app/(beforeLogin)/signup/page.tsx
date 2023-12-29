@@ -8,50 +8,42 @@ import InputForm from '@/src/app/_component/InputForm';
 import Sign from '@/src/app/_component/Button/Sign';
 import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { nicknameValidate } from '@/src/app/_constant/Input';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { handleSignUp } from '@/src/app/_api/auth';
+
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { AxiosError } from 'axios';
 
 export default function SignUp() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
   const [isChecked, setChecked] = useState(false);
   const [modalType, callModal] = useRenderModal();
-
-  console.log(modalType);
-
   const router = useRouter();
   const isActiveButton = methods.formState.isDirty && methods.formState.isValid && isChecked;
+  const values = methods.getValues();
 
+  //체크박스 체크 여부에 따라 isChecked state를 하는 함수
   const handleChangeCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-  const handleSignUp = async () => {
-    const { email, password, nickname } = methods.getValues();
-    const BODY_DATA = {
-      email: email,
-      nickname: nickname,
-      password: password,
-    };
 
-    try {
-      await axiosInstance.post('users', BODY_DATA);
-      callModal({
-        name: '가입이 완료되었습니다!',
-        onSubmit: () => {
-          router.push('/login');
-        },
-      });
-    } catch (error: unknown) {
-      const { response } = error as unknown as AxiosError;
-      if (response && response.status === 409) {
-        callModal({ name: '이미 사용 중인 이메일입니다.', onSubmit: () => {} });
-      }
-    }
+  //회원가입 성공시 부르는 모달
+  const callCompleteSignUpModal = () => {
+    callModal({
+      name: '가입이 완료되었습니다!',
+      onSubmit: () => {
+        router.push('/login');
+      },
+    });
   };
 
+  //회원가입 실패시 부르는 모달
+  const callSignUpErrorModal = () => {
+    callModal({ name: '이미 사용 중인 이메일입니다.', onSubmit: () => {} });
+  };
+
+  //submit 함수
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    handleSignUp();
+    handleSignUp(values, callCompleteSignUpModal, callSignUpErrorModal);
   };
 
   return (
