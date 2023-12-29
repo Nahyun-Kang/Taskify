@@ -3,7 +3,7 @@ import SelectColor from '@/src/app/_component/Chip/SelectColor';
 import InputForm from '@/src/app/_component/InputForm';
 import { FieldValues } from 'react-hook-form';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { dashboardSelector, dashboardState } from '@/src/app/_recoil/dashboardAtoms';
+import { dashboardSelector, dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { updateDashboard } from '@/src/app/_api/Dashboards';
 
 interface EditBoardProps {

@@ -5,7 +5,7 @@ import EditBoard from '@/src/app/(afterLogin)/dashboard/[dashboardId]/edit/_comp
 import InviteList from '@/src/app/(afterLogin)/dashboard/[dashboardId]/edit/_component/InviteList';
 import MemberList from '@/src/app/(afterLogin)/dashboard/[dashboardId]/edit/_component/MemberList';
 import { deleteDashboard } from '@/src/app/_api/Dashboards';
-import { dashboardState } from '@/src/app/_recoil/dashboardAtoms';
+import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
 
