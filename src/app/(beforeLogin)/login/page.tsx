@@ -32,9 +32,10 @@ export default function LogIn() {
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const response = error.response;
+        console.log(error);
 
-        if (response && response.status === 400 && response.data.message === '비밀번호가 일치하지 않습니다.') {
-          callModal({ name: '비밀번호가 일치하지 않습 니다.', onSubmit: () => {} });
+        if (response && response.data.message) {
+          callModal({ name: response.data.message, onSubmit: () => {} });
         }
       }
     }
