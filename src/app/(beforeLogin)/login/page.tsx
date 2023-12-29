@@ -33,7 +33,7 @@ export default function LogIn() {
       setToken(accessToken);
       setUserInfo(userInfo);
 
-      router.push('/boards');
+      router.push('/myboard');
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const response = error.response;
