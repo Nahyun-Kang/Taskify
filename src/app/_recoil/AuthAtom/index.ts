@@ -3,6 +3,8 @@ import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 import { accessTokenType, userInfoType } from '../../(beforeLogin)/_constants/type';
 
+const localStorage = typeof window !== 'undefined' ? window.localStorage : undefined;
+
 const { persistAtom } = recoilPersist({
   key: 'localStorage',
   storage: localStorage,
