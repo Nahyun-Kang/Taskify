@@ -33,6 +33,9 @@ export default function Header() {
     if (isMyDashboard) {
       setFolderName('내 대시보드');
       setCreatedByMe(false);
+    } else if (pathname === '/mypage') {
+      setFolderName('계정 관리');
+      setCreatedByMe(false);
     } else {
       const id = pathname.replace('dashboard/', '');
       const { data } = await axiosInstance.get(`dashboards${id}`);
