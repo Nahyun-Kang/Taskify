@@ -11,7 +11,7 @@ import IdxIcon from '@/src/app/(afterLogin)/_component/Icons/IdxIcon';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 import { createDashboard, getDashboards } from '@/src/app/_api/Dashboards';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { dashboardState } from '@/src/app/_recoil/DashboardAtoms';
+import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 

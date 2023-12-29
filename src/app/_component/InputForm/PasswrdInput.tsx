@@ -32,7 +32,7 @@ export default function PasswordInput({ label, placeholder, id, initialValue = '
           {...register}
         />
         <button type='button' onClick={toggleShowPassword}>
-          {showPassword ? <EyeOffIcon /> : <EyeOnIcon />}
+          {showPassword ? <EyeOnIcon /> : <EyeOffIcon />}
         </button>
       </InputWithImageWrapper>
       <ErrorMessage message={errorMessage} />

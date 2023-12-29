@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 import { useSetRecoilState } from 'recoil';
-import { dashboardState } from '@/src/app/_recoil/DashboardAtoms';
+import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 
 export default function DashboardList() {
   const [ModalType, callModal] = useRenderModal();
