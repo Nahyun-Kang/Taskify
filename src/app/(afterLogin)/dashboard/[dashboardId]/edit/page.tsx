@@ -6,12 +6,12 @@ import InviteList from './_component/InviteList';
 import MemberList from './_component/MemberList';
 import { deleteDashboard } from '@/src/app/_api/Dashboards';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtoms';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
 
 export default function BoardEdit({ params }: { params: { dashboardId: string } }) {
   const router = useRouter();
-  const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
+  const setDashboardData = useSetRecoilState(dashboardState);
   const windowSize = useGetWindowSize();
   const isMobile = windowSize < 510 ? true : false;
 
