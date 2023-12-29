@@ -38,7 +38,7 @@ export default function PasswordCheck({ label, placeholder, id, initialValue = '
           })}
         />
         <button type='button' onClick={toggleShowPassword}>
-          {showPassword ? <EyeOffIcon /> : <EyeOnIcon />}
+          {showPassword ? <EyeOnIcon /> : <EyeOffIcon />}
         </button>
       </InputWithImageWrapper>
       <ErrorMessage message={errors[id]?.message as string} />

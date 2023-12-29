@@ -15,11 +15,11 @@ import {
   ToDoCardDetailProps,
   UpdateToDo,
 } from '@/src/app/_component/modal/toDoCard/';
-import { MyPageWrongPW } from '@/src/app/_component/modal/wrongPW';
+import { Base } from './base';
 
 interface ModalProps {
   detailToDo?: boolean;
-  wrongPW?: boolean;
+  base?: boolean;
   createDashboard?: boolean;
   updateToDo?: boolean;
   createToDo?: boolean;
@@ -39,6 +39,7 @@ interface ModalProps {
   cardId?: number;
   cardData?: ToDoCardDetailProps;
   columnId?: number;
+  content?: string;
 }
 
 // 모달 컴포넌트 특정 프롭스에 따라 조건부 렌더링
@@ -57,13 +58,14 @@ export function Modal({
   createToDo,
   updateToDo,
   createDashboard,
-  wrongPW,
+  base,
   signUpComplete,
   inviteDashBoard,
   onSubmit,
   cardId,
   cardData,
   columnId,
+  content,
 }: ModalProps) {
   const closeModal = () => setModalType(null);
 
@@ -103,6 +105,10 @@ export function Modal({
       );
     }
 
+    if (base) {
+      return <Base mainTitle={content} />;
+    }
+
     return (
       <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
         <ModalLayout btnName={btnName} onClose={closeModal} btnSize={btnSize} sign={sign}>
@@ -111,7 +117,7 @@ export function Modal({
           {updateToDo && cardData && <UpdateToDo mainTitle='할 일 수정' cardData={cardData} />}
           {createDashboard && <CreateDashboard mainTitle='새로운 대시보드' />}
           {inviteDashBoard && <InviteDashboard mainTitle='초대하기' />}
-          {wrongPW && <MyPageWrongPW mainTitle='비밀번호가 일치하지 않습니다' />}
+
           {deleteToDo && <DeleteTodo mainTitle='할 일 카드가 삭제됩니다' />}
           {signUpComplete && <CompleteSignUp mainTitle='가입이 완료되었습니다!' />}
           {mismatchPW && <MismatchPW mainTitle='비밀번호가 일치하지 않습니다.' />}
