@@ -2,7 +2,7 @@
 
 import Confirm from '@/src/app/_component/Button/Confirm';
 import InputForm from '@/src/app/_component/InputForm';
-import editPassword from '@/src/app/_api/users/editPassword';
+import { editPassword } from '@/src/app/_api/users';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 
 export default function PasswordEdit() {
