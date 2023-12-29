@@ -32,7 +32,6 @@ export default function LogIn() {
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const response = error.response;
-        console.log(error);
 
         if (response && response.data.message) {
           callModal({ name: response.data.message, onSubmit: () => {} });

@@ -11,6 +11,7 @@ import submitInvitation from '../../_util/submitInvitation';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import HeaderDropdown from './HeaderDropdown';
 
 const DUMMY = {
   folder: '강나현의 대시보드',
@@ -24,6 +25,7 @@ export default function Header() {
   const [ModalType, callModal] = useRenderModal();
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
+  const [isActiveDropdown, setActiveDropdown] = useState(false);
 
   const dashboardId = pathname.replace(/[^0-9]/g, '');
   const titleClass = !isMyDashboard ? 'hidden lg:block' : '';
@@ -39,6 +41,10 @@ export default function Header() {
       setFolderName(data?.title);
       setCreatedByMe(data?.createdByMe);
     }
+  };
+
+  const handlePopUpDropdown = () => {
+    setActiveDropdown((prev) => !prev);
   };
 
   useEffect(() => {
@@ -81,7 +87,10 @@ export default function Header() {
             {!isMyDashboard && (
               <div className=' mr-3 h-[2.375rem] w-0 rounded-md border-[.0625rem] stroke-gray30 stroke-1 md:mr-6 lg:mr-8'></div>
             )}
-            <div className='relative mr-3 flex items-center gap-3 md:mr-10 lg:mr-20'>
+            <div
+              className='relative mr-3 flex cursor-pointer items-center gap-3 md:mr-10 lg:mr-20'
+              onClick={handlePopUpDropdown}
+            >
               <div className='flex items-center justify-center'>
                 <div className='h-[2.375rem] w-[2.375rem] rounded-full border-2 border-white bg-[#A3C4A2] '></div>
                 <div className='text-1 absolute font-mon font-bold text-white'>{DUMMY.profile}</div>
@@ -92,6 +101,7 @@ export default function Header() {
         </div>
       </div>
       {ModalType}
+      {isActiveDropdown && <HeaderDropdown isActive={isActiveDropdown} />}
     </div>
   );
 }
