@@ -7,17 +7,23 @@ import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
+import { useSetRecoilState } from 'recoil';
+import { dashboardState } from '@/src/app/_recoil/DashboardAtoms';
 
 export default function DashboardList() {
   const [ModalType, callModal] = useRenderModal();
   const router = useRouter();
   const [dashboards, setDashboards] = useState<DashboardProps[]>([]);
+  const setDashboardData = useSetRecoilState(dashboardState);
   const handleCreate = async () => {
     callModal({
       name: '새로운 대시보드',
       onSubmit: async (data) => {
         try {
           const newDashboard = await createDashboard(data);
+          setDashboardData((prev) => {
+            return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
+          });
           router.push(`/dashboard/${newDashboard.id}`);
         } catch (error) {
           console.error(error);
