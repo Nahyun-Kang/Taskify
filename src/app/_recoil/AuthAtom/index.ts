@@ -1,3 +1,4 @@
+'use client';
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 import { accessTokenType, userInfoType } from '../../(beforeLogin)/_constants/type';
