@@ -1,10 +1,10 @@
 'use client';
 
-import InputForm from '../../InputForm';
+import InputForm from '@/src/app/_component/InputForm';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Cancel from '@/src/app/_component/Button/Cancel';
-import Confirm from '../../Button/Confirm';
+import Confirm from '@/src/app/_component/Button/Confirm';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { showModalState, columnState } from '@/src/app/_recoil/cardAtom';
 

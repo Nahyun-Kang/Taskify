@@ -33,7 +33,7 @@ export const usePutCard = (
     if (updatedCard !== null) {
       setCards((oldCards: CardInfo[]) => oldCards.map((item) => (item.id === cardId ? updatedCard : item)));
     }
-  }, [updatedCard]);
+  }, [updatedCard, cardId, setCards]);
 
   return { putCard, updatedCard };
 };

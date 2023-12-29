@@ -2,19 +2,24 @@
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import DropdownAndFilter from '../../dropdown/filter';
-import InputForm from '../../InputForm';
-import { DetailAssignee, DetailIconButton, DetailMainContent } from './DetailComponent';
+import DropdownAndFilter from '@/src/app/_component/dropdown/filter';
+import InputForm from '@/src/app/_component/InputForm';
+import {
+  DetailAssignee,
+  DetailIconButton,
+  DetailMainContent,
+  DetailCardComment,
+} from '@/src/app/_component/modal/toDoCard/DetailComponent';
 import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useFormContext } from 'react-hook-form';
-import Dropdown from '../../dropdown';
+import Dropdown from '@/src/app/_component/dropdown';
 // import { SubmitHandler } from 'react-hook-form';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
-import { showModalState, openPopOverState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
-import { usePutCard } from '@/src/app/_hook/useMoveCard';
+import { showModalState, openPopOverState, countAboutCardList, commentsState } from '@/src/app/_recoil/cardAtom';
+import { usePutCard } from '@/src/app/_hook/usePutCard';
 
 interface TodoProps {
   mainTitle: string;
@@ -109,9 +114,9 @@ export interface commentType {
   updatedAt: string;
   cardId: number;
   author: {
-    profileImageUrl: string;
-    nickname: string;
-    id: number;
+    profileImageUrl?: string;
+    nickname?: string;
+    id?: number;
   };
 }
 
@@ -123,29 +128,18 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   const setCount = useSetRecoilState(countAboutCardList(columnId));
   const [cardData, setCardData] = useState<ToDoCardDetailProps | null>(null);
   const [isOpenPopOver, setIsOpenPopOver] = useRecoilState(openPopOverState);
-  // const [comments, setComments] = useState<commentType[] | null>(null);
+  const [comments, setComments] = useRecoilState(commentsState);
   const [modalType, callModal, setModalType] = useRenderModal();
 
   const { putCard, updatedCard } = usePutCard(cardId, columnId, setModalType);
   const setCardsOtherColumn = useSetRecoilState(cardStateAboutColumn(updatedCard?.columnId as number));
   const setCountOtherColumn = useSetRecoilState(countAboutCardList(updatedCard?.columnId as number));
 
-  // 카드 수정 서브밋 함수
-
-  // const putCard = async (form: FieldValues) => {
-  //   try {
-  //     const res = await axiosInstance.put(`cards/${cardId}`, {
-  //       ...form,
-  //       columnId: +form.columnId,
-  //       assigneeUserId: +form.assigneeUserId,
-  //     });
-  //     setCards((oldCards: CardInfo[]) => oldCards.map((item) => (item.id === cardId ? { ...res.data } : item)));
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setModalType(null);
-  //   }
-  // };
+  const getComments = async () => {
+    const res = await axiosInstance.get(`comments?cardId=${cardId}`);
+    const { comments } = res.data;
+    setComments(comments);
+  };
 
   // 카드 수정 모달 호출 함수
   const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, cardData: ToDoCardDetailProps) => {
@@ -158,6 +152,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
     try {
       await axiosInstance.delete(`cards/${cardId}`);
       setCards((oldCards: CardInfo[]) => oldCards.filter((item) => item.id !== cardId));
+      setCount((prev: number) => prev - 1);
     } catch (error) {
       console.log(error);
     } finally {
@@ -180,38 +175,12 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
       console.log(error);
     }
   };
-  // 댓글 생성 함수
-
-  // const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-  //   console.log(data);
-  //   try {
-  //     const res = await axiosInstance.post('comments', { ...data, columnId: 50, cardId: 59 });
-  //     setComments((prev) => [res.data, ...(prev ? prev : [])]);
-  //     console.log(res);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // 할 일 카드 상세 모달 마운트 시 기존의 댓글을 보여주는 함수
-  // const getComment = async () => {
-  //   try {
-  //     const res = await axiosInstance.get('comments?size=10&cardId=59');
-  //     setComments(res.data.comments);
-  //     console.log(res);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const onSubmit = async (data: FieldValues) => {
-  //   await createComment(data);
-  // };
 
   const handleKebab = () => setIsOpenPopOver(true);
   // 할 일 카드 상세 모달 마운트 시 해당 카드 및 댓글 데이터바인딩
   useEffect(() => {
     handleRenderCard();
-    // getComment();
+    getComments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -251,19 +220,33 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
               />
               <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
               <div className=' sm:flex  sm:flex-col-reverse md:flex md:flex-row md:justify-between'>
-                <DetailMainContent tags={cardData.tags} description={cardData.description} />
+                <DetailMainContent columnId={columnId} tags={cardData.tags} description={cardData.description} />
                 <DetailAssignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
               </div>
               <div className=' flex flex-col gap-[1.5rem]  sm:w-[17.9375rem] md:w-[28.125rem]'>
                 <div className='relative flex sm:h-[8.3125rem] sm:w-[17.9375rem] md:h-[16.375rem] md:w-[28.125rem]'>
-                  {cardData.imageUrl && <Image src={cardData.imageUrl} fill alt='imageUrl' />}
+                  {cardData.imageUrl && (
+                    <Image
+                      src={cardData.imageUrl}
+                      alt='imageUrl'
+                      fill
+                      sizes='(min-width: 768px) 28.125rem, 17.9375rem'
+                      style={{
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                      }}
+                      priority
+                    />
+                  )}
                 </div>
-
                 <InputForm.CommentInput id='content' placeholder='댓글을 입력해주세요' label='댓글' />
-
-                {/* {comments?.map((comment) => {
-                  return <DetailCardComment key={comment.id} data={comment} />;
-                })}: null */}
+                {comments && Array.isArray(comments)
+                  ? [...comments]
+                      .sort(
+                        (a, b) => new Date(a.createdAt as string).getTime() - new Date(b.createdAt as string).getTime(),
+                      )
+                      .map((comment) => <DetailCardComment key={comment.id} data={comment} />)
+                  : null}
               </div>
             </div>
           </div>

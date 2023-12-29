@@ -3,7 +3,7 @@
 import settingIcon from '@/public/icons/settings_icon.svg';
 import Card from '@/src/app/(afterLogin)/_component/Card';
 import AddTodo from '@/src/app/_component/Button/AddTodo';
-import CardCount from '@/src/app/_component/Chip/Number';
+import Number from '@/src/app/_component/Chip/Number';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
 import { useEffect } from 'react';
@@ -17,6 +17,7 @@ import { columnState } from '@/src/app/_recoil/cardAtom';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { CardInfo } from '../../_constant/type';
 import { showModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
+
 interface CardListProps {
   id: number;
   title: string;
@@ -40,7 +41,7 @@ export function CardList({ id, title, boardId }: CardListProps) {
   // 할 일 카드 생성 모달 서브밋 함수
   const onSubmitForCreateToDo = async (form: FieldValues) => {
     try {
-      const res = await axiosInstance.post('cards', { ...form, dashboardId: Number(boardId), columnId: Number(id) });
+      const res = await axiosInstance.post('cards', { ...form, dashboardId: +boardId, columnId: +id });
       setCards((prev) => [...(prev || []), res.data]);
       setCardNumCount((prev) => (prev ? prev + 1 : 1));
     } catch (error) {
@@ -92,7 +93,7 @@ export function CardList({ id, title, boardId }: CardListProps) {
         ></span>
         <div className='flex items-center gap-3 text-[1rem] font-bold text-black md:text-[1.125rem]'>
           <h3>{title}</h3>
-          <CardCount num={cardNumCount} />
+          <Number num={cardNumCount} />
         </div>
         <button
           id={MODALTYPE.COLUMN.UPDATE}

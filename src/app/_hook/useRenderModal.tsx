@@ -1,7 +1,7 @@
 import { useState, Dispatch, SetStateAction, ReactElement, JSXElementConstructor } from 'react';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
-import returnModal from '../_util/returnModal';
-import { ToDoCardDetailProps } from '../_component/modal/toDoCard';
+import returnModal from '@/src/app/_util/returnModal';
+import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard';
 
 interface CallModalType {
   (condition: {

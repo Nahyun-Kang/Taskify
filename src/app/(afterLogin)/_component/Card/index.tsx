@@ -4,12 +4,13 @@ import Image from 'next/image';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { useSetRecoilState } from 'recoil';
-import { showModalState } from '@/src/app/_recoil/cardAtom';
+import { showModalState, commentsState } from '@/src/app/_recoil/cardAtom';
 import { openPopOverState } from '@/src/app/_recoil/cardAtom';
-// import { SubmitHandler } from 'react-hook-form';
-// import { FieldValues } from 'react-hook-form';
-// import { axiosInstance } from '@/src/app/_util/axiosInstance';
-// import { useParams } from 'next/navigation';
+import { SubmitHandler } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { useParams } from 'next/navigation';
+
 interface CardProps {
   title: string;
   tags: string[];
@@ -36,28 +37,30 @@ export default function Card({
   const [modalType, callModal] = useRenderModal();
   const setShow = useSetRecoilState(showModalState);
   const setIsOpenPopOver = useSetRecoilState(openPopOverState);
-  // const params = useParams();
-  // console.log(params.dashboardId);
-  // const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-  //   console.log(data);
-  //   try {
-  //     const res = await axiosInstance.post('comments', {
-  //       ...data,
-  //       columnId,
-  //       cardId: id,
-  //       dashboardId: Number(params.dashboardId),
-  //     });
-  //     // setComments((prev) => [res.data, ...(prev ? prev : [])]);
-  //     console.log(res);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const setComments = useSetRecoilState(commentsState);
+
+  const params = useParams();
+
+  const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
+    console.log(data);
+    try {
+      const res = await axiosInstance.post('comments', {
+        ...data,
+        columnId,
+        cardId: id,
+        dashboardId: Number(params.dashboardId),
+      });
+      setComments((prev) => [, ...(prev ? prev : []), res.data]);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // 할 일 카드 상세 모달을 호출하기 위한 함수
   const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
     setIsOpenPopOver(false);
     setShow(true);
-    callModal({ name: (e.target as HTMLElement).id, cardId: id, columnId });
+    callModal({ name: (e.target as HTMLElement).id, onSubmit: createComment, cardId: id, columnId });
   };
 
   return (
@@ -76,6 +79,7 @@ export default function Card({
               height={0}
               style={{ width: '100%', height: 'auto' }}
               alt={title}
+              priority
             />
           </div>
         )}

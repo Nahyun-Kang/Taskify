@@ -1,6 +1,6 @@
 'use client';
-import SelectColor from '../../Chip/SelectColor';
-import InputForm from '../../InputForm';
+import SelectColor from '@/src/app/_component/Chip/SelectColor';
+import InputForm from '@/src/app/_component/InputForm';
 
 // 새로운 대시보드 생성 내용
 export function CreateDashboard({ mainTitle }: { mainTitle: string }) {

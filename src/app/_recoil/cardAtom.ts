@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
-import { CardInfo, Column } from '../(afterLogin)/_constant/type';
+import { CardInfo, Column } from '@/src/app/(afterLogin)/_constant/type';
+import { commentType } from '../_component/modal/toDoCard';
 
 const atomCache = new Map();
 
@@ -45,3 +46,8 @@ export const countAboutCardList = (columnId: number) => {
 
   return atomCardCount.get(columnId);
 };
+
+export const commentsState = atom<commentType[] | null>({
+  key: 'commentsState',
+  default: [],
+});

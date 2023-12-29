@@ -9,6 +9,7 @@ import PasswordInput from '@/src/app/_component/InputForm/PasswrdInput';
 import TagInput from '@/src/app/_component/InputForm/TagInput';
 import TextInput from '@/src/app/_component/InputForm/TextInput';
 import { ReactNode } from 'react';
+// import CommentUpdateInput from './commentUpdateInput';
 
 export default function InputForm({
   children,
@@ -49,3 +50,4 @@ InputForm.TextInput = TextInput;
 InputForm.DateInput = DateInput;
 InputForm.TagInput = TagInput;
 InputForm.CommentInput = CommentInput;
+// InputForm.CommentUpdateInput = CommentUpdateInput;
