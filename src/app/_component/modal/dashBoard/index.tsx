@@ -4,17 +4,11 @@ import InputForm from '@/src/app/_component/InputForm';
 
 // 새로운 대시보드 생성 내용
 export function CreateDashboard({ mainTitle }: { mainTitle: string }) {
-  const handleSelect = () => {};
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <InputForm.TextInput
-        label='대시보드 이름'
-        placeholder='대시보드 제목을 입력해주세요'
-        id='title'
-        isRequired={true}
-      />
-      <SelectColor onSelect={handleSelect} />
+      <InputForm.TextInput label='대시보드 이름' placeholder='대시보드 제목을 입력해주세요' id='title' />
+      <SelectColor />
     </>
   );
 }
