@@ -16,12 +16,6 @@ import HeaderDropdown from './HeaderDropdown';
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
 
-const DUMMY = {
-  folder: '강나현의 대시보드',
-  userName: '강나현',
-  profile: 'K',
-};
-
 export default function Header() {
   const pathname = usePathname();
   const isMyDashboard = pathname === '/myboard';
