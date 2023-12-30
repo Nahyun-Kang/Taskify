@@ -16,7 +16,7 @@ import { useSetRecoilState } from 'recoil';
 import { columnState } from '@/src/app/_recoil/cardAtom';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { CardInfo } from '../../_constant/type';
-import { showModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
+import { showColumnModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
 
 interface CardListProps {
   id: number;
@@ -30,7 +30,7 @@ export function CardList({ id, title, boardId }: CardListProps) {
   const [modalType, callModal, setModalType] = useRenderModal();
   const setColumns = useSetRecoilState(columnState);
 
-  const setShow = useSetRecoilState(showModalState);
+  const setShow = useSetRecoilState(showColumnModalState);
 
   const getCard = async () => {
     const { data } = await axiosInstance.get(`cards?size=10&columnId=${id}`);

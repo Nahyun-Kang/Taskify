@@ -6,7 +6,7 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Cancel from '@/src/app/_component/Button/Cancel';
 import Confirm from '@/src/app/_component/Button/Confirm';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { showModalState, columnState } from '@/src/app/_recoil/cardAtom';
+import { showColumnModalState, columnState } from '@/src/app/_recoil/cardAtom';
 import { useRef } from 'react';
 
 // 컬럼 생성 모달 내용
@@ -35,7 +35,7 @@ export function UpdateColumn({
   onClose: () => void;
 }) {
   const [modalType, callModal] = useRenderModal();
-  const [show, setShow] = useRecoilState(showModalState);
+  const [show, setShow] = useRecoilState(showColumnModalState);
 
   const handleRenderDeleteColumn = (e: React.MouseEvent<HTMLSpanElement>) => {
     callModal({ name: (e.target as HTMLElement).id, columnId: columnId });

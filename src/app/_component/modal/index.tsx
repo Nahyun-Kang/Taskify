@@ -85,11 +85,7 @@ export function Modal({
     }
 
     if (detailToDo) {
-      return (
-        <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
-          <DetailToDo onClose={closeModal} cardId={cardId as number} columnId={columnId as number} />
-        </InputForm>
-      );
+      return <DetailToDo onClose={closeModal} cardId={cardId as number} columnId={columnId as number} />;
     }
 
     if (deleteColumn) {

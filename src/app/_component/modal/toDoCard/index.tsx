@@ -18,9 +18,18 @@ import Dropdown from '@/src/app/_component/dropdown';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
-import { showModalState, openPopOverState, countAboutCardList, commentsState } from '@/src/app/_recoil/cardAtom';
+import {
+  showToDoModalState,
+  openPopOverState,
+  countAboutCardList,
+  commentsState,
+  updateCardState,
+} from '@/src/app/_recoil/cardAtom';
 import { usePutCard } from '@/src/app/_hook/usePutCard';
 import { useRef } from 'react';
+
+import { useParams } from 'next/navigation';
+import CommentInput from '../../InputForm/CommentInput';
 interface TodoProps {
   mainTitle: string;
 }
@@ -109,11 +118,13 @@ export function DeleteTodo({ mainTitle }: TodoProps) {
 
 // 할 일 카드 상세 모달 내용
 export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onClose: () => void; columnId: number }) {
-  const [show, setShow] = useRecoilState(showModalState);
+  const [commentValue, setCommentValue] = useState<string>('');
+
+  const [show, setShow] = useRecoilState(showToDoModalState);
 
   const setCards = useSetRecoilState(cardStateAboutColumn(columnId));
   const setCount = useSetRecoilState(countAboutCardList(columnId));
-  const [cardData, setCardData] = useState<ToDoCardDetailProps | null>(null);
+  const [cardData, setCardData] = useRecoilState(updateCardState);
   const [isOpenPopOver, setIsOpenPopOver] = useRecoilState(openPopOverState);
   const [comments, setComments] = useRecoilState(commentsState);
   const [modalType, callModal, setModalType] = useRenderModal();
@@ -130,7 +141,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
 
   // 카드 수정 모달 호출 함수
   const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, cardData: ToDoCardDetailProps) => {
-    callModal({ name: (e.target as HTMLElement).id, onSubmit: putCard, cardData: cardData });
+    callModal({ name: (e.target as HTMLElement).id, onSubmit: putCard(e), cardData: cardData });
     setShow(false);
   };
 
@@ -162,6 +173,24 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
       console.log(error);
     }
   };
+  const params = useParams();
+
+  const createComment = async () => {
+    try {
+      const res = await axiosInstance.post('comments', {
+        content: commentValue,
+        columnId,
+        cardId: cardId,
+        dashboardId: Number(params.dashboardId),
+      });
+      setComments((prev) => [, ...(prev ? prev : []), res.data]);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setModalType(null);
+    }
+  };
 
   const handleKebab = () => setIsOpenPopOver(true);
 
@@ -190,7 +219,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   }, [updatedCard, setCardsOtherColumn, columnId, setCards, setCount, setCountOtherColumn]);
 
   if (!cardData) return;
-  console.log(show);
+
   if (!show) {
     return <>{modalType}</>;
   }
@@ -239,14 +268,24 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
                       />
                     )}
                   </div>
-                  <InputForm.CommentInput id='content' placeholder='댓글을 입력해주세요' label='댓글' />
+
+                  <CommentInput
+                    id='content'
+                    placeholder='댓글을 입력해주세요'
+                    onChange={(e) => setCommentValue((e.target as HTMLInputElement).value)}
+                    label='댓글'
+                    onSubmit={createComment}
+                    value={commentValue}
+                  ></CommentInput>
                   {comments && Array.isArray(comments)
                     ? [...comments]
                         .sort(
                           (a, b) =>
                             new Date(a.createdAt as string).getTime() - new Date(b.createdAt as string).getTime(),
                         )
-                        .map((comment) => <DetailCardComment key={comment?.id} data={comment} />)
+                        .map((comment, index) => (
+                          <DetailCardComment key={comment?.id || `comment-${index}`} data={comment} />
+                        ))
                     : null}
                 </div>
               </div>

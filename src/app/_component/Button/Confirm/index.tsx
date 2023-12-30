@@ -20,7 +20,7 @@ export default function Confirm({ size, onClick, btnName }: ConfirmProps) {
     <button
       className={`flex items-center justify-center rounded-[0.5rem]  bg-violet ${paddingX} ${paddingY} ${height} ${width} text-[0.8125rem] text-white disabled:bg-gray40`}
       onClick={onClick}
-      disabled={getValues('isDisabled') || getValues('isDisabled2') || !isValid}
+      disabled={btnName === '삭제' ? false : getValues('isDisabled') || getValues('isDisabled2') || !isValid}
     >
       {btnName}
     </button>

@@ -131,7 +131,7 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
   );
 }
 
-interface CommentType2 {
+export interface CommentType2 {
   id: number;
   content: string;
   createdAt: string;
@@ -172,6 +172,11 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
     setIsUpdate(true);
   };
 
+  const handleOnBlur = (e: React.FocusEvent<HTMLElement>) => {
+    e.stopPropagation();
+    setValue((e.target as HTMLInputElement).value);
+  };
+
   if (!data) return;
   return (
     <div className='flex gap-[0.625rem]'>
@@ -195,9 +200,7 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
               className='w-full border-b-2  border-black focus:outline-none'
               placeholder='댓글을 입력해 주세요'
               defaultValue={data.content}
-              onChange={(e) => {
-                setValue(e.target.value);
-              }}
+              onBlur={handleOnBlur}
             />
             <div className=' flex w-full justify-end'>
               <button className='mr-1 rounded px-2 py-1 text-black hover:bg-blue' onClick={updateComments}>
