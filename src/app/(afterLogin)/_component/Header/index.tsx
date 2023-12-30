@@ -45,6 +45,9 @@ export default function Header() {
     setActiveDropdown((prev) => !prev);
   };
 
+  const userData = localStorage.getItem('taskifyUserData');
+  console.log(userData);
+
   useEffect(() => {
     getFolderName();
     // eslint-disable-next-line react-hooks/exhaustive-deps

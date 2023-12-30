@@ -1,7 +1,7 @@
 export interface userInfoType {
   email: string | null;
   id: number | null;
-  nickname: string | undefined;
+  nickname: string;
   profileImageUrl: string;
   updatedAt: string | null;
 }

@@ -1,6 +1,6 @@
 'use client';
 interface DefaultProfileProps {
-  nickName: string | undefined;
+  nickName: string;
   index?: number;
   colorCode?: string;
   profileImg: string;

@@ -14,7 +14,7 @@ export const userInfoState = atom<userInfoType>({
   default: {
     email: null,
     id: null,
-    nickname: undefined,
+    nickname: '',
     profileImageUrl: '',
     updatedAt: null,
   },
