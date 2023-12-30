@@ -1,4 +1,3 @@
-'use client';
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 import { accessTokenType, userInfoType } from '../../(beforeLogin)/_constants/type';
@@ -15,8 +14,8 @@ export const userInfoState = atom<userInfoType>({
   default: {
     email: null,
     id: null,
-    nickname: null,
-    profileImageUrl: null,
+    nickname: undefined,
+    profileImageUrl: '',
     updatedAt: null,
   },
   effects_UNSTABLE: [persistAtom],
