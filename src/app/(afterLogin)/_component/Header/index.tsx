@@ -52,7 +52,7 @@ export default function Header() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  //하이드레이션 문제로 작성한 코드
+  // 하이드레이션 워닝을 방지하기 위한 코드
   useEffect(() => {
     const userDataObject = localStorage.getItem('taskifyUserData');
     if (userDataObject) {
