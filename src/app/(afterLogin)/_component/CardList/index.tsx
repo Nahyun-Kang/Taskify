@@ -6,37 +6,67 @@ import AddTodo from '@/src/app/_component/Button/AddTodo';
 import Number from '@/src/app/_component/Chip/Number';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CardType } from '@/src/app/(afterLogin)/_constant/type';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
+import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 
 interface CardListProps {
   id: number;
   title: string;
 }
 
-export default function CardList({ id, title }: CardListProps) {
-  const [columnInfo, setColumnInfo] = useState<CardType | null>(null);
+type CardKey = {
+  id: number;
+  title: string;
+  description: string;
+  tags: string[];
+  dueDate: string;
+  assignee: {
+    profileImageUrl: string;
+    nickname: string;
+    id: number;
+  };
+  imageUrl: string;
+  teamId: string;
+  columnId: number;
+  createdAt: Date;
+  updatedAt: Date;
+}[];
 
-  const getCard = async () => {
-    const { data } = await axiosInstance.get(`cards?size=10&columnId=${id}`);
-    setColumnInfo(data);
+export default function CardList({ id, title }: CardListProps) {
+  const [columnInfo, setColumnInfo] = useState<CardKey>([]);
+  const [cursorId, setCursorId] = useState('');
+  const [totalCount, setTotalCount] = useState(0);
+  const target = useRef<HTMLDivElement>(null);
+
+  const getCard = useCallback(async () => {
+    const query = cursorId ? `cursorId=${cursorId}&` : '';
+    const { data } = await axiosInstance.get(`cards?${query}columnId=${id}`);
+    setColumnInfo((prev) => [...prev, ...data.cards]);
+    setTotalCount(data.totalCount);
+    setCursorId(data.cursorId);
+  }, [cursorId]);
+
+  const onIntersect: IntersectionObserverCallback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.intersectionRatio > 0) {
+        getCard();
+      }
+    });
   };
 
-  useEffect(() => {
-    getCard();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useInfiniteScroll({ target, onIntersect: onIntersect, size: cursorId });
 
   return (
-    <div className='border-gray-20 md:min-w-none flex flex-1 flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:min-h-screen lg:min-w-[22.125rem] lg:flex-col lg:border-b-0 lg:border-r'>
+    <div className='border-gray-20 md:min-w-none lg:scrollbar-hide flex flex-1 flex-col gap-[1.0625rem] border-b bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r'>
       <div className='flex items-center gap-2'>
         <span
           className={`flex h-2 w-2 items-center justify-center rounded-3xl bg-violet text-[0.75rem] text-white`}
         ></span>
         <div className='flex items-center gap-3 text-[1rem] font-bold text-black md:text-[1.125rem]'>
           <h3>{title}</h3>
-          <Number num={columnInfo?.totalCount} />
+          <Number num={totalCount} />
         </div>
         <button className='relative ml-auto h-[1.375rem] w-[1.375rem] md:h-[1.5rem] md:w-[1.5rem]'>
           <Image src={settingIcon.src} fill alt='설정 아이콘' />
@@ -46,8 +76,8 @@ export default function CardList({ id, title }: CardListProps) {
         <div className='h-[2rem] md:h-[2.5rem]'>
           <AddTodo screen='mobile' onClick={() => {}} />
         </div>
-        {columnInfo &&
-          columnInfo.cards.map((card) => (
+        {columnInfo.length !== 0 &&
+          columnInfo.map((card) => (
             <Card
               key={card.id}
               title={card.title}
@@ -60,6 +90,7 @@ export default function CardList({ id, title }: CardListProps) {
             />
           ))}
       </div>
+      {cursorId !== null && <div className='h-4 flex-shrink-0 bg-red' ref={target}></div>}
     </div>
   );
 }
