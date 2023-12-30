@@ -47,7 +47,6 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
         setTotalPage(Math.ceil(result.totalCount / pageSize));
       }
     };
-
     getMemberList(page, 4);
   }, [page, dashboardId]);
 
