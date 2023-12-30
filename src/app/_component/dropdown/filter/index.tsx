@@ -128,20 +128,16 @@ export default function DropdownAndFilter({
             <div
               onClick={handleRenderInputBox}
               className={
-                'flex w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem]  py-[0.625rem]  outline-none ' +
+                'flex h-[3rem] w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300  px-[1rem]  py-[0.625rem] outline-none ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
-              {assignee?.profileImageUrl !== null ? (
-                <Image
-                  src={assignee?.profileImageUrl ? assignee.profileImageUrl : '기본 이미지 URL'}
-                  alt='circleLogo'
-                  width={26}
-                  height={26}
-                />
+              {assignee?.profileImageUrl ? (
+                <Image src={assignee.profileImageUrl} alt='circleLogo' width={26} height={26} />
               ) : (
                 <DefaultProfile nickName={curretValue} index={assignId as number} />
               )}
+
               <span className='text-[1rem]'>{curretValue}</span>
             </div>
           ) : (

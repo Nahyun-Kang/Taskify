@@ -15,6 +15,8 @@ import formatTime from '@/src/app/_util/formatTime';
 // import { FieldValues } from 'react-hook-form';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 // 할 일 카드 상세 모달은 내용이 너무 많아서 일단 분리해 놓았습니다
+import DefaultProfile from '../../DefaultProfile';
+
 interface DetailIconButtonProps {
   handleKebab: () => void;
   onUpdate: (e: React.MouseEvent<HTMLParagraphElement>, cardData: ToDoCardDetailProps) => void;
@@ -113,8 +115,10 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
       <div className='flex flex-col gap-[0.375rem]'>
         <span className='text-[0.75rem] font-semibold leading-5'>담당자</span>
         <div className='flex items-center  gap-[0.3125rem]'>
-          {assignee?.profileImageUrl && (
-            <Image src={assignee?.profileImageUrl} width={34} height={34} alt='담당자 프로필' priority />
+          {assignee?.profileImageUrl ? (
+            <Image src={assignee.profileImageUrl} width={34} height={34} alt='담당자 프로필' priority />
+          ) : (
+            <DefaultProfile nickName={assignee.nickname} index={assignee.id as number} />
           )}
           <span>{assignee?.nickname}</span>
         </div>
@@ -128,15 +132,15 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
 }
 
 interface CommentType2 {
-  id?: number;
-  content?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  cardId?: number;
-  author?: {
-    profileImageUrl?: string;
-    nickname?: string;
-    id?: number;
+  id: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  cardId: number;
+  author: {
+    profileImageUrl: string;
+    nickname: string;
+    id: number;
   };
 }
 export function DetailCardComment({ data }: { data: CommentType2 }) {
@@ -150,7 +154,7 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
       content: value,
     });
 
-    setComments((oldComments: CommentType2[] | null) => {
+    setComments((oldComments) => {
       if (oldComments) {
         return oldComments.map((comment) => (comment?.id === data?.id ? { ...res.data } : comment));
       }
@@ -172,9 +176,11 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
   return (
     <div className='flex gap-[0.625rem]'>
       <div className='flex flex-col items-start'>
-        {data ? (
-          <Image src={data?.author?.profileImageUrl || circle} width={34} height={34} alt='댓글 프로필' priority />
-        ) : null}
+        {data?.author?.profileImageUrl ? (
+          <Image src={data?.author?.profileImageUrl} width={34} height={34} alt='댓글 프로필' priority />
+        ) : (
+          <DefaultProfile nickName={data.author.nickname} index={data.author.id} />
+        )}
       </div>
       <div className='flex flex-col gap-[0.375rem]'>
         <div className='flex gap-[0.5rem]'>

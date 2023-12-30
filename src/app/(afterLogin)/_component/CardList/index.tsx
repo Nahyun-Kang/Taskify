@@ -51,8 +51,8 @@ export function CardList({ id, title, boardId }: CardListProps) {
     }
   };
   // 할 일 카드 생성 모달 호출 함수
-  const handleRenderCreateTodoModal = (e: React.MouseEvent<HTMLElement>) => {
-    callModal({ name: (e.target as HTMLElement).id, onSubmit: onSubmitForCreateToDo, columnId: id });
+  const handleRenderCreateTodoModal = () => {
+    callModal({ name: '할 일 생성', onSubmit: onSubmitForCreateToDo, columnId: id });
   };
 
   // 칼럼 수정을 위한 서브밋 함수

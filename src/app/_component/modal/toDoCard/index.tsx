@@ -20,7 +20,7 @@ import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import { showModalState, openPopOverState, countAboutCardList, commentsState } from '@/src/app/_recoil/cardAtom';
 import { usePutCard } from '@/src/app/_hook/usePutCard';
-
+import { useRef } from 'react';
 interface TodoProps {
   mainTitle: string;
 }
@@ -107,19 +107,6 @@ export function DeleteTodo({ mainTitle }: TodoProps) {
   );
 }
 
-export interface commentType {
-  id: number;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  cardId: number;
-  author: {
-    profileImageUrl?: string;
-    nickname?: string;
-    id?: number;
-  };
-}
-
 // 할 일 카드 상세 모달 내용
 export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onClose: () => void; columnId: number }) {
   const [show, setShow] = useRecoilState(showModalState);
@@ -177,6 +164,15 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   };
 
   const handleKebab = () => setIsOpenPopOver(true);
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  const modalOutSideClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (modalRef.current === e.target) {
+      console.log(modalRef.current);
+      onClose();
+    }
+  };
+
   // 할 일 카드 상세 모달 마운트 시 해당 카드 및 댓글 데이터바인딩
   useEffect(() => {
     handleRenderCard();
@@ -205,48 +201,54 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
         <>{modalType}</>
       ) : (
         <>
-          <div className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'>
+          <div onClick={modalOutSideClick}>
             <div
-              className=' relative flex flex-col gap-[1rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem]
-              sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
+              ref={modalRef}
+              className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'
             >
-              <DetailIconButton
-                handleKebab={handleKebab}
-                onUpdate={RenderUpdatedoModal}
-                onDelete={RenderDeleteModal}
-                isOpenPopOver={isOpenPopOver}
-                onClose={onClose}
-                cardData={cardData}
-              />
-              <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
-              <div className=' sm:flex  sm:flex-col-reverse md:flex md:flex-row md:justify-between'>
-                <DetailMainContent columnId={columnId} tags={cardData.tags} description={cardData.description} />
-                <DetailAssignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
-              </div>
-              <div className=' flex flex-col gap-[1.5rem]  sm:w-[17.9375rem] md:w-[28.125rem]'>
-                <div className='relative flex sm:h-[8.3125rem] sm:w-[17.9375rem] md:h-[16.375rem] md:w-[28.125rem]'>
-                  {cardData.imageUrl && (
-                    <Image
-                      src={cardData.imageUrl}
-                      alt='imageUrl'
-                      fill
-                      sizes='(min-width: 768px) 28.125rem, 17.9375rem'
-                      style={{
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                      }}
-                      priority
-                    />
-                  )}
+              <div
+                className=' relative flex flex-col gap-[1rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem]
+              sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
+              >
+                <DetailIconButton
+                  handleKebab={handleKebab}
+                  onUpdate={RenderUpdatedoModal}
+                  onDelete={RenderDeleteModal}
+                  isOpenPopOver={isOpenPopOver}
+                  onClose={onClose}
+                  cardData={cardData}
+                />
+                <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
+                <div className=' sm:flex  sm:flex-col-reverse md:flex md:flex-row md:justify-between'>
+                  <DetailMainContent columnId={columnId} tags={cardData.tags} description={cardData.description} />
+                  <DetailAssignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
                 </div>
-                <InputForm.CommentInput id='content' placeholder='댓글을 입력해주세요' label='댓글' />
-                {comments && Array.isArray(comments)
-                  ? [...comments]
-                      .sort(
-                        (a, b) => new Date(a.createdAt as string).getTime() - new Date(b.createdAt as string).getTime(),
-                      )
-                      .map((comment) => <DetailCardComment key={comment?.id} data={comment} />)
-                  : null}
+                <div className=' flex flex-col gap-[1.5rem]  sm:w-[17.9375rem] md:w-[28.125rem]'>
+                  <div className='relative flex sm:h-[8.3125rem] sm:w-[17.9375rem] md:h-[16.375rem] md:w-[28.125rem]'>
+                    {cardData.imageUrl && (
+                      <Image
+                        src={cardData.imageUrl}
+                        alt='imageUrl'
+                        fill
+                        sizes='(min-width: 768px) 28.125rem, 17.9375rem'
+                        style={{
+                          objectFit: 'cover',
+                          objectPosition: 'center',
+                        }}
+                        priority
+                      />
+                    )}
+                  </div>
+                  <InputForm.CommentInput id='content' placeholder='댓글을 입력해주세요' label='댓글' />
+                  {comments && Array.isArray(comments)
+                    ? [...comments]
+                        .sort(
+                          (a, b) =>
+                            new Date(a.createdAt as string).getTime() - new Date(b.createdAt as string).getTime(),
+                        )
+                        .map((comment) => <DetailCardComment key={comment?.id} data={comment} />)
+                    : null}
+                </div>
               </div>
             </div>
           </div>
