@@ -23,6 +23,7 @@ export default function Header() {
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
   const [isActiveDropdown, setActiveDropdown] = useState(false);
+  const [userName, setUserName] = useState('');
   const userInfo = useRecoilValue(userInfoState);
 
   const dashboardId = pathname.replace(/[^0-9]/g, '');
@@ -45,13 +46,20 @@ export default function Header() {
     setActiveDropdown((prev) => !prev);
   };
 
-  const userData = localStorage.getItem('taskifyUserData');
-  console.log(userData);
-
   useEffect(() => {
     getFolderName();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  //하이드레이션 문제로 작성한 코드
+  useEffect(() => {
+    const userDataObject = localStorage.getItem('taskifyUserData');
+    if (userDataObject) {
+      const userData: UserData = JSON.parse(userDataObject);
+      const nickname = userData.userInfo.nickname;
+      setUserName(nickname);
+    }
+  }, []);
 
   const handleInvitation = () => {
     callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
@@ -92,8 +100,8 @@ export default function Header() {
               className='relative mr-3 flex cursor-pointer items-center gap-3 md:mr-10 lg:mr-20'
               onClick={handlePopUpDropdown}
             >
-              <HeaderProfile nickName={userInfo.nickname} profileImg={userInfo.profileImageUrl} />
-              <div className='text-1 text-black30 hidden font-medium md:block'>{userInfo.nickname}</div>
+              <HeaderProfile nickName={userName} profileImg={userInfo.profileImageUrl} />
+              <div className='text-1 text-black30 hidden font-medium md:block'>{userName}</div>
             </div>
           </div>
         </div>
@@ -102,4 +110,15 @@ export default function Header() {
       {isActiveDropdown && <HeaderDropdown isActive={isActiveDropdown} />}
     </div>
   );
+}
+interface UserData {
+  userInfo: {
+    id: number;
+    email: string;
+    nickname: string;
+    profileImageUrl: string | null;
+    createdAt: string;
+    updatedAt: string;
+  };
+  accessToken: string;
 }
