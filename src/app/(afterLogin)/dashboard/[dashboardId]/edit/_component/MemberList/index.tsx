@@ -3,7 +3,9 @@ import Delete from '@/src/app/_component/Button/Delete';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import { useEffect, useState } from 'react';
 import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
-import { getMembers } from '@/src/app/_api/Dashboards';
+import { deleteMember, getMembers } from '@/src/app/_api/Dashboards';
+import crown from '@/public/images/crown_icon.svg';
+import Image from 'next/image';
 
 interface membersProps {
   id: number;
@@ -12,40 +14,6 @@ interface membersProps {
   profileImageUrl: string;
   isOwner: boolean;
 }
-// const members = {
-//   members: [
-//     {
-//       id: 1,
-//       userId: 1,
-//       nickname: '윤대호',
-//       profileImageUrl: '',
-//       isOwner: true,
-//     },
-//     {
-//       id: 2,
-//       userId: 2,
-//       nickname: '구혜지',
-//       profileImageUrl: '',
-//       isOwner: false,
-//     },
-//     {
-//       id: 3,
-//       userId: 3,
-//       nickname: '고민혁',
-//       profileImageUrl:
-//         'https://github.com/Codeit-Part3-Team3/Taskify/assets/72487120/579aff92-5731-4f7e-9276-83a5b7ab6252',
-//       isOwner: false,
-//     },
-//     {
-//       id: 4,
-//       userId: 4,
-//       nickname: '강나현',
-//       profileImageUrl: '',
-//       isOwner: false,
-//     },
-//   ],
-//   totalCount: 8,
-// };
 
 export default function MemberList({ dashboardId }: { dashboardId: string | undefined }) {
   const [memberList, setMemberList] = useState([]);
@@ -62,8 +30,10 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
     }
   };
 
-  const handleDelete = (userId: number) => {
-    console.log(userId);
+  const handleDelete = (memberId: number) => {
+    const result = deleteMember(memberId);
+    if (!result) return;
+    setMemberList((prevMembers) => prevMembers.filter((member: membersProps) => member.id !== memberId));
   };
 
   useEffect(() => {
@@ -77,7 +47,6 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
         setTotalPage(Math.ceil(result.totalCount / pageSize));
       }
     };
-
     getMemberList(page, 4);
   }, [page, dashboardId]);
 
@@ -117,7 +86,13 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
                 )}
                 <span className='text-black80 sm:text-[0.875rem] md:text-[1rem]'>{val.nickname}</span>
               </div>
-              <Delete size='large' onClick={() => handleDelete(val.userId)} />
+              {val.isOwner ? (
+                <div className='flex h-[2rem] w-[5.25rem] items-center justify-center'>
+                  <Image width={30} height={30} src={crown} alt='왕관' />
+                </div>
+              ) : (
+                <Delete size='large' onClick={() => handleDelete(val.id)} />
+              )}
             </div>
           ))}
       </div>

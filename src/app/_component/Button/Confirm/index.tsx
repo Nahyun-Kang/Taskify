@@ -2,7 +2,7 @@ import { MouseEvent } from 'react';
 import { useFormContext } from 'react-hook-form';
 interface ConfirmProps {
   size: 'large' | 'small' | 'free';
-  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   btnName: string;
 }
 export default function Confirm({ size, onClick, btnName }: ConfirmProps) {

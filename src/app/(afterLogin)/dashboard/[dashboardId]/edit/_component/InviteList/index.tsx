@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import addBox from '@/public/icons/add_box.svg';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import CancelInvite from '@/src/app/_component/Button/CancelInvite';
+import { deleteInvitation, getInvitations } from '@/src/app/_api/Dashboards';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import submitInvitation from '@/src/app/(afterLogin)/_util/submitInvitation';
-import { getInvitations } from '@/src/app/_api/Dashboards';
 
 interface InviteListProps {
   id: number;
@@ -34,6 +34,12 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
 
   const handleInvite = () => {
     callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
+  };
+
+  const handleCancelInvite = (inviteId: number) => {
+    const result = deleteInvitation(dashboardId, inviteId);
+    if (!result) return;
+    setInviteList((prevInvitation) => prevInvitation.filter((invite: InviteListProps) => invite.id !== inviteId));
   };
 
   useEffect(() => {
@@ -92,7 +98,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
               className='max-h[4.375rem] flex items-center justify-between border-b-[0.0625rem] border-gray20 py-[1.75rem]'
             >
               <span className='text-black80 sm:text-[0.875rem] md:text-[1rem]'>{val.invitee.email}</span>
-              <CancelInvite size='large' onClick={() => {}} />
+              <CancelInvite size='large' onClick={() => handleCancelInvite(val.id)} />
             </div>
           ))}
       </div>

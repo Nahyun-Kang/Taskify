@@ -21,6 +21,64 @@ export async function getMembers(dashboardId: string | undefined, page: number, 
   }
 }
 
+export async function deleteMember(memberId: number) {
+  try {
+    const response = await axiosInstance.delete(`members/${memberId}`);
+    const status = response.status;
+    if (status === 204) {
+      alert('삭제 되었습니다.');
+    } else {
+      alert('삭제 실패!');
+    }
+    return status;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteInvitation(dashboardId: string | undefined, invitationId: number) {
+  try {
+    const response = await axiosInstance.delete(`dashboards/${dashboardId}/invitations/${invitationId}`);
+    const status = response.status;
+    if (status === 204) {
+      alert('취소 되었습니다.');
+    } else {
+      alert('취소 실패!');
+    }
+    return status;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteDashboard(dashboardId: string | undefined) {
+  try {
+    const response = await axiosInstance.delete(`dashboards/${dashboardId}`);
+    const status = response.status;
+    if (status === 204) {
+      alert('대시보드가 삭제 되었습니다.');
+    } else {
+      alert('대시보드 삭제 실패!');
+    }
+    return status;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateDashboard(dashboardId: string | undefined, param: FieldValues) {
+  try {
+    const response = await axiosInstance.put(`dashboards/${dashboardId}`, {
+      title: param.editBoard,
+      color: param.color,
+    });
+    const result = response.data;
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getDashboards() {
   try {
     const res = await axiosInstance.get('dashboards?navigationMethod=infiniteScroll');
