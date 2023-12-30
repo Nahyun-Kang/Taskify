@@ -1,5 +1,5 @@
 import { FieldValues, SubmitHandler } from 'react-hook-form';
-import { Modal } from '../_component/modal';
+import { Modal } from '@/src/app/_component/modal/index';
 import { ToDoCardDetailProps } from '../_component/modal/toDoCard';
 
 // 모달 리턴 함수 (특정 태그의 이벤트 아이디 값에 따라 조건부 렌더링)
