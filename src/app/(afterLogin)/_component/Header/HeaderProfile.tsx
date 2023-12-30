@@ -21,7 +21,7 @@ export default function HeaderProfile({ nickName, index, colorCode, profileImg }
     <>
       {profileImg?.length ? (
         <div
-          className={`h-[2.375rem] w-[2.375rem] rounded-full`}
+          className={`h-[2.125rem] w-[2.125rem] rounded-full border-2 border-white md:h-[2.375rem] md:w-[2.375rem]`}
           style={{
             backgroundImage: `url(${profileImg})`,
             backgroundPosition: 'center',
@@ -31,7 +31,7 @@ export default function HeaderProfile({ nickName, index, colorCode, profileImg }
         ></div>
       ) : (
         <div
-          className={`flex h-[2.375rem] w-[2.375rem] items-center justify-center rounded-full ${background} font-mon  text-[1rem] font-semibold text-white`}
+          className={`flex h-[2.125rem] w-[2.125rem] items-center justify-center rounded-full md:h-[2.375rem] md:w-[2.375rem] ${background} border-2 border-white font-mon text-[1rem] font-semibold text-white`}
         >
           {nickName?.charAt(0)}
         </div>
