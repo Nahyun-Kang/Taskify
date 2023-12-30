@@ -20,6 +20,7 @@ export default function LogIn() {
   const [modalType, callModal] = useRenderModal();
   const router = useRouter();
   const values = methods.watch();
+  const handleSubmit = methods.handleSubmit;
 
   const handleLogin = async () => {
     try {
@@ -40,15 +41,10 @@ export default function LogIn() {
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    handleLogin();
-  };
-
   return (
     <AuthLayout message={AUTH_MESSAGE.logIn}>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit} className='w-full' noValidate>
+        <form onSubmit={handleSubmit(handleLogin)} className='w-full' noValidate>
           <div className='mb-[1rem]'>
             <InputForm.EmailInput label='이메일' placeholder='이메일을 입력해 주세요' id='email' />
           </div>
