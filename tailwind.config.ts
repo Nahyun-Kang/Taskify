@@ -58,6 +58,9 @@ const config: Config = {
         md: '745px',
         lg: '1440px',
       },
+      transitionProperty: {
+        height: 'height',
+      },
     },
   },
   plugins: [require('tailwind-scrollbar-hide')],

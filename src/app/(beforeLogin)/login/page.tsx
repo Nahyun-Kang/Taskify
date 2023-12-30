@@ -1,5 +1,4 @@
 'use client';
-import { FormEvent } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
@@ -20,6 +19,7 @@ export default function LogIn() {
   const [modalType, callModal] = useRenderModal();
   const router = useRouter();
   const values = methods.watch();
+  const handleSubmit = methods.handleSubmit;
 
   const handleLogin = async () => {
     try {
@@ -33,22 +33,17 @@ export default function LogIn() {
       if (axios.isAxiosError(error)) {
         const response = error.response;
 
-        if (response && response.status === 400 && response.data.message === '비밀번호가 일치하지 않습니다.') {
-          callModal({ name: '비밀번호가 일치하지 않습 니다.', onSubmit: () => {} });
+        if (response && response.data.message) {
+          callModal({ name: response.data.message, onSubmit: () => {} });
         }
       }
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    handleLogin();
-  };
-
   return (
     <AuthLayout message={AUTH_MESSAGE.logIn}>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit} className='w-full' noValidate>
+        <form onSubmit={handleSubmit(handleLogin)} className='w-full' noValidate>
           <div className='mb-[1rem]'>
             <InputForm.EmailInput label='이메일' placeholder='이메일을 입력해 주세요' id='email' />
           </div>
@@ -62,3 +57,5 @@ export default function LogIn() {
     </AuthLayout>
   );
 }
+
+//커밋용 주석

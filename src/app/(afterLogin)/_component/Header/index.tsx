@@ -1,5 +1,6 @@
 'use client';
 import { usePathname } from 'next/navigation';
+import { useRecoilValue } from 'recoil';
 
 import Crown from '@/src/app/_component/Icons/Crown';
 import HeaderButton from './HeaderButton';
@@ -11,12 +12,10 @@ import submitInvitation from '../../_util/submitInvitation';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-
-const DUMMY = {
-  folder: '강나현의 대시보드',
-  userName: '강나현',
-  profile: 'K',
-};
+import HeaderDropdown from './HeaderDropdown';
+import { userInfoState } from '@/src/app/_recoil/AuthAtom';
+import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
+import { UserDataType } from '@/src/app/_constant/type';
 
 export default function Header() {
   const pathname = usePathname();
@@ -24,6 +23,9 @@ export default function Header() {
   const [ModalType, callModal] = useRenderModal();
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
+  const [isActiveDropdown, setActiveDropdown] = useState(false);
+  const [userName, setUserName] = useState('');
+  const userInfo = useRecoilValue(userInfoState);
 
   const dashboardId = pathname.replace(/[^0-9]/g, '');
   const titleClass = !isMyDashboard ? 'hidden lg:block' : '';
@@ -41,10 +43,24 @@ export default function Header() {
     }
   };
 
+  const handlePopUpDropdown = () => {
+    setActiveDropdown((prev) => !prev);
+  };
+
   useEffect(() => {
     getFolderName();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  // 하이드레이션 워닝을 방지하기 위한 코드
+  useEffect(() => {
+    const userDataObject = localStorage.getItem('taskifyUserData');
+    if (userDataObject) {
+      const userData: UserDataType = JSON.parse(userDataObject);
+      const nickname = userData.userInfo.nickname;
+      setUserName(nickname);
+    }
+  }, []);
 
   const handleInvitation = () => {
     callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
@@ -81,17 +97,18 @@ export default function Header() {
             {!isMyDashboard && (
               <div className=' mr-3 h-[2.375rem] w-0 rounded-md border-[.0625rem] stroke-gray30 stroke-1 md:mr-6 lg:mr-8'></div>
             )}
-            <div className='relative mr-3 flex items-center gap-3 md:mr-10 lg:mr-20'>
-              <div className='flex items-center justify-center'>
-                <div className='h-[2.375rem] w-[2.375rem] rounded-full border-2 border-white bg-[#A3C4A2] '></div>
-                <div className='text-1 absolute font-mon font-bold text-white'>{DUMMY.profile}</div>
-              </div>
-              <div className='text-1 text-black30 hidden font-medium md:block'>{DUMMY.userName}</div>
+            <div
+              className='relative mr-3 flex cursor-pointer items-center gap-3 md:mr-10 lg:mr-20'
+              onClick={handlePopUpDropdown}
+            >
+              <HeaderProfile nickName={userName} profileImg={userInfo.profileImageUrl} />
+              <div className='text-1 text-black30 hidden font-medium md:block'>{userName}</div>
             </div>
           </div>
         </div>
       </div>
       {ModalType}
+      {isActiveDropdown && <HeaderDropdown isActive={isActiveDropdown} />}
     </div>
   );
 }

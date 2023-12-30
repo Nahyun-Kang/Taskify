@@ -23,6 +23,7 @@ export interface CommonInputProps {
       message: string;
     };
   };
+  errorText?: string;
 }
 
 export const VALIDATE: { [key: string]: RegExp } = {
@@ -70,6 +71,13 @@ export const dateValidate = {
   required: {
     value: true,
     message: '날짜를 선택해주세요.',
+  },
+};
+
+export const requiredValidate = {
+  required: {
+    value: true,
+    message: '',
   },
 };
 
