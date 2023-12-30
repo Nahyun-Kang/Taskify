@@ -6,7 +6,7 @@ import { accessTokenType, userInfoType } from '../../(beforeLogin)/_constants/ty
 const localStorage = typeof window !== 'undefined' ? window.localStorage : undefined;
 
 const { persistAtom } = recoilPersist({
-  key: 'localStorage',
+  key: 'taskifyUserData',
   storage: localStorage,
 });
 
