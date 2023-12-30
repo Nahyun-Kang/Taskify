@@ -41,6 +41,7 @@ export function CardList({ id, title, boardId }: CardListProps) {
     setCards((prev) => [...prev, ...data.cards]);
     setCardNumCount(data.totalCount);
     setCursorId(data.cursorId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cursorId]);
   // 할 일 카드 생성 모달 서브밋 함수
   const onSubmitForCreateToDo = async (form: FieldValues) => {

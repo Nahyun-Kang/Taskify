@@ -14,5 +14,6 @@ export default function useInfiniteScroll({ target, onIntersect, size }: Props) 
       observer.observe(target.current);
     }
     return () => observer && observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target, size]);
 }
