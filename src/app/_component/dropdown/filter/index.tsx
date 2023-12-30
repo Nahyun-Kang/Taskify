@@ -8,6 +8,7 @@ import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from
 import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
+import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
 interface Admin {
   id: number;
   email: string;
@@ -131,7 +132,16 @@ export default function DropdownAndFilter({
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
-              {assignee ? <Image src={assignee.profileImageUrl} alt='circleLogo' width={26} height={26} /> : null}
+              {assignee?.profileImageUrl !== null ? (
+                <Image
+                  src={assignee?.profileImageUrl ? assignee.profileImageUrl : '기본 이미지 URL'}
+                  alt='circleLogo'
+                  width={26}
+                  height={26}
+                />
+              ) : (
+                <DefaultProfile nickName={curretValue} index={assignId as number} />
+              )}
               <span className='text-[1rem]'>{curretValue}</span>
             </div>
           ) : (
@@ -206,7 +216,11 @@ export const AdminOption = ({
             <div className='w-[1.375rem]'></div>
           )}
           <div className='flex  gap-[0.5rem]'>
-            {profile ? <Image src={profile} alt='circleLogo' width={26} height={26} /> : null}
+            {profile !== null ? (
+              <Image src={profile} alt='circleLogo' width={26} height={26} />
+            ) : (
+              <DefaultProfile nickName={name} index={userId} />
+            )}
             <span onClick={handleSelectDropdown} className='text-[1rem]' id={name}>
               {name}
             </span>
