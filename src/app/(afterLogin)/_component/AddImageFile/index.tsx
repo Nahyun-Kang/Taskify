@@ -42,10 +42,10 @@ export default function AddImageFile({ size = 'big', profileImageUrl = '' }: Pro
     <div className={`relative overflow-hidden rounded-md bg-[#f5f5f5] bg-cover ${Size[size].wrapper}`} style={style}>
       <input id='avatar' type='file' className='hidden' onChange={handleChange} accept='image/*' />
       <label htmlFor='avatar' className='group flex h-full w-full items-center justify-center'>
-        {!image && <Image src={addLargeImg} alt='이미지 추가 버튼' className={`${Size[size].iconSize}`} />}
+        {!image && <Image src={addLargeImg} alt='이미지 추가 버튼' className={`${Size[size].iconSize}`} priority />}
         {image && (
           <div className='hidden h-full w-full items-center justify-center bg-[#000000]/[.6] group-hover:flex'>
-            <Image src={penImg} alt='이미지 수정 버튼' className={`${Size[size].penSize}`} />
+            <Image src={penImg} alt='이미지 수정 버튼' className={`${Size[size].penSize}`} priority />
           </div>
         )}
       </label>

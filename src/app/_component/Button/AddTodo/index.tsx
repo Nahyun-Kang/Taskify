@@ -1,10 +1,11 @@
 import Add from '@/src/app/_component/Chip/Add';
 interface AddTodoProps {
   screen: 'desktop' | 'mobile' | 'tablet' | 'free';
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
+  id: string;
 }
 
-export default function AddTodo({ screen = 'desktop', onClick }: AddTodoProps) {
+export default function AddTodo({ screen = 'desktop', onClick, id }: AddTodoProps) {
   const screens = {
     desktop: {
       height: 'h-[2.5rem]',
@@ -25,6 +26,7 @@ export default function AddTodo({ screen = 'desktop', onClick }: AddTodoProps) {
     <button
       className={`flex w-full ${height} items-center justify-center rounded-[0.375rem] border border-gray30 bg-white font-semibold text-black80`}
       onClick={onClick}
+      id={id}
     >
       <Add size={iconSize} />
     </button>
