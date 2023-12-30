@@ -15,6 +15,7 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import HeaderDropdown from './HeaderDropdown';
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
+import { UserDataType } from '@/src/app/_constant/type';
 
 export default function Header() {
   const pathname = usePathname();
@@ -51,11 +52,11 @@ export default function Header() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  //하이드레이션 문제로 작성한 코드
+  // 하이드레이션 워닝을 방지하기 위한 코드
   useEffect(() => {
     const userDataObject = localStorage.getItem('taskifyUserData');
     if (userDataObject) {
-      const userData: UserData = JSON.parse(userDataObject);
+      const userData: UserDataType = JSON.parse(userDataObject);
       const nickname = userData.userInfo.nickname;
       setUserName(nickname);
     }
@@ -110,15 +111,4 @@ export default function Header() {
       {isActiveDropdown && <HeaderDropdown isActive={isActiveDropdown} />}
     </div>
   );
-}
-interface UserData {
-  userInfo: {
-    id: number;
-    email: string;
-    nickname: string;
-    profileImageUrl: string | null;
-    createdAt: string;
-    updatedAt: string;
-  };
-  accessToken: string;
 }
