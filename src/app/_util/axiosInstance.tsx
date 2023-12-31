@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { UserDataType } from '../_constant/type';
 
-const getAccessToken = () => {
+export const getAccessToken = () => {
   let userDatas;
   let accessToken = '';
   if (typeof window !== 'undefined') {
