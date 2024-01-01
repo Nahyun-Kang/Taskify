@@ -1,25 +1,29 @@
 'use client';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import DropdownAndFilter from '@/src/app/_component/dropdown/filter';
+import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 import InputForm from '@/src/app/_component/InputForm';
+import Dropdown from '@/src/app/_component/dropdown';
+import DropdownAndFilter from '@/src/app/_component/dropdown/filter';
 import {
   DetailAssignee,
+  DetailCardComment,
   DetailIconButton,
   DetailMainContent,
-  DetailCardComment,
 } from '@/src/app/_component/modal/toDoCard/DetailComponent';
-import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import { useFormContext } from 'react-hook-form';
-import Dropdown from '@/src/app/_component/dropdown';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 // import { SubmitHandler } from 'react-hook-form';
-import { useSetRecoilState, useRecoilState } from 'recoil';
-import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
-import { showModalState, openPopOverState, countAboutCardList, commentsState } from '@/src/app/_recoil/cardAtom';
 import { usePutCard } from '@/src/app/_hook/usePutCard';
+import {
+  cardStateAboutColumn,
+  commentsState,
+  countAboutCardList,
+  openPopOverState,
+  showModalState,
+} from '@/src/app/_recoil/cardAtom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 interface TodoProps {
   mainTitle: string;
@@ -39,16 +43,6 @@ export interface ToDoCardDetailProps {
 }
 // 할 일 카드 생성 모달 내용
 export function CreateToDo({ mainTitle }: TodoProps) {
-  const { watch, setValue } = useFormContext();
-  const title = watch('title');
-  const description = watch('description');
-  const assigneeUserId = watch('assigneeUserId');
-  const dueDate = watch('dueDate');
-  const imageUrl = watch('imageUrl');
-  const tags = watch('tags');
-
-  const isButtonDisabled = !(title && description && assigneeUserId && dueDate && imageUrl && tags.length >= 1);
-  setValue('isDisabled2', isButtonDisabled);
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
@@ -63,13 +57,6 @@ export function CreateToDo({ mainTitle }: TodoProps) {
 }
 // 할 일 카드 수정 모달 내용
 export function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardData: ToDoCardDetailProps }) {
-  // const { watch, setValue } = useFormContext();
-  // const title = watch('title');
-  // const description = watch('description');
-
-  // const isButtonDisabled = !(title && description);
-  // setValue('isDisabled', isButtonDisabled);
-
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>

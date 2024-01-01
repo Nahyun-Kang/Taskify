@@ -1,13 +1,12 @@
 'use client';
 import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
-import { useInputField } from '@/src/app/_component/InputForm/InputStyle';
+import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
 import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
-import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
 interface Admin {
   id: number;
   email: string;
@@ -33,8 +32,7 @@ export default function DropdownAndFilter({
 
   const [dashboardId] = useRecoilState(dashboardIdState);
 
-  const { register } = useInputField('assigneeUserId', {});
-  const { setValue } = useFormContext();
+  const { register, setValue, trigger } = useFormContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -52,8 +50,11 @@ export default function DropdownAndFilter({
       }
     });
     if (e.target.value === '') {
+      setValue('assigneeUserId', 0);
       setOpenDropdown(false);
     }
+
+    trigger('assigneeUserId');
   };
 
   // 드롭 다운 내 사용자 클릭을 받아서, 담당자로 지정
@@ -65,6 +66,7 @@ export default function DropdownAndFilter({
     setAssignId(id);
     setIsSelectionComplete(true);
     setValue('assigneeUserId', +id);
+    trigger('assigneeUserId');
   };
 
   // 사용자 입력 받을 시 Dropdown filter 기능
@@ -148,7 +150,15 @@ export default function DropdownAndFilter({
               }
             />
           )}
-          <input className='hidden' value={Number(assignId) as number} id='assigneeUserId' {...register} />
+          <input
+            className='hidden'
+            value={Number(assignId) as number}
+            id='assigneeUserId'
+            {...register('assigneeUserId', {
+              valueAsNumber: true,
+              validate: (id) => id > 0,
+            })}
+          />
           <div onClick={handleOpenDropdown} className='absolute right-[1rem] top-[0.625rem] h-[1.625rem] w-[1.625rem]'>
             <Image fill src={dropdown} alt='dropdown' />
           </div>

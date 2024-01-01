@@ -8,7 +8,14 @@ interface TagInputProps extends CommonInputProps {
   initialTags?: string[];
 }
 
-export default function TagInput({ label, placeholder, id, validationRules = {}, initialTags = [] }: TagInputProps) {
+export default function TagInput({
+  label,
+  placeholder,
+  id,
+  validationRules = {},
+  initialTags = [],
+  isRequired = false,
+}: TagInputProps) {
   const [tags, setTags] = useState(initialTags);
   const [inputText, setInputText] = useState('');
 
@@ -41,7 +48,7 @@ export default function TagInput({ label, placeholder, id, validationRules = {},
 
   return (
     <InputWrapper>
-      <Label label={label} htmlFor={id} isRequired={validationRules?.required?.value || false} />
+      <Label label={label} htmlFor={id} isRequired={isRequired} />
       <div
         className={`box-border flex min-h-[1.5rem] w-full flex-wrap items-center gap-2 rounded-lg border px-4 py-[0.6875rem] placeholder:text-gray40 focus-within:border-violet ${
           errorMessage ? 'border-red' : 'border-gray30'
