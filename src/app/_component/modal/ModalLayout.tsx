@@ -30,7 +30,7 @@ export default function ModalLayout({ children, btnName, btnSize, onClose, sign,
     onClose();
   };
 
-  const Size = {
+  const Size: { [key: string]: string } = {
     small: 'md:w-[33.75rem]',
     large: 'md:w-[31.625rem]',
   };
