@@ -17,7 +17,7 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import DefaultProfile from '../../DefaultProfile';
 
 interface DetailIconButtonProps {
-  handleKebab: () => void;
+  handleKebab: (e: React.MouseEvent<HTMLElement>) => void;
   onUpdate: (cardData: ToDoCardDetailProps) => void;
   isOpenPopOver: boolean;
   onClose: () => void;

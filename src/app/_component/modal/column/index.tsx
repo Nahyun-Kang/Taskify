@@ -45,7 +45,6 @@ export function UpdateColumn({
   const modalRef = useRef<HTMLDivElement>(null);
   const modalOutSideClick = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current === e.target) {
-      console.log(modalRef.current);
       onClose();
     }
   };

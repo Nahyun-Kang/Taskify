@@ -36,7 +36,7 @@ export default function DropdownAndFilter({
 
   const { register } = useInputField('assigneeUserId', {});
   const { setValue } = useFormContext();
-
+  const mount = useRef(true);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // input 태그의 사용자 입력을 받고, 받아온 데이터의 요소들과 입력 값이 일치하는 경우 해당 요소 담당자로 지정
@@ -114,9 +114,15 @@ export default function DropdownAndFilter({
   }, []);
 
   useEffect(() => {
+    if (assignee && mount.current) {
+      setIsSelectionComplete(true);
+      setFocus(false);
+      mount.current = false;
+    }
     if (!isSelectionComplete && inputRef.current !== null) {
       inputRef.current.focus();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelectionComplete]);
 
   return (
@@ -128,7 +134,7 @@ export default function DropdownAndFilter({
             <div
               onClick={handleRenderInputBox}
               className={
-                'flex h-[3rem] w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300  px-[1rem]  py-[0.625rem] outline-none ' +
+                'flex h-[3rem] w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border px-[1rem] py-[0.625rem]  outline-none' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
@@ -211,7 +217,7 @@ export const AdminOption = ({
           ) : (
             <div className='w-[1.375rem]'></div>
           )}
-          <div className='flex  gap-[0.5rem]'>
+          <div className='flex  items-center justify-center gap-[0.5rem]'>
             {profile !== null ? (
               <Image src={profile} alt='circleLogo' width={26} height={26} />
             ) : (

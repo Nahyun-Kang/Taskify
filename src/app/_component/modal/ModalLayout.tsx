@@ -31,7 +31,6 @@ export default function ModalLayout({ children, btnName, btnSize, onClose, sign 
 
   const modalOutSideClick = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current === e.target) {
-      console.log(modalRef.current);
       onClose();
     }
   };

@@ -221,7 +221,10 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
     }
   };
 
-  const handleKebab = () => setIsOpenPopOver(true);
+  const handleKebab = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    setIsOpenPopOver(true);
+  };
 
   const arriveAtIntersection: IntersectionObserverCallback = (entries) => {
     if (entries[0].isIntersecting && !observerLoading) {
@@ -235,7 +238,6 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   const modalRef = useRef<HTMLDivElement>(null);
   const modalOutSideClick = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current === e.target) {
-      console.log(modalRef.current);
       onClose();
     }
   };

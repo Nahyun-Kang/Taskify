@@ -88,7 +88,6 @@ export function CardList({ id, title, boardId }: CardListProps) {
     getCard();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log('cards', cards);
 
   return (
     <div className='border-gray-20 md:min-w-none flex flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:min-h-screen lg:min-w-[22.125rem] lg:flex-col lg:border-b-0 lg:border-r'>
