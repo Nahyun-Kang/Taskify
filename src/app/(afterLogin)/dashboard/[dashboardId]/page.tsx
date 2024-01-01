@@ -10,6 +10,7 @@ import { columnState, dashboardIdState } from '@/src/app/_recoil/cardAtom';
 import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
+import { getAccessToken } from '@/src/app/_util/axiosInstance';
 
 export default function DashBoard({ params }: { params: { dashboardId: string } }) {
   const [columns, setColumns] = useRecoilState(columnState);
@@ -19,7 +20,11 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
   const getData = async () => {
     const {
       data: { data },
-    } = await axiosInstance.get(`columns?dashboardId=${params.dashboardId}`);
+    } = await axiosInstance.get(`columns?dashboardId=${params.dashboardId}`, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+      },
+    });
     setColumns(data);
     setDashBoardId(params.dashboardId);
   };

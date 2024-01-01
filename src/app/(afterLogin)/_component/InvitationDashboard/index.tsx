@@ -5,11 +5,16 @@ import InvitationList from './InvitationList';
 import MagnifyingGlass from '../Icons/MagnifyingGlass';
 import NoInvitation from './NoInvitation';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { getAccessToken } from '@/src/app/_util/axiosInstance';
 
 export default function InvitationDashboard() {
   const [invitations, setInvitations] = useState([]);
   const getInvitations = useCallback(async () => {
-    const { data } = await axiosInstance.get('invitations');
+    const { data } = await axiosInstance.get('invitations', {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+      },
+    });
     setInvitations(data.invitations);
   }, []);
 

@@ -1,9 +1,14 @@
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { FieldValues } from 'react-hook-form';
+import { getAccessToken } from '@/src/app/_util/axiosInstance';
 
 export async function getInvitations(dashboardId: string | undefined, page: number, size: number) {
   try {
-    const response = await axiosInstance.get(`dashboards/${dashboardId}/invitations?page=${page}&size=${size}`);
+    const response = await axiosInstance.get(`dashboards/${dashboardId}/invitations?page=${page}&size=${size}`, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+      },
+    });
     const result = response.data;
     return result;
   } catch (error) {
@@ -81,7 +86,11 @@ export async function updateDashboard(dashboardId: string | undefined, param: Fi
 
 export async function getDashboards() {
   try {
-    const res = await axiosInstance.get('dashboards?navigationMethod=infiniteScroll');
+    const res = await axiosInstance.get('dashboards?navigationMethod=infiniteScroll', {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+      },
+    });
 
     const { dashboards, totalCount, cursorId } = res.data;
 
@@ -93,7 +102,11 @@ export async function getDashboards() {
 
 export async function getPaginatedDashboards(page: number, size: number) {
   try {
-    const res = await axiosInstance.get(`dashboards?navigationMethod=pagination&page=${page}&size=${size}`);
+    const res = await axiosInstance.get(`dashboards?navigationMethod=pagination&page=${page}&size=${size}`, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+      },
+    });
     const { dashboards, totalCount, cursorId } = res.data;
 
     return { dashboards, totalCount, cursorId: cursorId ?? 0 };
