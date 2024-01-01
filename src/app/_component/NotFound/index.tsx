@@ -19,7 +19,11 @@ export default function NotFoundLayout({
 }) {
   const router = useRouter();
   const handleButtonClick = () => {
-    router.back();
+    if (errorType.slice(0, 3) === '401') {
+      router.push('/login');
+    } else {
+      router.back();
+    }
   };
 
   const imageUrl = (errorType: string) => {
