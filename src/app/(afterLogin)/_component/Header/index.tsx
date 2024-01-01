@@ -36,8 +36,7 @@ export default function Header() {
       setFolderName('내 대시보드');
       setCreatedByMe(false);
     } else {
-      const id = pathname.replace('dashboard/', '');
-      const { data } = await axiosInstance.get(`dashboards${id}`);
+      const { data } = await axiosInstance.get(`dashboards/${dashboardId}`);
       setFolderName(data?.title);
       setCreatedByMe(data?.createdByMe);
     }
