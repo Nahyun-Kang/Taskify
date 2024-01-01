@@ -1,4 +1,4 @@
-import { atom, atomFamily, selectorFamily } from 'recoil';
+import { atom } from 'recoil';
 import { CardInfo, Column } from '@/src/app/(afterLogin)/_constant/type';
 import { commentType } from '@/src/app/_component/modal/toDoCard';
 
@@ -50,23 +50,4 @@ export const countAboutCardList = (columnId: number) => {
 export const commentsState = atom<commentType[] | null>({
   key: 'commentsState',
   default: [],
-});
-
-export const cardListState = atomFamily<CardInfo[], number>({
-  key: 'cardList',
-  default: [],
-});
-
-export const reorderCardsSelector = selectorFamily<CardInfo[], number>({
-  key: 'reorderCards',
-  get:
-    (columnId) =>
-    ({ get }) => {
-      return get(cardListState(columnId));
-    },
-  set:
-    (columnId) =>
-    ({ set }, newCards) => {
-      set(cardListState(columnId), newCards as CardInfo[]);
-    },
 });
