@@ -4,7 +4,7 @@ import MagnifyingGlass from '@/src/app/(afterLogin)/_component/Icons/MagnifyingG
 import InvitationList from '@/src/app/(afterLogin)/_component/InvitationDashboard/InvitationList';
 import NoInvitation from '@/src/app/(afterLogin)/_component/InvitationDashboard/NoInvitation';
 import { Invitations } from '@/src/app/(afterLogin)/_constant/type';
-import { putInvitation } from '@/src/app/_api/Dashboards';
+import { getDashboards, putInvitation } from '@/src/app/_api/Dashboards';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
@@ -41,12 +41,17 @@ export default function InvitationDashboard() {
   };
 
   const handleInvitation = async (invitationId: number, accepted: boolean) => {
-    const newDashboard = await putInvitation(invitationId, accepted);
-    setInvitations(invitations.filter((invitation) => invitation.id !== invitationId));
-    if (accepted) {
-      setDashboardData((prev) => {
-        return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
-      });
+    try {
+      await putInvitation(invitationId, accepted);
+      if (accepted) {
+        const data = await getDashboards();
+        if (data) {
+          setDashboardData(data);
+        }
+      }
+      setInvitations(invitations.filter((invitation) => invitation.id !== invitationId));
+    } catch (error) {
+      console.error(error);
     }
   };
 

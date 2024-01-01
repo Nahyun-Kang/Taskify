@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { FieldValues } from 'react-hook-form';
-
+import { isAxiosError } from 'axios';
 export async function getInvitations(dashboardId: string | undefined, page: number, size: number) {
   try {
     const response = await axiosInstance.get(`dashboards/${dashboardId}/invitations?page=${page}&size=${size}`);
@@ -87,7 +87,9 @@ export async function getDashboards() {
 
     return { dashboards, totalCount, cursorId: cursorId ?? 0 };
   } catch (error) {
-    console.log(error);
+    if (isAxiosError(error)) {
+      alert(error.response?.data.message);
+    }
   }
 }
 
@@ -98,7 +100,9 @@ export async function getPaginatedDashboards(page: number, size: number) {
 
     return { dashboards, totalCount, cursorId: cursorId ?? 0 };
   } catch (error) {
-    console.log(error);
+    if (isAxiosError(error)) {
+      alert(error.response?.data.message);
+    }
   }
 }
 
@@ -110,7 +114,9 @@ export async function getInfiniteDashboards(cursor: number | null, size: number)
 
     return { dashboards, totalCount, cursorId: cursorId ?? 0 };
   } catch (error) {
-    console.log(error);
+    if (isAxiosError(error)) {
+      alert(error.response?.data.message);
+    }
   }
 }
 
@@ -121,7 +127,9 @@ export async function createDashboard(data: FieldValues) {
     });
     return res.data;
   } catch (error) {
-    throw error;
+    if (isAxiosError(error)) {
+      alert(error.response?.data.message);
+    }
   }
 }
 
@@ -132,6 +140,8 @@ export async function putInvitation(invitationId: number, accepted: boolean) {
     });
     return res.data;
   } catch (error) {
-    throw error;
+    if (isAxiosError(error)) {
+      alert(error.response?.data.message);
+    }
   }
 }
