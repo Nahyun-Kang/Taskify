@@ -7,17 +7,14 @@ import Number from '@/src/app/_component/Chip/Number';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { cardStateAboutColumn, columnState, countAboutCardList, showModalState } from '@/src/app/_recoil/cardAtom';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
 import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { useSetRecoilState } from 'recoil';
-import { columnState } from '@/src/app/_recoil/cardAtom';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
-import { CardInfo } from '../../_constant/type';
-import { showModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
-
+import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
+import { Draggable } from 'react-beautiful-dnd';
 interface CardListProps {
   id: number;
   title: string;
@@ -35,7 +32,9 @@ export function CardList({ id, title, boardId }: CardListProps) {
   const getCard = async () => {
     const { data } = await axiosInstance.get(`cards?size=10&columnId=${id}`);
 
-    setCards(data.cards);
+    setCards(
+      (data.cards as CardInfo[]).sort((a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()),
+    );
     setCardNumCount(data.totalCount);
   };
   // 할 일 카드 생성 모달 서브밋 함수
@@ -108,19 +107,26 @@ export function CardList({ id, title, boardId }: CardListProps) {
           <AddTodo screen='mobile' id={MODALTYPE.TODO.CREATE} onClick={handleRenderCreateTodoModal} />
         </div>
         {cards &&
-          cards.map((card) => (
-            <Card
-              id={card.id}
-              key={card.id}
-              title={card.title}
-              columnId={id}
-              tags={card.tags}
-              dueDate={card.dueDate}
-              imageUrl={card.imageUrl}
-              bgColor={Colors[card.id % 5]}
-              nickname={card.assignee?.nickname}
-              profileImageUrl={card.assignee?.profileImageUrl}
-            />
+          cards.map((card, index) => (
+            <Draggable draggableId={card.id.toString()} index={index} key={card.id}>
+              {(provided) => (
+                <div ref={provided.innerRef} {...provided.draggableProps} style={provided.draggableProps.style}>
+                  <div {...provided.dragHandleProps}>
+                    <Card
+                      id={card.id}
+                      title={card.title}
+                      columnId={id}
+                      tags={card.tags}
+                      dueDate={card.dueDate}
+                      imageUrl={card.imageUrl}
+                      bgColor={Colors[card.id % 5]}
+                      nickname={card.assignee?.nickname}
+                      profileImageUrl={card.assignee?.profileImageUrl}
+                    />
+                  </div>
+                </div>
+              )}
+            </Draggable>
           ))}
       </div>
       {modalType}
