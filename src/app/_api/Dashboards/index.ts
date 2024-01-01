@@ -81,7 +81,7 @@ export async function updateDashboard(dashboardId: string | undefined, param: Fi
 
 export async function getDashboards() {
   try {
-    const res = await axiosInstance.get('dashboards?navigationMethod=infiniteScroll');
+    const res = await axiosInstance.get('dashboards?navigationMethod=pagination&page=1&size=100');
 
     const { dashboards, totalCount, cursorId } = res.data;
 
@@ -121,6 +121,17 @@ export async function createDashboard(data: FieldValues) {
     });
     return res.data;
   } catch (error) {
-    console.log(error);
+    throw error;
+  }
+}
+
+export async function putInvitation(invitationId: number, accepted: boolean) {
+  try {
+    const res = await axiosInstance.put(`invitations/${invitationId}`, {
+      inviteAccepted: accepted,
+    });
+    return res.data;
+  } catch (error) {
+    throw error;
   }
 }
