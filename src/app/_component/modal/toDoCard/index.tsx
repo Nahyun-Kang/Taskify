@@ -49,7 +49,7 @@ export function CreateToDo({ mainTitle }: TodoProps) {
   const isButtonDisabled = !(title && description && assigneeUserId && dueDate && imageUrl && tags.length >= 1);
   setValue('isDisabled2', isButtonDisabled);
   return (
-    <div className='flex w-[20.4375rem] flex-col gap-6 md:w-[31.625rem]'>
+    <div className='flex flex-col gap-6'>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
       <DropdownAndFilter />
       <InputForm.TextInput label='제목' placeholder='제목을 입력해주세요' id='title' isRequired={true} />

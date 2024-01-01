@@ -58,6 +58,7 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           setModalType={setModalType}
           btnSize='large'
           sign={false}
+          size='large'
         />
       );
     case '할 일 수정':
@@ -72,6 +73,7 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           cardId={cardId}
           cardData={cardData}
           columnId={columnId}
+          size='large'
         />
       );
     case '새로운 대시보드':

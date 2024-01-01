@@ -40,6 +40,7 @@ interface ModalProps {
   cardData?: ToDoCardDetailProps;
   columnId?: number;
   content?: string;
+  size?: string;
 }
 
 // 모달 컴포넌트 특정 프롭스에 따라 조건부 렌더링
@@ -66,6 +67,7 @@ export function Modal({
   cardData,
   columnId,
   content,
+  size,
 }: ModalProps) {
   const closeModal = () => setModalType(null);
 
@@ -111,7 +113,7 @@ export function Modal({
 
     return (
       <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
-        <ModalLayout btnName={btnName} onClose={closeModal} btnSize={btnSize} sign={sign}>
+        <ModalLayout btnName={btnName} onClose={closeModal} btnSize={btnSize} sign={sign} size={size}>
           {createColumn && <CreateColumn mainTitle='새 칼럼 생성' labelTitle='이름' />}
           {createToDo && <CreateToDo mainTitle='할 일 생성' />}
           {updateToDo && cardData && <UpdateToDo mainTitle='할 일 수정' cardData={cardData} />}
