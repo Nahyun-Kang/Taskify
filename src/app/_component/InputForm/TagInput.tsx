@@ -15,7 +15,9 @@ export default function TagInput({ label, placeholder, id, validationRules = {},
   const { errorMessage, setValue } = useInputField(id, validationRules);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputText(e.target.value);
+    if (e.target.value.length < 11) {
+      setInputText(e.target.value);
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
