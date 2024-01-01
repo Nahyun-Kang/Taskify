@@ -57,10 +57,10 @@ export default function Card({
     }
   };
   // 할 일 카드 상세 모달을 호출하기 위한 함수
-  const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleRenderDetaildoModal = async () => {
     setIsOpenPopOver(false);
     setShow(true);
-    callModal({ name: (e.target as HTMLElement).id, onSubmit: createComment, cardId: id, columnId });
+    callModal({ name: '할 일 카드 상세', onSubmit: createComment, cardId: id, columnId });
   };
 
   return (
@@ -89,7 +89,7 @@ export default function Card({
             <div className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]'>
               <div className='flex flex-wrap gap-[0.375rem]'>
                 {tags.map((tag, index) => (
-                  <Tag size='large' content={tag} key={tag + index} />
+                  <Tag content={tag} key={tag + index} />
                 ))}
               </div>
               <div className='flex flex-1 justify-between'>

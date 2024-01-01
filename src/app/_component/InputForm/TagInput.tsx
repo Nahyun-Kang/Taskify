@@ -50,7 +50,7 @@ export default function TagInput({ label, placeholder, id, validationRules = {},
         <div className={`left-4 flex min-h-[1.5rem] flex-wrap items-center gap-[0.375rem]`}>
           {tags.map((tag, index) => (
             <div key={index} className='group flex cursor-pointer content-between items-center'>
-              <Tag size='large' content={tag} />
+              <Tag content={tag} />
               <button type='button' onClick={() => deleteTag(index)} className='hidden group-hover:block'>
                 <CloseIcon />
               </button>

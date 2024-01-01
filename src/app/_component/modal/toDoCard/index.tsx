@@ -1,7 +1,7 @@
 'use client';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DropdownAndFilter from '@/src/app/_component/dropdown/filter';
 import InputForm from '@/src/app/_component/InputForm';
 import {
@@ -176,7 +176,15 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
     }
   };
 
-  const handleKebab = () => setIsOpenPopOver(true);
+  const handleKebab = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setIsOpenPopOver((prev) => !prev);
+  };
+
+  const handleKebabClose = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setIsOpenPopOver(false);
+  };
   // 할 일 카드 상세 모달 마운트 시 해당 카드 및 댓글 데이터바인딩
   useEffect(() => {
     handleRenderCard();
@@ -207,8 +215,8 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
         <>
           <div className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'>
             <div
-              className=' relative flex flex-col gap-[1rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem]
-              sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
+              className=' scrollbar-hide relative flex h-[75%] flex-col gap-[1rem] overflow-scroll rounded-lg border border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
+              onClick={handleKebabClose}
             >
               <DetailIconButton
                 handleKebab={handleKebab}
@@ -219,34 +227,33 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
                 cardData={cardData}
               />
               <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
-              <div className=' sm:flex  sm:flex-col-reverse md:flex md:flex-row md:justify-between'>
-                <DetailMainContent columnId={columnId} tags={cardData.tags} description={cardData.description} />
-                <DetailAssignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
-              </div>
-              <div className=' flex flex-col gap-[1.5rem]  sm:w-[17.9375rem] md:w-[28.125rem]'>
-                <div className='relative flex sm:h-[8.3125rem] sm:w-[17.9375rem] md:h-[16.375rem] md:w-[28.125rem]'>
-                  {cardData.imageUrl && (
-                    <Image
-                      src={cardData.imageUrl}
-                      alt='imageUrl'
-                      fill
-                      sizes='(min-width: 768px) 28.125rem, 17.9375rem'
-                      style={{
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                      }}
-                      priority
-                    />
-                  )}
+              <div className='flex flex-col-reverse justify-between md:flex-row'>
+                <div className='md:w-[26.25rem] lg:w-[28.125rem]'>
+                  <DetailMainContent columnId={columnId} tags={cardData.tags} description={cardData.description} />
+                  <div className='flex sm:w-[17.9375rem] md:w-full'>
+                    {cardData.imageUrl && (
+                      <Image
+                        sizes='100vw'
+                        width={100}
+                        height={100}
+                        style={{ width: '100%', height: 'auto' }}
+                        src={cardData.imageUrl}
+                        alt='imageUrl'
+                        priority
+                      />
+                    )}
+                  </div>
+                  <InputForm.CommentInput id='content' placeholder='댓글을 입력해주세요' label='댓글' />
+                  {comments && Array.isArray(comments)
+                    ? [...comments]
+                        .sort(
+                          (a, b) =>
+                            new Date(a.createdAt as string).getTime() - new Date(b.createdAt as string).getTime(),
+                        )
+                        .map((comment) => <DetailCardComment key={comment.id} data={comment} />)
+                    : null}
                 </div>
-                <InputForm.CommentInput id='content' placeholder='댓글을 입력해주세요' label='댓글' />
-                {comments && Array.isArray(comments)
-                  ? [...comments]
-                      .sort(
-                        (a, b) => new Date(a.createdAt as string).getTime() - new Date(b.createdAt as string).getTime(),
-                      )
-                      .map((comment) => <DetailCardComment key={comment.id} data={comment} />)
-                  : null}
+                <DetailAssignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
               </div>
             </div>
           </div>

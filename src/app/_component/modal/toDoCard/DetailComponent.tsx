@@ -3,7 +3,6 @@ import Image from 'next/image';
 import kebab from '@/public/icons/kebab.svg';
 import close from '@/public/icons/close_icon.svg';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
-import line from '@/public/icons/line.svg';
 import React, { useState } from 'react';
 import Tag from '@/src/app/_component/Chip/Tag';
 import { ToDoCardDetailProps } from '.';
@@ -16,7 +15,7 @@ import formatTime from '@/src/app/_util/formatTime';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 // 할 일 카드 상세 모달은 내용이 너무 많아서 일단 분리해 놓았습니다
 interface DetailIconButtonProps {
-  handleKebab: () => void;
+  handleKebab: (e: React.MouseEvent<HTMLDivElement>) => void;
   onUpdate: (e: React.MouseEvent<HTMLParagraphElement>, cardData: ToDoCardDetailProps) => void;
   isOpenPopOver: boolean;
   onClose: () => void;
@@ -33,22 +32,27 @@ export function DetailIconButton({
   cardData,
 }: DetailIconButtonProps) {
   return (
-    <div className=' absolute flex gap-[1.5rem] sm:right-[0.75rem] sm:top-[0.75rem] md:right-[1.75rem] md:top-[2rem]'>
-      <span onClick={handleKebab} className=' relative h-[1.75rem] w-[1.75rem]'>
+    <div className=' absolute flex items-center gap-1 sm:right-[0.75rem] sm:top-[0.75rem] md:right-[1.75rem] md:top-[2rem] md:gap-[1.5rem]'>
+      <span onClick={handleKebab} className=' relative h-[1.75rem] w-[1.75rem] '>
         {kebab && <Image src={kebab} alt='케밥' fill priority />}
         {isOpenPopOver ? (
-          <div className='h-[5.125rem] w-[5.8125rem] rounded-[0.375rem] border border-[#d9d9d9] bg-white p-[0.375rem] shadow-md'>
+          <div
+            className='absolute right-2 top-full z-10 h-[5.125rem] w-[5.8125rem] rounded-[0.375rem] border border-[#d9d9d9]  bg-white p-[0.375rem] shadow-md'
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <p
               onClick={(e) => onUpdate(e, cardData)}
               id={MODALTYPE.TODO.UPDATE}
-              className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem]'
+              className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet'
             >
               수정하기
             </p>
             <p
               onClick={onDelete}
               id={MODALTYPE.TODO.DELETE}
-              className=' mt-[0.375rem] whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] '
+              className=' mt-[0.375rem] whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet'
             >
               삭제하기
             </p>
@@ -76,28 +80,26 @@ export function DetailMainContent({
   return (
     <div className='w-[60%]'>
       <div className=' mb-[1rem] mt-[1.5rem] flex gap-[1.25rem]'>
-        <div className=' flex gap-[1.25rem]'>
+        <div className=' flex items-center gap-[1.25rem] text-[0.625rem] md:text-[0.75rem]'>
           <span>
             {
-              <div className='flex items-center rounded-[0.6875rem] border bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
-                <div className='flex  gap-[0.375rem] overflow-hidden'>
+              <div className='flex items-center rounded-[6.25rem] bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
+                <div className='flex gap-[0.375rem] overflow-hidden'>
                   <Image src={circle} alt='circle' width={6} height={6} priority />
-                  <span className='whitespace-nowrap text-[1rem]'>{newColumn?.title}</span>
+                  <span className='whitespace-nowrap'>{newColumn?.title}</span>
                 </div>
               </div>
             }
           </span>
-          {line && <Image src={line} alt='line' width={1} height={20} priority />}
+          <span className='h-5 w-0 border-[0.0625rem] border-gray30'></span>
         </div>
         <div className='flex flex-nowrap gap-[0.375rem]'>
           {tags.map((tag) => (
-            <Tag size='large' content={tag} key={tag} />
+            <Tag content={tag} key={tag} />
           ))}
         </div>
       </div>
-      <div className='flex flex-wrap text-[0.875rem] text-black sm:w-[17.9375rem] md:w-[26.25rem] lg:w-[28.125rem]'>
-        {description}
-      </div>
+      <div className='flex flex-wrap text-[0.875rem] text-black'>{description}</div>
     </div>
   );
 }
@@ -109,7 +111,7 @@ interface DetailAssignee {
 
 export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
   return (
-    <div className=' rounded-[0.5rem] border border-gray30 p-[1rem] sm:flex sm:w-[100%] sm:items-center sm:justify-between md:flex md:w-[12.5rem] md:flex-col md:items-start md:justify-start md:gap-[1.25rem]'>
+    <div className=' h-fit rounded-[0.5rem] border border-gray30 p-[1rem] sm:flex sm:w-[100%] sm:items-center sm:justify-between md:flex md:w-[11.25rem] md:flex-col md:items-start md:justify-start md:gap-[1.25rem] lg:w-[12.5rem]'>
       <div className='flex flex-col gap-[0.375rem]'>
         <span className='text-[0.75rem] font-semibold leading-5'>담당자</span>
         <div className='flex items-center  gap-[0.3125rem]'>
