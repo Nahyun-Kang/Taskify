@@ -49,15 +49,18 @@ export function CreateToDo({ mainTitle }: TodoProps) {
   const isButtonDisabled = !(title && description && assigneeUserId && dueDate && imageUrl && tags.length >= 1);
   setValue('isDisabled2', isButtonDisabled);
   return (
-    <>
+    <div className='flex w-[20.4375rem] flex-col gap-6 md:w-[31.625rem]'>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
       <DropdownAndFilter />
       <InputForm.TextInput label='제목' placeholder='제목을 입력해주세요' id='title' isRequired={true} />
       <InputForm.TextInput label='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
       <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 선택' />
       <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' />
-      <AddImageFile size='big' />
-    </>
+      <div className='flex flex-col gap-[0.625rem]'>
+        <span>이미지</span>
+        <AddImageFile size='small' />
+      </div>
+    </div>
   );
 }
 // 할 일 카드 수정 모달 내용
@@ -92,7 +95,10 @@ export function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardDat
       />
       <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 입력' initialDate={new Date('2023-12-24')} />
       <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' initialTags={cardData.tags} />
-      <AddImageFile size='big' profileImageUrl={cardData.imageUrl} />
+      <div className='flex flex-col gap-[0.625rem]'>
+        <span>이미지</span>
+        <AddImageFile size='small' profileImageUrl={cardData.imageUrl} />
+      </div>
     </div>
   );
 }

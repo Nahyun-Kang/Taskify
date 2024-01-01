@@ -127,12 +127,12 @@ export default function DropdownAndFilter({
             <div
               onClick={handleRenderInputBox}
               className={
-                'flex w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem]  outline-none ' +
+                'flex items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] outline-none  md:w-[13.5625rem] ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
               {assignee ? <Image src={assignee.profileImageUrl} alt='circleLogo' width={26} height={26} /> : null}
-              <span>{curretValue}</span>
+              <span className='py-[0.625rem] md:text-[1rem]'>{curretValue}</span>
             </div>
           ) : (
             <input

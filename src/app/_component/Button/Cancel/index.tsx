@@ -6,7 +6,11 @@ interface CancelProps {
 }
 export default function Cancel({ size, onClick }: CancelProps) {
   const sizes = {
-    large: { width: 'w-[7.5rem]', height: 'h-[2.625rem] md:h-[3rem]', paddingY: 'py-3 md:py-[0.875rem]' },
+    large: {
+      width: 'w-[8.625rem] md:w-[7.5rem]',
+      height: 'h-[2.625rem] md:h-[3rem]',
+      paddingY: 'py-3 md:py-[0.875rem]',
+    },
     small: { width: 'w-[8.625rem]', height: 'h-[2.625rem]', paddingY: 'py-[0.75rem]' },
     free: { width: 'w-full', height: 'h-full', paddingY: 'py-[0.75rem]' },
   };

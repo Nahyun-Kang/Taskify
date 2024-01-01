@@ -11,7 +11,11 @@ export default function Confirm({ size, onClick, btnName }: ConfirmProps) {
     formState: { isValid },
   } = useFormContext();
   const sizes = {
-    large: { width: 'w-[7.5rem]', height: 'md:h-[3rem] h-[2.625rem]', paddingY: 'md:py-[0.875rem] py-3' },
+    large: {
+      width: 'w-[8.625rem] md:w-[7.5rem]',
+      height: 'md:h-[3rem] h-[2.625rem]',
+      paddingY: 'md:py-[0.875rem] py-3',
+    },
     small: { width: 'w-[8.625rem]', height: 'h-[2.625rem]', paddingY: 'py-[0.75rem]' },
     free: { width: 'w-full', height: 'h-full', paddingY: 'py-[0.75rem]' },
   };
