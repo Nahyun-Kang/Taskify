@@ -1,7 +1,7 @@
 'use client';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import DropdownAndFilter from '@/src/app/_component/dropdown/filter';
 import InputForm from '@/src/app/_component/InputForm';
 import {
@@ -14,7 +14,6 @@ import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useFormContext } from 'react-hook-form';
 import Dropdown from '@/src/app/_component/dropdown';
-// import { SubmitHandler } from 'react-hook-form';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
@@ -215,7 +214,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
         <>
           <div className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'>
             <div
-              className=' scrollbar-hide relative flex h-[75%] flex-col gap-[1rem] overflow-scroll rounded-lg border border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
+              className='hide-scrollbar relative flex h-[75%] flex-col gap-4 overflow-scroll rounded-lg border bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:gap-6 md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
               onClick={handleKebabClose}
             >
               <DetailIconButton
@@ -230,7 +229,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
               <div className='flex flex-col-reverse justify-between md:flex-row'>
                 <div className='md:w-[26.25rem] lg:w-[28.125rem]'>
                   <DetailMainContent columnId={columnId} tags={cardData.tags} description={cardData.description} />
-                  <div className='flex sm:w-[17.9375rem] md:w-full'>
+                  <div className='mb-[1.1875rem] flex sm:w-[17.9375rem] md:mb-6 md:w-full'>
                     {cardData.imageUrl && (
                       <Image
                         sizes='100vw'
