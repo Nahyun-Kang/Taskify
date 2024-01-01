@@ -14,9 +14,10 @@ import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
-
+import { useRef } from 'react';
 export default function SideMenu() {
-  const [ModalType, callModal] = useRenderModal();
+  const [modalType, callModal, setModalType] = useRenderModal();
+  const preModalType = useRef(modalType);
   const router = useRouter();
   const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
   const pathName = usePathname();
@@ -31,7 +32,10 @@ export default function SideMenu() {
           setDashboardData((prev) => {
             return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
           });
-          router.push(`/dashboard/${newDashboard.id}`);
+          setModalType(null);
+          if (preModalType.current !== null && modalType === null) {
+            router.push(`/dashboard/${newDashboard.id}`);
+          }
         } catch (error) {
           console.error(error);
         }
@@ -47,6 +51,10 @@ export default function SideMenu() {
     };
     fetchDashboard();
   }, [setDashboardData]);
+
+  useEffect(() => {
+    preModalType.current = modalType;
+  }, [modalType]);
 
   return (
     <div className='fixed z-10'>
@@ -94,7 +102,7 @@ export default function SideMenu() {
           })}
         </div>
       </div>
-      {ModalType}
+      {modalType}
     </div>
   );
 }

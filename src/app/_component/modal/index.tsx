@@ -101,7 +101,7 @@ export function Modal({
     }
 
     if (base) {
-      return <Base mainTitle={content} />;
+      return <Base onClose={closeModal} mainTitle={content} />;
     }
 
     return (

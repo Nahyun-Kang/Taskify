@@ -21,7 +21,7 @@ const DUMMY = {
 export default function Header() {
   const pathname = usePathname();
   const isMyDashboard = pathname === '/myboard';
-  const [ModalType, callModal] = useRenderModal();
+  const [ModalType, callModal, setModalType] = useRenderModal();
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
 
@@ -47,7 +47,7 @@ export default function Header() {
   }, [pathname]);
 
   const handleInvitation = () => {
-    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType) });
   };
 
   return (

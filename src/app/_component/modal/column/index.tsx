@@ -8,7 +8,7 @@ import Confirm from '@/src/app/_component/Button/Confirm';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { showColumnModalState, columnState } from '@/src/app/_recoil/cardAtom';
 import { useRef } from 'react';
-
+import { isAxiosError } from 'axios';
 // 컬럼 생성 모달 내용
 export function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; labelTitle: string }) {
   return (
@@ -37,8 +37,8 @@ export function UpdateColumn({
   const [modalType, callModal] = useRenderModal();
   const [show, setShow] = useRecoilState(showColumnModalState);
 
-  const handleRenderDeleteColumn = (e: React.MouseEvent<HTMLSpanElement>) => {
-    callModal({ name: (e.target as HTMLElement).id, columnId: columnId });
+  const handleRenderDeleteColumn = () => {
+    callModal({ name: '칼럼 삭제', columnId: columnId });
     setShow(false);
   };
 
@@ -99,13 +99,20 @@ interface DeleteColumnProps {
 }
 
 export function DeleteColumn({ mainTitle, btnName, btnSize, onClose, columnId }: DeleteColumnProps) {
+  const [modalType, callModal] = useRenderModal();
+
   const setColumns = useSetRecoilState(columnState);
   const deleteSubmit = async () => {
     try {
       await axiosInstance.delete(`columns/${columnId}`);
       setColumns((oldColumns) => oldColumns.filter((column) => column.id != columnId));
     } catch (error) {
-      console.log(error);
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
+    } finally {
+      onClose();
     }
   };
 
@@ -137,6 +144,7 @@ export function DeleteColumn({ mainTitle, btnName, btnSize, onClose, columnId }:
           </div>
         </div>
       </div>
+      {modalType}
     </>
   );
 }

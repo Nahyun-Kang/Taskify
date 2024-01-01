@@ -22,7 +22,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   const [isActiveForward, setIsActiveForward] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const [modalType, callModal] = useRenderModal();
+  const [modalType, callModal, setModalType] = useRenderModal();
 
   const handlePageNation = (direction: 'back' | 'forward') => {
     if (direction === 'back') {
@@ -33,7 +33,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   };
 
   const handleInvite = () => {
-    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType) });
   };
 
   const handleCancelInvite = (inviteId: number) => {

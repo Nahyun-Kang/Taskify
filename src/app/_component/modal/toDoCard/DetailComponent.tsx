@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import kebab from '@/public/icons/kebab.svg';
 import close from '@/public/icons/close_icon.svg';
-import { MODALTYPE } from '@/src/app/_constant/modalType';
 import line from '@/public/icons/line.svg';
 import React, { useState } from 'react';
 import Tag from '@/src/app/_component/Chip/Tag';
@@ -19,7 +18,7 @@ import DefaultProfile from '../../DefaultProfile';
 
 interface DetailIconButtonProps {
   handleKebab: () => void;
-  onUpdate: (e: React.MouseEvent<HTMLParagraphElement>, cardData: ToDoCardDetailProps) => void;
+  onUpdate: (cardData: ToDoCardDetailProps) => void;
   isOpenPopOver: boolean;
   onClose: () => void;
   onDelete: (e: React.MouseEvent<HTMLDivElement>) => void;
@@ -41,15 +40,13 @@ export function DetailIconButton({
         {isOpenPopOver ? (
           <div className='h-[5.125rem] w-[5.8125rem] rounded-[0.375rem] border border-[#d9d9d9] bg-white p-[0.375rem] shadow-md'>
             <p
-              onClick={(e) => onUpdate(e, cardData)}
-              id={MODALTYPE.TODO.UPDATE}
+              onClick={() => onUpdate(cardData)}
               className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem]'
             >
               수정하기
             </p>
             <p
               onClick={onDelete}
-              id={MODALTYPE.TODO.DELETE}
               className=' mt-[0.375rem] whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] '
             >
               삭제하기

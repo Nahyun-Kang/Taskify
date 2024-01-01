@@ -11,7 +11,7 @@ import { useSetRecoilState } from 'recoil';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 
 export default function DashboardList() {
-  const [ModalType, callModal] = useRenderModal();
+  const [ModalType, callModal, setModalType] = useRenderModal();
   const router = useRouter();
   const [dashboards, setDashboards] = useState<DashboardProps[]>([]);
   const setDashboardData = useSetRecoilState(dashboardState);
@@ -21,12 +21,16 @@ export default function DashboardList() {
       onSubmit: async (data) => {
         try {
           const newDashboard = await createDashboard(data);
+
           setDashboardData((prev) => {
             return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
           });
+
           router.push(`/dashboard/${newDashboard.id}`);
         } catch (error) {
           console.error(error);
+        } finally {
+          setModalType(null);
         }
       },
     });

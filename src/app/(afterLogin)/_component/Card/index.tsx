@@ -36,28 +36,7 @@ export default function Card({
   const [modalType, callModal] = useRenderModal();
   const setShow = useSetRecoilState(showToDoModalState);
   const setIsOpenPopOver = useSetRecoilState(openPopOverState);
-  // const setComments = useSetRecoilState(commentsState);
 
-  // const params = useParams();
-  // const submitCreateComment = (method: string) => {
-  //   if (method !== '생성') return;
-  //   const createComment = async (data: FieldValues) => {
-  //     if (!show) return;
-  //     try {
-  //       const res = await axiosInstance.post('comments', {
-  //         ...data,
-  //         columnId,
-  //         cardId: id,
-  //         dashboardId: Number(params.dashboardId),
-  //       });
-  //       setComments((prev) => [, ...(prev ? prev : []), res.data]);
-  //       console.log(res);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   return createComment;
-  // };
   // 할 일 카드 상세 모달을 호출하기 위한 함수
   const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();

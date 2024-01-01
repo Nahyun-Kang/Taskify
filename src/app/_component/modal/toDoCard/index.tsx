@@ -33,7 +33,7 @@ import CommentInput from '../../InputForm/CommentInput';
 import useObserver from '@/src/app/_hook/useObserver';
 import { SkeletonUIAboutComments } from './SkeletonForComments';
 import { useCallback } from 'react';
-
+import { isAxiosError } from 'axios';
 interface TodoProps {
   mainTitle: string;
 }
@@ -133,9 +133,10 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   const [isOpenPopOver, setIsOpenPopOver] = useRecoilState(openPopOverState);
   const [comments, setComments] = useRecoilState(commentsState);
   const [modalType, callModal, setModalType] = useRenderModal();
-  const { putCard, updatedCard } = usePutCard(cardId, columnId, setModalType);
+  const { putCard, updatedCard } = usePutCard(cardId, columnId, setModalType, callModal);
   const setCardsOtherColumn = useSetRecoilState(cardStateAboutColumn(updatedCard?.columnId as number));
   const setCountOtherColumn = useSetRecoilState(countAboutCardList(updatedCard?.columnId as number));
+
   const target = useRef(null);
 
   const getComments = useCallback(async () => {
@@ -149,15 +150,18 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
       setNowCursorId(cursorId);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
       setIsLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nowCursorId]);
 
   // 카드 수정 모달 호출 함수
-  const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, cardData: ToDoCardDetailProps) => {
-    callModal({ name: (e.target as HTMLElement).id, onSubmit: putCard(e), cardData: cardData });
+  const RenderUpdatedoModal = (cardData: ToDoCardDetailProps) => {
+    callModal({ name: '할 일 수정', onSubmit: putCard, cardData: cardData });
     setShow(false);
   };
 
@@ -168,14 +172,17 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
       setCards((oldCards: CardInfo[]) => oldCards.filter((item) => item.id !== cardId));
       setCount((prev: number) => prev - 1);
     } catch (error) {
-      console.log(error);
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
     } finally {
       setModalType(null);
     }
   };
   // 카드 삭제 모달 호출 함수
-  const RenderDeleteModal = (e: React.MouseEvent<HTMLDivElement>) => {
-    callModal({ name: (e.target as HTMLElement).id, onSubmit: DeleteCard });
+  const RenderDeleteModal = () => {
+    callModal({ name: '할 일 삭제', onSubmit: DeleteCard });
     setShow(false);
   };
   // 특정 카드 클릭 시 할 일 카드 상세 모달에 데이터 바인딩하기 위한 api 요청
@@ -186,7 +193,10 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
       const newData = res.data;
       setCardData(newData);
     } catch (error) {
-      console.log(error);
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
     }
   };
   const params = useParams();
@@ -202,7 +212,10 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
       setComments((prev) => [, ...(prev ? prev : []), res.data]);
       setCommentValue('');
     } catch (error) {
-      console.log(error);
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
     } finally {
       setModalType(null);
     }

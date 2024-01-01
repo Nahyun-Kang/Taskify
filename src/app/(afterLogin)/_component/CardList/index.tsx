@@ -17,7 +17,7 @@ import { columnState } from '@/src/app/_recoil/cardAtom';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { CardInfo } from '../../_constant/type';
 import { showColumnModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
-
+import { isAxiosError } from 'axios';
 interface CardListProps {
   id: number;
   title: string;
@@ -34,7 +34,6 @@ export function CardList({ id, title, boardId }: CardListProps) {
 
   const getCard = async () => {
     const { data } = await axiosInstance.get(`cards?size=10&columnId=${id}`);
-
     setCards(data.cards);
     setCardNumCount(data.totalCount);
   };
@@ -45,11 +44,15 @@ export function CardList({ id, title, boardId }: CardListProps) {
       setCards((prev) => [...(prev || []), res.data]);
       setCardNumCount((prev) => (prev ? prev + 1 : 1));
     } catch (error) {
-      console.log(error);
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
     } finally {
       setModalType(null);
     }
   };
+
   // 할 일 카드 생성 모달 호출 함수
   const handleRenderCreateTodoModal = () => {
     callModal({ name: '할 일 생성', onSubmit: onSubmitForCreateToDo, columnId: id });
@@ -61,7 +64,10 @@ export function CardList({ id, title, boardId }: CardListProps) {
       const res = await axiosInstance.put(`columns/${id}`, { ...form });
       setColumns((oldColumns) => oldColumns.map((column) => (column.id === id ? { ...res.data } : column)));
     } catch (error) {
-      console.log(error);
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
     } finally {
       setModalType(null);
     }
@@ -71,7 +77,6 @@ export function CardList({ id, title, boardId }: CardListProps) {
 
   const handleRenderUpdateColumn = () => {
     setShow(true);
-    console.log('왜 안뜨지');
     callModal({
       name: '칼럼 관리',
       onSubmit: onSubmitForUpdateColumn,
