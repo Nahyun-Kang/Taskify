@@ -24,3 +24,22 @@ export const axiosInstance = axios.create({
     'Cache-Control': 'no-cache',
   },
 });
+
+axiosInstance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 401:
+          if (typeof window !== 'undefined') {
+            window.location.replace('/pageunauthorizated');
+          }
+          break;
+        default:
+          return Promise.reject(error);
+      }
+    }
+  },
+);

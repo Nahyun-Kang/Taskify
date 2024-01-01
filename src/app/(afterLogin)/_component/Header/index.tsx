@@ -57,7 +57,7 @@ export default function Header() {
     const userDataObject = localStorage.getItem('taskifyUserData');
     if (userDataObject) {
       const userData: UserDataType = JSON.parse(userDataObject);
-      const nickname = userData.userInfo.nickname;
+      const nickname = userData?.userInfo?.nickname;
       setUserName(nickname);
     }
   }, []);
