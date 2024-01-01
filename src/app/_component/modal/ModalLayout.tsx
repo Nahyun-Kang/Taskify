@@ -13,7 +13,7 @@ interface ModalLayoutrProps {
   onClose: () => void;
   btnSize: 'small' | 'large';
   sign: boolean;
-  size: 'small' | 'large';
+  size?: 'small' | 'large' | undefined;
 }
 
 // 모달 레이아웃 + cancelBtn은 커스텀 훅의 modalType을 null로 만들어서 렌더링안되도록 + confirmBtn은 api연동할 때 자유롭게 만들 수 있도록 하기 위해 남겨두었습니다
