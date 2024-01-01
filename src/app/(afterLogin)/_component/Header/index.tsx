@@ -11,11 +11,11 @@ import useRenderModal from '@/src/app/_hook/useRenderModal';
 import submitInvitation from '../../_util/submitInvitation';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import HeaderDropdown from './HeaderDropdown';
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
 import { UserDataType } from '@/src/app/_constant/type';
+import { dashboardSelector } from '@/src/app/_recoil/dashboardAtom';
 
 export default function Header() {
   const pathname = usePathname();
@@ -30,25 +30,34 @@ export default function Header() {
   const dashboardId = pathname.replace(/[^0-9]/g, '');
   const titleClass = !isMyDashboard ? 'hidden lg:block' : '';
   const marginClass = isMyDashboard ? 'ml-[5.6875rem]' : '';
+  const selectDashboard = useRecoilValue(dashboardSelector(dashboardId));
 
-  const getFolderName = async () => {
-    if (isMyDashboard) {
-      setFolderName('내 대시보드');
-      setCreatedByMe(false);
-    } else {
-      const { data } = await axiosInstance.get(`dashboards/${dashboardId}`);
-      setFolderName(data?.title);
-      setCreatedByMe(data?.createdByMe);
+  const getFolderName = (pathname: string) => {
+    switch (pathname) {
+      case '/myboard':
+        setFolderName('내 대시보드');
+        setCreatedByMe(false);
+        break;
+      case '/mypage':
+        setFolderName('계정 관리');
+        setCreatedByMe(false);
+        break;
     }
   };
 
   const handlePopUpDropdown = () => {
     setActiveDropdown((prev) => !prev);
   };
-
   useEffect(() => {
-    getFolderName();
+    if (selectDashboard) {
+      setFolderName(selectDashboard.title);
+      setCreatedByMe(selectDashboard.createdByMe);
+    }
+    getFolderName(pathname);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, selectDashboard]);
+  useEffect(() => {
+    // getFolderName();
   }, [pathname]);
 
   // 하이드레이션 워닝을 방지하기 위한 코드
