@@ -11,7 +11,6 @@ import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { accessTokenState, userInfoState } from '@/src/app/_recoil/AuthAtom';
-import { useEffect } from 'react';
 
 export default function LogIn() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
@@ -58,5 +57,3 @@ export default function LogIn() {
     </AuthLayout>
   );
 }
-
-//커밋용 주석
