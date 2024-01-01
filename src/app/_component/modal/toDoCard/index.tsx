@@ -30,6 +30,10 @@ import { useRef } from 'react';
 
 import { useParams } from 'next/navigation';
 import CommentInput from '../../InputForm/CommentInput';
+import useObserver from '@/src/app/_hook/useObserver';
+import { SkeletonUIAboutComments } from './SkeletonForComments';
+import { useCallback } from 'react';
+
 interface TodoProps {
   mainTitle: string;
 }
@@ -118,26 +122,38 @@ export function DeleteTodo({ mainTitle }: TodoProps) {
 
 // 할 일 카드 상세 모달 내용
 export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onClose: () => void; columnId: number }) {
+  const [nowCursorId, setNowCursorId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [observerLoading, setObserverLoading] = useState(false);
   const [commentValue, setCommentValue] = useState<string>('');
-
   const [show, setShow] = useRecoilState(showToDoModalState);
-
   const setCards = useSetRecoilState(cardStateAboutColumn(columnId));
   const setCount = useSetRecoilState(countAboutCardList(columnId));
   const [cardData, setCardData] = useRecoilState(updateCardState);
   const [isOpenPopOver, setIsOpenPopOver] = useRecoilState(openPopOverState);
   const [comments, setComments] = useRecoilState(commentsState);
   const [modalType, callModal, setModalType] = useRenderModal();
-
   const { putCard, updatedCard } = usePutCard(cardId, columnId, setModalType);
   const setCardsOtherColumn = useSetRecoilState(cardStateAboutColumn(updatedCard?.columnId as number));
   const setCountOtherColumn = useSetRecoilState(countAboutCardList(updatedCard?.columnId as number));
+  const target = useRef(null);
 
-  const getComments = async () => {
-    const res = await axiosInstance.get(`comments?cardId=${cardId}`);
-    const { comments } = res.data;
-    setComments(comments);
-  };
+  const getComments = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const cursorQuery = nowCursorId ? `cursorId=${nowCursorId}&` : '';
+      const res = await axiosInstance.get(`comments?${cursorQuery}cardId=${cardId}`);
+      const { comments } = res.data;
+      const { cursorId } = res.data;
+      setComments((oldComments) => [...(oldComments || []), ...comments]);
+      setNowCursorId(cursorId);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nowCursorId]);
 
   // 카드 수정 모달 호출 함수
   const RenderUpdatedoModal = (e: React.MouseEvent<HTMLDivElement>, cardData: ToDoCardDetailProps) => {
@@ -184,7 +200,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
         dashboardId: Number(params.dashboardId),
       });
       setComments((prev) => [, ...(prev ? prev : []), res.data]);
-      console.log(res);
+      setCommentValue('');
     } catch (error) {
       console.log(error);
     } finally {
@@ -193,6 +209,15 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   };
 
   const handleKebab = () => setIsOpenPopOver(true);
+
+  const arriveAtIntersection: IntersectionObserverCallback = (entries) => {
+    if (entries[0].isIntersecting && !observerLoading) {
+      setObserverLoading(true);
+      getComments().then(() => {
+        setObserverLoading(false);
+      });
+    }
+  };
 
   const modalRef = useRef<HTMLDivElement>(null);
   const modalOutSideClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -205,7 +230,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   // 할 일 카드 상세 모달 마운트 시 해당 카드 및 댓글 데이터바인딩
   useEffect(() => {
     handleRenderCard();
-    getComments();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -217,6 +242,8 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
       setCountOtherColumn((prev: number) => prev + 1);
     }
   }, [updatedCard, setCardsOtherColumn, columnId, setCards, setCount, setCountOtherColumn]);
+
+  useObserver({ target, callback: arriveAtIntersection, id: nowCursorId });
 
   if (!cardData) return;
 
@@ -236,8 +263,8 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
               className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'
             >
               <div
-                className=' relative flex flex-col gap-[1rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem]
-              sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
+                className='hide-scrollbar relative flex h-[47.5rem] flex-col gap-[1rem] overflow-y-scroll rounded-[0.5rem] border
+              border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
               >
                 <DetailIconButton
                   handleKebab={handleKebab}
@@ -277,16 +304,14 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
                     onSubmit={createComment}
                     value={commentValue}
                   ></CommentInput>
-                  {comments && Array.isArray(comments)
-                    ? [...comments]
-                        .sort(
-                          (a, b) =>
-                            new Date(a.createdAt as string).getTime() - new Date(b.createdAt as string).getTime(),
-                        )
-                        .map((comment, index) => (
-                          <DetailCardComment key={comment?.id || `comment-${index}`} data={comment} />
-                        ))
-                    : null}
+                  {isLoading ? (
+                    <SkeletonUIAboutComments />
+                  ) : comments && Array.isArray(comments) ? (
+                    [...comments].map((comment, index) => (
+                      <DetailCardComment key={comment?.id || `comment-${index}`} data={comment} />
+                    ))
+                  ) : null}
+                  {nowCursorId === null ? null : <div ref={target}></div>}
                 </div>
               </div>
             </div>

@@ -19,7 +19,7 @@ export default function DefaultProfile({ nickName, index, colorCode }: DefaultPr
     <div
       className={`flex items-center justify-center rounded-full sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem] md:text-[1rem] ${background} font-mon  text-[1rem] font-semibold text-white`}
     >
-      {nickName.charAt(0)}
+      {nickName?.charAt(0)}
     </div>
   );
 }

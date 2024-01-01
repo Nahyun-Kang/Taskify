@@ -7,15 +7,7 @@ interface CommentInputProps extends CommonInputProps {
   value: string;
 }
 
-export default function CommentInput({
-  label,
-  id,
-  placeholder,
-  onChange,
-  initialValue = '',
-  onSubmit,
-  value,
-}: CommentInputProps) {
+export default function CommentInput({ label, id, placeholder, onChange, onSubmit, value }: CommentInputProps) {
   return (
     <InputWrapper>
       <Label label={label} isRequired={false} htmlFor={id} />
@@ -25,7 +17,6 @@ export default function CommentInput({
           type='text'
           className='placeholder:text-gray4 inline-flex h-6 flex-1 bg-inherit outline-0'
           placeholder={placeholder}
-          defaultValue={initialValue}
           onChange={onChange}
           value={value}
         />

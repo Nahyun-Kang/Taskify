@@ -118,7 +118,7 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
           {assignee?.profileImageUrl ? (
             <Image src={assignee.profileImageUrl} width={34} height={34} alt='담당자 프로필' priority />
           ) : (
-            <DefaultProfile nickName={assignee.nickname} index={assignee.id as number} />
+            <DefaultProfile nickName={assignee?.nickname} index={assignee?.id as number} />
           )}
           <span>{assignee?.nickname}</span>
         </div>
@@ -184,7 +184,7 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
         {data?.author?.profileImageUrl ? (
           <Image src={data?.author?.profileImageUrl} width={34} height={34} alt='댓글 프로필' priority />
         ) : (
-          <DefaultProfile nickName={data.author.nickname} index={data.author.id} />
+          <DefaultProfile nickName={data?.author?.nickname} index={data?.author?.id} />
         )}
       </div>
       <div className='flex flex-col gap-[0.375rem]'>
