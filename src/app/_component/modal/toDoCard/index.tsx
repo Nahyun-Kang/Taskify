@@ -70,9 +70,9 @@ export function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardDat
   // setValue('isDisabled', isButtonDisabled);
 
   return (
-    <>
-      <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <div className='flex justify-between'>
+    <div className='flex flex-col gap-6 md:max-w-[28.125rem]'>
+      <span className='font-Pretendard font-bold md:text-[1.5rem]'>{mainTitle}</span>
+      <div className='flex flex-col gap-6 md:flex-row md:justify-between md:gap-4'>
         <Dropdown column={cardData.columnId} />
         <DropdownAndFilter assignee={cardData.assignee} />
       </div>
@@ -93,7 +93,7 @@ export function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardDat
       <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 입력' initialDate={new Date('2023-12-24')} />
       <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' initialTags={cardData.tags} />
       <AddImageFile size='big' profileImageUrl={cardData.imageUrl} />
-    </>
+    </div>
   );
 }
 
