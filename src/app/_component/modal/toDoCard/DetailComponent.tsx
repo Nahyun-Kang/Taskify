@@ -195,7 +195,7 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
                 setValue(e.target.value);
               }}
             />
-            <div className=' flex w-full justify-end gap-2'>
+            <div className='flex w-full justify-end gap-2'>
               <button
                 type='button'
                 className='w-14 rounded-full px-2 py-1 text-black hover:bg-gray20'
