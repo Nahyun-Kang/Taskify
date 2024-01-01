@@ -56,9 +56,6 @@ export default function Header() {
     getFolderName(pathname);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, selectDashboard]);
-  useEffect(() => {
-    // getFolderName();
-  }, [pathname]);
 
   // 하이드레이션 워닝을 방지하기 위한 코드
   useEffect(() => {
