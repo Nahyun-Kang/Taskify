@@ -95,7 +95,7 @@ export function CardList({ id, title, boardId }: CardListProps) {
   useInfiniteScroll({ target, onIntersect: onIntersect, size: cursorId });
 
   return (
-    <div className='border-gray-20 md:min-w-none flex flex-1 flex-col gap-[1.0625rem] border-b bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r lg:scrollbar-hide'>
+    <div className='border-gray-20 md:min-w-none hide-scrollbar flex flex-1 flex-col gap-[1.0625rem] border-b bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r'>
       <div className='flex items-center gap-2'>
         <span
           className={`flex h-2 w-2 items-center justify-center rounded-3xl bg-violet text-[0.75rem] text-white`}
@@ -132,7 +132,7 @@ export function CardList({ id, title, boardId }: CardListProps) {
             />
           ))}
       </div>
-      {cursorId !== null && <div className='h-4 flex-shrink-0 bg-red' ref={target}></div>}
+      {cursorId !== null && <div className='h-4 flex-shrink-0' ref={target}></div>}
       {modalType}
     </div>
   );
