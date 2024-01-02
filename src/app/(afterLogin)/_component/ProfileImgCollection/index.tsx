@@ -2,15 +2,23 @@
 
 import { useEffect, useState } from 'react';
 import Profile from './ProfileImg';
-import useGetMembers from '@/src/app/(afterLogin)/_util/useGetMembers';
+// import useGetMembers from '@/src/app/(afterLogin)/_util/useGetMembers';
 import { memberType } from '@/src/app/(afterLogin)/_constant/type';
+import { getMembers } from '@/src/app/_api/Dashboards';
+
+interface Props {
+  dashboardId: string;
+  userId: number | null;
+}
 
 // TODO: 현재 유저 아이디, 대시보드 아이디로 교체해야함
-export default function ProfileCollection() {
+export default function ProfileCollection({ dashboardId, userId }: Props) {
   const [count, setCount] = useState(4);
-  const { data } = useGetMembers(14, 6);
+  const [members, setMembers] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  // const { data } = useGetMembers(+dashboardId, 6);
 
-  const arr = data?.members.filter((el: memberType) => el.userId !== 31);
+  const arr = members.filter((el: memberType) => el.userId !== userId);
   const profiles = arr?.slice(0, count - 1);
 
   const handleResize = () => {
@@ -19,6 +27,12 @@ export default function ProfileCollection() {
     } else if (window.innerWidth > 744) {
       setCount(4);
     }
+  };
+
+  const getMemeberList = async () => {
+    const result = await getMembers(dashboardId, 1, 5);
+    setMembers(result.members);
+    setTotalCount(result.totalCount);
   };
 
   useEffect(() => {
@@ -30,11 +44,15 @@ export default function ProfileCollection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    getMemeberList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dashboardId, userId]);
   return (
     <div className='relative flex'>
-      {data?.totalCount !== 0 &&
+      {totalCount !== 0 &&
         profiles?.map((member: memberType, i: number) => (
-          <Profile idx={i} values={member} total={data.totalCount} key={i + 'p'} count={count} />
+          <Profile idx={i} values={member} total={totalCount} key={i + 'p'} count={count} />
         ))}
     </div>
   );
