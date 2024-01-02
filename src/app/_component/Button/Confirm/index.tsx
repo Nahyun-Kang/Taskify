@@ -7,7 +7,6 @@ interface ConfirmProps {
 }
 export default function Confirm({ size, onClick, btnName }: ConfirmProps) {
   const {
-    getValues,
     formState: { isValid },
   } = useFormContext();
   const sizes = {
@@ -24,7 +23,7 @@ export default function Confirm({ size, onClick, btnName }: ConfirmProps) {
     <button
       className={`flex items-center justify-center rounded-[0.5rem] bg-violet ${paddingY} ${height} ${width} text-[0.8125rem] text-white disabled:bg-gray40 md:text-[1rem]`}
       onClick={onClick}
-      disabled={getValues('isDisabled') || getValues('isDisabled2') || !isValid}
+      disabled={!isValid}
     >
       {btnName}
     </button>
