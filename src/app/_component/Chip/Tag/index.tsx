@@ -23,6 +23,7 @@ export default function Tag({ content }: TagProps) {
       setColor(randomColors.color);
     };
     handleRandom();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

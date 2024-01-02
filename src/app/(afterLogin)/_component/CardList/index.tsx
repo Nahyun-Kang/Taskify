@@ -49,8 +49,6 @@ export function CardList({ id, title, boardId }: CardListProps) {
       const res = await axiosInstance.post('cards', { ...form, dashboardId: +boardId, columnId: +id });
       setCards((prev) => [...(prev || []), res.data]);
       setCardNumCount((prev) => (prev ? prev + 1 : 1));
-    } catch (error) {
-      console.log(error);
     } finally {
       setModalType(null);
     }
@@ -65,8 +63,6 @@ export function CardList({ id, title, boardId }: CardListProps) {
     try {
       const res = await axiosInstance.put(`columns/${id}`, { ...form });
       setColumns((oldColumns) => oldColumns.map((column) => (column.id === id ? { ...res.data } : column)));
-    } catch (error) {
-      console.log(error);
     } finally {
       setModalType(null);
     }
@@ -76,7 +72,6 @@ export function CardList({ id, title, boardId }: CardListProps) {
 
   const handleRenderUpdateColumn = () => {
     setShow(true);
-    console.log('왜 안뜨지');
     callModal({
       name: '칼럼 관리',
       onSubmit: onSubmitForUpdateColumn,

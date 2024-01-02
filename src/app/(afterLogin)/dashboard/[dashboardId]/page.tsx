@@ -28,9 +28,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
     try {
       const res = await axiosInstance.post('columns', { ...form, dashboardId: Number(params.dashboardId) });
       setColumns((oldColumns: Column[]) => [...oldColumns, res.data]);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     setModalType(null);
   };
 

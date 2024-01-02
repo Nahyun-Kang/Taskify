@@ -50,9 +50,7 @@ export default function InvitationDashboard() {
         }
       }
       setInvitations(invitations.filter((invitation) => invitation.id !== invitationId));
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   };
 
   useInfiniteScroll({ target, onIntersect: onIntersect, size: cursorId });

@@ -59,7 +59,6 @@ export default function DropdownAndFilter({
   // 드롭 다운 내 사용자 클릭을 받아서, 담당자로 지정
   const handleOnChangeDropdown = (e: MouseEvent<HTMLSpanElement>, id: number) => {
     const { innerText } = e.target as HTMLElement;
-    console.log(e.target);
     setCurrentValue(innerText);
     setOpenDropdown(false);
     setAssignId(id);

@@ -29,7 +29,6 @@ export default function InputForm({
     try {
       await onSubmit(data);
     } catch (error) {
-      console.log(error);
       // setIsLoading(false);
     } finally {
       // setIsLoading(false);

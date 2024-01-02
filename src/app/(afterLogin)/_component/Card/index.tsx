@@ -42,19 +42,13 @@ export default function Card({
   const params = useParams();
 
   const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    console.log(data);
-    try {
-      const res = await axiosInstance.post('comments', {
-        ...data,
-        columnId,
-        cardId: id,
-        dashboardId: Number(params.dashboardId),
-      });
-      setComments((prev) => [, ...(prev ? prev : []), res.data]);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axiosInstance.post('comments', {
+      ...data,
+      columnId,
+      cardId: id,
+      dashboardId: Number(params.dashboardId),
+    });
+    setComments((prev) => [, ...(prev ? prev : []), res.data]);
   };
   // 할 일 카드 상세 모달을 호출하기 위한 함수
   const handleRenderDetaildoModal = async () => {
