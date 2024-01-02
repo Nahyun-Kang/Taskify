@@ -26,15 +26,11 @@ export default function SideMenu() {
     callModal({
       name: '새로운 대시보드',
       onSubmit: async (data) => {
-        try {
-          const newDashboard = await createDashboard(data);
-          setDashboardData((prev) => {
-            return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
-          });
-          router.push(`/dashboard/${newDashboard.id}`);
-        } catch (error) {
-          console.error(error);
-        }
+        const newDashboard = await createDashboard(data);
+        setDashboardData((prev) => {
+          return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
+        });
+        router.push(`/dashboard/${newDashboard.id}`);
       },
     });
   };
@@ -67,7 +63,7 @@ export default function SideMenu() {
           />
         </div>
         <div className='m-auto flex w-[2.5rem] flex-col items-center md:m-0 md:w-full md:items-start md:pr-3'>
-          {dashboardData.dashboards.map((item: DashboardProps, idx: number) => {
+          {dashboardData?.dashboards.map((item: DashboardProps, idx: number) => {
             return (
               <Link
                 href={`/dashboard/${item.id}`}

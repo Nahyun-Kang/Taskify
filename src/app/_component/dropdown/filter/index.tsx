@@ -1,13 +1,12 @@
 'use client';
 import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
-import { useInputField } from '@/src/app/_component/InputForm/InputStyle';
+import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
 import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
-import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
 interface Admin {
   id: number;
   email: string;
@@ -33,8 +32,7 @@ export default function DropdownAndFilter({
 
   const [dashboardId] = useRecoilState(dashboardIdState);
 
-  const { register } = useInputField('assigneeUserId', {});
-  const { setValue } = useFormContext();
+  const { register, setValue, trigger } = useFormContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -52,19 +50,22 @@ export default function DropdownAndFilter({
       }
     });
     if (e.target.value === '') {
+      setValue('assigneeUserId', 0);
       setOpenDropdown(false);
     }
+
+    trigger('assigneeUserId');
   };
 
   // 드롭 다운 내 사용자 클릭을 받아서, 담당자로 지정
   const handleOnChangeDropdown = (e: MouseEvent<HTMLSpanElement>, id: number) => {
     const { innerText } = e.target as HTMLElement;
-    console.log(e.target);
     setCurrentValue(innerText);
     setOpenDropdown(false);
     setAssignId(id);
     setIsSelectionComplete(true);
     setValue('assigneeUserId', +id);
+    trigger('assigneeUserId');
   };
 
   // 사용자 입력 받을 시 Dropdown filter 기능
@@ -119,20 +120,20 @@ export default function DropdownAndFilter({
   }, [isSelectionComplete]);
 
   return (
-    <div className='flex w-[13.5625rem] flex-col items-start gap-[0.625rem]'>
-      <label className='text-[1.125rem] text-black'>담당자</label>
-      <div className='flex flex-col items-start gap-[0.125rem]'>
-        <span className='relative'>
+    <div className='relative flex flex-col items-start gap-[0.625rem] md:w-[13.5625rem] md:text-[1.125rem]'>
+      <label className='text-black'>담당자</label>
+      <div className='flex w-full flex-col items-start gap-[0.125rem]'>
+        <span className='relative w-full'>
           {isSelectionComplete ? (
             <div
               onClick={handleRenderInputBox}
               className={
-                'flex w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem]  py-[0.625rem]  outline-none ' +
+                'flex items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] outline-none  md:w-[13.5625rem] ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
               {assignee ? <Image src={assignee.profileImageUrl} alt='circleLogo' width={26} height={26} /> : null}
-              <span className='text-[1rem]'>{curretValue}</span>
+              <span className='py-[0.625rem] md:text-[1rem]'>{curretValue}</span>
             </div>
           ) : (
             <input
@@ -143,12 +144,20 @@ export default function DropdownAndFilter({
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               className={
-                'flex h-[3rem] w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300  px-[1rem]  py-[0.625rem]  outline-none ' +
+                'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] text-[0.875rem] outline-none md:h-[3rem] md:w-[13.5625rem] md:text-[1rem] ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             />
           )}
-          <input className='hidden' value={Number(assignId) as number} id='assigneeUserId' {...register} />
+          <input
+            className='hidden'
+            value={Number(assignId) as number}
+            id='assigneeUserId'
+            {...register('assigneeUserId', {
+              valueAsNumber: true,
+              validate: (id) => id > 0,
+            })}
+          />
           <div onClick={handleOpenDropdown} className='absolute right-[1rem] top-[0.625rem] h-[1.625rem] w-[1.625rem]'>
             <Image fill src={dropdown} alt='dropdown' />
           </div>
@@ -157,7 +166,7 @@ export default function DropdownAndFilter({
         {openDropdown && SearchAdminName?.length ? (
           <div
             className={
-              '  z-50 flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none'
+              'absolute top-full z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none'
             }
           >
             {SearchAdminName?.map((admin) => {
@@ -199,7 +208,7 @@ export const AdminOption = ({
   return (
     <>
       {name ? (
-        <div className='  flex items-center gap-[0.375rem]'>
+        <div className='flex items-center gap-[0.375rem]'>
           {assignId === userId ? (
             <Image src={check} alt='check' width={22} height={22} />
           ) : (
@@ -207,7 +216,7 @@ export const AdminOption = ({
           )}
           <div className='flex  gap-[0.5rem]'>
             {profile ? <Image src={profile} alt='circleLogo' width={26} height={26} /> : null}
-            <span onClick={handleSelectDropdown} className='text-[1rem]' id={name}>
+            <span onClick={handleSelectDropdown} id={name} className='text-[0.875rem] md:text-[1rem]'>
               {name}
             </span>
           </div>
