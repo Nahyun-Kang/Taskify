@@ -1,18 +1,18 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
+import Link from 'next/link';
 
 import Crown from '@/src/app/_component/Icons/Crown';
-import HeaderButton from './HeaderButton';
+import HeaderButton from '@/src/app/(afterLogin)/_component/Header/HeaderButton';
 import add from '@/public/images/add_box_icon.svg';
 import manage from '@/public/images/manage_icon.svg';
-import ProfileCollection from '../ProfileImgCollection';
+import ProfileCollection from '@/src/app/(afterLogin)/_component/ProfileImgCollection';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import submitInvitation from '../../_util/submitInvitation';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import submitInvitation from '@/src/app/(afterLogin)/_util/submitInvitation';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import HeaderDropdown from './HeaderDropdown';
+import HeaderDropdown from '@/src/app/(afterLogin)/_component/Header/HeaderDropdown';
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
 import { UserDataType } from '@/src/app/_constant/type';
