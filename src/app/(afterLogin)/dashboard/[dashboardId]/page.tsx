@@ -11,11 +11,13 @@ import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { getAccessToken } from '@/src/app/_util/axiosInstance';
+import { useRouter } from 'next/navigation';
 
 export default function DashBoard({ params }: { params: { dashboardId: string } }) {
   const [columns, setColumns] = useRecoilState(columnState);
   const setDashBoardId = useSetRecoilState(dashboardIdState);
   const [modalType, callModal, setModalType] = useRenderModal();
+  const router = useRouter();
 
   const getData = async () => {
     const {
@@ -44,6 +46,12 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
   };
 
   useEffect(() => {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+      router.push('/login');
+      return;
+    }
+
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

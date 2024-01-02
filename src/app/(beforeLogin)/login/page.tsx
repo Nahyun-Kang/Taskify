@@ -3,6 +3,7 @@ import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { signIn } from 'next-auth/react';
 
 import Sign from '@/src/app/_component/Button/Sign';
 import InputForm from '@/src/app/_component/InputForm';
@@ -11,6 +12,7 @@ import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { accessTokenState, userInfoState } from '@/src/app/_recoil/AuthAtom';
+import { generateCsrfToken } from '../../api/auth/[...nextauth]/csrf';
 
 export default function LogIn() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
@@ -21,8 +23,16 @@ export default function LogIn() {
   const values = methods.watch();
   const handleSubmit = methods.handleSubmit;
 
+  const csrfToken = generateCsrfToken();
+
   const handleLogin = async () => {
     try {
+      // const res = await signIn('credentials', {
+      //   username: values.email,
+      //   password: values.password,
+      //   redirect: false,
+      // });
+      // console.log(res);
       const res = await axiosInstance.post('auth/login', values);
       const userInfo = res.data.user;
       const accessToken = res.data.accessToken;
@@ -43,7 +53,14 @@ export default function LogIn() {
   return (
     <AuthLayout message={AUTH_MESSAGE.logIn}>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(handleLogin)} className='w-full' noValidate>
+        <form
+          method='post'
+          action={'/api/auth/callback/credentials'}
+          onSubmit={handleSubmit(handleLogin)}
+          className='w-full'
+          noValidate
+        >
+          <input type='hidden' name='_csrf' value={csrfToken}></input>
           <div className='mb-[1rem]'>
             <InputForm.EmailInput label='이메일' placeholder='이메일을 입력해 주세요' id='email' />
           </div>

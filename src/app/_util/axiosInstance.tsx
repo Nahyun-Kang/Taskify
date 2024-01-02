@@ -16,7 +16,7 @@ export const getAccessToken = () => {
     return accessToken;
   }
 };
-const newAccessToken = getAccessToken();
+// const newAccessToken = getAccessToken();
 
 export const axiosInstance = axios.create({
   baseURL: 'https://sp-taskify-api.vercel.app/1-3/',
@@ -26,21 +26,21 @@ export const axiosInstance = axios.create({
   },
 });
 
-axiosInstance.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    if (error.response && error.response.status) {
-      if (error.response && error.response.status === 401 && newAccessToken === undefined) {
-        if (typeof window !== 'undefined') {
-          window.location.replace('/pageunauthorizated');
-        }
-      } else if (error.response && error.response.status === 404) {
-        if (typeof window !== 'undefined') {
-          window.location.replace('/not-found');
-        }
-      }
-    }
-  },
-);
+// axiosInstance.interceptors.response.use(
+//   function (response) {
+//     return response;
+//   },
+//   function (error) {
+//     if (error.response && error.response.status) {
+//       if (error.response && error.response.status === 401 && newAccessToken === undefined) {
+//         if (typeof window !== 'undefined') {
+//           window.location.replace('/pageunauthorizated');
+//         }
+//       } else if (error.response && error.response.status === 404) {
+//         if (typeof window !== 'undefined') {
+//           window.location.replace('/not-found');
+//         }
+//       }
+//     }
+//   },
+// );
