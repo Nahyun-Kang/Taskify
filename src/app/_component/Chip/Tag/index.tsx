@@ -1,18 +1,29 @@
-import { TAG } from '@/src/app/_constant/Chip';
-
+'use client';
+import { useState, useEffect } from 'react';
 interface TagProps {
   content: string;
 }
 
 export default function Tag({ content }: TagProps) {
-  const colors = {
-    [TAG.PROJECT]: { bgColor: 'bg-orange10', color: 'text-orange20' },
-    [TAG.NORMAL]: { bgColor: 'bg-green10', color: 'text-green20' },
-    [TAG.BACKEND]: { bgColor: 'bg-pink10', color: 'text-pink20' },
-    [TAG.HIGH]: { bgColor: 'bg-blue10', color: 'text-blue20' },
+  const [bgColor, setBgColor] = useState('');
+  const [color, setColor] = useState('');
+
+  const colors: Record<string, { bgColor: string; color: string }> = {
+    '1': { bgColor: 'bg-orange10', color: 'text-orange20' },
+    '2': { bgColor: 'bg-green10', color: 'text-green20' },
+    '3': { bgColor: 'bg-pink10', color: 'text-pink20' },
+    '4': { bgColor: 'bg-blue10', color: 'text-blue20' },
   };
 
-  const { bgColor, color } = colors[content] || colors[TAG.PROJECT];
+  useEffect(() => {
+    const handleRandom = () => {
+      const random = Math.floor(Math.random() * 4) + 1;
+      const randomColors = colors[random.toString()];
+      setBgColor(randomColors.bgColor);
+      setColor(randomColors.color);
+    };
+    handleRandom();
+  }, []);
 
   return (
     <div

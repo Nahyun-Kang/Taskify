@@ -154,7 +154,7 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
 
     setComments((oldComments: CommentType2[] | null) => {
       if (oldComments) {
-        return oldComments.map((comment) => (comment.id === data.id ? { ...res.data } : comment));
+        return oldComments.map((comment) => (comment?.id === data.id ? { ...res.data } : comment));
       }
       return null;
     });
@@ -163,7 +163,7 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
 
   const deleteComments = async () => {
     await axiosInstance.delete(`comments/${data.id}`);
-    setComments((oldComments) => (oldComments ? oldComments.filter((comment) => comment.id !== data.id) : []));
+    setComments((oldComments) => (oldComments ? oldComments.filter((comment) => comment?.id !== data.id) : []));
   };
 
   const handleRenderUpdateComment = () => {

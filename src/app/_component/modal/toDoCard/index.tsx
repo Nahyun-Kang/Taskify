@@ -158,8 +158,6 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
       await axiosInstance.delete(`cards/${cardId}`);
       setCards((oldCards: CardInfo[]) => oldCards.filter((item) => item.id !== cardId));
       setCount((prev: number) => prev - 1);
-    } catch (error) {
-      console.log(error);
     } finally {
       setModalType(null);
     }
@@ -176,9 +174,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
 
       const newData = res.data;
       setCardData(newData);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleKebab = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -207,7 +203,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   }, [updatedCard, setCardsOtherColumn, columnId, setCards, setCount, setCountOtherColumn]);
 
   if (!cardData) return;
-  console.log(show);
+
   if (!show) {
     return <>{modalType}</>;
   }
