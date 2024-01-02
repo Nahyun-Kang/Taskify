@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { FieldValues } from 'react-hook-form';
-
+import { isAxiosError } from 'axios';
 export async function getInvitations(dashboardId: string | undefined, page: number, size: number) {
   try {
     const response = await axiosInstance.get(`dashboards/${dashboardId}/invitations?page=${page}&size=${size}`);
@@ -81,13 +81,15 @@ export async function updateDashboard(dashboardId: string | undefined, param: Fi
 
 export async function getDashboards() {
   try {
-    const res = await axiosInstance.get('dashboards?navigationMethod=infiniteScroll');
+    const res = await axiosInstance.get('dashboards?navigationMethod=pagination&page=1&size=100');
 
     const { dashboards, totalCount, cursorId } = res.data;
 
     return { dashboards, totalCount, cursorId: cursorId ?? 0 };
   } catch (error) {
-    console.log(error);
+    if (isAxiosError(error)) {
+      alert(error.response?.data.message);
+    }
   }
 }
 
@@ -98,7 +100,9 @@ export async function getPaginatedDashboards(page: number, size: number) {
 
     return { dashboards, totalCount, cursorId: cursorId ?? 0 };
   } catch (error) {
-    console.log(error);
+    if (isAxiosError(error)) {
+      alert(error.response?.data.message);
+    }
   }
 }
 
@@ -110,7 +114,9 @@ export async function getInfiniteDashboards(cursor: number | null, size: number)
 
     return { dashboards, totalCount, cursorId: cursorId ?? 0 };
   } catch (error) {
-    console.log(error);
+    if (isAxiosError(error)) {
+      alert(error.response?.data.message);
+    }
   }
 }
 
@@ -121,6 +127,21 @@ export async function createDashboard(data: FieldValues) {
     });
     return res.data;
   } catch (error) {
-    console.log(error);
+    if (isAxiosError(error)) {
+      alert(error.response?.data.message);
+    }
+  }
+}
+
+export async function putInvitation(invitationId: number, accepted: boolean) {
+  try {
+    const res = await axiosInstance.put(`invitations/${invitationId}`, {
+      inviteAccepted: accepted,
+    });
+    return res.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      alert(error.response?.data.message);
+    }
   }
 }

@@ -1,14 +1,14 @@
 'use client';
 
-import { Invitations } from '../../_constant/type';
-import IdxIcon from '../Icons/IdxIcon';
+import { Invitations } from '@/src/app/(afterLogin)/_constant/type';
 
 interface Props {
   value: string;
   list?: Invitations[];
+  handleInvitation: (invitationId: number, accepted: boolean) => void;
 }
 
-export default function InvitationList({ value, list }: Props) {
+export default function InvitationList({ value, list, handleInvitation }: Props) {
   const filteredData = list?.filter(
     (item) =>
       item.dashboard.title.toLowerCase().includes(value.toLowerCase()) ||
@@ -19,6 +19,7 @@ export default function InvitationList({ value, list }: Props) {
     'flex w-full items-center justify-center rounded py-[.4375rem] text-[.75rem] font-medium md:w-[4.5rem] lg:w-[5.25rem]';
   const labelClass = 'text-gray40 text-[.875rem] md:text-base';
   const mainLableClass = 'hidden md:block font-normal';
+
   return (
     <>
       <div>
@@ -35,7 +36,6 @@ export default function InvitationList({ value, list }: Props) {
               <div className=' mb-[.625rem] flex grow md:mb-0 md:flex-col'>
                 <div className={`w-[53px] md:hidden ${labelClass}`}>이름</div>
                 <div className='flex items-center'>
-                  <IdxIcon color={'#FF8989'} className='mr-[.875rem] hidden md:block lg:mr-[1.25rem]' />
                   <div className='text-[.875rem] md:text-base'>{item.dashboard.title}</div>
                 </div>
               </div>
@@ -44,8 +44,18 @@ export default function InvitationList({ value, list }: Props) {
                 <div className='text-[.875rem] md:text-base'>{item.inviter.nickname}</div>
               </div>
               <div className='my-4 flex gap-[.625rem] md:my-0 md:w-[9.625rem] lg:w-[19.75rem]'>
-                <button className={`bg-violet text-white ${buttonClass}`}>수락</button>
-                <button className={`border-[.0625rem] border-gray30 text-violet ${buttonClass}`}>거절</button>
+                <button
+                  className={`bg-violet text-white ${buttonClass}`}
+                  onClick={() => handleInvitation(item.id, true)}
+                >
+                  수락
+                </button>
+                <button
+                  className={`border-[.0625rem] border-gray30 text-violet ${buttonClass}`}
+                  onClick={() => handleInvitation(item.id, false)}
+                >
+                  거절
+                </button>
               </div>
             </div>
             {idx !== filteredData.length - 1 && <div className='mb-4 w-full border-b md:mb-[1.25rem]'></div>}
