@@ -81,6 +81,11 @@
     local('Pretendard Thin'),
     url(/fonts/Montserrat-SemiBold.ttf) format('woff');
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

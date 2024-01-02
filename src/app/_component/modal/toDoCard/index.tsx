@@ -245,7 +245,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
                       .sort(
                         (a, b) => new Date(a.createdAt as string).getTime() - new Date(b.createdAt as string).getTime(),
                       )
-                      .map((comment) => <DetailCardComment key={comment.id} data={comment} />)
+                      .map((comment) => <DetailCardComment key={comment?.id} data={comment} />)
                   : null}
               </div>
             </div>

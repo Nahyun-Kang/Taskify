@@ -57,10 +57,10 @@ export default function Card({
     }
   };
   // 할 일 카드 상세 모달을 호출하기 위한 함수
-  const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleRenderDetaildoModal = async () => {
     setIsOpenPopOver(false);
     setShow(true);
-    callModal({ name: (e.target as HTMLElement).id, onSubmit: createComment, cardId: id, columnId });
+    callModal({ name: '할 일 카드 상세', onSubmit: createComment, cardId: id, columnId });
   };
 
   return (
