@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { Column } from '../../_constant/type';
 import { useSetRecoilState } from 'recoil';
-import { columnState, dashboardIdState } from '@/src/app/_recoil/cardAtom';
+import { columnState, dashboardIdState } from '@/src/app/_recoil/CardAtom';
 import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '@/src/app/_constant/modalType';

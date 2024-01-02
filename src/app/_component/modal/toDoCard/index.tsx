@@ -6,22 +6,23 @@ import InputForm from '@/src/app/_component/InputForm';
 import Dropdown from '@/src/app/_component/dropdown';
 import DropdownAndFilter from '@/src/app/_component/dropdown/filter';
 import {
+  CommentType2,
   DetailAssignee,
   DetailCardComment,
   DetailIconButton,
   DetailMainContent,
 } from '@/src/app/_component/modal/toDoCard/DetailComponent';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import {
   showToDoModalState,
   openPopOverState,
   countAboutCardList,
-  commentsState,
+  commentsStateAboutCardId,
   updateCardState,
-} from '@/src/app/_recoil/cardAtom';
+  cardStateAboutColumn,
+} from '@/src/app/_recoil/CardAtom';
 import { usePutCard } from '@/src/app/_hook/usePutCard';
 import { useRef } from 'react';
 import Image from 'next/image';
@@ -118,7 +119,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   const setCount = useSetRecoilState(countAboutCardList(columnId));
   const [cardData, setCardData] = useRecoilState(updateCardState);
   const [isOpenPopOver, setIsOpenPopOver] = useRecoilState(openPopOverState);
-  const [comments, setComments] = useRecoilState(commentsState);
+  const [comments, setComments] = useRecoilState(commentsStateAboutCardId(cardId));
   const [modalType, callModal, setModalType] = useRenderModal();
   const { putCard, updatedCard } = usePutCard(cardId, columnId, setModalType, callModal);
   const setCardsOtherColumn = useSetRecoilState(cardStateAboutColumn(updatedCard?.columnId as number));
@@ -127,13 +128,14 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   const target = useRef(null);
 
   const getComments = useCallback(async () => {
+    if (nowCursorId === null) return;
     try {
       setIsLoading(true);
       const cursorQuery = nowCursorId ? `cursorId=${nowCursorId}&` : '';
       const res = await axiosInstance.get(`comments?${cursorQuery}cardId=${cardId}`);
       const { comments } = res.data;
       const { cursorId } = res.data;
-      setComments((oldComments) => [...(oldComments || []), ...comments]);
+      setComments((oldComments: CommentType2[]) => [...(oldComments || []), ...comments]);
       setNowCursorId(cursorId);
       setIsLoading(false);
     } catch (error) {
@@ -144,7 +146,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
       setIsLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nowCursorId]);
+  }, [nowCursorId, cardId]);
 
   // 카드 수정 모달 호출 함수
   const RenderUpdatedoModal = (cardData: ToDoCardDetailProps) => {
@@ -196,7 +198,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
         cardId: cardId,
         dashboardId: Number(params.dashboardId),
       });
-      setComments((prev) => [, ...(prev ? prev : []), res.data]);
+      setComments((prev: CommentType2[]) => [, ...(prev ? prev : []), res.data]);
       setCommentValue('');
     } catch (error) {
       if (isAxiosError(error)) {
@@ -238,7 +240,10 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
   // 할 일 카드 상세 모달 마운트 시 해당 카드 및 댓글 데이터바인딩
   useEffect(() => {
     handleRenderCard();
-
+    return () => {
+      setNowCursorId('');
+      setComments([]);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -251,7 +256,11 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
     }
   }, [updatedCard, setCardsOtherColumn, columnId, setCards, setCount, setCountOtherColumn]);
 
-  useObserver({ target, callback: arriveAtIntersection, id: nowCursorId });
+  useObserver({
+    target,
+    callback: arriveAtIntersection,
+    id: nowCursorId,
+  });
 
   if (!cardData) return;
 
@@ -312,7 +321,7 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
                       <SkeletonUIAboutComments />
                     ) : comments && Array.isArray(comments) ? (
                       [...comments].map((comment, index) => (
-                        <DetailCardComment key={comment?.id || `comment-${index}`} data={comment} />
+                        <DetailCardComment key={comment?.id || `comment-${index}`} data={comment} cardId={cardId} />
                       ))
                     ) : null}
 

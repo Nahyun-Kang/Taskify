@@ -8,15 +8,15 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
 import { useState, useCallback, useRef } from 'react';
 import { useRecoilState } from 'recoil';
-import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
+import { cardStateAboutColumn } from '@/src/app/_recoil/CardAtom';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
 import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { useSetRecoilState } from 'recoil';
-import { columnState } from '@/src/app/_recoil/cardAtom';
+import { columnState } from '@/src/app/_recoil/CardAtom';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { CardInfo } from '../../_constant/type';
-import { showColumnModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
+import { showColumnModalState, countAboutCardList } from '@/src/app/_recoil/CardAtom';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 import { isAxiosError } from 'axios';
 interface CardListProps {

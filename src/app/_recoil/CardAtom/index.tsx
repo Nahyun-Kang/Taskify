@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { CardInfo, Column } from '@/src/app/(afterLogin)/_constant/type';
 import { CommentType2 } from '@/src/app/_component/modal/toDoCard/DetailComponent';
-import { ToDoCardDetailProps } from '../_component/modal/toDoCard';
+import { ToDoCardDetailProps } from '../../_component/modal/toDoCard';
 
 const atomCache = new Map();
 
@@ -54,12 +54,21 @@ export const countAboutCardList = (columnId: number) => {
   return atomCardCount.get(columnId);
 };
 
-export const commentsState = atom<CommentType2[] | null>({
-  key: 'commentsState',
-  default: [],
-});
-
 export const updateCardState = atom<ToDoCardDetailProps | null>({
   key: 'updateCardState',
   default: null,
 });
+
+const commentsCache = new Map();
+
+export const commentsStateAboutCardId = (cardId: number) => {
+  if (!commentsCache.has(cardId)) {
+    const commentsState = atom<CommentType2[] | null>({
+      key: `comments${cardId}`,
+      default: [],
+    });
+    commentsCache.set(cardId, commentsState);
+  }
+
+  return commentsCache.get(cardId);
+};

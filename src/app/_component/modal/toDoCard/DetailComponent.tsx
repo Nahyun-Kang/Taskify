@@ -7,13 +7,14 @@ import Tag from '@/src/app/_component/Chip/Tag';
 import { ToDoCardDetailProps } from '.';
 import circle from '@/public/icons/Ellipse 54.svg';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { columnState, commentsState } from '@/src/app/_recoil/cardAtom';
+import { columnState, commentsStateAboutCardId } from '@/src/app/_recoil/CardAtom';
 import formatTime from '@/src/app/_util/formatTime';
 // import CommentUpdateInput from '@/src/app/_component/InputForm/commentUpdateInput';
 // import { FieldValues } from 'react-hook-form';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 // 할 일 카드 상세 모달은 내용이 너무 많아서 일단 분리해 놓았습니다
 import DefaultProfile from '../../DefaultProfile';
+import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 
 interface DetailIconButtonProps {
   handleKebab: (e: React.MouseEvent<HTMLElement>) => void;
@@ -142,10 +143,12 @@ export interface CommentType2 {
     id: number;
   };
 }
-export function DetailCardComment({ data }: { data: CommentType2 }) {
+export function DetailCardComment({ data, cardId }: { data: CommentType2; cardId: number }) {
+  const userInfo = useRecoilValue(userInfoState);
+  const { id: userId } = userInfo;
   const [value, setValue] = useState(data ? data.content : '');
   const [isUpdate, setIsUpdate] = useState(false);
-  const setComments = useSetRecoilState(commentsState);
+  const setComments = useSetRecoilState(commentsStateAboutCardId(cardId));
 
   const updateComments = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -153,7 +156,7 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
       content: value,
     });
 
-    setComments((oldComments) => {
+    setComments((oldComments: CommentType2[]) => {
       if (oldComments) {
         return oldComments.map((comment) => (comment?.id === data?.id ? { ...res.data } : comment));
       }
@@ -164,7 +167,9 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
 
   const deleteComments = async () => {
     await axiosInstance.delete(`comments/${data.id}`);
-    setComments((oldComments) => (oldComments ? oldComments.filter((comment) => comment?.id !== data?.id) : []));
+    setComments((oldComments: CommentType2[]) =>
+      oldComments ? oldComments.filter((comment) => comment?.id !== data?.id) : [],
+    );
   };
 
   const handleRenderUpdateComment = () => {
@@ -177,6 +182,7 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
   };
 
   if (!data) return;
+
   return (
     <div className='mt-4 flex gap-[0.625rem] md:mt-5'>
       <div className='flex flex-col items-start'>
@@ -220,12 +226,16 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
           <>
             <p className='text-[0.875rem] text-black'>{data?.content}</p>
             <div className='flex gap-[0.75rem]'>
-              <span className='text-[0.75rem] text-[#9fa6b2] underline' onClick={handleRenderUpdateComment}>
-                수정
-              </span>
-              <span className='text-[0.75rem] text-[#9fa6b2] underline' onClick={deleteComments}>
-                삭제
-              </span>
+              {data?.author?.id === (userId as number) ? (
+                <>
+                  <span className='text-[0.75rem] text-[#9fa6b2] underline' onClick={handleRenderUpdateComment}>
+                    수정
+                  </span>
+                  <span className='text-[0.75rem] text-[#9fa6b2] underline' onClick={deleteComments}>
+                    삭제
+                  </span>
+                </>
+              ) : null}
             </div>
           </>
         )}

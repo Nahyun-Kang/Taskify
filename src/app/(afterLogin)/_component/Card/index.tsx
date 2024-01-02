@@ -2,7 +2,7 @@ import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { openPopOverState, showToDoModalState } from '@/src/app/_recoil/cardAtom';
+import { openPopOverState, showToDoModalState } from '@/src/app/_recoil/CardAtom';
 
 import Image from 'next/image';
 
