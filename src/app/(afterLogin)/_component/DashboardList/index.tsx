@@ -9,10 +9,12 @@ import { useEffect, useState } from 'react';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 import { useSetRecoilState } from 'recoil';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
+import { useRef } from 'react';
 
 export default function DashboardList() {
-  const [ModalType, callModal, setModalType] = useRenderModal();
+  const [modalType, callModal, setModalType] = useRenderModal();
   const router = useRouter();
+  const preModalType = useRef(modalType);
   const [dashboards, setDashboards] = useState<DashboardProps[]>([]);
   const setDashboardData = useSetRecoilState(dashboardState);
   const handleCreate = async () => {
@@ -25,8 +27,10 @@ export default function DashboardList() {
           setDashboardData((prev) => {
             return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
           });
-
-          router.push(`/dashboard/${newDashboard.id}`);
+          setModalType(null);
+          if (preModalType.current !== null && modalType === null) {
+            router.push(`/dashboard/${newDashboard.id}`);
+          }
         } catch (error) {
           // console.error(error);
         } finally {
@@ -49,6 +53,10 @@ export default function DashboardList() {
       setPage((prevPage) => prevPage + 1);
     }
   };
+
+  useEffect(() => {
+    preModalType.current = modalType;
+  }, [modalType]);
 
   useEffect(() => {
     const getDashboardList = async (page: number, pageSize: number) => {
@@ -94,7 +102,7 @@ export default function DashboardList() {
           />
         </div>
       </div>
-      {ModalType}
+      {modalType}
     </div>
   );
 }
