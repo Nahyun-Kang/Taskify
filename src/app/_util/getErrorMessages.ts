@@ -1,3 +1,4 @@
+/*eslint-disable no-console*/
 export interface axiosErrorProps {
   method: string;
   url: string;
