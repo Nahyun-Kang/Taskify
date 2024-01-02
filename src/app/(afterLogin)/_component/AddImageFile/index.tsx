@@ -3,7 +3,7 @@
 import addLargeImg from '@/public/icons/add_icon_large.svg';
 import Image from 'next/image';
 import penImg from '@/public/icons/pen.svg';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import uploadImageForServer from './uploadImage';
 
@@ -43,6 +43,10 @@ export default function AddImageFile({ size = 'big', profileImageUrl = '' }: Pro
     }
     setImage(fileURL);
   };
+
+  useEffect(() => {
+    setValue('profileImageUrl', profileImageUrl);
+  }, []);
 
   return (
     <div

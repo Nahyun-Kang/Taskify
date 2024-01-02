@@ -4,6 +4,7 @@ export interface userInfoType {
   nickname: string;
   profileImageUrl: string;
   updatedAt: string | null;
+  createdAt: string | null;
 }
 
 export interface accessTokenType {
