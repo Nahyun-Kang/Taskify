@@ -2,11 +2,10 @@ import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { commentsState, openPopOverState, showModalState } from '@/src/app/_recoil/cardAtom';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { openPopOverState, showToDoModalState } from '@/src/app/_recoil/cardAtom';
+
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { FieldValues, SubmitHandler } from 'react-hook-form';
+
 import { useSetRecoilState } from 'recoil';
 
 interface CardProps {
@@ -33,26 +32,15 @@ export default function Card({
   columnId,
 }: CardProps) {
   const [modalType, callModal] = useRenderModal();
-  const setShow = useSetRecoilState(showModalState);
+  const setShow = useSetRecoilState(showToDoModalState);
   const setIsOpenPopOver = useSetRecoilState(openPopOverState);
-  const setComments = useSetRecoilState(commentsState);
 
-  const params = useParams();
-
-  const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    const res = await axiosInstance.post('comments', {
-      ...data,
-      columnId,
-      cardId: id,
-      dashboardId: Number(params.dashboardId),
-    });
-    setComments((prev) => [, ...(prev ? prev : []), res.data]);
-  };
   // 할 일 카드 상세 모달을 호출하기 위한 함수
-  const handleRenderDetaildoModal = async () => {
+  const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     setIsOpenPopOver(false);
     setShow(true);
-    callModal({ name: '할 일 카드 상세', onSubmit: createComment, cardId: id, columnId });
+    callModal({ name: '할 일 카드 상세', cardId: id, columnId });
   };
 
   return (
