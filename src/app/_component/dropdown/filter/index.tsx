@@ -8,6 +8,7 @@ import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
 import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
+import { Dispatch, SetStateAction } from 'react';
 interface Admin {
   id: number;
   email: string;
@@ -24,6 +25,7 @@ export default function DropdownAndFilter({
 }: {
   assignee?: { profileImageUrl: string; nickname: string; id: number };
 }) {
+  const [imageValue, setImageValue] = useState('');
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
   const [openDropdown, setOpenDropdown] = useState(false); // 드롭다운 개폐여부
   const [curretValue, setCurrentValue] = useState<string>(assignee?.nickname || ''); // 인풋에 대한 입력값 참조
@@ -48,6 +50,7 @@ export default function DropdownAndFilter({
         setAssignId(admin.userId);
         setValue('assigneeUserId', +admin.userId);
         setOpenDropdown(false);
+        if (admin.profileImageUrl) setImageValue(admin?.profileImageUrl);
       }
     });
     if (e.target.value === '') {
@@ -139,8 +142,8 @@ export default function DropdownAndFilter({
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
-              {assignee?.profileImageUrl ? (
-                <Image src={assignee.profileImageUrl} alt='circleLogo' width={26} height={26} />
+              {assignee?.profileImageUrl || imageValue ? (
+                <Image src={assignee?.profileImageUrl || imageValue} alt='circleLogo' width={26} height={26} />
               ) : (
                 <DefaultProfile nickName={curretValue} index={assignId as number} />
               )}
@@ -190,6 +193,7 @@ export default function DropdownAndFilter({
                   userId={admin.userId}
                   onClick={handleOnChangeDropdown}
                   profile={admin.profileImageUrl}
+                  setImageValue={setImageValue}
                 />
               );
             })}
@@ -207,15 +211,18 @@ export const AdminOption = ({
   userId,
   assignId,
   profile,
+  setImageValue,
 }: {
   onClick: (e: MouseEvent<HTMLSpanElement>, userId: number) => void;
   name: string;
   userId: number;
   assignId: number;
   profile: string | null;
+  setImageValue: Dispatch<SetStateAction<string>>;
 }) => {
   const handleSelectDropdown = (e: MouseEvent<HTMLSpanElement>) => {
     onClick(e, userId as number);
+    if (profile) setImageValue(profile);
   };
   return (
     <>
