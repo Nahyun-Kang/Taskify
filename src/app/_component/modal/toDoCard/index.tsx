@@ -32,7 +32,7 @@ import useObserver from '@/src/app/_hook/useObserver';
 import { SkeletonUIAboutComments } from './SkeletonForComments';
 import { useCallback } from 'react';
 import { isAxiosError } from 'axios';
-
+import { titleValidate } from '@/src/app/_constant/Input';
 interface TodoProps {
   mainTitle: string;
 }
@@ -55,7 +55,13 @@ export function CreateToDo({ mainTitle }: TodoProps) {
     <div className='flex flex-col gap-6'>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
       <DropdownAndFilter />
-      <InputForm.TextInput label='제목' placeholder='제목을 입력해주세요' id='title' isRequired={true} />
+      <InputForm.TextInput
+        label='제목'
+        placeholder='제목을 입력해주세요'
+        id='title'
+        isRequired={true}
+        validationRules={titleValidate}
+      />
       <InputForm.TextInput label='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
       <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 선택' />
       <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' />
@@ -81,6 +87,7 @@ export function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardDat
         id='title'
         isRequired={true}
         initialValue={cardData.title}
+        validationRules={titleValidate}
       />
       <InputForm.TextInput
         label='설명'
