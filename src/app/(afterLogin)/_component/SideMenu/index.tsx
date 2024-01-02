@@ -37,7 +37,7 @@ export default function SideMenu() {
             router.push(`/dashboard/${newDashboard.id}`);
           }
         } catch (error) {
-          console.error(error);
+          // console.error(error);
         }
       },
     });

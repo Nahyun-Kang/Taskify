@@ -28,7 +28,7 @@ export default function DashboardList() {
 
           router.push(`/dashboard/${newDashboard.id}`);
         } catch (error) {
-          console.error(error);
+          // console.error(error);
         } finally {
           setModalType(null);
         }

@@ -8,7 +8,7 @@ export async function createToDo(dashboardId: number, columnId: number) {
       const res = await axiosInstance.post<CardInfo>('cards', { ...form, dashboardId, columnId });
       return res.data;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 }
