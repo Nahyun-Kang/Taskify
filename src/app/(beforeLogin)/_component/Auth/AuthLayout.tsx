@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
-import ImageLogo from '../Icons/ImageLogo';
-import TextLogo from '../Icons/TextLogo';
+import ImageLogo from '@/src/app/(beforeLogin)/_component/Icons/ImageLogo';
+import TextLogo from '@/src/app/(beforeLogin)/_component/Icons/TextLogo';
 
 interface Props {
   children?: ReactNode;
