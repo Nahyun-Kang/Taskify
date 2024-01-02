@@ -26,15 +26,11 @@ export default function SideMenu() {
     callModal({
       name: '새로운 대시보드',
       onSubmit: async (data) => {
-        try {
-          const newDashboard = await createDashboard(data);
-          setDashboardData((prev) => {
-            return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
-          });
-          router.push(`/dashboard/${newDashboard.id}`);
-        } catch (error) {
-          console.error(error);
-        }
+        const newDashboard = await createDashboard(data);
+        setDashboardData((prev) => {
+          return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
+        });
+        router.push(`/dashboard/${newDashboard.id}`);
       },
     });
   };

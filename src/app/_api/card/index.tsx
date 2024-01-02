@@ -3,9 +3,7 @@
 //   try {
 //     const res = await axiosInstance.post('cards', { ...form, dashboardId: 14, columnId: 50 });
 
-//     console.log(res);
 //   } catch (error) {
-//     console.log(error);
 //   }
 // };
 
@@ -30,10 +28,7 @@
 //       columnId: +form.columnId,
 //       assigneeUserId: +form.assigneeUserId,
 //     });
-//     console.log(form);
-//     console.log(res);
 //   } catch (error) {
-//     console.log(error);
 //   }
 // };
 // // 카드 수정 모달 호출 함수
@@ -48,7 +43,6 @@
 //   try {
 //     await axiosInstance.delete('cards/59');
 //   } catch (error) {
-//     console.log(error);
 //   }
 // };
 // // 카드 삭제 모달 호출 함수

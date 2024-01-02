@@ -22,8 +22,6 @@ export const usePutCard = (
         assigneeUserId: +form.assigneeUserId,
       });
       setUpdatedCard(res.data);
-    } catch (error) {
-      console.log(error);
     } finally {
       setModalType(null);
     }

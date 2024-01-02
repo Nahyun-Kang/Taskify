@@ -40,7 +40,6 @@ export function UpdateColumn({
     callModal({ name: (e.target as HTMLElement).id, columnId: columnId });
     setShow(false);
   };
-  console.log(show);
   if (!show) return <>{modalType}</>;
 
   return (
@@ -88,12 +87,8 @@ export function DeleteColumn({ mainTitle, btnName, btnSize, onClose, columnId }:
   // const setShow = useSetRecoilState(showModalState);
   const setColumns = useSetRecoilState(columnState);
   const deleteSubmit = async () => {
-    try {
-      await axiosInstance.delete(`columns/${columnId}`);
-      setColumns((oldColumns) => oldColumns.filter((column) => column.id != columnId));
-    } catch (error) {
-      console.log(error);
-    }
+    await axiosInstance.delete(`columns/${columnId}`);
+    setColumns((oldColumns) => oldColumns.filter((column) => column.id != columnId));
   };
   // const handleDoubleModalClose = () => {
   //   setShow(true);
