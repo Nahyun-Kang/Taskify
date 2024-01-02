@@ -22,11 +22,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
   const getData = async () => {
     const {
       data: { data },
-    } = await axiosInstance.get(`columns?dashboardId=${params.dashboardId}`, {
-      headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
-      },
-    });
+    } = await axiosInstance.get(`columns?dashboardId=${params.dashboardId}`);
     setColumns(data);
     setDashBoardId(params.dashboardId);
   };

@@ -16,6 +16,7 @@ export const getAccessToken = () => {
     return accessToken;
   }
 };
+
 // const newAccessToken = getAccessToken();
 
 export const axiosInstance = axios.create({
