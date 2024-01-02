@@ -75,7 +75,9 @@ const config: Config = {
     corePlugins: {
       animation: false,
     },
-    plugins: [require('tailwind-scrollbar-hide')],
+  },
+  transitionProperty: {
+    height: 'height',
   },
 };
 

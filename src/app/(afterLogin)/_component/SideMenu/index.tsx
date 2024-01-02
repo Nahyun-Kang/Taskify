@@ -75,7 +75,7 @@ export default function SideMenu() {
           />
         </div>
         <div className='m-auto flex w-[2.5rem] flex-col items-center md:m-0 md:w-full md:items-start md:pr-3'>
-          {dashboardData.dashboards.map((item: DashboardProps, idx: number) => {
+          {dashboardData?.dashboards.map((item: DashboardProps, idx: number) => {
             return (
               <Link
                 href={`/dashboard/${item.id}`}

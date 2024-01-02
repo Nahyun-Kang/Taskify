@@ -34,11 +34,16 @@ export function DetailIconButton({
   cardData,
 }: DetailIconButtonProps) {
   return (
-    <div className=' absolute flex gap-[1.5rem] sm:right-[0.75rem] sm:top-[0.75rem] md:right-[1.75rem] md:top-[2rem]'>
-      <span onClick={handleKebab} className=' relative h-[1.75rem] w-[1.75rem]'>
+    <div className=' absolute flex items-center gap-1 sm:right-[0.75rem] sm:top-[0.75rem] md:right-[1.75rem] md:top-[2rem] md:gap-[1.5rem]'>
+      <span onClick={handleKebab} className=' relative h-[1.75rem] w-[1.75rem] '>
         {kebab && <Image src={kebab} alt='케밥' fill priority />}
         {isOpenPopOver ? (
-          <div className='h-[5.125rem] w-[5.8125rem] rounded-[0.375rem] border border-[#d9d9d9] bg-white p-[0.375rem] shadow-md'>
+          <div
+            className='absolute right-2 top-full z-10 h-[5.125rem] w-[5.8125rem] rounded-[0.375rem] border border-[#d9d9d9]  bg-white p-[0.375rem] shadow-md'
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <p
               onClick={() => onUpdate(cardData)}
               className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem]'
@@ -47,7 +52,7 @@ export function DetailIconButton({
             </p>
             <p
               onClick={onDelete}
-              className=' mt-[0.375rem] whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] '
+              className=' mt-[0.375rem] whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet'
             >
               삭제하기
             </p>
@@ -73,31 +78,29 @@ export function DetailMainContent({
   const columns = useRecoilValue(columnState);
   const newColumn = columns.find((column) => column.id === columnId);
   return (
-    <div className='w-[60%]'>
-      <div className=' mb-[1rem] mt-[1.5rem] flex gap-[1.25rem]'>
-        <div className=' flex gap-[1.25rem]'>
+    <>
+      <div className='flex gap-[1.25rem]'>
+        <div className=' flex items-center gap-[1.25rem] text-[0.625rem] md:text-[0.75rem]'>
           <span>
             {
-              <div className='flex items-center rounded-[0.6875rem] border bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
-                <div className='flex  gap-[0.375rem] overflow-hidden'>
+              <div className='flex items-center rounded-[6.25rem] bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
+                <div className='flex gap-[0.375rem] overflow-hidden'>
                   <Image src={circle} alt='circle' width={6} height={6} priority />
-                  <span className='whitespace-nowrap text-[1rem]'>{newColumn?.title}</span>
+                  <span className='whitespace-nowrap'>{newColumn?.title}</span>
                 </div>
               </div>
             }
           </span>
-          {line && <Image src={line} alt='line' width={1} height={20} priority />}
+          <span className='h-5 w-0 border-[0.0625rem] border-gray30'></span>
         </div>
         <div className='flex flex-nowrap gap-[0.375rem]'>
           {tags.map((tag) => (
-            <Tag size='large' content={tag} key={tag} />
+            <Tag content={tag} key={tag} />
           ))}
         </div>
       </div>
-      <div className='flex flex-wrap text-[0.875rem] text-black sm:w-[17.9375rem] md:w-[26.25rem] lg:w-[28.125rem]'>
-        {description}
-      </div>
-    </div>
+      <div className='flex flex-wrap py-4 text-[0.875rem] text-black'>{description}</div>
+    </>
   );
 }
 
@@ -108,7 +111,7 @@ interface DetailAssignee {
 
 export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
   return (
-    <div className=' rounded-[0.5rem] border border-gray30 p-[1rem] sm:flex sm:w-[100%] sm:items-center sm:justify-between md:flex md:w-[12.5rem] md:flex-col md:items-start md:justify-start md:gap-[1.25rem]'>
+    <div className=' mb-4 h-fit rounded-[0.5rem] border border-gray30 p-[1rem] sm:flex sm:w-[100%] sm:items-center sm:justify-between md:flex md:w-[11.25rem] md:flex-col md:items-start md:justify-start md:gap-[1.25rem] lg:w-[12.5rem]'>
       <div className='flex flex-col gap-[0.375rem]'>
         <span className='text-[0.75rem] font-semibold leading-5'>담당자</span>
         <div className='flex items-center  gap-[0.3125rem]'>
@@ -176,7 +179,7 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
 
   if (!data) return;
   return (
-    <div className='flex gap-[0.625rem]'>
+    <div className='mt-4 flex gap-[0.625rem] md:mt-5'>
       <div className='flex flex-col items-start'>
         {data?.author?.profileImageUrl ? (
           <Image src={data?.author?.profileImageUrl} width={34} height={34} alt='댓글 프로필' priority />
@@ -184,13 +187,13 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
           <DefaultProfile nickName={data?.author?.nickname} index={data?.author?.id} />
         )}
       </div>
-      <div className='flex flex-col gap-[0.375rem]'>
+      <div className='flex w-full flex-col gap-[0.375rem]'>
         <div className='flex gap-[0.5rem]'>
           <span className='text-[0.875rem] font-semibold text-black'>{data?.author?.nickname}</span>
           <span className='text-[0.75rem] text-[#9fa6b2]'>{formatTime(data && (data.createdAt as string))}</span>
         </div>
         {isUpdate ? (
-          <div className='my-2 flex w-[39.0625rem] flex-col items-center gap-[0.375rem]'>
+          <div className='my-2 flex flex-col items-center gap-[0.375rem] md:w-[37.5rem] lg:w-[40.625rem]'>
             <input
               id='content2'
               type='text'
@@ -199,18 +202,18 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
               defaultValue={data.content}
               onBlur={handleOnBlur}
             />
-            <div className=' flex w-full justify-end'>
-              <button className='mr-1 rounded px-2 py-1 text-black hover:bg-blue' onClick={updateComments}>
-                수정
-              </button>
+            <div className='flex w-full justify-end gap-2'>
               <button
                 type='button'
-                className='rounded  px-2 py-1 text-black hover:bg-red'
+                className='w-14 rounded-full px-2 py-1 text-black hover:bg-gray20'
                 onClick={() => {
                   setIsUpdate(false);
                 }}
               >
                 취소
+              </button>
+              <button className='w-14 rounded-full bg-violet px-2 py-1   text-white' onClick={updateComments}>
+                수정
               </button>
             </div>
           </div>

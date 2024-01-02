@@ -1,10 +1,11 @@
 'use client';
 
-import InputForm from '@/src/app/_component/InputForm';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Cancel from '@/src/app/_component/Button/Cancel';
 import Confirm from '@/src/app/_component/Button/Confirm';
+import InputForm from '@/src/app/_component/InputForm';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { columnState, showModalState } from '@/src/app/_recoil/cardAtom';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { showColumnModalState, columnState } from '@/src/app/_recoil/cardAtom';
 import { useRef } from 'react';
@@ -14,7 +15,7 @@ export function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; lab
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <InputForm.TextInput label={labelTitle} placeholder='컬럼 제목을 입력해주세요' id='title' isRequired={true} />
+      <InputForm.TextInput label={labelTitle} placeholder='컬럼 제목을 입력해주세요' id='title' />
     </>
   );
 }

@@ -1,4 +1,3 @@
-'use client';
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 import { accessTokenType, userInfoType } from '../../(beforeLogin)/_constants/type';
@@ -6,7 +5,7 @@ import { accessTokenType, userInfoType } from '../../(beforeLogin)/_constants/ty
 const localStorage = typeof window !== 'undefined' ? window.localStorage : undefined;
 
 const { persistAtom } = recoilPersist({
-  key: 'localStorage',
+  key: 'taskifyUserData',
   storage: localStorage,
 });
 
@@ -15,8 +14,8 @@ export const userInfoState = atom<userInfoType>({
   default: {
     email: null,
     id: null,
-    nickname: null,
-    profileImageUrl: null,
+    nickname: '',
+    profileImageUrl: '',
     updatedAt: null,
   },
   effects_UNSTABLE: [persistAtom],

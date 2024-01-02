@@ -1,14 +1,12 @@
 import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
-import Image from 'next/image';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { commentsState, openPopOverState, showToDoModalState } from '@/src/app/_recoil/cardAtom';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import Image from 'next/image';
+
 import { useSetRecoilState } from 'recoil';
-import { showToDoModalState } from '@/src/app/_recoil/cardAtom';
-import { openPopOverState } from '@/src/app/_recoil/cardAtom';
-// import { FieldValues } from 'react-hook-form';
-// import { axiosInstance } from '@/src/app/_util/axiosInstance';
-// import { useParams } from 'next/navigation';
 
 interface CardProps {
   title: string;
@@ -69,11 +67,14 @@ export default function Card({
           <div className='text-[0.875rem] text-black80 md:text-[1rem]'>{title}</div>
           <div className='flex justify-between gap-4'>
             <div className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]'>
-              <div className='flex flex-wrap gap-[0.375rem]'>
-                {tags.map((tag, index) => (
-                  <Tag size='large' content={tag} key={tag + index} />
-                ))}
-              </div>
+              {tags.length > 0 && (
+                <div className='flex flex-wrap gap-[0.375rem]'>
+                  {tags.map((tag, index) => (
+                    <Tag content={tag} key={tag + index} />
+                  ))}
+                </div>
+              )}
+
               <div className='flex flex-1 justify-between'>
                 <div className='flex items-center gap-[0.375rem]'>
                   <div className='relative h-[0.875rem] w-[0.875rem] md:h-[1.125rem] md:w-[1.125rem]'>
