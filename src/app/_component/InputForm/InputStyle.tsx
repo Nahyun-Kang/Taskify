@@ -19,7 +19,7 @@ interface LabelProps {
 }
 
 export const getInputClass = (hasError: boolean) =>
-  `box-border flex gap-2 rounded-lg border px-4 py-[0.6875rem] placeholder:text-gray40 focus-within:border-violet outline-0 ${
+  `box-border flex gap-2 rounded-lg border px-4 py-[0.6875rem] text-[0.875rem] md:text-[1rem]  placeholder:text-gray40 focus-within:border-violet outline-0 ${
     hasError ? 'border-red' : 'border-gray30'
   }`;
 
@@ -42,7 +42,7 @@ export function InputWithImageWrapper({ children, hasError }: { children: ReactN
 export function useInputField(id: string, validationRules: validationRulesProps) {
   const {
     register,
-    formState: { errors, isLoading },
+    formState: { errors, isLoading, isValid },
     setValue,
     watch,
     setError,
@@ -56,6 +56,7 @@ export function useInputField(id: string, validationRules: validationRulesProps)
     isLoading,
     setValue,
     watch,
+    isValid,
     setError,
   };
 }
@@ -66,7 +67,7 @@ export function ErrorMessage({ message }: { message: string }) {
 
 export function Label({ label, isRequired, htmlFor }: LabelProps) {
   return (
-    <label htmlFor={htmlFor} className='text-[1.125rem] text-black'>
+    <label htmlFor={htmlFor} className='text-black md:text-[1.125rem]'>
       {label}
       {isRequired && <p className='inline text-violet'> *</p>}
     </label>

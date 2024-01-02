@@ -1,19 +1,19 @@
 'use client';
 
-import InputForm from '@/src/app/_component/InputForm';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Cancel from '@/src/app/_component/Button/Cancel';
 import Confirm from '@/src/app/_component/Button/Confirm';
+import InputForm from '@/src/app/_component/InputForm';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { columnState, showModalState } from '@/src/app/_recoil/cardAtom';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { showModalState, columnState } from '@/src/app/_recoil/cardAtom';
 
 // 컬럼 생성 모달 내용
 export function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; labelTitle: string }) {
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <InputForm.TextInput label={labelTitle} placeholder='컬럼 제목을 입력해주세요' id='title' isRequired={true} />
+      <InputForm.TextInput label={labelTitle} placeholder='컬럼 제목을 입력해주세요' id='title' />
     </>
   );
 }
@@ -40,7 +40,6 @@ export function UpdateColumn({
     callModal({ name: (e.target as HTMLElement).id, columnId: columnId });
     setShow(false);
   };
-  console.log(show);
   if (!show) return <>{modalType}</>;
 
   return (
@@ -49,12 +48,7 @@ export function UpdateColumn({
         <div className='relative gap-[1.5rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:w-[33.75rem] md:px-[1.75rem] md:pt-[2rem]'>
           <div className=' flex flex-col gap-[2rem]'>
             <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-            <InputForm.TextInput
-              label={labelTitle}
-              placeholder='컬럼 제목을 수정해주세요'
-              id='title'
-              isRequired={true}
-            />
+            <InputForm.TextInput label={labelTitle} placeholder='컬럼 제목을 수정해주세요' id='title' />
             <span
               id='칼럼 삭제'
               onClick={handleRenderDeleteColumn}
@@ -88,12 +82,8 @@ export function DeleteColumn({ mainTitle, btnName, btnSize, onClose, columnId }:
   // const setShow = useSetRecoilState(showModalState);
   const setColumns = useSetRecoilState(columnState);
   const deleteSubmit = async () => {
-    try {
-      await axiosInstance.delete(`columns/${columnId}`);
-      setColumns((oldColumns) => oldColumns.filter((column) => column.id != columnId));
-    } catch (error) {
-      console.log(error);
-    }
+    await axiosInstance.delete(`columns/${columnId}`);
+    setColumns((oldColumns) => oldColumns.filter((column) => column.id != columnId));
   };
   // const handleDoubleModalClose = () => {
   //   setShow(true);

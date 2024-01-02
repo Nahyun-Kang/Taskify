@@ -6,15 +6,18 @@ import AddTodo from '@/src/app/_component/Button/AddTodo';
 import Number from '@/src/app/_component/Chip/Number';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { cardStateAboutColumn, columnState, countAboutCardList, showModalState } from '@/src/app/_recoil/cardAtom';
+import { cardStateAboutColumn, columnState } from '@/src/app/_recoil/cardAtom';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
 import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
-import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import { Draggable } from 'react-beautiful-dnd';
+import { CardInfo } from '../../_constant/type';
+import { showModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
+import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
+
 interface CardListProps {
   id: number;
   title: string;
@@ -24,34 +27,34 @@ interface CardListProps {
 export function CardList({ id, title, boardId }: CardListProps) {
   const [cards, setCards] = useRecoilState<CardInfo[] | []>(cardStateAboutColumn(id));
   const [cardNumCount, setCardNumCount] = useRecoilState<number | null>(countAboutCardList(id));
+  const [cursorId, setCursorId] = useState('');
   const [modalType, callModal, setModalType] = useRenderModal();
   const setColumns = useSetRecoilState(columnState);
+  const target = useRef<HTMLDivElement>(null);
 
   const setShow = useSetRecoilState(showModalState);
 
-  const getCard = async () => {
-    const { data } = await axiosInstance.get(`cards?size=10&columnId=${id}`);
-
-    setCards(
-      (data.cards as CardInfo[]).sort((a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()),
-    );
+  const getCard = useCallback(async () => {
+    const query = cursorId ? `cursorId=${cursorId}&` : '';
+    const { data } = await axiosInstance.get(`cards?${query}columnId=${id}`);
+    setCards((prev) => [...prev, ...data.cards]);
     setCardNumCount(data.totalCount);
-  };
+    setCursorId(data.cursorId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cursorId]);
   // 할 일 카드 생성 모달 서브밋 함수
   const onSubmitForCreateToDo = async (form: FieldValues) => {
     try {
       const res = await axiosInstance.post('cards', { ...form, dashboardId: +boardId, columnId: +id });
       setCards((prev) => [...(prev || []), res.data]);
       setCardNumCount((prev) => (prev ? prev + 1 : 1));
-    } catch (error) {
-      console.log(error);
     } finally {
       setModalType(null);
     }
   };
   // 할 일 카드 생성 모달 호출 함수
-  const handleRenderCreateTodoModal = (e: React.MouseEvent<HTMLElement>) => {
-    callModal({ name: (e.target as HTMLElement).id, onSubmit: onSubmitForCreateToDo, columnId: id });
+  const handleRenderCreateTodoModal = () => {
+    callModal({ name: '할 일 생성', onSubmit: onSubmitForCreateToDo, columnId: id });
   };
 
   // 칼럼 수정을 위한 서브밋 함수
@@ -59,8 +62,6 @@ export function CardList({ id, title, boardId }: CardListProps) {
     try {
       const res = await axiosInstance.put(`columns/${id}`, { ...form });
       setColumns((oldColumns) => oldColumns.map((column) => (column.id === id ? { ...res.data } : column)));
-    } catch (error) {
-      console.log(error);
     } finally {
       setModalType(null);
     }
@@ -70,7 +71,6 @@ export function CardList({ id, title, boardId }: CardListProps) {
 
   const handleRenderUpdateColumn = () => {
     setShow(true);
-    console.log('왜 안뜨지');
     callModal({
       name: '칼럼 관리',
       onSubmit: onSubmitForUpdateColumn,
@@ -78,14 +78,18 @@ export function CardList({ id, title, boardId }: CardListProps) {
     });
   };
 
-  useEffect(() => {
-    getCard();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  console.log('cards', cards);
+  const onIntersect: IntersectionObserverCallback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.intersectionRatio > 0) {
+        getCard();
+      }
+    });
+  };
+
+  useInfiniteScroll({ target, onIntersect: onIntersect, size: cursorId });
 
   return (
-    <div className='border-gray-20 md:min-w-none flex flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:min-h-screen lg:min-w-[22.125rem] lg:flex-col lg:border-b-0 lg:border-r'>
+    <div className='border-gray-20 md:min-w-none hide-scrollbar flex flex-1 flex-col gap-[1.0625rem] border-b bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r'>
       <div className='flex items-center gap-2'>
         <span
           className={`flex h-2 w-2 items-center justify-center rounded-3xl bg-violet text-[0.75rem] text-white`}
@@ -129,6 +133,7 @@ export function CardList({ id, title, boardId }: CardListProps) {
             </Draggable>
           ))}
       </div>
+      {cursorId !== null && <div className='h-4 flex-shrink-0' ref={target}></div>}
       {modalType}
     </div>
   );

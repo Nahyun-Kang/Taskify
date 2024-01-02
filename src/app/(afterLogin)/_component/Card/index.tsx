@@ -1,13 +1,13 @@
 import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
-import Image from 'next/image';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { useSetRecoilState } from 'recoil';
 import { commentsState, openPopOverState, showModalState } from '@/src/app/_recoil/cardAtom';
-import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
+import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { useSetRecoilState } from 'recoil';
 
 interface CardProps {
   title: string;
@@ -40,27 +40,19 @@ export default function Card({
   const params = useParams();
 
   const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    console.log(data);
-    try {
-      const res = await axiosInstance.post('comments', {
-        ...data,
-        columnId,
-        cardId: id,
-        dashboardId: Number(params.dashboardId),
-      });
-      setComments((prev) => [...(prev ? prev : []), res.data]);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axiosInstance.post('comments', {
+      ...data,
+      columnId,
+      cardId: id,
+      dashboardId: Number(params.dashboardId),
+    });
+    setComments((prev) => [, ...(prev ? prev : []), res.data]);
   };
   // 할 일 카드 상세 모달을 호출하기 위한 함수
-  // const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => { // 모달 테스트를 위해 임시 수정
-  const handleRenderDetaildoModal = () => {
+  const handleRenderDetaildoModal = async () => {
     setIsOpenPopOver(false);
     setShow(true);
     callModal({ name: '할 일 카드 상세', onSubmit: createComment, cardId: id, columnId });
-    // callModal({ name: (e.target as HTMLElement).id, onSubmit: createComment, cardId: id, columnId });
   };
 
   return (
@@ -90,10 +82,11 @@ export default function Card({
               {tags.length > 0 && (
                 <div className='flex flex-wrap gap-[0.375rem]'>
                   {tags.map((tag, index) => (
-                    <Tag size='large' content={tag} key={tag + index} />
+                    <Tag content={tag} key={tag + index} />
                   ))}
                 </div>
               )}
+
               <div className='flex flex-1 justify-between'>
                 <div className='flex items-center gap-[0.375rem]'>
                   <div className='relative h-[0.875rem] w-[0.875rem] md:h-[1.125rem] md:w-[1.125rem]'>
