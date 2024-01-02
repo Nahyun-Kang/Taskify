@@ -9,24 +9,26 @@ import PasswordInput from '@/src/app/_component/InputForm/PasswrdInput';
 import TagInput from '@/src/app/_component/InputForm/TagInput';
 import TextInput from '@/src/app/_component/InputForm/TextInput';
 import { ReactNode } from 'react';
+// import CommentUpdateInput from './commentUpdateInput';
 
 export default function InputForm({
   children,
   onSubmit,
+  mode = 'onChange',
 }: {
   children: ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
+  mode?: 'onChange' | 'onBlur';
 }) {
   // [ ] isLoading으로 disabled
   // const [isLoading, setIsLoading] = useState(false);
-  const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onBlur' });
+  const methods = useForm<FieldValues>({ mode: mode, reValidateMode: mode });
 
   const submit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     // setIsLoading(true);
     try {
       await onSubmit(data);
     } catch (error) {
-      console.log(error);
       // setIsLoading(false);
     } finally {
       // setIsLoading(false);
@@ -49,3 +51,4 @@ InputForm.TextInput = TextInput;
 InputForm.DateInput = DateInput;
 InputForm.TagInput = TagInput;
 InputForm.CommentInput = CommentInput;
+// InputForm.CommentUpdateInput = CommentUpdateInput;

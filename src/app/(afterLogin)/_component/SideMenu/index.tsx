@@ -7,18 +7,33 @@ import addIcon from '@/public/images/add_box_icon.svg';
 import crown from '@/public/images/crown_icon.svg';
 import textLogo from '@/public/logo/logo_text_only.svg';
 import smallLogo from '@/public/logo/nav_logo_small.svg';
-import { getDashboards } from '@/src/app/(afterLogin)/_api/dashboard';
 import IdxIcon from '@/src/app/(afterLogin)/_component/Icons/IdxIcon';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
-import { dashboardState } from '@/src/app/_recoil/dashboardAtoms';
+import { createDashboard, getDashboards } from '@/src/app/_api/Dashboards';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
+import { usePathname, useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
-import { usePathname } from 'next/navigation';
 
 export default function SideMenu() {
+  const [ModalType, callModal] = useRenderModal();
+  const router = useRouter();
   const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
   const pathName = usePathname();
   const currentBoard = pathName.replace('/dashboard/', '');
 
+  const handleCreate = async () => {
+    callModal({
+      name: '새로운 대시보드',
+      onSubmit: async (data) => {
+        const newDashboard = await createDashboard(data);
+        setDashboardData((prev) => {
+          return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
+        });
+        router.push(`/dashboard/${newDashboard.id}`);
+      },
+    });
+  };
   useEffect(() => {
     const fetchDashboard = async () => {
       const data = await getDashboards();
@@ -40,10 +55,15 @@ export default function SideMenu() {
         </Link>
         <div className='m-auto mb-[0.9375rem] flex w-fit items-center'>
           <div className='hidden text-[.75rem] font-bold text-gray50 md:mr-6 md:block lg:mr-[10rem]'>Dash Board</div>
-          <Image src={addIcon} alt='대시보드 추가 버튼' className='h-[1.25rem] w-[1.25rem] cursor-pointer' />
+          <Image
+            src={addIcon}
+            alt='대시보드 추가 버튼'
+            className='h-[1.25rem] w-[1.25rem] cursor-pointer'
+            onClick={handleCreate}
+          />
         </div>
         <div className='m-auto flex w-[2.5rem] flex-col items-center md:m-0 md:w-full md:items-start md:pr-3'>
-          {dashboardData.dashboards.map((item: DashboardProps, idx: number) => {
+          {dashboardData?.dashboards.map((item: DashboardProps, idx: number) => {
             return (
               <Link
                 href={`/dashboard/${item.id}`}
@@ -70,6 +90,7 @@ export default function SideMenu() {
           })}
         </div>
       </div>
+      {ModalType}
     </div>
   );
 }

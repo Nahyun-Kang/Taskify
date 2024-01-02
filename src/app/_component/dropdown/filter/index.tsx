@@ -6,7 +6,8 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
 import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-
+import { useRecoilState } from 'recoil';
+import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
 interface Admin {
   id: number;
   email: string;
@@ -29,6 +30,8 @@ export default function DropdownAndFilter({
   const [assignId, setAssignId] = useState((Number(assignee?.id) as number) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
   const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 인풋에 이름 입력 다하거나 OR 드롭다운 내부에 있는 이름 클릭하면 TRUE가됨+ 인풋이 DIV로 바뀜 (IMG와 이름 가져오기 위해)
   const [dropdownList, setDropdownList] = useState<Admin[] | null>(null);
+
+  const [dashboardId] = useRecoilState(dashboardIdState);
 
   const { register } = useInputField('assigneeUserId', {});
   const { setValue } = useFormContext();
@@ -56,7 +59,6 @@ export default function DropdownAndFilter({
   // 드롭 다운 내 사용자 클릭을 받아서, 담당자로 지정
   const handleOnChangeDropdown = (e: MouseEvent<HTMLSpanElement>, id: number) => {
     const { innerText } = e.target as HTMLElement;
-    console.log(e.target);
     setCurrentValue(innerText);
     setOpenDropdown(false);
     setAssignId(id);
@@ -99,13 +101,14 @@ export default function DropdownAndFilter({
   // 담당자 지정 후 수정을 위해 DIV박스 누르면 INPUT으로 바꾸고, 인풋창에 바로 포커스 (이렇게 안하면 두 번 클릭해야 포커스가 됨)
   useEffect(() => {
     const getMember = async () => {
-      const res = await axiosInstance.get('members?dashboardId=14');
+      const res = await axiosInstance.get(`members?dashboardId=${dashboardId}`);
       const { members } = res.data;
       setDropdownList(members);
     };
 
     getMember();
     // idToNickname();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -115,20 +118,20 @@ export default function DropdownAndFilter({
   }, [isSelectionComplete]);
 
   return (
-    <div className='flex w-[13.5625rem] flex-col items-start gap-[0.625rem]'>
-      <label className='text-[1.125rem] text-black'>담당자</label>
-      <div className='flex flex-col items-start gap-[0.125rem]'>
-        <span className='relative'>
+    <div className='relative flex flex-col items-start gap-[0.625rem] md:w-[13.5625rem] md:text-[1.125rem]'>
+      <label className='text-black'>담당자</label>
+      <div className='flex w-full flex-col items-start gap-[0.125rem]'>
+        <span className='relative w-full'>
           {isSelectionComplete ? (
             <div
               onClick={handleRenderInputBox}
               className={
-                'flex w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem]  py-[0.625rem]  outline-none ' +
+                'flex items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] outline-none  md:w-[13.5625rem] ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
               {assignee ? <Image src={assignee.profileImageUrl} alt='circleLogo' width={26} height={26} /> : null}
-              <span className='text-[1rem]'>{curretValue}</span>
+              <span className='py-[0.625rem] md:text-[1rem]'>{curretValue}</span>
             </div>
           ) : (
             <input
@@ -139,7 +142,7 @@ export default function DropdownAndFilter({
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               className={
-                'flex h-[3rem] w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300  px-[1rem]  py-[0.625rem]  outline-none ' +
+                'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] text-[0.875rem] outline-none md:h-[3rem] md:w-[13.5625rem] md:text-[1rem] ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             />
@@ -153,7 +156,7 @@ export default function DropdownAndFilter({
         {openDropdown && SearchAdminName?.length ? (
           <div
             className={
-              '  z-50 flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none'
+              'absolute top-full z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none'
             }
           >
             {SearchAdminName?.map((admin) => {
@@ -195,7 +198,7 @@ export const AdminOption = ({
   return (
     <>
       {name ? (
-        <div className='  flex items-center gap-[0.375rem]'>
+        <div className='flex items-center gap-[0.375rem]'>
           {assignId === userId ? (
             <Image src={check} alt='check' width={22} height={22} />
           ) : (
@@ -203,7 +206,7 @@ export const AdminOption = ({
           )}
           <div className='flex  gap-[0.5rem]'>
             {profile ? <Image src={profile} alt='circleLogo' width={26} height={26} /> : null}
-            <span onClick={handleSelectDropdown} className='text-[1rem]' id={name}>
+            <span onClick={handleSelectDropdown} id={name} className='text-[0.875rem] md:text-[1rem]'>
               {name}
             </span>
           </div>

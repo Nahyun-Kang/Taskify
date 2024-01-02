@@ -1,10 +1,11 @@
 import Add from '@/src/app/_component/Chip/Add';
 interface AddColumnProps {
   screen: 'desktop' | 'mobile' | 'tablet' | 'free';
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
+  id: string;
 }
 
-export default function AddColumn({ screen = 'desktop', onClick }: AddColumnProps) {
+export default function AddColumn({ screen = 'desktop', onClick, id }: AddColumnProps) {
   const screens = {
     desktop: {
       width: 'w-[22.125rem]',
@@ -33,6 +34,7 @@ export default function AddColumn({ screen = 'desktop', onClick }: AddColumnProp
     <button
       className={`flex ${width} ${height} items-center justify-center gap-[0.75rem] rounded-[0.25rem] bg-white ${fontSize} border border-gray30 font-bold text-black80`}
       onClick={onClick}
+      id={id}
     >
       새로운 컬럼 추가하기
       <Add size={iconSize} />

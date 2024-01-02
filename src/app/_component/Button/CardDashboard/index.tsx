@@ -2,15 +2,16 @@ import arrow from '@/public/icons/arrow_forward_icon.svg';
 import crown from '@/public/icons/crown_icon.svg';
 import IdxIcon from '@/src/app/(afterLogin)/_component/Icons/IdxIcon';
 import Image from 'next/image';
+import Link from 'next/link';
 interface CardDashboardProps {
   screen: 'desktop' | 'mobile' | 'tablet' | 'free';
   title: string;
   color: string;
   createdByMe: boolean;
-  onClick: () => void;
+  id: number;
 }
 
-export default function CardDashboard({ screen = 'desktop', title, color, createdByMe, onClick }: CardDashboardProps) {
+export default function CardDashboard({ screen = 'desktop', title, color, createdByMe, id }: CardDashboardProps) {
   const screens = {
     desktop: {
       width: 'w-[20.75rem]',
@@ -53,9 +54,9 @@ export default function CardDashboard({ screen = 'desktop', title, color, create
   const { width, height, fontSize, image } = screens[screen];
 
   return (
-    <button
+    <Link
+      href={`/dashboard/${id}`}
       className={`flex ${width} ${height} items-center justify-between rounded-[0.5rem] bg-white ${fontSize} border border-gray30 p-[1.875rem] font-semibold text-black80`}
-      onClick={onClick}
     >
       <div className=' flex items-center justify-center'>
         <IdxIcon color={color} className='mr-[0.75rem] h-[0.5rem] w-[0.5rem] rounded-[0.25rem] ' />
@@ -65,6 +66,6 @@ export default function CardDashboard({ screen = 'desktop', title, color, create
         )}
       </div>
       <Image width={18} height={18} src={arrow.src} alt='화살표' />
-    </button>
+    </Link>
   );
 }

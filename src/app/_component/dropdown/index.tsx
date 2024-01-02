@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { MouseEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import circle from '@/public/icons/Ellipse 54.svg';
+import { useRecoilState } from 'recoil';
+import { dashboardIdState } from '../../_recoil/cardAtom';
 interface Column {
   id: number;
   title: string;
@@ -22,6 +24,7 @@ export default function Dropdown({ column }: { column?: number }) {
   const [curretValue, setCurrentValue] = useState<string>(''); // 인풋에 대한 입력값 참조
   const [columnId, setColumnId] = useState<number | null>(Number(column) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
   const [dropdownList, setDropdownList] = useState<Column[] | null>(null);
+  const [dashboardId] = useRecoilState(dashboardIdState);
 
   const { register } = useInputField('columnId', {});
   const { setValue } = useFormContext();
@@ -44,7 +47,7 @@ export default function Dropdown({ column }: { column?: number }) {
 
   useEffect(() => {
     const getMember = async () => {
-      const res = await axiosInstance.get('columns?dashboardId=14');
+      const res = await axiosInstance.get(`columns?dashboardId=${dashboardId}`);
       const { data } = res.data;
       if (column) {
         const MemberForUpdate: Column[] = data?.filter((dropdown: Column) => {
@@ -58,26 +61,27 @@ export default function Dropdown({ column }: { column?: number }) {
     };
 
     getMember();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [column]);
-  console.log(columnId);
+
   return (
-    <div className='flex h-[3rem] w-[13.5625rem] flex-col items-start gap-[0.625rem]'>
-      <label className='text-[1.125rem] text-black'>상태</label>
-      <div className='flex h-[3rem] flex-col items-start  gap-[0.125rem]'>
-        <span className='relative  h-[3rem]'>
+    <div className='relative flex w-full flex-col items-start gap-[0.625rem] md:w-[13.5625rem]'>
+      <label className='text-black md:text-[1.125rem]'>상태</label>
+      <div className='flex w-full flex-col items-start gap-[0.125rem]'>
+        <span className='relative h-[3rem] w-full'>
           <div
             className={
-              'flex h-[3rem] w-[13.5625rem] items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300  px-[1rem]  py-[0.625rem]  outline-none ' +
+              'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none md:h-[3rem] md:w-[13.5625rem]' +
               (focus ? 'border-violet' : 'border-gray-300')
             }
           >
             {dropdownList?.filter((dropdown) => {
               dropdown.title === curretValue;
             }) ? (
-              <div className='flex items-center rounded-[0.6875rem] border bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
+              <div className='flex items-center rounded-full bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
                 <div className='flex gap-[0.375rem]'>
                   <Image src={circle} alt='circle' width={6} height={6} />
-                  <span className='text-[1rem]'>{curretValue}</span>
+                  <span className='text-[0.625rem] text-violet md:text-[0.75rem]'>{curretValue}</span>
                 </div>
               </div>
             ) : (
@@ -94,7 +98,7 @@ export default function Dropdown({ column }: { column?: number }) {
         {openDropdown ? (
           <div
             className={
-              'absoulte z-50 flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none'
+              'absolute top-[100%] z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none'
             }
           >
             {dropdownList?.map((column) => {
@@ -139,10 +143,10 @@ export const ColumnOption = ({
           ) : (
             <div className='w-[1.375rem]'></div>
           )}
-          <div className='flex items-center rounded-[0.6875rem] border bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
+          <div className='flex items-center rounded-full bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
             <div className='flex gap-[0.375rem]'>
               <Image src={circle} alt='circle' width={6} height={6} />
-              <span onClick={handleSelectDropdown} className='text-[1rem]' id={name}>
+              <span onClick={handleSelectDropdown} className='text-[0.625rem] text-violet md:text-[0.75rem]' id={name}>
                 {name}
               </span>
             </div>

@@ -58,6 +58,7 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           setModalType={setModalType}
           btnSize='large'
           sign={false}
+          size='large'
         />
       );
     case '할 일 수정':
@@ -71,6 +72,8 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           sign={false}
           cardId={cardId}
           cardData={cardData}
+          columnId={columnId}
+          size='large'
         />
       );
     case '새로운 대시보드':
@@ -79,17 +82,6 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           onSubmit={onSubmit as SubmitHandler<FieldValues>}
           createDashboard
           btnName='생성'
-          setModalType={setModalType}
-          btnSize='large'
-          sign={false}
-        />
-      );
-    case '현재 비밀번호가 틀렸습니다.':
-      return (
-        <Modal
-          onSubmit={onSubmit as SubmitHandler<FieldValues>}
-          wrongPW
-          btnName='확인'
           setModalType={setModalType}
           btnSize='large'
           sign={false}
@@ -116,6 +108,7 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           btnSize='large'
           sign={false}
           cardId={cardId}
+          columnId={columnId}
         />
       );
     case '가입이 완료되었습니다!':
@@ -160,6 +153,18 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           setModalType={setModalType}
           btnSize='large'
           sign={false}
+        />
+      );
+    default:
+      return (
+        <Modal
+          onSubmit={onSubmit as SubmitHandler<FieldValues>}
+          base
+          btnName='확인'
+          setModalType={setModalType}
+          btnSize='large'
+          sign={true}
+          content={name}
         />
       );
   }

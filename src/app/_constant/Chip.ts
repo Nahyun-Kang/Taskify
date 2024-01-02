@@ -9,13 +9,6 @@ export const STATUS = {
   DONE: 'Done',
 };
 
-export const TAG = {
-  PROJECT: '프로젝트',
-  NORMAL: '일반',
-  BACKEND: '백엔드',
-  HIGH: '상',
-};
-
 export const COLORS: ColorsProp[] = [
   {
     id: 1,

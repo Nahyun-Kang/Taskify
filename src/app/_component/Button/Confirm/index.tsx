@@ -2,27 +2,31 @@ import { MouseEvent } from 'react';
 import { useFormContext } from 'react-hook-form';
 interface ConfirmProps {
   size: 'large' | 'small' | 'free';
-  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   btnName: string;
 }
 export default function Confirm({ size, onClick, btnName }: ConfirmProps) {
   const {
+    getValues,
     formState: { isValid },
   } = useFormContext();
   const sizes = {
-    large: 'w-[7.5rem] h-[3rem] py-[0.875rem] px-[2.875rem]',
-    small: 'w-[8.625rem] h-[2.625rem] py-[0.75rem] px-[3.5rem] text-[0.875rem]',
-    free: 'w-full h-full me:text-[0.875rem] text-[0.75rem]',
+    large: {
+      width: 'w-[8.625rem] md:w-[7.5rem]',
+      height: 'md:h-[3rem] h-[2.625rem]',
+      paddingY: 'md:py-[0.875rem] py-3',
+    },
+    small: { width: 'w-[8.625rem]', height: 'h-[2.625rem]', paddingY: 'py-[0.75rem]' },
+    free: { width: 'w-full', height: 'h-full', paddingY: 'py-[0.75rem]' },
   };
+  const { width, height, paddingY } = sizes[size];
   return (
-    <>
-      <button
-        className={`flex items-center justify-center rounded-[0.5rem]  bg-violet ${sizes[size]} text-white disabled:bg-gray40`}
-        onClick={onClick}
-        disabled={!isValid}
-      >
-        {btnName}
-      </button>
-    </>
+    <button
+      className={`flex items-center justify-center rounded-[0.5rem] bg-violet ${paddingY} ${height} ${width} text-[0.8125rem] text-white disabled:bg-gray40 md:text-[1rem]`}
+      onClick={onClick}
+      disabled={getValues('isDisabled') || getValues('isDisabled2') || !isValid}
+    >
+      {btnName}
+    </button>
   );
 }
