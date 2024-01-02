@@ -40,27 +40,19 @@ export default function Card({
   const params = useParams();
 
   const createComment: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    console.log(data);
-    try {
-      const res = await axiosInstance.post('comments', {
-        ...data,
-        columnId,
-        cardId: id,
-        dashboardId: Number(params.dashboardId),
-      });
-      setComments((prev) => [...(prev ? prev : []), res.data]);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axiosInstance.post('comments', {
+      ...data,
+      columnId,
+      cardId: id,
+      dashboardId: Number(params.dashboardId),
+    });
+    setComments((prev) => [, ...(prev ? prev : []), res.data]);
   };
   // 할 일 카드 상세 모달을 호출하기 위한 함수
-  // const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => { // 모달 테스트를 위해 임시 수정
-  const handleRenderDetaildoModal = () => {
+  const handleRenderDetaildoModal = async () => {
     setIsOpenPopOver(false);
     setShow(true);
     callModal({ name: '할 일 카드 상세', onSubmit: createComment, cardId: id, columnId });
-    // callModal({ name: (e.target as HTMLElement).id, onSubmit: createComment, cardId: id, columnId });
   };
 
   return (
@@ -90,7 +82,7 @@ export default function Card({
               {tags.length > 0 && (
                 <div className='flex flex-wrap gap-[0.375rem]'>
                   {tags.map((tag, index) => (
-                    <Tag size='large' content={tag} key={tag + index} />
+                    <Tag content={tag} key={tag + index} />
                   ))}
                 </div>
               )}

@@ -22,7 +22,9 @@ export default function TagInput({
   const { errorMessage, setValue } = useInputField(id, validationRules);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputText(e.target.value);
+    if (e.target.value.length < 11) {
+      setInputText(e.target.value);
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -57,7 +59,7 @@ export default function TagInput({
         <div className={`left-4 flex min-h-[1.5rem] flex-wrap items-center gap-[0.375rem]`}>
           {tags.map((tag, index) => (
             <div key={index} className='group flex cursor-pointer content-between items-center'>
-              <Tag size='large' content={tag} />
+              <Tag content={tag} />
               <button type='button' onClick={() => deleteTag(index)} className='hidden group-hover:block'>
                 <CloseIcon />
               </button>
