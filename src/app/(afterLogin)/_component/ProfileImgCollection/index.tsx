@@ -30,7 +30,7 @@ export default function ProfileCollection({ dashboardId, userId }: Props) {
   };
 
   const getMemeberList = async () => {
-    const result = await getMembers(dashboardId, 1, 5);
+    const result = await getMembers(dashboardId, 1, 6);
     setMembers(result.members);
     setTotalCount(result.totalCount);
   };
