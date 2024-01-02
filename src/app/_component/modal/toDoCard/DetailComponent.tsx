@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import kebab from '@/public/icons/kebab.svg';
 import close from '@/public/icons/close_icon.svg';
-import line from '@/public/icons/line.svg';
 import React, { useState } from 'react';
 import Tag from '@/src/app/_component/Chip/Tag';
 import { ToDoCardDetailProps } from '.';

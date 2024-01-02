@@ -4,7 +4,6 @@ import Cancel from '@/src/app/_component/Button/Cancel';
 import Confirm from '@/src/app/_component/Button/Confirm';
 import InputForm from '@/src/app/_component/InputForm';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { columnState, showModalState } from '@/src/app/_recoil/cardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { showColumnModalState, columnState } from '@/src/app/_recoil/cardAtom';
@@ -119,7 +118,6 @@ export function DeleteColumn({ mainTitle, btnName, btnSize, onClose, columnId }:
   const modalRef = useRef<HTMLDivElement>(null);
   const modalOutSideClick = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current === e.target) {
-      console.log(modalRef.current);
       onClose();
     }
   };

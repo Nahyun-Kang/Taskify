@@ -1,4 +1,6 @@
 'use client';
+import { useState, useEffect } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 import InputForm from '@/src/app/_component/InputForm';
 import Dropdown from '@/src/app/_component/dropdown';
@@ -10,6 +12,7 @@ import {
   DetailMainContent,
 } from '@/src/app/_component/modal/toDoCard/DetailComponent';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { cardStateAboutColumn } from '@/src/app/_recoil/cardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import {
@@ -21,13 +24,14 @@ import {
 } from '@/src/app/_recoil/cardAtom';
 import { usePutCard } from '@/src/app/_hook/usePutCard';
 import { useRef } from 'react';
-
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import CommentInput from '../../InputForm/CommentInput';
 import useObserver from '@/src/app/_hook/useObserver';
 import { SkeletonUIAboutComments } from './SkeletonForComments';
 import { useCallback } from 'react';
 import { isAxiosError } from 'axios';
+
 interface TodoProps {
   mainTitle: string;
 }
@@ -204,10 +208,9 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
     }
   };
 
-  const handleKebab = (e: React.MouseEvent<HTMLElement>e: React.MouseEvent<HTMLDivElement>) => {
+  const handleKebab = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    {
-    e.stopPropagation();
+
     setIsOpenPopOver((prev) => !prev);
   };
 
@@ -232,7 +235,6 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
     }
   };
 
-  };
   // 할 일 카드 상세 모달 마운트 시 해당 카드 및 댓글 데이터바인딩
   useEffect(() => {
     handleRenderCard();
@@ -253,7 +255,6 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
 
   if (!cardData) return;
 
-
   if (!show) {
     return <>{modalType}</>;
   }
@@ -266,54 +267,59 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
         <>
           <div onClick={modalOutSideClick}>
             <div
-              ref={modalRef} className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'>
-            <div
-              className='hide-scrollbar relative flex h-[75%] flex-col gap-4 overflow-scroll rounded-lg border bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:gap-6 md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
-              onClick={handleKebabClose}
+              ref={modalRef}
+              className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'
             >
-              <DetailIconButton
-                handleKebab={handleKebab}
-                onUpdate={RenderUpdatedoModal}
-                onDelete={RenderDeleteModal}
-                isOpenPopOver={isOpenPopOver}
-                onClose={onClose}
-                cardData={cardData}
-              />
-              <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
-              <div className='flex flex-col-reverse justify-between md:flex-row'>
-                <div className='md:w-[26.25rem] lg:w-[28.125rem]'>
-                  <DetailMainContent columnId={columnId} tags={cardData.tags} description={cardData.description} />
-                  
-                  <div className='mb-[1.1875rem] flex sm:w-[17.9375rem] md:mb-6 md:w-full'>
-                    {cardData.imageUrl && (
-                      <Image
-                        sizes='100vw'
-                        width={100}
-                        height={100}
-                        style={{ width: '100%', height: 'auto' }}
-                        src={cardData.imageUrl}
-                        alt='imageUrl'
-                        priority
-                      />
-                    )}
+              <div
+                className='hide-scrollbar relative flex h-[75%] flex-col gap-4 overflow-scroll rounded-lg border bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:py-[2.5rem] md:w-[42.5rem] md:gap-6 md:px-[1.75rem] md:py-[2rem] lg:w-[45.625rem]'
+                onClick={handleKebabClose}
+              >
+                <DetailIconButton
+                  handleKebab={handleKebab}
+                  onUpdate={RenderUpdatedoModal}
+                  onDelete={RenderDeleteModal}
+                  isOpenPopOver={isOpenPopOver}
+                  onClose={onClose}
+                  cardData={cardData}
+                />
+                <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
+                <div className='flex flex-col-reverse justify-between md:flex-row'>
+                  <div className='md:w-[26.25rem] lg:w-[28.125rem]'>
+                    <DetailMainContent columnId={columnId} tags={cardData.tags} description={cardData.description} />
+
+                    <div className='mb-[1.1875rem] flex sm:w-[17.9375rem] md:mb-6 md:w-full'>
+                      {cardData.imageUrl && (
+                        <Image
+                          sizes='100vw'
+                          width={100}
+                          height={100}
+                          style={{ width: '100%', height: 'auto' }}
+                          src={cardData.imageUrl}
+                          alt='imageUrl'
+                          priority
+                        />
+                      )}
+                    </div>
+                    <CommentInput
+                      id='content'
+                      placeholder='댓글을 입력해주세요'
+                      onChange={(e) => setCommentValue((e.target as HTMLInputElement).value)}
+                      label='댓글'
+                      onSubmit={createComment}
+                      value={commentValue}
+                    ></CommentInput>
+                    {isLoading ? (
+                      <SkeletonUIAboutComments />
+                    ) : comments && Array.isArray(comments) ? (
+                      [...comments].map((comment, index) => (
+                        <DetailCardComment key={comment?.id || `comment-${index}`} data={comment} />
+                      ))
+                    ) : null}
+
+                    {nowCursorId === null ? null : <div ref={target}></div>}
                   </div>
-                  <CommentInput
-                    id='content'
-                    placeholder='댓글을 입력해주세요'
-                    onChange={(e) => setCommentValue((e.target as HTMLInputElement).value)}
-                    label='댓글'
-                    onSubmit={createComment}
-                    value={commentValue}
-                  ></CommentInput>
-                  {isLoading ? (
-                    <SkeletonUIAboutComments />
-                  ) : comments && Array.isArray(comments) ? (
-                    [...comments].map((comment, index) => (
-                      <DetailCardComment key={comment?.id || `comment-${index}`} data={comment} />
-                    ))
-                  ) : null}
-                  {nowCursorId === null ? null : <div ref={target}></div>}
-                <DetailAssignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
+                  <DetailAssignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
+                </div>
               </div>
             </div>
           </div>
