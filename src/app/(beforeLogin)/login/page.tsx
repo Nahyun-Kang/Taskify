@@ -3,7 +3,7 @@ import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { signIn } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
 import Sign from '@/src/app/_component/Button/Sign';
 import InputForm from '@/src/app/_component/InputForm';
@@ -12,33 +12,28 @@ import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { accessTokenState, userInfoState } from '@/src/app/_recoil/AuthAtom';
-import { generateCsrfToken } from '../../api/auth/[...nextauth]/csrf';
+import { getAccessToken } from '../../_util/getAccessToken';
 
 export default function LogIn() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
   const setUserInfo = useSetRecoilState(userInfoState);
   const setToken = useSetRecoilState(accessTokenState);
   const [modalType, callModal] = useRenderModal();
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const values = methods.watch();
   const handleSubmit = methods.handleSubmit;
 
-  const csrfToken = generateCsrfToken();
-
   const handleLogin = async () => {
+    setIsLoading(true);
     try {
-      // const res = await signIn('credentials', {
-      //   username: values.email,
-      //   password: values.password,
-      //   redirect: false,
-      // });
-      // console.log(res);
       const res = await axiosInstance.post('auth/login', values);
       const userInfo = res.data.user;
       const accessToken = res.data.accessToken;
       setToken(accessToken);
       setUserInfo(userInfo);
       router.push('/myboard');
+      setIsLoading(false);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const response = error.response;
@@ -47,8 +42,17 @@ export default function LogIn() {
           callModal({ name: response.data.message, onSubmit: () => {} });
         }
       }
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      router.push('/myboard');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <AuthLayout message={AUTH_MESSAGE.logIn}>
@@ -60,14 +64,13 @@ export default function LogIn() {
           className='w-full'
           noValidate
         >
-          <input type='hidden' name='_csrf' value={csrfToken}></input>
           <div className='mb-[1rem]'>
             <InputForm.EmailInput label='이메일' placeholder='이메일을 입력해 주세요' id='email' />
           </div>
           <div className='mb-[1.25rem]'>
             <InputForm.PasswordInput label='비밀번호' placeholder='비밀번호를 입력해 주세요' id='password' />
           </div>
-          <Sign size='small' isActive={true} type='submit' />
+          <Sign size='small' isActive={!isLoading} type='submit' />
         </form>
         {modalType}
       </FormProvider>

@@ -1,10 +1,10 @@
 'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
+import { getAccessToken } from '@/src/app/_util/getAccessToken';
 import DashboardList from '@/src/app/(afterLogin)/_component/DashboardList';
 import InvitationDashboard from '@/src/app/(afterLogin)/_component/InvitationDashboard';
-import { useEffect } from 'react';
-import { getAccessToken } from '../../_util/axiosInstance';
-import { useRouter } from 'next/navigation';
 
 export default function MyBoard() {
   const router = useRouter();
