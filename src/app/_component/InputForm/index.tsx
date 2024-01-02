@@ -8,7 +8,7 @@ import PasswordCheck from '@/src/app/_component/InputForm/PasswordCheck';
 import PasswordInput from '@/src/app/_component/InputForm/PasswrdInput';
 import TagInput from '@/src/app/_component/InputForm/TagInput';
 import TextInput from '@/src/app/_component/InputForm/TextInput';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 // import CommentUpdateInput from './commentUpdateInput';
 
 export default function InputForm({
@@ -34,6 +34,12 @@ export default function InputForm({
       // setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (methods.formState.isSubmitSuccessful) {
+      methods.reset();
+    }
+  }, [methods.formState.isSubmitSuccessful, methods]);
 
   return (
     <FormProvider {...methods}>
