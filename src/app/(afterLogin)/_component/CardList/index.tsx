@@ -118,7 +118,7 @@ export function CardList({ id, title, boardId }: CardListProps) {
   }, [setCards]);
 
   return (
-    <div className='border-gray-20 md:min-w-none hide-scrollbar flex flex-1 flex-col gap-[1.0625rem] border-b bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r'>
+    <div className='md:min-w-none hide-scrollbar flex flex-1 flex-col gap-[1.0625rem] bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll'>
       <div className='flex items-center gap-2'>
         <span
           className={`flex h-2 w-2 items-center justify-center rounded-3xl bg-violet text-[0.75rem] text-white`}
