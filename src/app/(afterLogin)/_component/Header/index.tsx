@@ -115,9 +115,9 @@ export default function Header() {
             </div>
           </div>
         </div>
+        {isActiveDropdown && <HeaderDropdown isActive={isActiveDropdown} onClick={handlePopUpDropdown} />}
       </div>
       {ModalType}
-      {isActiveDropdown && <HeaderDropdown isActive={isActiveDropdown} onClick={handlePopUpDropdown} />}
     </div>
   );
 }
