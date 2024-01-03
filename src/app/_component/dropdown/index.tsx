@@ -137,7 +137,7 @@ export const ColumnOption = ({
   return (
     <>
       {name ? (
-        <div className=' flex items-center gap-[0.375rem]'>
+        <div className=' flex items-center gap-[0.375rem]' onClick={handleSelectDropdown}>
           {columnId === id ? (
             <Image src={check} alt='check' width={22} height={22} />
           ) : (
@@ -146,7 +146,7 @@ export const ColumnOption = ({
           <div className='flex items-center rounded-full bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
             <div className='flex gap-[0.375rem]'>
               <Image src={circle} alt='circle' width={6} height={6} />
-              <span onClick={handleSelectDropdown} className='text-[0.625rem] text-violet md:text-[0.75rem]' id={name}>
+              <span className='text-[0.625rem] text-violet md:text-[0.75rem]' id={name}>
                 {name}
               </span>
             </div>

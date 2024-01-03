@@ -143,7 +143,14 @@ export default function DropdownAndFilter({
               }
             >
               {assignee?.profileImageUrl || imageValue ? (
-                <Image src={assignee?.profileImageUrl || imageValue} alt='circleLogo' width={26} height={26} />
+                <div className=' relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
+                  <Image
+                    src={assignee?.profileImageUrl || imageValue}
+                    alt='circleLogo'
+                    fill
+                    style={{ borderRadius: '50%' }}
+                  />
+                </div>
               ) : (
                 <DefaultProfile nickName={curretValue} index={assignId as number} />
               )}
@@ -213,7 +220,7 @@ export const AdminOption = ({
   profile,
   setImageValue,
 }: {
-  onClick: (e: MouseEvent<HTMLSpanElement>, userId: number) => void;
+  onClick: (e: MouseEvent<HTMLElement>, userId: number) => void;
   name: string;
   userId: number;
   assignId: number;
@@ -227,7 +234,7 @@ export const AdminOption = ({
   return (
     <>
       {name ? (
-        <div className='flex items-center gap-[0.375rem]'>
+        <div onClick={handleSelectDropdown} className='flex items-center gap-[0.375rem]'>
           {assignId === userId ? (
             <Image src={check} alt='check' width={22} height={22} />
           ) : (
@@ -235,11 +242,13 @@ export const AdminOption = ({
           )}
           <div className='flex  items-center justify-center gap-[0.5rem]'>
             {profile !== null ? (
-              <Image src={profile} alt='circleLogo' width={26} height={26} />
+              <div className=' relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
+                <Image src={profile} alt='circleLogo' fill style={{ borderRadius: '50%' }} />
+              </div>
             ) : (
               <DefaultProfile nickName={name} index={userId} />
             )}
-            <span onClick={handleSelectDropdown} className='text-[0.875rem] text-[1rem] md:text-[1rem]' id={name}>
+            <span className='text-[0.875rem] text-[1rem] md:text-[1rem]' id={name}>
               {name}
             </span>
           </div>
