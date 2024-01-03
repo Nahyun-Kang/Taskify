@@ -48,6 +48,7 @@ export default function AddImageFile({ size = 'big', profileImageUrl = '', colum
 
   useEffect(() => {
     setValue('profileImageUrl', profileImageUrl);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

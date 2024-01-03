@@ -4,7 +4,6 @@ import { ReactElement } from 'react';
 import arrowBack from '@/public/icons/arrow_backward_icon.svg';
 
 export default function EditLayout({ children, dashboardId = '' }: { children: ReactElement; dashboardId?: string }) {
-  console.log('daid: ', dashboardId);
   const href = dashboardId === '' ? '/myboard' : `/dashboard/${dashboardId}`;
   return (
     <div className='mt-[4.375rem] w-full px-3 pt-4 md:p-5'>
