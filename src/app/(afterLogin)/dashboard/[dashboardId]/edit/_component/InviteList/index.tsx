@@ -58,7 +58,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   }, [page, dashboardId]);
 
   return (
-    <div className='item-center flex w-full flex-col gap-[1.25rem] p-[1.75rem]'>
+    <div className='item-center flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem]'>
       <div className='flex'>
         <div className='grid flex-none grid-rows-2 md:w-auto md:grid-flow-col md:gap-[1.5rem]'>
           <p className='h-10 w-full text-[1.25rem] font-bold text-black md:flex md:h-[2.5rem] md:text-[1.5rem]'>

@@ -24,7 +24,7 @@ export default function EditBoard({ dashboardId }: EditBoardProps) {
 
   return (
     <InputForm onSubmit={(data: FieldValues) => handleUpdate(data)}>
-      <div className='item-center flex max-h-[16rem] w-full flex-col gap-[1.25rem] rounded-[0.5rem] p-[1.75rem]'>
+      <div className='item-center flex max-h-[16rem] w-full flex-col gap-[1.25rem] rounded-[0.5rem] bg-white p-[1.75rem]'>
         {selectDashboard && (
           <div className='flex w-full justify-between'>
             <p className='text-[1.25rem] font-bold text-black'>{selectDashboard.title}</p>

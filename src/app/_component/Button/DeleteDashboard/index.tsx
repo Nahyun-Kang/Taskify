@@ -38,7 +38,7 @@ export default function DeleteDashboard({ screen = 'desktop', onClick }: DeleteD
 
   return (
     <button
-      className={`flex ${width} ${height} items-center justify-center rounded-[0.5rem] bg-gray10 ${fontSize} border border-gray30 font-medium text-black80 ${paddingX} ${paddingY}`}
+      className={`flex ${width} ${height} items-center justify-center rounded-[0.5rem] bg-gray10 ${fontSize} border border-gray30 font-medium text-black80 ${paddingX} ${paddingY} my-[1.0625rem]`}
       onClick={onClick}
     >
       대시보드 삭제하기
