@@ -143,7 +143,9 @@ export default function DropdownAndFilter({
               }
             >
               {assignee?.profileImageUrl || imageValue ? (
-                <Image src={assignee?.profileImageUrl || imageValue} alt='circleLogo' width={26} height={26} />
+                <div className='rounded-full sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
+                  <Image src={assignee?.profileImageUrl || imageValue} alt='circleLogo' fill />
+                </div>
               ) : (
                 <DefaultProfile nickName={curretValue} index={assignId as number} />
               )}
