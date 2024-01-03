@@ -80,10 +80,10 @@ export function DetailMainContent({
   return (
     <>
       <div className='flex gap-[1.25rem]'>
-        <div className=' flex items-center gap-[1.25rem] text-[0.625rem] md:text-[0.75rem]'>
+        <div className=' flex items-start gap-[1.25rem] text-[0.625rem] md:text-[0.75rem]'>
           <span>
             {
-              <div className='flex items-center rounded-[6.25rem] bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
+              <div className='flex flex-shrink-0 items-center rounded-[6.25rem] bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
                 <div className='flex gap-[0.375rem] overflow-hidden'>
                   <Image src={circle} alt='circle' width={6} height={6} priority />
                   <span className='whitespace-nowrap'>{newColumn?.title}</span>
@@ -91,9 +91,9 @@ export function DetailMainContent({
               </div>
             }
           </span>
-          <span className='h-5 w-0 border-[0.0625rem] border-gray30'></span>
+          {tags.length !== 0 && <span className='h-5 w-0 border-[0.0625rem] border-gray30' />}
         </div>
-        <div className='flex flex-nowrap gap-[0.375rem]'>
+        <div className='flex flex-wrap gap-[0.375rem]'>
           {tags.map((tag) => (
             <Tag content={tag} key={tag} />
           ))}
