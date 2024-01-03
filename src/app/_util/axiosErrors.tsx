@@ -1,6 +1,5 @@
 import {
   authErrorMessages,
-  columnsErrorMessages,
   commentsErrorMessages,
   dashboardErrorMessages,
   invitationsErrorMessages,
@@ -19,11 +18,6 @@ export default function axiosErrors({ method, url, status }: axiosErrorProps) {
   if (url.startsWith('auth')) {
     alertParams.errorMessage = authErrorMessages({ method, url, status });
     alertParams.area = '인증';
-  }
-
-  if (url.startsWith('columns')) {
-    alertParams.errorMessage = columnsErrorMessages({ method, url, status });
-    alertParams.area = '컬럼';
   }
 
   if (url.startsWith('comments')) {
