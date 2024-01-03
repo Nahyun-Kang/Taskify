@@ -6,6 +6,9 @@ import CancelInvite from '@/src/app/_component/Button/CancelInvite';
 import { deleteInvitation, getInvitations } from '@/src/app/_api/Dashboards';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import submitInvitation from '@/src/app/(afterLogin)/_util/submitInvitation';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { useRecoilState } from 'recoil';
+import { inviteListChange } from '@/src/app/_recoil/dashboardAtom';
 
 interface InviteListProps {
   id: number;
@@ -23,6 +26,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [modalType, callModal, setModalType] = useRenderModal();
+  const [isChange, setIsChange] = useRecoilState(inviteListChange);
 
   const handlePageNation = (direction: 'back' | 'forward') => {
     if (direction === 'back') {
@@ -33,13 +37,13 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   };
 
   const handleInvite = () => {
-    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType) });
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType, setIsChange) });
   };
 
-  const handleCancelInvite = (inviteId: number) => {
-    const result = deleteInvitation(dashboardId, inviteId);
+  const handleCancelInvite = async (inviteId: number) => {
+    const result = deleteInvitation(dashboardId, inviteId, setIsChange);
     if (!result) return;
-    setInviteList((prevInvitation) => prevInvitation.filter((invite: InviteListProps) => invite.id !== inviteId));
+    // setInviteList((prevInvitation) => prevInvitation.filter((invite: InviteListProps) => invite.id !== inviteId));
   };
 
   useEffect(() => {
@@ -55,7 +59,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
     };
 
     getInviteList(page, 4);
-  }, [page, dashboardId]);
+  }, [page, dashboardId, isChange]);
 
   return (
     <div className='item-center flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem]'>

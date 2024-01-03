@@ -5,6 +5,7 @@ import { FieldValues } from 'react-hook-form';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { dashboardSelector, dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { updateDashboard } from '@/src/app/_api/Dashboards';
+import { dashboardTitleValidate } from '@/src/app/_constant/Input';
 
 interface EditBoardProps {
   dashboardId: string | undefined;
@@ -31,9 +32,14 @@ export default function EditBoard({ dashboardId }: EditBoardProps) {
             <SelectColor selectedColor={selectDashboard.color} />
           </div>
         )}
-        <InputForm.TextInput label='대시보드 이름' placeholder='변경할 대시보드 이름을 입력해주세요.' id='editBoard' />
+        <InputForm.TextInput
+          label='대시보드 이름'
+          placeholder='변경할 대시보드 이름을 입력해주세요.'
+          id='editBoard'
+          validationRules={dashboardTitleValidate}
+        />
         <div className='flex justify-end'>
-          <Confirm size='large' btnName='변경' />
+          <Confirm size='small' btnName='변경' />
         </div>
       </div>
     </InputForm>
