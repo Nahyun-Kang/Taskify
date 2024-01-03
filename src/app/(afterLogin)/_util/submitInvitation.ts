@@ -1,5 +1,5 @@
 import { isAxiosError } from 'axios';
-import { axiosInstance } from '../../_util/axiosInstance';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { FieldValues } from 'react-hook-form';
 import { Dispatch, SetStateAction, ReactElement, JSXElementConstructor } from 'react';
 export default function submitInvitation(

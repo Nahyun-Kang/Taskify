@@ -72,7 +72,6 @@ export default function DashboardList() {
 
     getDashboardList(page, 5);
   }, [page]);
-
   return (
     <div className='flex w-full flex-col gap-2 bg-gray10 md:gap-6'>
       <div className='flex flex-col gap-2 md:gap-3'>
