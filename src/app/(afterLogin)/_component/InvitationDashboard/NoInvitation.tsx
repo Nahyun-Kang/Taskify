@@ -1,4 +1,4 @@
-import NoInvitationIcon from '../Icons/NoInvitationIcon';
+import NoInvitationIcon from '@/src/app/(afterLogin)/_component/Icons/NoInvitationIcon';
 
 export default function NoInvitation() {
   return (

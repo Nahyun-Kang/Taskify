@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Profile from './ProfileImg';
+import Profile from '@/src/app/(afterLogin)/_component/ProfileImgCollection/ProfileImg';
 import { memberType } from '@/src/app/(afterLogin)/_constant/type';
 import { getMembers } from '@/src/app/_api/Dashboards';
 

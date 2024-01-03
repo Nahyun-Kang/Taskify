@@ -1,7 +1,7 @@
 'use client';
 import { ReactNode } from 'react';
-import Header from './_component/Header';
-import SideMenu from './_component/SideMenu';
+import Header from '@/src/app/(afterLogin)/_component/Header';
+import SideMenu from '@/src/app/(afterLogin)/_component/SideMenu';
 
 export default function AfterLoginLayout({ children }: { children: ReactNode }) {
   return (

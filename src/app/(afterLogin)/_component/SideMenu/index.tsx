@@ -57,7 +57,7 @@ export default function SideMenu() {
   }, [modalType]);
 
   return (
-    <div className='fixed z-10'>
+    <div className='fixed z-[11]'>
       <div className='h-screen w-[4.1875rem] border-r-[.0625rem] bg-white pt-[1.1875rem] md:w-[10rem] md:pl-[0.75rem] lg:w-[18.75rem]'>
         <Link href='/myboard'>
           <div className='mb-[2.4294rem] flex items-center justify-center md:mb-[3.7456rem] md:justify-start'>
@@ -84,7 +84,7 @@ export default function SideMenu() {
                   item.id === Number(currentBoard) ? 'bg-violet8' : ''
                 } flex h-[2.5rem] w-full items-center justify-center  rounded md:h-[2.6875rem] md:justify-start md:pl-[0.75rem] lg:h-[2.8125rem]`}
               >
-                <div className='flex w-full items-center'>
+                <div className='flex w-full items-center justify-center md:justify-start'>
                   <IdxIcon color={item.color} className='md:mr-[1rem]' />
                   <div
                     className={`${
