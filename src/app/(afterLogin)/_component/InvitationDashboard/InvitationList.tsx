@@ -3,18 +3,11 @@
 import { Invitations } from '@/src/app/(afterLogin)/_constant/type';
 
 interface Props {
-  value: string;
   list?: Invitations[];
   handleInvitation: (invitationId: number, accepted: boolean) => void;
 }
 
-export default function InvitationList({ value, list, handleInvitation }: Props) {
-  const filteredData = list?.filter(
-    (item) =>
-      item.dashboard.title.toLowerCase().includes(value.toLowerCase()) ||
-      item.inviter.nickname.toLowerCase().includes(value.toLowerCase()),
-  );
-
+export default function InvitationList({ list, handleInvitation }: Props) {
   const buttonClass =
     'flex w-full items-center justify-center rounded py-[.4375rem] text-[.75rem] font-medium md:w-[4.5rem] lg:w-[5.25rem]';
   const labelClass = 'text-gray40 text-[.875rem] md:text-base';
@@ -29,7 +22,7 @@ export default function InvitationList({ value, list, handleInvitation }: Props)
           <div className={`${mainLableClass} text-base md:w-[9.625rem] lg:w-[19.75rem]`}>수락 여부</div>
         </div>
       </div>
-      {filteredData?.map((item: Invitations, idx: number) => {
+      {list?.map((item: Invitations, idx: number) => {
         return (
           <div key={idx.toString()} className='md:mb-[1.25rem]'>
             <div className=' flex flex-col md:mb-[1.25rem] md:flex-row md:items-center'>
@@ -58,7 +51,7 @@ export default function InvitationList({ value, list, handleInvitation }: Props)
                 </button>
               </div>
             </div>
-            {idx !== filteredData.length - 1 && <div className='mb-4 w-full border-b md:mb-[1.25rem]'></div>}
+            {idx !== list.length - 1 && <div className='mb-4 w-full border-b md:mb-[1.25rem]'></div>}
           </div>
         );
       })}

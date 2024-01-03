@@ -8,7 +8,7 @@ import { getDashboards, getPaginatedDashboards, putInvitation } from '@/src/app/
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useCallback, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 
@@ -21,22 +21,30 @@ export default function InvitationDashboard({
 }) {
   const setDashboardData = useSetRecoilState(dashboardState);
   const [invitations, setInvitations] = useState<Invitations[]>([]);
+  const [hasSearched, setHasSearched] = useState(false);
   const [cursorId, setCursorId] = useState('');
 
-  const [value, setValue] = useState('');
+  const [searchValue, setSearchValue] = useState('');
 
   const target = useRef<HTMLDivElement>(null);
 
+  const fetchInvitations = async (cursorId = '', searchValue = '') => {
+    const cursorQuery = cursorId ? `&cursorId=${cursorId}` : '';
+    const searchQuery = searchValue ? `&title=${searchValue}` : '';
+    const { data } = await axiosInstance.get(`invitations?size=6${cursorQuery}${searchQuery}`);
+    return data; // 데이터 반환
+  };
+
   const getInvitations = useCallback(async () => {
     if (cursorId === null) return;
-    const query = cursorId ? `&cursorId=${cursorId}` : '';
-    const { data } = await axiosInstance.get(`invitations?size=6${query}`);
+    const data = await fetchInvitations(cursorId, searchValue);
     setInvitations((prev) => [...prev, ...data.invitations]);
     setCursorId(data.cursorId || null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cursorId]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setSearchValue(e.target.value);
   };
 
   const onIntersect: IntersectionObserverCallback = (entries) => {
@@ -45,6 +53,15 @@ export default function InvitationDashboard({
         getInvitations();
       }
     });
+  };
+
+  const handleEnterPress = async (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      const data = await fetchInvitations('', searchValue);
+      setHasSearched(true);
+      setInvitations(data.invitations);
+      setCursorId(data.cursorId);
+    }
   };
 
   const handleInvitation = async (invitationId: number, accepted: boolean) => {
@@ -65,18 +82,21 @@ export default function InvitationDashboard({
   return (
     <div className='rounded-lg border-none bg-white px-[1.75rem] pb-[.0625rem] pt-8'>
       <h2 className='mb-5 text-[1.25rem] font-bold text-black80 md:text-[1.5rem]'>초대받은 대시보드</h2>
-      {invitations.length !== 0 ? (
-        <div>
-          <div className='mb-6 flex w-full gap-2 rounded-[.375rem] border-[.0625rem] px-4 py-2'>
-            <MagnifyingGlass />
-            <input
-              onChange={handleInputChange}
-              placeholder='검색'
-              className='w-full text-[.875rem] focus:outline-none md:text-base'
-            ></input>
-          </div>
-          <InvitationList value={value} list={invitations} handleInvitation={handleInvitation} />
+      {(invitations.length > 0 || hasSearched) && (
+        <div className='mb-6 flex w-full gap-2 rounded-[.375rem] border-[.0625rem] px-4 py-2'>
+          <MagnifyingGlass />
+          <input
+            onChange={handleInputChange}
+            placeholder='검색'
+            className='w-full text-[.875rem] focus:outline-none md:text-base'
+            onKeyDown={handleEnterPress}
+          ></input>
         </div>
+      )}
+      {invitations.length > 0 ? (
+        <InvitationList list={invitations} handleInvitation={handleInvitation} />
+      ) : invitations.length === 0 && searchValue.trim() === '' ? (
+        <NoInvitation />
       ) : (
         <NoInvitation />
       )}
