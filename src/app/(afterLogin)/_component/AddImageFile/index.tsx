@@ -10,7 +10,7 @@ import uploadImageForServer from './uploadImage';
 interface Props {
   size: 'big' | 'small';
   profileImageUrl?: string;
-  columnId: number;
+  columnId?: number;
 }
 
 const Size = {
