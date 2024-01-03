@@ -9,21 +9,33 @@ import { useEffect, useState } from 'react';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 import { useSetRecoilState } from 'recoil';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
+import { useRef } from 'react';
 
 export default function DashboardList() {
-  const [ModalType, callModal] = useRenderModal();
+  const [modalType, callModal, setModalType] = useRenderModal();
   const router = useRouter();
+  const preModalType = useRef(modalType);
   const [dashboards, setDashboards] = useState<DashboardProps[]>([]);
   const setDashboardData = useSetRecoilState(dashboardState);
   const handleCreate = async () => {
     callModal({
       name: '새로운 대시보드',
       onSubmit: async (data) => {
-        const newDashboard = await createDashboard(data);
-        setDashboardData((prev) => {
-          return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
-        });
-        router.push(`/dashboard/${newDashboard.id}`);
+        try {
+          const newDashboard = await createDashboard(data);
+
+          setDashboardData((prev) => {
+            return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
+          });
+          setModalType(null);
+          if (preModalType.current !== null && modalType === null) {
+            router.push(`/dashboard/${newDashboard.id}`);
+          }
+        } catch (error) {
+          // console.error(error);
+        } finally {
+          setModalType(null);
+        }
       },
     });
   };
@@ -43,6 +55,10 @@ export default function DashboardList() {
   };
 
   useEffect(() => {
+    preModalType.current = modalType;
+  }, [modalType]);
+
+  useEffect(() => {
     const getDashboardList = async (page: number, pageSize: number) => {
       const result = await getPaginatedDashboards(page, pageSize);
       if (result) {
@@ -56,7 +72,6 @@ export default function DashboardList() {
 
     getDashboardList(page, 5);
   }, [page]);
-
   return (
     <div className='flex w-full flex-col gap-2 bg-gray10 md:gap-6'>
       <div className='flex flex-col gap-2 md:gap-3'>
@@ -86,7 +101,7 @@ export default function DashboardList() {
           />
         </div>
       </div>
-      {ModalType}
+      {modalType}
     </div>
   );
 }

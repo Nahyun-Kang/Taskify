@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import kebab from '@/public/icons/kebab.svg';
 import close from '@/public/icons/close_icon.svg';
-import { MODALTYPE } from '@/src/app/_constant/modalType';
 import React, { useState } from 'react';
 import Tag from '@/src/app/_component/Chip/Tag';
 import { ToDoCardDetailProps } from '.';
@@ -14,9 +13,11 @@ import formatTime from '@/src/app/_util/formatTime';
 // import { FieldValues } from 'react-hook-form';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 // 할 일 카드 상세 모달은 내용이 너무 많아서 일단 분리해 놓았습니다
+import DefaultProfile from '../../DefaultProfile';
+
 interface DetailIconButtonProps {
-  handleKebab: (e: React.MouseEvent<HTMLDivElement>) => void;
-  onUpdate: (e: React.MouseEvent<HTMLParagraphElement>, cardData: ToDoCardDetailProps) => void;
+  handleKebab: (e: React.MouseEvent<HTMLElement>) => void;
+  onUpdate: (cardData: ToDoCardDetailProps) => void;
   isOpenPopOver: boolean;
   onClose: () => void;
   onDelete: (e: React.MouseEvent<HTMLDivElement>) => void;
@@ -43,15 +44,13 @@ export function DetailIconButton({
             }}
           >
             <p
-              onClick={(e) => onUpdate(e, cardData)}
-              id={MODALTYPE.TODO.UPDATE}
-              className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet'
+              onClick={() => onUpdate(cardData)}
+              className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem]'
             >
               수정하기
             </p>
             <p
               onClick={onDelete}
-              id={MODALTYPE.TODO.DELETE}
               className=' mt-[0.375rem] whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet'
             >
               삭제하기
@@ -115,8 +114,10 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
       <div className='flex flex-col gap-[0.375rem]'>
         <span className='text-[0.75rem] font-semibold leading-5'>담당자</span>
         <div className='flex items-center  gap-[0.3125rem]'>
-          {assignee?.profileImageUrl && (
-            <Image src={assignee?.profileImageUrl} width={34} height={34} alt='담당자 프로필' priority />
+          {assignee?.profileImageUrl ? (
+            <Image src={assignee.profileImageUrl} width={34} height={34} alt='담당자 프로필' priority />
+          ) : (
+            <DefaultProfile nickName={assignee?.nickname} index={assignee?.id as number} />
           )}
           <span>{assignee?.nickname}</span>
         </div>
@@ -129,16 +130,16 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
   );
 }
 
-interface CommentType2 {
-  id?: number;
-  content?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  cardId?: number;
-  author?: {
-    profileImageUrl?: string;
-    nickname?: string;
-    id?: number;
+export interface CommentType2 {
+  id: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  cardId: number;
+  author: {
+    profileImageUrl: string;
+    nickname: string;
+    id: number;
   };
 }
 export function DetailCardComment({ data }: { data: CommentType2 }) {
@@ -152,9 +153,9 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
       content: value,
     });
 
-    setComments((oldComments: CommentType2[] | null) => {
+    setComments((oldComments) => {
       if (oldComments) {
-        return oldComments.map((comment) => (comment?.id === data.id ? { ...res.data } : comment));
+        return oldComments.map((comment) => (comment?.id === data?.id ? { ...res.data } : comment));
       }
       return null;
     });
@@ -163,20 +164,27 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
 
   const deleteComments = async () => {
     await axiosInstance.delete(`comments/${data.id}`);
-    setComments((oldComments) => (oldComments ? oldComments.filter((comment) => comment?.id !== data.id) : []));
+    setComments((oldComments) => (oldComments ? oldComments.filter((comment) => comment?.id !== data?.id) : []));
   };
 
   const handleRenderUpdateComment = () => {
     setIsUpdate(true);
   };
 
+  const handleOnBlur = (e: React.FocusEvent<HTMLElement>) => {
+    e.stopPropagation();
+    setValue((e.target as HTMLInputElement).value);
+  };
+
   if (!data) return;
   return (
     <div className='mt-4 flex gap-[0.625rem] md:mt-5'>
       <div className='flex flex-col items-start'>
-        {data && !isUpdate ? (
-          <Image src={data?.author?.profileImageUrl || circle} width={34} height={34} alt='댓글 프로필' priority />
-        ) : null}
+        {data?.author?.profileImageUrl ? (
+          <Image src={data?.author?.profileImageUrl} width={34} height={34} alt='댓글 프로필' priority />
+        ) : (
+          <DefaultProfile nickName={data?.author?.nickname} index={data?.author?.id} />
+        )}
       </div>
       <div className='flex w-full flex-col gap-[0.375rem]'>
         <div className='flex gap-[0.5rem]'>
@@ -191,9 +199,7 @@ export function DetailCardComment({ data }: { data: CommentType2 }) {
               className='w-full border-b-2  border-black focus:outline-none'
               placeholder='댓글을 입력해 주세요'
               defaultValue={data.content}
-              onChange={(e) => {
-                setValue(e.target.value);
-              }}
+              onBlur={handleOnBlur}
             />
             <div className='flex w-full justify-end gap-2'>
               <button
