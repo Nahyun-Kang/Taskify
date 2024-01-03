@@ -58,7 +58,7 @@ export default function SideMenu() {
 
   return (
     <div className='fixed z-[11]'>
-      <div className='h-screen w-[4.1875rem] border-r-[.0625rem] bg-white pt-[1.1875rem] md:w-[10rem] md:pl-[0.75rem] lg:w-[18.75rem]'>
+      <div className='hide-scrollbar h-screen w-[4.1875rem] overflow-scroll border-r-[.0625rem] bg-white pt-[1.1875rem] md:w-[10rem] md:pl-[0.75rem] lg:w-[18.75rem]'>
         <Link href='/myboard'>
           <div className='mb-[2.4294rem] flex items-center justify-center md:mb-[3.7456rem] md:justify-start'>
             <Image src={smallLogo} alt='CI' className='h-[33.069px] w-[1.8009rem] md:flex-shrink-0' />
