@@ -3,7 +3,7 @@ interface DefaultProfileProps {
   nickName: string;
   index?: number;
   colorCode?: string;
-  profileImg: string;
+  profileImg: string | null;
 }
 
 export default function HeaderProfile({ nickName, index, colorCode, profileImg }: DefaultProfileProps) {
