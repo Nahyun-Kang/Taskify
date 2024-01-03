@@ -102,8 +102,8 @@ export function CardList({ id, title, boardId }: CardListProps) {
   useInfiniteScroll({ target, onIntersect: onIntersect, size: cursorId });
 
   const getStyle = (style: DraggableProvided['draggableProps']['style'], snapshot: DraggableStateSnapshot) => {
+    if (!snapshot.isDragging) return {};
     if (!snapshot.isDropAnimating) {
-      if (!snapshot.isDragging) return {};
       return style;
     }
 
