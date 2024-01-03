@@ -21,7 +21,11 @@ export default function ProfileCollection({ dashboardId, userId }: Props) {
   const margin = (totalCount: number) => {
     if (totalCount <= 1) {
       return 'mr-0 md:mr-0 lg:mr-0';
-    } else {
+    } else if (totalCount <= 3) {
+      return 'mr-[2rem] md:mr-[3.25rem] lg:mr-[4rem]';
+    } else if (totalCount <= 5) {
+      return 'mr-[3.75rem] md:mr-[5rem] lg:mr-[7rem]';
+    } else if (totalCount >= 6) {
       return 'mr-[3.75rem] md:mr-[5.25rem] lg:mr-[9.5rem]';
     }
   };

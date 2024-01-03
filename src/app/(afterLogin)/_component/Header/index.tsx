@@ -106,7 +106,10 @@ export default function Header() {
             {!isDisabledButtons && (
               <div className=' mr-3 h-[2.375rem] w-0 rounded-md border-[.0625rem] stroke-gray30 stroke-1 md:mr-6 lg:mr-8'></div>
             )}
-            <div className='relative flex cursor-pointer items-center gap-3' onClick={handlePopUpDropdown}>
+            <div
+              className='relative mr-[.75rem] flex cursor-pointer items-center gap-3 md:mr-[2.5rem] lg:mr-[5rem]'
+              onClick={handlePopUpDropdown}
+            >
               <HeaderProfile nickName={userName} profileImg={userProfileImg} />
               <div className='text-1 text-black30 hidden font-medium md:block'>{userName}</div>
             </div>
