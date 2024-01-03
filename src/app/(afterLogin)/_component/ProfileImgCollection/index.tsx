@@ -18,6 +18,18 @@ export default function ProfileCollection({ dashboardId, userId }: Props) {
   const [totalCount, setTotalCount] = useState(0);
   // const { data } = useGetMembers(+dashboardId, 6);
 
+  const margin = (totalCount: number) => {
+    if (totalCount <= 1) {
+      return 'mr-0 md:mr-0 lg:mr-0';
+    } else if (totalCount <= 3) {
+      return 'mr-[2rem] md:mr-[3.25rem] lg:mr-[4rem]';
+    } else if (totalCount <= 5) {
+      return 'mr-[3.75rem] md:mr-[5rem] lg:mr-[7rem]';
+    } else if (totalCount >= 6) {
+      return 'mr-[3.75rem] md:mr-[5.25rem] lg:mr-[9.5rem]';
+    }
+  };
+
   const arr = members.filter((el: memberType) => el.userId !== userId);
   const profiles = arr?.slice(0, count - 1);
 
@@ -49,7 +61,7 @@ export default function ProfileCollection({ dashboardId, userId }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dashboardId, userId]);
   return (
-    <div className='relative flex'>
+    <div className={`relative flex ${margin(totalCount)}`}>
       {totalCount !== 0 &&
         profiles?.map((member: memberType, i: number) => (
           <Profile idx={i} values={member} total={totalCount} key={i + 'p'} count={count} />

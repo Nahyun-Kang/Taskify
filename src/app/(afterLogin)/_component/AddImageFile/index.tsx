@@ -9,7 +9,7 @@ import uploadImageForServer from '@/src/app/(afterLogin)/_component/AddImageFile
 
 interface Props {
   size: 'big' | 'small';
-  profileImageUrl?: string;
+  profileImageUrl?: string | null;
   columnId?: number;
 }
 
