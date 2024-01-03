@@ -15,9 +15,9 @@ import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
-import { showModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
+import { showColumnModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
-
+import { isAxiosError } from 'axios';
 interface CardListProps {
   id: number;
   title: string;
@@ -32,7 +32,7 @@ export function CardList({ id, title, boardId }: CardListProps) {
   const setColumns = useSetRecoilState(columnState);
   const target = useRef<HTMLDivElement>(null);
 
-  const setShow = useSetRecoilState(showModalState);
+  const setShow = useSetRecoilState(showColumnModalState);
 
   const getCard = useCallback(async () => {
     const query = cursorId ? `cursorId=${cursorId}&` : '';
@@ -51,20 +51,30 @@ export function CardList({ id, title, boardId }: CardListProps) {
       const res = await axiosInstance.post('cards', { ...form, dashboardId: +boardId, columnId: +id });
       setCards((prev) => [...(prev || []), res.data]);
       setCardNumCount((prev) => (prev ? prev + 1 : 1));
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
     } finally {
       setModalType(null);
     }
   };
+
   // 할 일 카드 생성 모달 호출 함수
   const handleRenderCreateTodoModal = () => {
     callModal({ name: '할 일 생성', onSubmit: onSubmitForCreateToDo, columnId: id });
   };
-
   // 칼럼 수정을 위한 서브밋 함수
   const onSubmitForUpdateColumn = async (form: FieldValues) => {
     try {
       const res = await axiosInstance.put(`columns/${id}`, { ...form });
       setColumns((oldColumns) => oldColumns.map((column) => (column.id === id ? { ...res.data } : column)));
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
     } finally {
       setModalType(null);
     }

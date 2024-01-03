@@ -5,11 +5,11 @@ import logoSmall from '@/public/logo/nav_logo_small.svg';
 import heroImg from '@/public/images/hero.png';
 import landingImg1 from '@/public/images/landing1.png';
 import landingImg2 from '@/public/images/landing2.png';
-import Card from './_component/Card';
+import Card from '@/src/app/(beforeLogin)/_component/Card';
 import EmailImg from '@/public/icons/email_icon.svg';
 import githubImg from '@/public/icons/icons8-github.svg';
 import notionImg from '@/public/icons/icons8-notion.svg';
-import { CardValues } from './_constants/landing';
+import { CardValues } from '@/src/app/(beforeLogin)/_constants/landing';
 
 const ColCenter = 'flex flex-col justify-center';
 

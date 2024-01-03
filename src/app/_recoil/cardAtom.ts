@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 import { CardInfo, Column } from '@/src/app/(afterLogin)/_constant/type';
-import { commentType } from '@/src/app/_component/modal/toDoCard';
+import { CommentType2 } from '@/src/app/_component/modal/toDoCard/DetailComponent';
+import { ToDoCardDetailProps } from '../_component/modal/toDoCard';
 
 const atomCache = new Map();
 
@@ -25,10 +26,16 @@ export const columnState = atom<Column[]>({
   default: [],
 });
 
-export const showModalState = atom<boolean>({
-  key: `showModalState`,
+export const showToDoModalState = atom<boolean>({
+  key: `showToDoModalState`,
   default: true,
 });
+
+export const showColumnModalState = atom<boolean>({
+  key: `showColumnModalState`,
+  default: true,
+});
+
 export const openPopOverState = atom<boolean>({
   key: `openPopOverState`,
   default: false,
@@ -47,7 +54,12 @@ export const countAboutCardList = (columnId: number) => {
   return atomCardCount.get(columnId);
 };
 
-export const commentsState = atom<commentType[] | null>({
+export const commentsState = atom<CommentType2[] | null>({
   key: 'commentsState',
   default: [],
+});
+
+export const updateCardState = atom<ToDoCardDetailProps | null>({
+  key: 'updateCardState',
+  default: null,
 });

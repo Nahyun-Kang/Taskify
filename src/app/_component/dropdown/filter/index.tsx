@@ -1,12 +1,14 @@
 'use client';
 import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
-import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
 import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
+import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
+import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
+import { Dispatch, SetStateAction } from 'react';
 interface Admin {
   id: number;
   email: string;
@@ -23,6 +25,7 @@ export default function DropdownAndFilter({
 }: {
   assignee?: { profileImageUrl: string; nickname: string; id: number };
 }) {
+  const [imageValue, setImageValue] = useState('');
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
   const [openDropdown, setOpenDropdown] = useState(false); // 드롭다운 개폐여부
   const [curretValue, setCurrentValue] = useState<string>(assignee?.nickname || ''); // 인풋에 대한 입력값 참조
@@ -33,7 +36,7 @@ export default function DropdownAndFilter({
   const [dashboardId] = useRecoilState(dashboardIdState);
 
   const { register, setValue, trigger } = useFormContext();
-
+  const mount = useRef(true);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // input 태그의 사용자 입력을 받고, 받아온 데이터의 요소들과 입력 값이 일치하는 경우 해당 요소 담당자로 지정
@@ -47,6 +50,7 @@ export default function DropdownAndFilter({
         setAssignId(admin.userId);
         setValue('assigneeUserId', +admin.userId);
         setOpenDropdown(false);
+        if (admin.profileImageUrl) setImageValue(admin?.profileImageUrl);
       }
     });
     if (e.target.value === '') {
@@ -114,9 +118,15 @@ export default function DropdownAndFilter({
   }, []);
 
   useEffect(() => {
+    if (assignee && mount.current) {
+      setIsSelectionComplete(true);
+      setFocus(false);
+      mount.current = false;
+    }
     if (!isSelectionComplete && inputRef.current !== null) {
       inputRef.current.focus();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelectionComplete]);
 
   return (
@@ -128,12 +138,17 @@ export default function DropdownAndFilter({
             <div
               onClick={handleRenderInputBox}
               className={
-                'flex items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] outline-none  md:w-[13.5625rem] ' +
+                'flex h-[3rem] w-full items-center gap-[0.8rem] rounded-[0.375rem] border px-[1rem] py-[0.625rem]  outline-none' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
-              {assignee ? <Image src={assignee.profileImageUrl} alt='circleLogo' width={26} height={26} /> : null}
-              <span className='py-[0.625rem] md:text-[1rem]'>{curretValue}</span>
+              {assignee?.profileImageUrl || imageValue ? (
+                <Image src={assignee?.profileImageUrl || imageValue} alt='circleLogo' width={26} height={26} />
+              ) : (
+                <DefaultProfile nickName={curretValue} index={assignId as number} />
+              )}
+
+              <span className='text-[1rem]'>{curretValue}</span>
             </div>
           ) : (
             <input
@@ -178,6 +193,7 @@ export default function DropdownAndFilter({
                   userId={admin.userId}
                   onClick={handleOnChangeDropdown}
                   profile={admin.profileImageUrl}
+                  setImageValue={setImageValue}
                 />
               );
             })}
@@ -195,15 +211,18 @@ export const AdminOption = ({
   userId,
   assignId,
   profile,
+  setImageValue,
 }: {
   onClick: (e: MouseEvent<HTMLSpanElement>, userId: number) => void;
   name: string;
   userId: number;
   assignId: number;
   profile: string | null;
+  setImageValue: Dispatch<SetStateAction<string>>;
 }) => {
   const handleSelectDropdown = (e: MouseEvent<HTMLSpanElement>) => {
     onClick(e, userId as number);
+    if (profile) setImageValue(profile);
   };
   return (
     <>
@@ -214,9 +233,13 @@ export const AdminOption = ({
           ) : (
             <div className='w-[1.375rem]'></div>
           )}
-          <div className='flex  gap-[0.5rem]'>
-            {profile ? <Image src={profile} alt='circleLogo' width={26} height={26} /> : null}
-            <span onClick={handleSelectDropdown} id={name} className='text-[0.875rem] md:text-[1rem]'>
+          <div className='flex  items-center justify-center gap-[0.5rem]'>
+            {profile !== null ? (
+              <Image src={profile} alt='circleLogo' width={26} height={26} />
+            ) : (
+              <DefaultProfile nickName={name} index={userId} />
+            )}
+            <span onClick={handleSelectDropdown} className='text-[0.875rem] text-[1rem] md:text-[1rem]' id={name}>
               {name}
             </span>
           </div>

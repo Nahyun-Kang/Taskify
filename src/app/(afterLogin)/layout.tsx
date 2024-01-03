@@ -1,3 +1,4 @@
+'use client';
 import { ReactNode } from 'react';
 import Header from './_component/Header';
 import SideMenu from './_component/SideMenu';
