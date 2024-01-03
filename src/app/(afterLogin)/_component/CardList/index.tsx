@@ -7,17 +7,22 @@ import Number from '@/src/app/_component/Chip/Number';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { cardStateAboutColumn, columnState } from '@/src/app/_recoil/cardAtom';
+import { useRecoilState } from 'recoil';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
 import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { useSetRecoilState } from 'recoil';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
-import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
-import { showColumnModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 import { isAxiosError } from 'axios';
+import { DraggableStateSnapshot, DraggableProvided, Draggable } from 'react-beautiful-dnd';
+import {
+  cardStateAboutColumn,
+  columnState,
+  countAboutCardList,
+  showColumnModalState,
+} from '@/src/app/_recoil/cardAtom';
 interface CardListProps {
   id: number;
   title: string;

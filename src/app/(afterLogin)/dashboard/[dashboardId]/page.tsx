@@ -4,12 +4,11 @@ import { isAxiosError } from 'axios';
 import { useEffect } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-
 import { CardList } from '@/src/app/(afterLogin)/_component/CardList';
 import AddColumn from '@/src/app/_component/Button/AddColumn';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import { Column } from '@/src/app/(afterLogin)/_constant/type';
-import { columnState, dashboardIdState } from '@/src/app/_recoil/cardAtom';
+import { Column } from '../../_constant/type';
+import { columnState, dashboardIdState } from '@/src/app/_recoil/CardAtom';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';

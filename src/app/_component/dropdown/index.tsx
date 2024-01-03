@@ -8,7 +8,7 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import circle from '@/public/icons/Ellipse 54.svg';
 import { useRecoilState } from 'recoil';
-import { dashboardIdState } from '../../_recoil/cardAtom';
+import { dashboardIdState } from '../../_recoil/CardAtom';
 interface Column {
   id: number;
   title: string;

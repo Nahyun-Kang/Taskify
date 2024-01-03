@@ -61,23 +61,17 @@ const config: Config = {
       transitionProperty: {
         height: 'height',
       },
+      animation: {
+        skeleton: 'skeleton 2s infinite linear',
+      },
       keyframes: {
         skeleton: {
           '0%': { backgroundColor: '#f3f3f3' },
-          '50%': { backgroundColor: '#e0e0e0' },
+          '50%': { backgroundColor: '#9e9e9e' },
           '100%': { backgroundColor: '#f3f3f3' },
         },
       },
-      animation: {
-        skeleton: 'skeleton 1.5s infinite linear',
-      },
     },
-    corePlugins: {
-      animation: false,
-    },
-  },
-  transitionProperty: {
-    height: 'height',
   },
 };
 

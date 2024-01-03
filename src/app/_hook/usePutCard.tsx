@@ -1,10 +1,10 @@
 import { useState, useEffect, Dispatch, SetStateAction, ReactElement, JSXElementConstructor } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { cardStateAboutColumn } from '../_recoil/cardAtom';
+import { cardStateAboutColumn } from '../_recoil/CardAtom';
 import { CardInfo } from '../(afterLogin)/_constant/type';
 import { FieldValues } from 'react-hook-form';
 import { axiosInstance } from '../_util/axiosInstance';
-import { updateCardState } from '../_recoil/cardAtom';
+import { updateCardState } from '../_recoil/CardAtom';
 import { isAxiosError } from 'axios';
 import { CallModalType } from './useRenderModal';
 export const usePutCard = (
