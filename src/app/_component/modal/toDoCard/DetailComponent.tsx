@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import kebab from '@/public/icons/kebab.svg';
 import close from '@/public/icons/close_icon.svg';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Tag from '@/src/app/_component/Chip/Tag';
 import { ToDoCardDetailProps } from '.';
 import circle from '@/public/icons/Ellipse 54.svg';
@@ -14,8 +14,8 @@ import formatTime from '@/src/app/_util/formatTime';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 // 할 일 카드 상세 모달은 내용이 너무 많아서 일단 분리해 놓았습니다
 import DefaultProfile from '../../DefaultProfile';
-import { userInfoState } from '@/src/app/_recoil/AuthAtom';
-
+// import { userInfoState } from '@/src/app/_recoil/AuthAtom';
+import { UserDataType } from '@/src/app/_constant/type';
 interface DetailIconButtonProps {
   handleKebab: (e: React.MouseEvent<HTMLElement>) => void;
   onUpdate: (cardData: ToDoCardDetailProps) => void;
@@ -144,8 +144,9 @@ export interface CommentType2 {
   };
 }
 export function DetailCardComment({ data, cardId }: { data: CommentType2; cardId: number }) {
-  const userInfo = useRecoilValue(userInfoState);
-  const { id: userId } = userInfo;
+  // const userInfo = useRecoilValue(userInfoState);
+  // const { id:  } = userInfo;
+  const [userId, setUserId] = useState<number | null>(null);
   const [value, setValue] = useState(data ? data.content : '');
   const [isUpdate, setIsUpdate] = useState(false);
   const setComments = useSetRecoilState(commentsStateAboutCardId(cardId));
@@ -180,6 +181,16 @@ export function DetailCardComment({ data, cardId }: { data: CommentType2; cardId
     e.stopPropagation();
     setValue((e.target as HTMLInputElement).value);
   };
+
+  const userDataObject = localStorage.getItem('taskifyUserData');
+  useEffect(() => {
+    if (userDataObject) {
+      const userData: UserDataType = JSON.parse(userDataObject);
+      const loginId = userData.userInfo.id;
+      setUserId(loginId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!data) return;
 
