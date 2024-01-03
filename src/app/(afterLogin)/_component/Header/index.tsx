@@ -72,7 +72,7 @@ export default function Header() {
   };
 
   return (
-    <div className='relative z-10'>
+    <div className='relative z-[11]'>
       <div className='fixed left-0 right-0 top-0 h-[4.375rem] border-b-[.0625rem] bg-white'>
         <div className=' flex h-full items-center justify-between'>
           {/* 헤더영역 왼쪽 */}
