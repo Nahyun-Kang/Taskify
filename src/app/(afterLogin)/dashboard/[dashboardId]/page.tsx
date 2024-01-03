@@ -67,7 +67,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
 
   return (
     <>
-      <div className='flex h-screen w-full flex-col pt-[4.3125rem] lg:flex-row'>
+      <div className='flex w-full flex-col pt-[4.3125rem] lg:h-screen lg:flex-row'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {columns.map((column) => (
             <Droppable key={column.id} droppableId={column.id.toString()}>
