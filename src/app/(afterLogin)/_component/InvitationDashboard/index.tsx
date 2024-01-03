@@ -4,14 +4,21 @@ import MagnifyingGlass from '@/src/app/(afterLogin)/_component/Icons/MagnifyingG
 import InvitationList from '@/src/app/(afterLogin)/_component/InvitationDashboard/InvitationList';
 import NoInvitation from '@/src/app/(afterLogin)/_component/InvitationDashboard/NoInvitation';
 import { Invitations } from '@/src/app/(afterLogin)/_constant/type';
-import { getDashboards, putInvitation } from '@/src/app/_api/Dashboards';
+import { getDashboards, getPaginatedDashboards, putInvitation } from '@/src/app/_api/Dashboards';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
+import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 
-export default function InvitationDashboard() {
+export default function InvitationDashboard({
+  setDashboards,
+  page,
+}: {
+  setDashboards: (value: DashboardProps[]) => void;
+  page: number;
+}) {
   const setDashboardData = useSetRecoilState(dashboardState);
   const [invitations, setInvitations] = useState<Invitations[]>([]);
   const [cursorId, setCursorId] = useState('');
@@ -41,16 +48,16 @@ export default function InvitationDashboard() {
   };
 
   const handleInvitation = async (invitationId: number, accepted: boolean) => {
-    try {
-      await putInvitation(invitationId, accepted);
-      if (accepted) {
-        const data = await getDashboards();
-        if (data) {
-          setDashboardData(data);
-        }
+    await putInvitation(invitationId, accepted);
+    if (accepted) {
+      const data = await getDashboards();
+      if (data) {
+        setDashboardData(data);
+        const result = await getPaginatedDashboards(page, 5);
+        setDashboards(result.dashboards);
       }
-      setInvitations(invitations.filter((invitation) => invitation.id !== invitationId));
-    } catch (error) {}
+    }
+    setInvitations(invitations.filter((invitation) => invitation.id !== invitationId));
   };
 
   useInfiniteScroll({ target, onIntersect: onIntersect, size: cursorId });
