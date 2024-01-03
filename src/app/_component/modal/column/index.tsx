@@ -102,16 +102,20 @@ export function DeleteColumn({ mainTitle, btnName, btnSize, onClose, columnId }:
 
   const setColumns = useSetRecoilState(columnState);
   const deleteSubmit = async () => {
+    let errorOccurred = false;
     try {
       await axiosInstance.delete(`columns/${columnId}`);
       setColumns((oldColumns) => oldColumns.filter((column) => column.id != columnId));
     } catch (error) {
+      errorOccurred = true;
       if (isAxiosError(error)) {
         const serverErrorMessage = error.response?.data.message;
         return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
       }
     } finally {
-      onClose();
+      if (!errorOccurred) {
+        onClose();
+      }
     }
   };
 

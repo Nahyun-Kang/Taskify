@@ -52,17 +52,21 @@ export function CardList({ id, title, boardId }: CardListProps) {
   }, [cursorId]);
   // 할 일 카드 생성 모달 서브밋 함수
   const onSubmitForCreateToDo = async (form: FieldValues) => {
+    let errorOccurred = false;
     try {
       const res = await axiosInstance.post('cards', { ...form, dashboardId: +boardId, columnId: +id });
       setCards((prev) => [...(prev || []), res.data]);
       setCardNumCount((prev) => (prev ? prev + 1 : 1));
     } catch (error) {
+      errorOccurred = true;
       if (isAxiosError(error)) {
         const serverErrorMessage = error.response?.data.message;
         return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
       }
     } finally {
-      setModalType(null);
+      if (!errorOccurred) {
+        setModalType(null);
+      }
     }
   };
 
@@ -72,16 +76,20 @@ export function CardList({ id, title, boardId }: CardListProps) {
   };
   // 칼럼 수정을 위한 서브밋 함수
   const onSubmitForUpdateColumn = async (form: FieldValues) => {
+    let errorOccurred = false;
     try {
       const res = await axiosInstance.put(`columns/${id}`, { ...form });
       setColumns((oldColumns) => oldColumns.map((column) => (column.id === id ? { ...res.data } : column)));
     } catch (error) {
+      errorOccurred = true;
       if (isAxiosError(error)) {
         const serverErrorMessage = error.response?.data.message;
         return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
       }
     } finally {
-      setModalType(null);
+      if (!errorOccurred) {
+        setModalType(null);
+      }
     }
   };
 
