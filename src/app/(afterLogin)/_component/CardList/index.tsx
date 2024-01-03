@@ -6,15 +6,15 @@ import AddTodo from '@/src/app/_component/Button/AddTodo';
 import Number from '@/src/app/_component/Chip/Number';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { cardStateAboutColumn, columnState } from '@/src/app/_recoil/cardAtom';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
 import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
-import { Draggable } from 'react-beautiful-dnd';
-import { CardInfo } from '../../_constant/type';
+import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
+import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import { showModalState, countAboutCardList } from '@/src/app/_recoil/cardAtom';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 
@@ -26,7 +26,7 @@ interface CardListProps {
 
 export function CardList({ id, title, boardId }: CardListProps) {
   const [cards, setCards] = useRecoilState<CardInfo[] | []>(cardStateAboutColumn(id));
-  const [cardNumCount, setCardNumCount] = useRecoilState<number | null>(countAboutCardList(id));
+  const [cardNumCount, setCardNumCount] = useRecoilState<number>(countAboutCardList(id));
   const [cursorId, setCursorId] = useState('');
   const [modalType, callModal, setModalType] = useRenderModal();
   const setColumns = useSetRecoilState(columnState);
@@ -37,7 +37,10 @@ export function CardList({ id, title, boardId }: CardListProps) {
   const getCard = useCallback(async () => {
     const query = cursorId ? `cursorId=${cursorId}&` : '';
     const { data } = await axiosInstance.get(`cards?${query}columnId=${id}`);
-    setCards((prev) => [...prev, ...data.cards]);
+    setCards((prev) => [
+      ...prev,
+      ...(data.cards as CardInfo[]).sort((a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()),
+    ]);
     setCardNumCount(data.totalCount);
     setCursorId(data.cursorId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,6 +91,22 @@ export function CardList({ id, title, boardId }: CardListProps) {
 
   useInfiniteScroll({ target, onIntersect: onIntersect, size: cursorId });
 
+  const getStyle = (style: DraggableProvided['draggableProps']['style'], snapshot: DraggableStateSnapshot) => {
+    if (!snapshot.isDropAnimating) {
+      if (!snapshot.isDragging) return {};
+      return style;
+    }
+
+    return {
+      ...style,
+      transitionDuration: `0.001s`,
+    };
+  };
+
+  useEffect(() => {
+    return () => setCards([]);
+  }, [setCards]);
+
   return (
     <div className='border-gray-20 md:min-w-none hide-scrollbar flex flex-1 flex-col gap-[1.0625rem] border-b bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r'>
       <div className='flex items-center gap-2'>
@@ -110,28 +129,27 @@ export function CardList({ id, title, boardId }: CardListProps) {
         <div className='h-[2rem] md:h-[2.5rem]'>
           <AddTodo screen='mobile' id={MODALTYPE.TODO.CREATE} onClick={handleRenderCreateTodoModal} />
         </div>
-        {cards &&
-          cards.map((card, index) => (
-            <Draggable draggableId={card.id.toString()} index={index} key={card.id}>
-              {(provided) => (
-                <div ref={provided.innerRef} {...provided.draggableProps} style={provided.draggableProps.style}>
-                  <div {...provided.dragHandleProps}>
-                    <Card
-                      id={card.id}
-                      title={card.title}
-                      columnId={id}
-                      tags={card.tags}
-                      dueDate={card.dueDate}
-                      imageUrl={card.imageUrl}
-                      bgColor={Colors[card.id % 5]}
-                      nickname={card.assignee?.nickname}
-                      profileImageUrl={card.assignee?.profileImageUrl}
-                    />
-                  </div>
+        {cards.map((card, index) => (
+          <Draggable draggableId={card.id.toString()} index={index} key={card.id}>
+            {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
+              <div ref={innerRef} {...draggableProps} style={getStyle(draggableProps.style, snapshot)}>
+                <div {...dragHandleProps}>
+                  <Card
+                    id={card.id}
+                    title={card.title}
+                    columnId={id}
+                    tags={card.tags}
+                    dueDate={card.dueDate}
+                    imageUrl={card.imageUrl}
+                    bgColor={Colors[card.id % 5]}
+                    nickname={card.assignee?.nickname}
+                    profileImageUrl={card.assignee?.profileImageUrl}
+                  />
                 </div>
-              )}
-            </Draggable>
-          ))}
+              </div>
+            )}
+          </Draggable>
+        ))}
       </div>
       {cursorId !== null && <div className='h-4 flex-shrink-0' ref={target}></div>}
       {modalType}

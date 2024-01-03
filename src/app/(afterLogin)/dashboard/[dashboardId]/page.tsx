@@ -5,12 +5,9 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { Column } from '@/src/app/(afterLogin)/_constant/type';
-
 import { columnState, dashboardIdState } from '@/src/app/_recoil/cardAtom';
-
 import { FieldValues } from 'react-hook-form';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useCardDragEnd from '@/src/app/_hook/useDragEnd';
@@ -49,12 +46,19 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
 
   return (
     <>
-      <div className='mt-[4.3125rem] flex w-full flex-col lg:flex-row'>
+      <div className='flex h-screen w-full flex-col pt-[4.3125rem] lg:flex-row'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {columns.map((column) => (
             <Droppable key={column.id} droppableId={column.id.toString()}>
-              {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  style={{
+                    backgroundColor: snapshot.isDraggingOver ? '#F1EFFD' : '#FAFAFA',
+                  }}
+                  className='border-gray-20 h-full border-b lg:border-b-0 lg:border-r'
+                >
                   <CardList key={column.id + 'col'} id={column.id} title={column.title} boardId={params.dashboardId} />
                   {provided.placeholder}
                 </div>

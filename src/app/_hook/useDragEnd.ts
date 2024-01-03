@@ -33,7 +33,6 @@ export default function useDragCardEnd() {
             columnId: +destination.droppableId,
           });
         } catch (error) {
-          console.log(error);
           set(cardStateAboutColumn(+source.droppableId), OriginalSourceCards);
           set(cardStateAboutColumn(+destination.droppableId), OriginalDestinationCards);
           set(countAboutCardList(+source.droppableId), OriginalSourceCards.length);
