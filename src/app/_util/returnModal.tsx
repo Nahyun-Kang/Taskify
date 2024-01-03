@@ -59,6 +59,7 @@ export default function returnModal({ name, onSubmit, cardId, setModalType, card
           btnSize='large'
           sign={false}
           size='large'
+          columnId={columnId}
         />
       );
     case '할 일 수정':
