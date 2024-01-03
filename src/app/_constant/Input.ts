@@ -87,3 +87,10 @@ export const nicknameValidate = {
     message: '열 자 이하로 작성해주세요',
   },
 };
+
+export const titleValidate = {
+  maxLength: {
+    value: 10,
+    message: '제목은 열 자 이하로 작성해주세요.',
+  },
+};

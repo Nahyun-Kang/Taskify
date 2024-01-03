@@ -6,7 +6,7 @@ import InputForm from '@/src/app/_component/InputForm';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { showColumnModalState, columnState } from '@/src/app/_recoil/cardAtom';
+import { showColumnModalState, columnState } from '@/src/app/_recoil/CardAtom';
 import { useRef } from 'react';
 import { isAxiosError } from 'axios';
 // 컬럼 생성 모달 내용

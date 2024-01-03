@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
-import { dashboardIdState } from '@/src/app/_recoil/cardAtom';
+import { dashboardIdState } from '@/src/app/_recoil/CardAtom';
 import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
 import { Dispatch, SetStateAction } from 'react';
 interface Admin {
