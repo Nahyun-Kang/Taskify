@@ -62,8 +62,10 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
     }
 
     getData();
+    return () => setColumns([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  if (columns.length === 0) return;
 
   return (
     <>
