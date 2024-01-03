@@ -1,5 +1,6 @@
 'use client';
 import { useSetRecoilState, useRecoilState } from 'recoil';
+import { isAxiosError } from 'axios';
 import { useEffect } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -11,11 +12,7 @@ import { Column } from '@/src/app/(afterLogin)/_constant/type';
 import { columnState, dashboardIdState } from '@/src/app/_recoil/cardAtom';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
-<<<<<<< HEAD
 import { getAccessToken } from '@/src/app/_util/getAccessToken';
-=======
-import { isAxiosError } from 'axios';
->>>>>>> main
 
 export default function DashBoard({ params }: { params: { dashboardId: string } }) {
   const [columns, setColumns] = useRecoilState(columnState);
