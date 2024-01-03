@@ -22,7 +22,7 @@ import {
   columnState,
   countAboutCardList,
   showColumnModalState,
-} from '@/src/app/_recoil/cardAtom';
+} from '@/src/app/_recoil/CardAtom';
 interface CardListProps {
   id: number;
   title: string;
