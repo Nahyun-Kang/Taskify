@@ -1,7 +1,7 @@
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { AxiosError } from 'axios';
 import { FieldValues } from 'react-hook-form';
-import { CallModalType } from '../../_constant/modalType';
+import { CallModalType } from '@/src/app/_constant/modalType';
 
 // POST요청: 회원가입 /{teamID}/users
 export const handleSignUp = async (

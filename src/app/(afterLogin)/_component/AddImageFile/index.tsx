@@ -5,7 +5,7 @@ import Image from 'next/image';
 import penImg from '@/public/icons/pen.svg';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import uploadImageForServer from './uploadImage';
+import uploadImageForServer from '@/src/app/(afterLogin)/_component/AddImageFile/uploadImage';
 
 interface Props {
   size: 'big' | 'small';

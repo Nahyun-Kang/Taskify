@@ -1,4 +1,4 @@
-import { TypeNumber } from './type';
+import { TypeNumber } from '@/src/app/(afterLogin)/_constant/type';
 
 export const Colors: TypeNumber = {
   0: 'bg-[#FFC85A]',
