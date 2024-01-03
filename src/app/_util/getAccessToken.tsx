@@ -1,4 +1,4 @@
-import { UserDataType } from '../_constant/type';
+import { UserDataType } from '@/src/app/_constant/type';
 
 export const getAccessToken = () => {
   let userDatas;

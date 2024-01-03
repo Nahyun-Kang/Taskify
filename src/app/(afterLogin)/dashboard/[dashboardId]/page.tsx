@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { CardList } from '@/src/app/(afterLogin)/_component/CardList';
 import AddColumn from '@/src/app/_component/Button/AddColumn';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import { Column } from '../../_constant/type';
+import { Column } from '@/src/app/(afterLogin)/_constant/type';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { columnState, dashboardIdState } from '@/src/app/_recoil/CardAtom';
 import { MODALTYPE } from '@/src/app/_constant/modalType';

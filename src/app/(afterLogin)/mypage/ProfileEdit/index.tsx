@@ -1,7 +1,9 @@
 'use client';
+import { getAccessToken } from '@/src/app/_util/getAccessToken';
+import { useRouter } from 'next/navigation';
 
 import InputForm from '@/src/app/_component/InputForm';
-import AddImageFile from '../../_component/AddImageFile';
+import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 import Confirm from '@/src/app/_component/Button/Confirm';
 import { getInputClass, InputWrapper, Label } from '@/src/app/_component/InputForm/InputStyle';
 import { useRecoilState } from 'recoil';
@@ -14,6 +16,7 @@ export default function ProfileEdit() {
   const inputClass = getInputClass(false) + ' text-gray40';
   const [user, setUser] = useRecoilState(userInfoState);
   const [mount, setMount] = useState(false);
+  const router = useRouter();
 
   const editUser = async (data: FieldValues) => {
     const profile = {
@@ -26,7 +29,12 @@ export default function ProfileEdit() {
   };
 
   useEffect(() => {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+      router.replace('/login');
+    }
     setMount(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

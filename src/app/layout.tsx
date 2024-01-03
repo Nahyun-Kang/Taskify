@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import RecoilContextProvider from './_recoil/recoilContextProvider';
+import RecoilContextProvider from '@/src/app/_recoil/recoilContextProvider';
 import './globals.css';
 import METADATA from '@/src/app/_constant/Meta';
 

@@ -1,7 +1,7 @@
-import UserEditLayout from './UserEditLayout';
-import PasswordEdit from './PasswordEdit';
-import ProfileEdit from './ProfileEdit';
-import EditLayout from '../_component/EditLayout';
+import UserEditLayout from '@/src/app/(afterLogin)/mypage/UserEditLayout';
+import PasswordEdit from '@/src/app/(afterLogin)/mypage/PasswordEdit';
+import ProfileEdit from '@/src/app/(afterLogin)/mypage/ProfileEdit';
+import EditLayout from '@/src/app/(afterLogin)/_component/EditLayout';
 
 export default function page() {
   return (

@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { accessTokenType, userInfoType } from '../../(beforeLogin)/_constants/type';
+import { accessTokenType, userInfoType } from '@/src/app/(beforeLogin)/_constants/type';
 
 const localStorage = typeof window !== 'undefined' ? window.localStorage : undefined;
 
