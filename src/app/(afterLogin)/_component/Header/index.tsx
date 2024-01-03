@@ -99,17 +99,14 @@ export default function Header() {
               </div>
             )}
             {!isDisabledButtons && (
-              <div className='ml-3 mr-[3.75rem] md:ml-6 md:mr-[5.25rem] lg:ml-8 lg:mr-[9.5rem]'>
+              <div className='ml-3 md:ml-6 lg:ml-8 '>
                 <ProfileCollection dashboardId={dashboardId} userId={userInfo.id} />
               </div>
             )}
             {!isDisabledButtons && (
               <div className=' mr-3 h-[2.375rem] w-0 rounded-md border-[.0625rem] stroke-gray30 stroke-1 md:mr-6 lg:mr-8'></div>
             )}
-            <div
-              className='relative mr-3 flex cursor-pointer items-center gap-3 md:mr-10 lg:mr-20'
-              onClick={handlePopUpDropdown}
-            >
+            <div className='relative flex cursor-pointer items-center gap-3' onClick={handlePopUpDropdown}>
               <HeaderProfile nickName={userName} profileImg={userProfileImg} />
               <div className='text-1 text-black30 hidden font-medium md:block'>{userName}</div>
             </div>
@@ -121,3 +118,5 @@ export default function Header() {
     </div>
   );
 }
+
+//mr-[3.75rem] md:mr-[5.25rem] lg:mr-[9.5rem]
