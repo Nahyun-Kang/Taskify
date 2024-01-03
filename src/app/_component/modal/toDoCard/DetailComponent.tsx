@@ -116,7 +116,9 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
         <span className='text-[0.75rem] font-semibold leading-5'>담당자</span>
         <div className='flex items-center  gap-[0.3125rem]'>
           {assignee?.profileImageUrl ? (
-            <Image src={assignee.profileImageUrl} width={34} height={34} alt='담당자 프로필' priority />
+            <div className='rounded-full sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
+              <Image src={assignee.profileImageUrl} fill alt='담당자 프로필' priority />
+            </div>
           ) : (
             <DefaultProfile nickName={assignee?.nickname} index={assignee?.id as number} />
           )}
