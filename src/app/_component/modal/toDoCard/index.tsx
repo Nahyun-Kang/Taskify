@@ -38,7 +38,7 @@ interface TodoProps {
 }
 
 export interface ToDoCardDetailProps {
-  columnId?: number;
+  columnId: number;
   id: number;
   createdAt: string;
   updatedAt: string;
@@ -50,7 +50,7 @@ export interface ToDoCardDetailProps {
   assignee: { profileImageUrl: string; nickname: string; id: number };
 }
 // 할 일 카드 생성 모달 내용
-export function CreateToDo({ mainTitle }: TodoProps) {
+export function CreateToDo({ mainTitle, columnId }: { mainTitle: string; columnId: number }) {
   return (
     <div className='flex flex-col gap-6'>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
@@ -67,7 +67,7 @@ export function CreateToDo({ mainTitle }: TodoProps) {
       <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' />
       <div className='flex flex-col gap-[0.625rem]'>
         <span>이미지</span>
-        <AddImageFile size='small' />
+        <AddImageFile size='small' columnId={columnId} />
       </div>
     </div>
   );
@@ -100,7 +100,7 @@ export function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardDat
       <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' initialTags={cardData.tags} />
       <div className='flex flex-col gap-[0.625rem]'>
         <span>이미지</span>
-        <AddImageFile size='small' profileImageUrl={cardData.imageUrl} />
+        <AddImageFile size='small' profileImageUrl={cardData.imageUrl} columnId={cardData.columnId} />
       </div>
     </div>
   );

@@ -110,7 +110,7 @@ export function Modal({
       <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
         <ModalLayout btnName={btnName} onClose={closeModal} btnSize={btnSize} sign={sign} size={size}>
           {createColumn && <CreateColumn mainTitle='새 칼럼 생성' labelTitle='이름' />}
-          {createToDo && <CreateToDo mainTitle='할 일 생성' />}
+          {createToDo && <CreateToDo columnId={columnId as number} mainTitle='할 일 생성' />}
           {updateToDo && cardData && <UpdateToDo mainTitle='할 일 수정' cardData={cardData} />}
           {createDashboard && <CreateDashboard mainTitle='새로운 대시보드' />}
           {inviteDashBoard && <InviteDashboard mainTitle='초대하기' />}

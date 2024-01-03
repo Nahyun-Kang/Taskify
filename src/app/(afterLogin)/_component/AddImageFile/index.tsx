@@ -10,6 +10,7 @@ import uploadImageForServer from './uploadImage';
 interface Props {
   size: 'big' | 'small';
   profileImageUrl?: string;
+  columnId: number;
 }
 
 const Size = {
@@ -25,7 +26,7 @@ const Size = {
   },
 };
 
-export default function AddImageFile({ size = 'big', profileImageUrl = '' }: Props) {
+export default function AddImageFile({ size = 'big', profileImageUrl = '', columnId }: Props) {
   const [image, setImage] = useState(profileImageUrl);
   const style = { backgroundImage: `url(${image})` };
 
@@ -33,7 +34,7 @@ export default function AddImageFile({ size = 'big', profileImageUrl = '' }: Pro
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = (e.target as HTMLInputElement).files as FileList;
-    const fileURL = await uploadImageForServer(files[0]);
+    const fileURL = await uploadImageForServer(files[0], columnId);
     setImage(fileURL);
     setValue('imageUrl', fileURL);
   };

@@ -213,7 +213,7 @@ export const AdminOption = ({
   profile,
   setImageValue,
 }: {
-  onClick: (e: MouseEvent<HTMLSpanElement>, userId: number) => void;
+  onClick: (e: MouseEvent<HTMLElement>, userId: number) => void;
   name: string;
   userId: number;
   assignId: number;
@@ -227,7 +227,7 @@ export const AdminOption = ({
   return (
     <>
       {name ? (
-        <div className='flex items-center gap-[0.375rem]'>
+        <div onClick={handleSelectDropdown} className='flex items-center gap-[0.375rem]'>
           {assignId === userId ? (
             <Image src={check} alt='check' width={22} height={22} />
           ) : (
@@ -239,7 +239,7 @@ export const AdminOption = ({
             ) : (
               <DefaultProfile nickName={name} index={userId} />
             )}
-            <span onClick={handleSelectDropdown} className='text-[0.875rem] text-[1rem] md:text-[1rem]' id={name}>
+            <span className='text-[0.875rem] text-[1rem] md:text-[1rem]' id={name}>
               {name}
             </span>
           </div>
