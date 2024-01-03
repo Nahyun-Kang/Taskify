@@ -18,6 +18,7 @@ export const usePutCard = (
   const [updatedCard, setUpdatedCard] = useState<CardInfo | null>(null);
 
   const putCard = async (form: FieldValues) => {
+    let errorOccurred = false;
     try {
       const res = await axiosInstance.put(`cards/${cardId}`, {
         ...form,
@@ -27,15 +28,17 @@ export const usePutCard = (
       setUpdatedCard(res.data);
       setCardDataForDetail(res.data);
     } catch (error) {
+      errorOccurred = true;
       if (isAxiosError(error)) {
         const serverErrorMessage = error.response?.data.message;
         return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
       }
     } finally {
-      setModalType(null);
+      if (!errorOccurred) {
+        setModalType(null);
+      }
     }
   };
-
   useEffect(() => {
     if (updatedCard !== null) {
       setCards((oldCards: CardInfo[]) => oldCards.map((item) => (item.id === cardId ? updatedCard : item)));
