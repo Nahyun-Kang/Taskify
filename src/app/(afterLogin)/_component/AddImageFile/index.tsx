@@ -9,7 +9,7 @@ import uploadImageForServer from './uploadImage';
 
 interface Props {
   size: 'big' | 'small';
-  profileImageUrl?: string;
+  profileImageUrl?: string | null;
 }
 
 const Size = {
