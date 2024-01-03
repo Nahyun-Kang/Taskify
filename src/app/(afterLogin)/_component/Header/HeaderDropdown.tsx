@@ -5,9 +5,10 @@ import { useResetRecoilState } from 'recoil';
 
 interface Props {
   isActive: boolean;
+  onClick: () => void;
 }
 
-export default function HeaderDropdown({ isActive }: Props) {
+export default function HeaderDropdown({ isActive, onClick }: Props) {
   const router = useRouter();
   const setUserInfoState = useResetRecoilState(userInfoState);
   const setAccessToken = useResetRecoilState(accessTokenState);
@@ -18,9 +19,11 @@ export default function HeaderDropdown({ isActive }: Props) {
     setAccessToken();
     localStorage.removeItem('taskifyUserData');
     router.push('/');
+    onClick();
   };
   const handleClickManageAccount = () => {
     router.push('/mypage');
+    onClick();
   };
 
   return (
