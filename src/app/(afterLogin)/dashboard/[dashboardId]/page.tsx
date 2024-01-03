@@ -11,7 +11,11 @@ import { Column } from '@/src/app/(afterLogin)/_constant/type';
 import { columnState, dashboardIdState } from '@/src/app/_recoil/cardAtom';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
+<<<<<<< HEAD
 import { getAccessToken } from '@/src/app/_util/getAccessToken';
+=======
+import { isAxiosError } from 'axios';
+>>>>>>> main
 
 export default function DashBoard({ params }: { params: { dashboardId: string } }) {
   const [columns, setColumns] = useRecoilState(columnState);
@@ -28,15 +32,25 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
   };
 
   const onSubmitForCreateColumn = async (form: FieldValues) => {
+    const titleValue = form.title;
+
     try {
+      if (columns.find((column) => column.title === titleValue)) {
+        return callModal({ name: '중복된 컬럼 이름입니다.' });
+      }
       const res = await axiosInstance.post('columns', { ...form, dashboardId: Number(params.dashboardId) });
       setColumns((oldColumns: Column[]) => [...oldColumns, res.data]);
-    } catch (error) {}
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
+    }
     setModalType(null);
   };
 
-  const handleRenderCreateColumn = async (e: React.MouseEvent<HTMLElement>) => {
-    callModal({ name: (e.target as HTMLElement).id, onSubmit: onSubmitForCreateColumn });
+  const handleRenderCreateColumn = async () => {
+    callModal({ name: '새 칼럼 생성', onSubmit: onSubmitForCreateColumn });
   };
 
   useEffect(() => {

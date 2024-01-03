@@ -5,7 +5,7 @@ import returnModal from '@/src/app/_util/returnModal';
 import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard';
 import { modalNameState } from '@/src/app/_recoil/ModalNameAtom';
 
-interface CallModalType {
+export interface CallModalType {
   (condition: {
     name: string;
     onSubmit?: SubmitHandler<FieldValues>;

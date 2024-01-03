@@ -1,7 +1,6 @@
 'use client';
 
 import ModalLayout from '@/src/app/_component/modal/ModalLayout';
-
 import { createPortal } from 'react-dom';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import InputForm from '@/src/app/_component/InputForm';
@@ -88,11 +87,7 @@ export function Modal({
     }
 
     if (detailToDo) {
-      return (
-        <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
-          <DetailToDo onClose={closeModal} cardId={cardId as number} columnId={columnId as number} />
-        </InputForm>
-      );
+      return <DetailToDo onClose={closeModal} cardId={cardId as number} columnId={columnId as number} />;
     }
 
     if (deleteColumn) {
@@ -108,7 +103,7 @@ export function Modal({
     }
 
     if (base) {
-      return <Base mainTitle={content} />;
+      return <Base onClose={closeModal} mainTitle={content} />;
     }
 
     return (

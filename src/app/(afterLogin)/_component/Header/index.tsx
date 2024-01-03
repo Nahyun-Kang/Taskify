@@ -20,7 +20,7 @@ import { dashboardSelector } from '@/src/app/_recoil/dashboardAtom';
 export default function Header() {
   const pathname = usePathname();
   const isMyDashboard = pathname === '/myboard';
-  const [ModalType, callModal] = useRenderModal();
+  const [ModalType, callModal, setModalType] = useRenderModal();
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
   const [isActiveDropdown, setActiveDropdown] = useState(false);
@@ -68,7 +68,7 @@ export default function Header() {
   }, []);
 
   const handleInvitation = () => {
-    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType) });
   };
 
   return (

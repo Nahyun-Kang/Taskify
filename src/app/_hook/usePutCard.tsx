@@ -4,14 +4,17 @@ import { cardStateAboutColumn } from '../_recoil/cardAtom';
 import { CardInfo } from '../(afterLogin)/_constant/type';
 import { FieldValues } from 'react-hook-form';
 import { axiosInstance } from '../_util/axiosInstance';
-
+import { updateCardState } from '../_recoil/cardAtom';
+import { isAxiosError } from 'axios';
+import { CallModalType } from './useRenderModal';
 export const usePutCard = (
   cardId: number,
   columnId: number,
   setModalType: Dispatch<SetStateAction<ReactElement<unknown, string | JSXElementConstructor<unknown>> | null>>,
+  callModal: CallModalType,
 ) => {
   const setCards = useSetRecoilState(cardStateAboutColumn(columnId));
-
+  const setCardDataForDetail = useSetRecoilState(updateCardState);
   const [updatedCard, setUpdatedCard] = useState<CardInfo | null>(null);
 
   const putCard = async (form: FieldValues) => {
@@ -22,6 +25,12 @@ export const usePutCard = (
         assigneeUserId: +form.assigneeUserId,
       });
       setUpdatedCard(res.data);
+      setCardDataForDetail(res.data);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const serverErrorMessage = error.response?.data.message;
+        return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
+      }
     } finally {
       setModalType(null);
     }
