@@ -1,7 +1,7 @@
 'use client';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { isAxiosError } from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { CardList } from '@/src/app/(afterLogin)/_component/CardList';
@@ -20,13 +20,16 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
   const setDashBoardId = useSetRecoilState(dashboardIdState);
   const [modalType, callModal, setModalType] = useRenderModal();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   const getData = async () => {
+    setLoading(true);
     const {
       data: { data },
     } = await axiosInstance.get(`columns?dashboardId=${params.dashboardId}`);
     setColumns(data);
     setDashBoardId(params.dashboardId);
+    setLoading(false);
   };
 
   const onSubmitForCreateColumn = async (form: FieldValues) => {
@@ -67,7 +70,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
 
   return (
     <>
-      <div className='flex h-screen w-full flex-col pt-[4.3125rem] lg:flex-row'>
+      <div className='flex w-full flex-col pt-[4.3125rem] lg:flex-row'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {columns.map((column) => (
             <Droppable key={column.id} droppableId={column.id.toString()}>
@@ -78,7 +81,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
                   style={{
                     backgroundColor: snapshot.isDraggingOver ? '#F1EFFD' : '#FAFAFA',
                   }}
-                  className='border-gray-20 h-full border-b lg:border-b-0 lg:border-r'
+                  className='border-gray-20 border-b bg-gray10 lg:border-b-0 lg:border-r'
                 >
                   <CardList key={column.id + 'col'} id={column.id} title={column.title} boardId={params.dashboardId} />
                   {provided.placeholder}
@@ -87,11 +90,15 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
             </Droppable>
           ))}
         </DragDropContext>
-        <div className='border-gray-20 flex w-full flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:gap-[1.5625rem] md:p-5 lg:flex-col lg:pt-[4.5rem]'>
-          <div className='h-[3.75rem] md:h-[4.375rem] lg:w-[22.125rem]'>
-            <AddColumn screen='mobile' id={MODALTYPE.COLUMN.CREATE} onClick={handleRenderCreateColumn} />
+        {loading ? (
+          <></>
+        ) : (
+          <div className='border-gray-20 flex w-full flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:gap-[1.5625rem] md:p-5 lg:flex-col lg:pt-[4.5rem]'>
+            <div className='h-[3.75rem] md:h-[4.375rem] lg:w-[22.125rem]'>
+              <AddColumn screen='mobile' id={MODALTYPE.COLUMN.CREATE} onClick={handleRenderCreateColumn} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       {modalType}
     </>
