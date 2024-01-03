@@ -58,7 +58,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   }, [page, dashboardId]);
 
   return (
-    <div className='item-center flex w-full flex-col gap-[1.25rem] p-[1.75rem]'>
+    <div className='item-center flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem]'>
       <div className='flex'>
         <div className='grid flex-none grid-rows-2 md:w-auto md:grid-flow-col md:gap-[1.5rem]'>
           <p className='h-10 w-full text-[1.25rem] font-bold text-black md:flex md:h-[2.5rem] md:text-[1.5rem]'>
@@ -92,10 +92,12 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
       <div>
         <div className='flex justify-between'></div>
         {inviteList &&
-          inviteList.map((val: InviteListProps) => (
+          inviteList.map((val: InviteListProps, idx) => (
             <div
               key={val.id}
-              className='max-h[4.375rem] flex items-center justify-between border-b-[0.0625rem] border-gray20 py-[1.75rem]'
+              className={`max-h[4.375rem] flex items-center justify-between border-gray20 py-[1.75rem] ${
+                inviteList.length !== idx + 1 ? 'border-b-[0.0625rem]' : ''
+              }`}
             >
               <span className='text-black80 sm:text-[0.875rem] md:text-[1rem]'>{val.invitee.email}</span>
               <CancelInvite size='large' onClick={() => handleCancelInvite(val.id)} />
