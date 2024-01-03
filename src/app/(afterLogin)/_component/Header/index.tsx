@@ -1,17 +1,17 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
+import Link from 'next/link';
 
 import Crown from '@/src/app/_component/Icons/Crown';
-import HeaderButton from './HeaderButton';
+import HeaderButton from '@/src/app/(afterLogin)/_component/Header/HeaderButton';
 import add from '@/public/images/add_box_icon.svg';
 import manage from '@/public/images/manage_icon.svg';
-import ProfileCollection from '../ProfileImgCollection';
+import ProfileCollection from '@/src/app/(afterLogin)/_component/ProfileImgCollection';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import submitInvitation from '../../_util/submitInvitation';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import HeaderDropdown from './HeaderDropdown';
+import submitInvitation from '@/src/app/(afterLogin)/_util/submitInvitation';
+import HeaderDropdown from '@/src/app/(afterLogin)/_component/Header/HeaderDropdown';
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
 import { UserDataType } from '@/src/app/_constant/type';
@@ -20,7 +20,7 @@ import { dashboardSelector } from '@/src/app/_recoil/dashboardAtom';
 export default function Header() {
   const pathname = usePathname();
   const isMyDashboard = pathname === '/myboard';
-  const [ModalType, callModal] = useRenderModal();
+  const [ModalType, callModal, setModalType] = useRenderModal();
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
   const [isActiveDropdown, setActiveDropdown] = useState(false);
@@ -62,13 +62,13 @@ export default function Header() {
     const userDataObject = localStorage.getItem('taskifyUserData');
     if (userDataObject) {
       const userData: UserDataType = JSON.parse(userDataObject);
-      const nickname = userData.userInfo?.nickname;
+      const nickname = userData?.userInfo?.nickname;
       setUserName(nickname);
     }
   }, [userInfo]);
 
   const handleInvitation = () => {
-    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId) });
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType) });
   };
 
   return (
