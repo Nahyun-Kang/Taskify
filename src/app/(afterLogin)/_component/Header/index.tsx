@@ -88,7 +88,7 @@ export default function Header() {
           </div>
           {/* 헤더영역 오른쪽 */}
           <div className='flex'>
-            {!isDisabledButtons && (
+            {!isDisabledButtons && selectDashboard?.createdByMe && (
               <div className='flex gap-[.375rem] md:gap-4'>
                 <Link href={`${pathname.includes('edit') ? pathname : pathname + '/edit'}`}>
                   <HeaderButton imageSrc={manage}>관리</HeaderButton>
