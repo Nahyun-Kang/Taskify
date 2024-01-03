@@ -6,7 +6,6 @@ import CancelInvite from '@/src/app/_component/Button/CancelInvite';
 import { deleteInvitation, getInvitations } from '@/src/app/_api/Dashboards';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import submitInvitation from '@/src/app/(afterLogin)/_util/submitInvitation';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useRecoilState } from 'recoil';
 import { inviteListChange } from '@/src/app/_recoil/dashboardAtom';
 
@@ -40,10 +39,8 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
     callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType, setIsChange) });
   };
 
-  const handleCancelInvite = async (inviteId: number) => {
-    const result = deleteInvitation(dashboardId, inviteId, setIsChange);
-    if (!result) return;
-    // setInviteList((prevInvitation) => prevInvitation.filter((invite: InviteListProps) => invite.id !== inviteId));
+  const handleCancelInvite = (inviteId: number) => {
+    deleteInvitation(dashboardId, inviteId, setIsChange);
   };
 
   useEffect(() => {

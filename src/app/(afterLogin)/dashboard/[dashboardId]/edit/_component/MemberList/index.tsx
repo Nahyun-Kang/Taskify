@@ -6,7 +6,6 @@ import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
 import { deleteMember, getMembers } from '@/src/app/_api/Dashboards';
 import crown from '@/public/images/crown_icon.svg';
 import Image from 'next/image';
-import { isCancel } from 'axios';
 
 interface membersProps {
   id: number;
