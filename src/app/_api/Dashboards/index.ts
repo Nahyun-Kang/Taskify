@@ -1,6 +1,5 @@
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { FieldValues } from 'react-hook-form';
-import { isAxiosError } from 'axios';
 export async function getInvitations(dashboardId: string | undefined, page: number, size: number) {
   try {
     const response = await axiosInstance.get(`dashboards/${dashboardId}/invitations?page=${page}&size=${size}`);
@@ -25,11 +24,6 @@ export async function deleteMember(memberId: number) {
   try {
     const response = await axiosInstance.delete(`members/${memberId}`);
     const status = response.status;
-    if (status === 204) {
-      alert('삭제 되었습니다.');
-    } else {
-      alert('삭제 실패!');
-    }
     return status;
   } catch (error) {
     throw error;
@@ -40,11 +34,6 @@ export async function deleteInvitation(dashboardId: string | undefined, invitati
   try {
     const response = await axiosInstance.delete(`dashboards/${dashboardId}/invitations/${invitationId}`);
     const status = response.status;
-    if (status === 204) {
-      alert('취소 되었습니다.');
-    } else {
-      alert('취소 실패!');
-    }
     return status;
   } catch (error) {
     throw error;
@@ -55,11 +44,6 @@ export async function deleteDashboard(dashboardId: string | undefined) {
   try {
     const response = await axiosInstance.delete(`dashboards/${dashboardId}`);
     const status = response.status;
-    if (status === 204) {
-      alert('대시보드가 삭제 되었습니다.');
-    } else {
-      alert('대시보드 삭제 실패!');
-    }
     return status;
   } catch (error) {
     throw error;
@@ -87,9 +71,7 @@ export async function getDashboards() {
 
     return { dashboards, totalCount, cursorId: cursorId ?? 0 };
   } catch (error) {
-    if (isAxiosError(error)) {
-      alert(error.response?.data.message);
-    }
+    throw error;
   }
 }
 
@@ -100,9 +82,7 @@ export async function getPaginatedDashboards(page: number, size: number) {
 
     return { dashboards, totalCount, cursorId: cursorId ?? 0 };
   } catch (error) {
-    if (isAxiosError(error)) {
-      alert(error.response?.data.message);
-    }
+    throw error;
   }
 }
 
@@ -114,9 +94,7 @@ export async function getInfiniteDashboards(cursor: number | null, size: number)
 
     return { dashboards, totalCount, cursorId: cursorId ?? 0 };
   } catch (error) {
-    if (isAxiosError(error)) {
-      alert(error.response?.data.message);
-    }
+    throw error;
   }
 }
 
@@ -127,9 +105,7 @@ export async function createDashboard(data: FieldValues) {
     });
     return res.data;
   } catch (error) {
-    if (isAxiosError(error)) {
-      alert(error.response?.data.message);
-    }
+    throw error;
   }
 }
 
@@ -140,8 +116,6 @@ export async function putInvitation(invitationId: number, accepted: boolean) {
     });
     return res.data;
   } catch (error) {
-    if (isAxiosError(error)) {
-      alert(error.response?.data.message);
-    }
+    throw error;
   }
 }

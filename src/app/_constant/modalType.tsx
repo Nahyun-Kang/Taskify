@@ -1,3 +1,6 @@
+import { SubmitHandler, FieldValues } from 'react-hook-form';
+import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard';
+
 export const MODALTYPE = {
   COLUMN: {
     CREATE: '새 칼럼 생성',
@@ -23,3 +26,13 @@ export const MODALTYPE = {
     WRONG_PW: '현재 비밀번호가 틀렸습니다.',
   },
 };
+
+export interface CallModalType {
+  (condition: {
+    name: string;
+    onSubmit?: SubmitHandler<FieldValues>;
+    cardId?: number;
+    cardData?: ToDoCardDetailProps;
+    columnId?: number;
+  }): void;
+}
