@@ -7,15 +7,13 @@ import InputForm from '@/src/app/_component/InputForm';
 import { CreateColumn, UpdateColumn, DeleteColumn } from '@/src/app/_component/modal/column';
 import { CreateDashboard, InviteDashboard } from '@/src/app/_component/modal/dashBoard';
 import { CompleteSignUp, MismatchPW, UseAlreadyEmail } from '@/src/app/_component/modal/sign';
-import {
-  CreateToDo,
-  DeleteTodo,
-  DetailToDo,
-  ToDoCardDetailProps,
-  UpdateToDo,
-} from '@/src/app/_component/modal/toDoCard/';
-import { Base } from './base';
 
+import { Base } from './base';
+import CreateToDo from '@/src/app/_component/modal/toDoCard/create';
+import UpdateToDo from '@/src/app/_component/modal/toDoCard/update';
+import DetailToDo from '@/src/app/_component/modal/toDoCard/detail';
+import DeleteTodo from '@/src/app/_component/modal/toDoCard/delete';
+import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard/type';
 interface ModalProps {
   detailToDo?: boolean;
   base?: boolean;

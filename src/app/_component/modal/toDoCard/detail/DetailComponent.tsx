@@ -4,7 +4,7 @@ import kebab from '@/public/icons/kebab.svg';
 import close from '@/public/icons/close_icon.svg';
 import React, { useEffect, useState } from 'react';
 import Tag from '@/src/app/_component/Chip/Tag';
-import { ToDoCardDetailProps } from '.';
+import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard/type';
 import circle from '@/public/icons/Ellipse 54.svg';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { columnState, commentsStateAboutCardId } from '@/src/app/_recoil/CardAtom';
@@ -13,7 +13,7 @@ import formatTime from '@/src/app/_util/formatTime';
 // import { FieldValues } from 'react-hook-form';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 // 할 일 카드 상세 모달은 내용이 너무 많아서 일단 분리해 놓았습니다
-import DefaultProfile from '../../DefaultProfile';
+import DefaultProfile from '@/src/app/_component/DefaultProfile';
 // import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import { UserDataType } from '@/src/app/_constant/type';
 interface DetailIconButtonProps {

@@ -1,17 +1,14 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
-import InputForm from '@/src/app/_component/InputForm';
-import Dropdown from '@/src/app/_component/dropdown';
-import DropdownAndFilter from '@/src/app/_component/dropdown/filter';
+
 import {
   CommentType2,
   DetailAssignee,
   DetailCardComment,
   DetailIconButton,
   DetailMainContent,
-} from '@/src/app/_component/modal/toDoCard/DetailComponent';
+} from '@/src/app/_component/modal/toDoCard/detail/DetailComponent';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
@@ -27,96 +24,22 @@ import { usePutCard } from '@/src/app/_hook/usePutCard';
 import { useRef } from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import CommentInput from '../../InputForm/CommentInput';
+import CommentInput from '@/src/app/_component/InputForm/CommentInput';
 import useObserver from '@/src/app/_hook/useObserver';
-import { SkeletonUIAboutComments } from './SkeletonForComments';
+import { SkeletonUIAboutComments } from '@/src/app/_component/modal/toDoCard/SkeletonForComments';
 import { useCallback } from 'react';
 import { isAxiosError } from 'axios';
-import { titleValidate } from '@/src/app/_constant/Input';
-interface TodoProps {
-  mainTitle: string;
-}
-
-export interface ToDoCardDetailProps {
-  columnId: number;
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  title: string;
-  description: string;
-  tags: string[];
-  dueDate: string;
-  imageUrl: string;
-  assignee: { profileImageUrl: string; nickname: string; id: number };
-}
-// 할 일 카드 생성 모달 내용
-export function CreateToDo({ mainTitle, columnId }: { mainTitle: string; columnId: number }) {
-  return (
-    <div className='flex flex-col gap-6'>
-      <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <DropdownAndFilter />
-      <InputForm.TextInput
-        label='제목'
-        placeholder='제목을 입력해주세요'
-        id='title'
-        isRequired={true}
-        validationRules={titleValidate}
-      />
-      <InputForm.TextInput label='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
-      <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 선택' />
-      <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' />
-      <div className='flex flex-col gap-[0.625rem]'>
-        <span>이미지</span>
-        <AddImageFile size='small' columnId={columnId} />
-      </div>
-    </div>
-  );
-}
-// 할 일 카드 수정 모달 내용
-export function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardData: ToDoCardDetailProps }) {
-  return (
-    <div className='flex flex-col gap-6 md:max-w-[28.125rem]'>
-      <span className='font-Pretendard font-bold md:text-[1.5rem]'>{mainTitle}</span>
-      <div className='flex flex-col gap-6 md:flex-row md:justify-between md:gap-4'>
-        <Dropdown column={cardData.columnId} />
-        <DropdownAndFilter assignee={cardData.assignee} />
-      </div>
-      <InputForm.TextInput
-        label='제목'
-        placeholder='제목을 입력해주세요'
-        id='title'
-        isRequired={true}
-        initialValue={cardData.title}
-        validationRules={titleValidate}
-      />
-      <InputForm.TextInput
-        label='설명'
-        placeholder='설명을 입력해주세요'
-        id='description'
-        isRequired={true}
-        initialValue={cardData.description}
-      />
-      <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 입력' initialDate={new Date('2023-12-24')} />
-      <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' initialTags={cardData.tags} />
-      <div className='flex flex-col gap-[0.625rem]'>
-        <span>이미지</span>
-        <AddImageFile size='small' profileImageUrl={cardData.imageUrl} columnId={cardData.columnId} />
-      </div>
-    </div>
-  );
-}
-
-// 할 일 카드 삭제 모달 내용
-export function DeleteTodo({ mainTitle }: TodoProps) {
-  return (
-    <>
-      <span className='flex items-center justify-center text-[1rem] font-medium text-black'>{mainTitle}</span>
-    </>
-  );
-}
-
+import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard/type';
 // 할 일 카드 상세 모달 내용
-export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onClose: () => void; columnId: number }) {
+export default function DetailToDo({
+  cardId,
+  onClose,
+  columnId,
+}: {
+  cardId: number;
+  onClose: () => void;
+  columnId: number;
+}) {
   const [nowCursorId, setNowCursorId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [observerLoading, setObserverLoading] = useState(false);
