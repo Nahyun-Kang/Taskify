@@ -1,0 +1,68 @@
+'use client';
+
+import InputForm from '@/src/app/_component/InputForm';
+import AddImageFile from '../../_component/AddImageFile';
+import Confirm from '@/src/app/_component/Button/Confirm';
+import { getInputClass, InputWrapper, Label } from '@/src/app/_component/InputForm/InputStyle';
+import { useRecoilState } from 'recoil';
+import { FieldValues } from 'react-hook-form';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { userInfoState } from '@/src/app/_recoil/AuthAtom';
+import { useEffect, useState } from 'react';
+
+export default function ProfileEdit() {
+  const inputClass = getInputClass(false) + ' text-gray40';
+  const [user, setUser] = useRecoilState(userInfoState);
+  const [mount, setMount] = useState(false);
+
+  const editUser = async (data: FieldValues) => {
+    const profile = {
+      nickname: 'string',
+      profileImageUrl: null,
+      ...data,
+    };
+    const res = await axiosInstance.put('users/me', profile);
+    setUser(res.data);
+  };
+
+  useEffect(() => {
+    setMount(true);
+  }, []);
+
+  return (
+    mount && (
+      <div>
+        <div className='flex w-full'>
+          <InputForm
+            onSubmit={(data) => {
+              editUser(data);
+            }}
+          >
+            <div className='flex flex-col gap-6 md:flex-row md:gap-4'>
+              <AddImageFile size='big' profileImageUrl={user.profileImageUrl} />
+              <div className='flex w-full flex-col gap-4 md:gap-5'>
+                <InputWrapper>
+                  <Label label='이메일' htmlFor='email' />
+                  <div className={inputClass}>사용자 이메일</div>
+                </InputWrapper>
+                <InputForm.TextInput
+                  label='닉네임'
+                  placeholder='닉네임 입력'
+                  id='nickname'
+                  validationRules={{ required: { value: true, message: '닉네임을 입력해주세요' } }}
+                  initialValue={user.nickname}
+                />
+              </div>
+            </div>
+            <div className='flex w-full justify-end'>
+              <div className='mt-4 h-7 w-[5.25rem] md:mt-5 md:h-8 md:w-[5.25rem]'>
+                <Confirm size='free' btnName='저장' onClick={() => {}} />
+              </div>
+            </div>
+          </InputForm>
+          <div className='flex flex-grow flex-col justify-center gap-4 md:ml-4'></div>
+        </div>
+      </div>
+    )
+  );
+}

@@ -16,6 +16,7 @@ export const userInfoState = atom<userInfoType>({
     id: null,
     nickname: '',
     profileImageUrl: '',
+    createdAt: null,
     updatedAt: null,
   },
   effects_UNSTABLE: [persistAtom],
