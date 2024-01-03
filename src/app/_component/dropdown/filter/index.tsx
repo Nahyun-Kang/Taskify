@@ -143,8 +143,13 @@ export default function DropdownAndFilter({
               }
             >
               {assignee?.profileImageUrl || imageValue ? (
-                <div className='rounded-full sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
-                  <Image src={assignee?.profileImageUrl || imageValue} alt='circleLogo' fill />
+                <div className=' relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
+                  <Image
+                    src={assignee?.profileImageUrl || imageValue}
+                    alt='circleLogo'
+                    fill
+                    style={{ borderRadius: '50%' }}
+                  />
                 </div>
               ) : (
                 <DefaultProfile nickName={curretValue} index={assignId as number} />
@@ -237,7 +242,9 @@ export const AdminOption = ({
           )}
           <div className='flex  items-center justify-center gap-[0.5rem]'>
             {profile !== null ? (
-              <Image src={profile} alt='circleLogo' width={26} height={26} />
+              <div className=' relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
+                <Image src={profile} alt='circleLogo' fill style={{ borderRadius: '50%' }} />
+              </div>
             ) : (
               <DefaultProfile nickName={name} index={userId} />
             )}

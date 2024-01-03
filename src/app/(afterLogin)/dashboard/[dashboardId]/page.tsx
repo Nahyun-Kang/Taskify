@@ -31,7 +31,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
 
   const onSubmitForCreateColumn = async (form: FieldValues) => {
     const titleValue = form.title;
-
+    let errorOccurred = false;
     try {
       if (columns.find((column) => column.title === titleValue)) {
         return callModal({ name: '중복된 컬럼 이름입니다.' });
@@ -39,12 +39,16 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
       const res = await axiosInstance.post('columns', { ...form, dashboardId: Number(params.dashboardId) });
       setColumns((oldColumns: Column[]) => [...oldColumns, res.data]);
     } catch (error) {
+      errorOccurred = true;
       if (isAxiosError(error)) {
         const serverErrorMessage = error.response?.data.message;
         return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
       }
+    } finally {
+      if (!errorOccurred) {
+        setModalType(null);
+      }
     }
-    setModalType(null);
   };
 
   const handleRenderCreateColumn = async () => {

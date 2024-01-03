@@ -163,17 +163,21 @@ export function DetailToDo({ cardId, onClose, columnId }: { cardId: number; onCl
 
   // 카드 삭제 서브밋 함수
   const DeleteCard = async () => {
+    let errorOccurred = false;
     try {
       await axiosInstance.delete(`cards/${cardId}`);
       setCards((oldCards: CardInfo[]) => oldCards.filter((item) => item.id !== cardId));
       setCount((prev: number) => prev - 1);
     } catch (error) {
+      errorOccurred = true;
       if (isAxiosError(error)) {
         const serverErrorMessage = error.response?.data.message;
         return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
       }
     } finally {
-      setModalType(null);
+      if (!errorOccurred) {
+        setModalType(null);
+      }
     }
   };
   // 카드 삭제 모달 호출 함수
