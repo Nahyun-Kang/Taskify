@@ -1,4 +1,3 @@
-import { isAxiosError } from 'axios';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { FieldValues } from 'react-hook-form';
 import { Dispatch, SetStateAction, ReactElement, JSXElementConstructor } from 'react';
@@ -12,9 +11,7 @@ export default function submitInvitation(
         email: data.title,
       });
     } catch (error) {
-      if (isAxiosError(error)) {
-        alert(error.response?.data.message);
-      }
+      throw error;
     } finally {
       setter(null);
     }
