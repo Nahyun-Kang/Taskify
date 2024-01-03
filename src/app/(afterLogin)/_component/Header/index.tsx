@@ -19,17 +19,18 @@ import { dashboardSelector } from '@/src/app/_recoil/dashboardAtom';
 
 export default function Header() {
   const pathname = usePathname();
-  const isMyDashboard = pathname === '/myboard';
+  const isDisabledButtons = pathname === '/myboard' || pathname === '/mypage' || pathname === '/';
   const [ModalType, callModal, setModalType] = useRenderModal();
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
   const [isActiveDropdown, setActiveDropdown] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userProfileImg, setUserProfileImg] = useState<string | null>(null);
   const userInfo = useRecoilValue(userInfoState);
 
   const dashboardId = pathname.replace(/[^0-9]/g, '');
-  const titleClass = !isMyDashboard ? 'hidden lg:block' : '';
-  const marginClass = isMyDashboard ? 'ml-[5.6875rem]' : '';
+  const titleClass = !isDisabledButtons ? 'hidden lg:block' : '';
+  const marginClass = isDisabledButtons ? 'ml-[5.6875rem]' : '';
   const selectDashboard = useRecoilValue(dashboardSelector(dashboardId));
 
   const getFolderName = (pathname: string) => {
@@ -63,8 +64,11 @@ export default function Header() {
     if (userDataObject) {
       const userData: UserDataType = JSON.parse(userDataObject);
       const nickname = userData?.userInfo?.nickname;
+      const profileImg = userData?.userInfo?.profileImageUrl;
       setUserName(nickname);
+      setUserProfileImg(profileImg);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
   const handleInvitation = () => {
@@ -84,7 +88,7 @@ export default function Header() {
           </div>
           {/* 헤더영역 오른쪽 */}
           <div className='flex'>
-            {!isMyDashboard && (
+            {!isDisabledButtons && (
               <div className='flex gap-[.375rem] md:gap-4'>
                 <Link href={`${pathname.includes('edit') ? pathname : pathname + '/edit'}`}>
                   <HeaderButton imageSrc={manage}>관리</HeaderButton>
@@ -94,26 +98,26 @@ export default function Header() {
                 </HeaderButton>
               </div>
             )}
-            {!isMyDashboard && (
+            {!isDisabledButtons && (
               <div className='ml-3 mr-[3.75rem] md:ml-6 md:mr-[5.25rem] lg:ml-8 lg:mr-[9.5rem]'>
                 <ProfileCollection dashboardId={dashboardId} userId={userInfo.id} />
               </div>
             )}
-            {!isMyDashboard && (
+            {!isDisabledButtons && (
               <div className=' mr-3 h-[2.375rem] w-0 rounded-md border-[.0625rem] stroke-gray30 stroke-1 md:mr-6 lg:mr-8'></div>
             )}
             <div
               className='relative mr-3 flex cursor-pointer items-center gap-3 md:mr-10 lg:mr-20'
               onClick={handlePopUpDropdown}
             >
-              <HeaderProfile nickName={userName} profileImg={userInfo.profileImageUrl} />
+              <HeaderProfile nickName={userName} profileImg={userProfileImg} />
               <div className='text-1 text-black30 hidden font-medium md:block'>{userName}</div>
             </div>
           </div>
         </div>
       </div>
       {ModalType}
-      {isActiveDropdown && <HeaderDropdown isActive={isActiveDropdown} />}
+      {isActiveDropdown && <HeaderDropdown isActive={isActiveDropdown} onClick={handlePopUpDropdown} />}
     </div>
   );
 }

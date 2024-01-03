@@ -16,6 +16,7 @@ export default function ProfileCollection({ dashboardId, userId }: Props) {
   const [count, setCount] = useState(4);
   const [members, setMembers] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [margin, setMargin] = useState(0);
   // const { data } = useGetMembers(+dashboardId, 6);
 
   const arr = members.filter((el: memberType) => el.userId !== userId);
