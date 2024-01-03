@@ -96,7 +96,7 @@ export default function Header() {
             )}
             {!isMyDashboard && (
               <div className='ml-3 mr-[3.75rem] md:ml-6 md:mr-[5.25rem] lg:ml-8 lg:mr-[9.5rem]'>
-                <ProfileCollection />
+                <ProfileCollection dashboardId={dashboardId} userId={userInfo.id} />
               </div>
             )}
             {!isMyDashboard && (
