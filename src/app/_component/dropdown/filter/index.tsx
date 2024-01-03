@@ -248,7 +248,7 @@ export const AdminOption = ({
             ) : (
               <DefaultProfile nickName={name} index={userId} />
             )}
-            <span className='text-[0.875rem] text-[1rem] md:text-[1rem]' id={name}>
+            <span className='text-[0.875rem]  md:text-[1rem]' id={name}>
               {name}
             </span>
           </div>
