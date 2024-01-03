@@ -3,7 +3,7 @@
 import addLargeImg from '@/public/icons/add_icon_large.svg';
 import Image from 'next/image';
 import penImg from '@/public/icons/pen.svg';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import uploadImageForServer from './uploadImage';
 
@@ -14,7 +14,7 @@ interface Props {
 
 const Size = {
   big: {
-    wrapper: 'h-[6.25rem] w-[6.25rem] md:w-[11.25rem] md:h-[11.25rem]',
+    wrapper: 'h-[6.25rem] w-[6.25rem] md:w-[11.375rem] md:h-[11.375rem]',
     iconSize: 'h-[1.25rem] w-[1.25rem] md:w-[1.875rem] md:h-[1.875rem]',
     penSize: 'h-[1.875rem] w-[1.875rem]',
   },
@@ -33,13 +33,26 @@ export default function AddImageFile({ size = 'big', profileImageUrl = '' }: Pro
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = (e.target as HTMLInputElement).files as FileList;
-    const fileURL = await uploadImageForServer(files[0]);
+    let fileURL;
+    if (size === 'big') {
+      fileURL = await uploadImageForServer(files[0], 'users/me/image');
+      setValue('profileImageUrl', fileURL);
+    } else {
+      fileURL = await uploadImageForServer(files[0], 'columns/50/card-image');
+      setValue('imageUrl', fileURL);
+    }
     setImage(fileURL);
-    setValue('imageUrl', fileURL);
   };
 
+  useEffect(() => {
+    setValue('profileImageUrl', profileImageUrl);
+  }, []);
+
   return (
-    <div className={`relative overflow-hidden rounded-md bg-[#f5f5f5] bg-cover ${Size[size].wrapper}`} style={style}>
+    <div
+      className={`relative flex-shrink-0 overflow-hidden rounded-md bg-[#f5f5f5] bg-cover ${Size[size].wrapper}`}
+      style={style}
+    >
       <input id='avatar' type='file' className='hidden' onChange={handleChange} accept='image/*' />
       <label htmlFor='avatar' className='group flex h-full w-full items-center justify-center'>
         {!image && <Image src={addLargeImg} alt='이미지 추가 버튼' className={`${Size[size].iconSize}`} priority />}

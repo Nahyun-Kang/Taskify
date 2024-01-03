@@ -84,7 +84,7 @@ export default function SideMenu() {
                   item.id === Number(currentBoard) ? 'bg-violet8' : ''
                 } flex h-[2.5rem] w-full items-center justify-center  rounded md:h-[2.6875rem] md:justify-start md:pl-[0.75rem] lg:h-[2.8125rem]`}
               >
-                <div className='flex items-center'>
+                <div className='flex w-full items-center'>
                   <IdxIcon color={item.color} className='md:mr-[1rem]' />
                   <div
                     className={`${

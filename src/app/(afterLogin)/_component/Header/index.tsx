@@ -65,7 +65,7 @@ export default function Header() {
       const nickname = userData?.userInfo?.nickname;
       setUserName(nickname);
     }
-  }, []);
+  }, [userInfo]);
 
   const handleInvitation = () => {
     callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType) });
