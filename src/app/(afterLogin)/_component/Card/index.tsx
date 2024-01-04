@@ -79,7 +79,9 @@ export default function Card({
                   <div className='relative h-[0.875rem] w-[0.875rem] md:h-[1.125rem] md:w-[1.125rem]'>
                     <Image src={calendarIcon} fill alt='달력 아이콘' />
                   </div>
-                  <span className='flex text-[0.625rem] text-gray50 md:text-[0.75rem]'>{dueDate}</span>
+                  <span className='flex text-[0.625rem] text-gray50 md:translate-y-[0.0625rem] md:text-[0.75rem]'>
+                    {dueDate}
+                  </span>
                 </div>
                 {
                   <span

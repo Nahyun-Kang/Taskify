@@ -5,11 +5,11 @@ import Image from 'next/image';
 import penImg from '@/public/icons/pen.svg';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import uploadImageForServer from './uploadImage';
+import uploadImageForServer from '@/src/app/(afterLogin)/_component/AddImageFile/uploadImage';
 
 interface Props {
   size: 'big' | 'small';
-  profileImageUrl?: string;
+  profileImageUrl?: string | null;
   columnId?: number;
 }
 
@@ -48,6 +48,7 @@ export default function AddImageFile({ size = 'big', profileImageUrl = '', colum
 
   useEffect(() => {
     setValue('profileImageUrl', profileImageUrl);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

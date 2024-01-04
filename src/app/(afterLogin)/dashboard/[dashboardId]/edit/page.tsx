@@ -8,6 +8,7 @@ import { deleteDashboard } from '@/src/app/_api/Dashboards';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
+import EditLayout from '@/src/app/(afterLogin)/_component/EditLayout';
 
 export default function BoardEdit({ params }: { params: { dashboardId: string } }) {
   const router = useRouter();
@@ -28,13 +29,13 @@ export default function BoardEdit({ params }: { params: { dashboardId: string } 
   };
 
   return (
-    <div className='mt-[4.3125rem] bg-white sm:w-full md:max-w-[34rem] lg:w-[38.75rem]'>
-      <EditBoard dashboardId={params.dashboardId} />
-      <MemberList dashboardId={params.dashboardId} />
-      <InviteList dashboardId={params.dashboardId} />
-      <div className='sm:item-center  flex  max-w-[38.75rem] flex-col gap-[1.25rem] p-[1.75rem]'>
+    <EditLayout dashboardId={params.dashboardId}>
+      <div className='flex flex-col gap-[0.625rem] sm:w-full md:max-w-[34rem] lg:w-[38.75rem]'>
+        <EditBoard dashboardId={params.dashboardId} />
+        <MemberList dashboardId={params.dashboardId} />
+        <InviteList dashboardId={params.dashboardId} />
         <DeleteDashboard screen={isMobile ? 'mobile' : 'desktop'} onClick={handleDelete} />
       </div>
-    </div>
+    </EditLayout>
   );
 }

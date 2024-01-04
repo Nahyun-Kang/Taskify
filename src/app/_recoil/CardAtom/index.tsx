@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { CardInfo, Column } from '@/src/app/(afterLogin)/_constant/type';
 import { CommentType2 } from '@/src/app/_component/modal/toDoCard/DetailComponent';
-import { ToDoCardDetailProps } from '../../_component/modal/toDoCard';
+import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard';
 
 const atomCache = new Map();
 

@@ -10,6 +10,8 @@ export default function useDragCardEnd() {
         const { source, destination } = result;
         if (!destination || source.droppableId === destination.droppableId) return;
 
+        const OriginalSourceCount = snapshot.getLoadable(countAboutCardList(+source.droppableId)).contents;
+        const OriginalDestinationCount = snapshot.getLoadable(countAboutCardList(+destination.droppableId)).contents;
         const OriginalSourceCards = [...snapshot.getLoadable(cardStateAboutColumn(+source.droppableId)).contents];
         const OriginalDestinationCards = [
           ...snapshot.getLoadable(cardStateAboutColumn(+destination.droppableId)).contents,
@@ -25,8 +27,8 @@ export default function useDragCardEnd() {
 
           set(cardStateAboutColumn(+source.droppableId), sourceCards);
           set(cardStateAboutColumn(+destination.droppableId), destinationCards);
-          set(countAboutCardList(+source.droppableId), sourceCards.length);
-          set(countAboutCardList(+destination.droppableId), destinationCards.length);
+          set(countAboutCardList(+source.droppableId), OriginalSourceCount - 1);
+          set(countAboutCardList(+destination.droppableId), OriginalDestinationCount + 1);
 
           await axiosInstance.put(`cards/${+movedCard.id}`, {
             ...movedCard,
@@ -35,8 +37,8 @@ export default function useDragCardEnd() {
         } catch (error) {
           set(cardStateAboutColumn(+source.droppableId), OriginalSourceCards);
           set(cardStateAboutColumn(+destination.droppableId), OriginalDestinationCards);
-          set(countAboutCardList(+source.droppableId), OriginalSourceCards.length);
-          set(countAboutCardList(+destination.droppableId), OriginalDestinationCards.length);
+          set(countAboutCardList(+source.droppableId), OriginalSourceCount);
+          set(countAboutCardList(+destination.droppableId), OriginalDestinationCount);
         }
       },
     [],

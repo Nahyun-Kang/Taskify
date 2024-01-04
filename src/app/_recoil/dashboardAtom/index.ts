@@ -21,3 +21,8 @@ export const dashboardSelector = selectorFamily({
       return selectDashboard || null;
     },
 });
+
+export const inviteListChange = atom({
+  key: 'inviteList',
+  default: false,
+});

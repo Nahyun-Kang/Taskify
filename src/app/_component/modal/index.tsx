@@ -66,7 +66,10 @@ export function Modal({
   content,
   size,
 }: ModalProps) {
-  const closeModal = () => setModalType(null);
+  const closeModal = () => {
+    document.body.style.overflowY = 'auto';
+    setModalType(null);
+  };
 
   const renderModal = () => {
     if (updateColumn && columnId) {
