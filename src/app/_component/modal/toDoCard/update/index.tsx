@@ -30,7 +30,12 @@ export default function UpdateToDo({ mainTitle, cardData }: { mainTitle: string;
         isRequired={true}
         initialValue={cardData.description}
       />
-      <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 입력' initialDate={new Date('2023-12-24')} />
+      <InputForm.DateInput
+        label='마감일'
+        id='dueDate'
+        placeholder='날짜 입력'
+        initialDate={new Date(cardData.dueDate)}
+      />
       <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' initialTags={cardData.tags} />
       <div className='flex flex-col gap-[0.625rem]'>
         <span>이미지</span>
