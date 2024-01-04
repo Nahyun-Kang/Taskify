@@ -1,9 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Link from 'next/link';
-
 import Crown from '@/src/app/_component/Icons/Crown';
 import HeaderButton from '@/src/app/(afterLogin)/_component/Header/HeaderButton';
 import add from '@/public/images/add_box_icon.svg';
@@ -15,8 +14,8 @@ import HeaderDropdown from '@/src/app/(afterLogin)/_component/Header/HeaderDropd
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
 import { UserDataType } from '@/src/app/_constant/type';
-import { dashboardSelector } from '@/src/app/_recoil/dashboardAtom';
 import { dropdownState } from '@/src/app/_recoil/Dropdown';
+import { dashboardSelector, inviteListChange } from '@/src/app/_recoil/dashboardAtom';
 
 export default function Header() {
   const pathname = usePathname();
@@ -29,6 +28,7 @@ export default function Header() {
   const [userProfileImg, setUserProfileImg] = useState<string | null>(null);
   const userInfo = useRecoilValue(userInfoState);
   const [isActiveDropdown, setActiveDropdown] = useRecoilState(dropdownState);
+  const setIsChange = useSetRecoilState(inviteListChange);
 
   const dashboardId = pathname.replace(/[^0-9]/g, '');
   const titleClass = !isDisabledButtons ? 'hidden lg:block' : '';
@@ -71,7 +71,7 @@ export default function Header() {
   }, [userInfo]);
 
   const handleInvitation = () => {
-    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType) });
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType, setIsChange) });
   };
 
   return (
@@ -131,5 +131,3 @@ export default function Header() {
     </div>
   );
 }
-
-//mr-[3.75rem] md:mr-[5.25rem] lg:mr-[9.5rem]

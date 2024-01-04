@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Profile from '@/src/app/(afterLogin)/_component/ProfileImgCollection/ProfileImg';
-// import useGetMembers from '@/src/app/(afterLogin)/_util/useGetMembers';
 import { memberType } from '@/src/app/(afterLogin)/_constant/type';
 import { getMembers } from '@/src/app/_api/Dashboards';
 
@@ -11,12 +10,10 @@ interface Props {
   userId: number | null;
 }
 
-// TODO: 현재 유저 아이디, 대시보드 아이디로 교체해야함
 export default function ProfileCollection({ dashboardId, userId }: Props) {
   const [count, setCount] = useState(4);
   const [members, setMembers] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
-  // const { data } = useGetMembers(+dashboardId, 6);
 
   const margin = (totalCount: number) => {
     if (totalCount <= 1) {
@@ -57,7 +54,9 @@ export default function ProfileCollection({ dashboardId, userId }: Props) {
   }, []);
 
   useEffect(() => {
-    getMemeberList();
+    if (userId) {
+      getMemeberList();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dashboardId, userId]);
   return (
