@@ -3,7 +3,7 @@ import Tag from '@/src/app/_component/Chip/Tag';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { openPopOverState } from '@/src/app/_recoil/CardAtom';
-
+import { showToDoModalStateAboutCard } from '@/src/app/_recoil/CardAtom';
 import Image from 'next/image';
 
 import { useSetRecoilState } from 'recoil';
@@ -32,14 +32,16 @@ export default function Card({
   columnId,
 }: CardProps) {
   const [modalType, callModal] = useRenderModal();
-
+  const setShow = useSetRecoilState(showToDoModalStateAboutCard(id));
   const setIsOpenPopOver = useSetRecoilState(openPopOverState);
 
   // 할 일 카드 상세 모달을 호출하기 위한 함수
   const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setIsOpenPopOver(false);
+
     callModal({ name: '할 일 카드 상세', cardId: id, columnId });
+    setShow(true);
   };
 
   return (
