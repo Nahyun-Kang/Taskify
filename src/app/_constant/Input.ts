@@ -101,3 +101,10 @@ export const dashboardTitleValidate = {
     message: '대시보드 이름은 열다섯 자 이하로 작성해주세요.',
   },
 };
+
+export const columnTitleValidate = {
+  maxLength: {
+    value: 15,
+    message: '컬럼 이름은 열다섯 자 이하로 작성해주세요.',
+  },
+};

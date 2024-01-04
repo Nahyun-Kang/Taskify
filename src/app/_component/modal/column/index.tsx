@@ -9,12 +9,19 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { showColumnModalState, columnState } from '@/src/app/_recoil/CardAtom';
 import { useRef } from 'react';
 import { isAxiosError } from 'axios';
+import { requiredValidate } from '@/src/app/_constant/Input';
+import { columnTitleValidate } from '../../../_constant/Input';
 // 컬럼 생성 모달 내용
 export function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; labelTitle: string }) {
   return (
     <>
       <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-      <InputForm.TextInput label={labelTitle} placeholder='컬럼 제목을 입력해주세요' id='title' />
+      <InputForm.TextInput
+        label={labelTitle}
+        placeholder='컬럼 제목을 입력해주세요'
+        id='title'
+        validationRules={{ ...columnTitleValidate, ...requiredValidate }}
+      />
     </>
   );
 }
@@ -66,6 +73,7 @@ export function UpdateColumn({
                 placeholder='컬럼 제목을 수정해주세요'
                 id='title'
                 isRequired={true}
+                validationRules={{ ...columnTitleValidate, ...requiredValidate }}
               />
               <span
                 id='칼럼 삭제'
