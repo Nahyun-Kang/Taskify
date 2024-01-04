@@ -23,7 +23,6 @@ export default function Header() {
   const [ModalType, callModal, setModalType] = useRenderModal();
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
-  // const [isActiveDropdown, setActiveDropdown] = useState(false);
   const [userName, setUserName] = useState('');
   const [userProfileImg, setUserProfileImg] = useState<string | null>(null);
   const userInfo = useRecoilValue(userInfoState);
@@ -76,12 +75,12 @@ export default function Header() {
 
   return (
     <div className='relative z-[11]'>
-      <div className='fixed left-0 right-0 top-0 h-[4.375rem] border-b-[.0625rem] bg-white'>
+      <div className='dark:bg-black90 fixed left-0 right-0 top-0 h-[4.375rem] border-b-[.0625rem] bg-white dark:border-black60'>
         <div className=' flex h-full items-center justify-between'>
           {/* 헤더영역 왼쪽 */}
           <div className={`${marginClass} justify-end md:ml-[12.5rem] lg:ml-[21.25rem]`}>
             <div className='flex items-center gap-2'>
-              <div className={`text-black30 text-xl font-bold ${titleClass}`}>{folderName}</div>
+              <div className={`text-black30 text-xl font-bold ${titleClass} dark:text-white`}>{folderName}</div>
               {createdByMe && <Crown className='hidden lg:block' />}
             </div>
           </div>
@@ -113,7 +112,7 @@ export default function Header() {
               }}
             >
               <HeaderProfile nickName={userName} profileImg={userProfileImg} />
-              <div className='text-1 text-black30 hidden font-medium md:block'>{userName}</div>
+              <div className='text-1 text-black30 hidden font-medium dark:text-white md:block'>{userName}</div>
             </div>
           </div>
         </div>

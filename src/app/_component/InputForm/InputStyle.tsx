@@ -19,7 +19,7 @@ interface LabelProps {
 }
 
 export const getInputClass = (hasError: boolean) =>
-  `box-border flex gap-2 rounded-lg border px-4 py-[0.6875rem] text-[0.875rem] md:text-[1rem]  placeholder:text-gray40 focus-within:border-violet outline-0 ${
+  `box-border flex gap-2 rounded-lg border px-4 py-[0.6875rem] text-[0.875rem] md:text-[1rem]  placeholder:text-gray40 focus-within:border-violet outline-0 dark:bg-black80 ${
     hasError ? 'border-red' : 'border-gray30'
   }`;
 
@@ -30,7 +30,7 @@ export function InputWrapper({ children }: { children: ReactNode }) {
 export function InputWithImageWrapper({ children, hasError }: { children: ReactNode; hasError: boolean }) {
   return (
     <div
-      className={`box-border flex gap-2 rounded-lg border bg-white px-4 py-[0.6875rem] placeholder:text-gray40 focus-within:border-violet ${
+      className={`box-border flex gap-2 rounded-lg border bg-white px-4 py-[0.6875rem] placeholder:text-gray40 focus-within:border-violet dark:bg-black80 ${
         hasError ? 'border-red' : 'border-gray30'
       }`}
     >
@@ -67,7 +67,7 @@ export function ErrorMessage({ message }: { message: string }) {
 
 export function Label({ label, isRequired, htmlFor }: LabelProps) {
   return (
-    <label htmlFor={htmlFor} className='text-black md:text-[1.125rem]'>
+    <label htmlFor={htmlFor} className='dark:text-white8 text-black md:text-[1.125rem]'>
       {label}
       {isRequired && <p className='inline text-violet'> *</p>}
     </label>
