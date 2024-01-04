@@ -2,7 +2,7 @@ import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { openPopOverState, showToDoModalState } from '@/src/app/_recoil/CardAtom';
+import { openPopOverState } from '@/src/app/_recoil/CardAtom';
 
 import Image from 'next/image';
 
@@ -32,14 +32,13 @@ export default function Card({
   columnId,
 }: CardProps) {
   const [modalType, callModal] = useRenderModal();
-  const setShow = useSetRecoilState(showToDoModalState);
+
   const setIsOpenPopOver = useSetRecoilState(openPopOverState);
 
   // 할 일 카드 상세 모달을 호출하기 위한 함수
   const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setIsOpenPopOver(false);
-    setShow(true);
     callModal({ name: '할 일 카드 상세', cardId: id, columnId });
   };
 

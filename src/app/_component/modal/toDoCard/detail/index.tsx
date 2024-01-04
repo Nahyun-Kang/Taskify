@@ -82,6 +82,7 @@ export default function DetailToDo({
   const RenderUpdatedoModal = (cardData: ToDoCardDetailProps) => {
     callModal({ name: '할 일 수정', onSubmit: putCard, cardData: cardData });
     setShow(false);
+    setIsOpenPopOver(false);
   };
 
   // 카드 삭제 서브밋 함수
@@ -173,11 +174,14 @@ export default function DetailToDo({
 
   // 할 일 카드 상세 모달 마운트 시 해당 카드 및 댓글 데이터바인딩
   useEffect(() => {
+    setShow(true);
     handleRenderCard();
     return () => {
       setNowCursorId('');
       setComments([]);
+      setShow(false);
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -199,6 +203,7 @@ export default function DetailToDo({
   if (!cardData) return;
 
   if (!show) {
+    setShow(true);
     return <>{modalType}</>;
   }
 

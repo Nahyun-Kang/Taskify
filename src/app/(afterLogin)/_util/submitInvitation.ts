@@ -1,9 +1,9 @@
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { FieldValues } from 'react-hook-form';
-import { Dispatch, SetStateAction, ReactElement, JSXElementConstructor } from 'react';
+import { Dispatch } from 'react';
 export default function submitInvitation(
   dashboardId: string | undefined,
-  setter: Dispatch<SetStateAction<ReactElement<unknown, string | JSXElementConstructor<unknown>> | null>>,
+  setter: Dispatch<React.SetStateAction<React.ReactElement | null>>,
 ) {
   const postInvitation = async (data: FieldValues) => {
     try {
