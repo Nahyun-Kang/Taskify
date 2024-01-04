@@ -1,5 +1,7 @@
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { Dispatch, SetStateAction } from 'react';
 import { FieldValues } from 'react-hook-form';
+import { SetterOrUpdater } from 'recoil';
 export async function getInvitations(dashboardId: string | undefined, page: number, size: number) {
   try {
     const response = await axiosInstance.get(`dashboards/${dashboardId}/invitations?page=${page}&size=${size}`);
@@ -20,20 +22,26 @@ export async function getMembers(dashboardId: string | undefined, page: number, 
   }
 }
 
-export async function deleteMember(memberId: number) {
+export async function deleteMember(memberId: number, setIsChange: Dispatch<SetStateAction<boolean>>) {
   try {
     const response = await axiosInstance.delete(`members/${memberId}`);
     const status = response.status;
+    setIsChange((prev) => !prev);
     return status;
   } catch (error) {
     throw error;
   }
 }
 
-export async function deleteInvitation(dashboardId: string | undefined, invitationId: number) {
+export async function deleteInvitation(
+  dashboardId: string | undefined,
+  invitationId: number,
+  setIsChange: SetterOrUpdater<boolean>,
+) {
   try {
     const response = await axiosInstance.delete(`dashboards/${dashboardId}/invitations/${invitationId}`);
     const status = response.status;
+    setIsChange((prev) => !prev);
     return status;
   } catch (error) {
     throw error;

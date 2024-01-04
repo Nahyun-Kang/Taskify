@@ -34,7 +34,7 @@ export function DetailIconButton({
   cardData,
 }: DetailIconButtonProps) {
   return (
-    <div className=' absolute flex items-center gap-1 sm:right-[0.75rem] sm:top-[0.75rem] md:right-[1.75rem] md:top-[2rem] md:gap-[1.5rem]'>
+    <div className='flex items-center gap-1 sm:right-[0.75rem] sm:top-[0.75rem] md:right-[1.75rem] md:top-[2rem] md:gap-[1.5rem]'>
       <span onClick={handleKebab} className=' relative h-[1.75rem] w-[1.75rem] '>
         {kebab && <Image src={kebab} alt='케밥' fill priority />}
         {isOpenPopOver ? (
@@ -46,7 +46,7 @@ export function DetailIconButton({
           >
             <p
               onClick={() => onUpdate(cardData)}
-              className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem]'
+              className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet'
             >
               수정하기
             </p>
@@ -80,10 +80,10 @@ export function DetailMainContent({
   return (
     <>
       <div className='flex gap-[1.25rem]'>
-        <div className=' flex items-center gap-[1.25rem] text-[0.625rem] md:text-[0.75rem]'>
+        <div className=' flex items-start gap-[1.25rem] text-[0.625rem] md:text-[0.75rem]'>
           <span>
             {
-              <div className='flex items-center rounded-[6.25rem] bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
+              <div className='flex flex-shrink-0 items-center rounded-[6.25rem] bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
                 <div className='flex gap-[0.375rem] overflow-hidden'>
                   <Image src={circle} alt='circle' width={6} height={6} priority />
                   <span className='whitespace-nowrap'>{newColumn?.title}</span>
@@ -91,9 +91,9 @@ export function DetailMainContent({
               </div>
             }
           </span>
-          <span className='h-5 w-0 border-[0.0625rem] border-gray30'></span>
+          {tags.length !== 0 && <span className='h-5 w-0 border-[0.0625rem] border-gray30' />}
         </div>
-        <div className='flex flex-nowrap gap-[0.375rem]'>
+        <div className='flex flex-wrap gap-[0.375rem]'>
           {tags.map((tag) => (
             <Tag content={tag} key={tag} />
           ))}

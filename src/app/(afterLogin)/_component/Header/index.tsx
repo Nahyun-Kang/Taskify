@@ -1,9 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Link from 'next/link';
-
 import Crown from '@/src/app/_component/Icons/Crown';
 import HeaderButton from '@/src/app/(afterLogin)/_component/Header/HeaderButton';
 import add from '@/public/images/add_box_icon.svg';
@@ -15,7 +14,8 @@ import HeaderDropdown from '@/src/app/(afterLogin)/_component/Header/HeaderDropd
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
 import { UserDataType } from '@/src/app/_constant/type';
-import { dashboardSelector } from '@/src/app/_recoil/dashboardAtom';
+import { dropdownState } from '@/src/app/_recoil/Dropdown';
+import { dashboardSelector, inviteListChange } from '@/src/app/_recoil/dashboardAtom';
 
 export default function Header() {
   const pathname = usePathname();
@@ -23,10 +23,12 @@ export default function Header() {
   const [ModalType, callModal, setModalType] = useRenderModal();
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
-  const [isActiveDropdown, setActiveDropdown] = useState(false);
+  // const [isActiveDropdown, setActiveDropdown] = useState(false);
   const [userName, setUserName] = useState('');
   const [userProfileImg, setUserProfileImg] = useState<string | null>(null);
   const userInfo = useRecoilValue(userInfoState);
+  const [isActiveDropdown, setActiveDropdown] = useRecoilState(dropdownState);
+  const setIsChange = useSetRecoilState(inviteListChange);
 
   const dashboardId = pathname.replace(/[^0-9]/g, '');
   const titleClass = !isDisabledButtons ? 'hidden lg:block' : '';
@@ -46,9 +48,6 @@ export default function Header() {
     }
   };
 
-  const handlePopUpDropdown = () => {
-    setActiveDropdown((prev) => !prev);
-  };
   useEffect(() => {
     if (selectDashboard) {
       setFolderName(selectDashboard.title);
@@ -72,11 +71,11 @@ export default function Header() {
   }, [userInfo]);
 
   const handleInvitation = () => {
-    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType) });
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType, setIsChange) });
   };
 
   return (
-    <div className='relative z-10'>
+    <div className='relative z-[11]'>
       <div className='fixed left-0 right-0 top-0 h-[4.375rem] border-b-[.0625rem] bg-white'>
         <div className=' flex h-full items-center justify-between'>
           {/* 헤더영역 왼쪽 */}
@@ -88,7 +87,7 @@ export default function Header() {
           </div>
           {/* 헤더영역 오른쪽 */}
           <div className='flex'>
-            {!isDisabledButtons && (
+            {!isDisabledButtons && selectDashboard?.createdByMe && (
               <div className='flex gap-[.375rem] md:gap-4'>
                 <Link href={`${pathname.includes('edit') ? pathname : pathname + '/edit'}`}>
                   <HeaderButton imageSrc={manage}>관리</HeaderButton>
@@ -108,18 +107,27 @@ export default function Header() {
             )}
             <div
               className='relative mr-[.75rem] flex cursor-pointer items-center gap-3 md:mr-[2.5rem] lg:mr-[5rem]'
-              onClick={handlePopUpDropdown}
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveDropdown((prev) => !prev);
+              }}
             >
               <HeaderProfile nickName={userName} profileImg={userProfileImg} />
               <div className='text-1 text-black30 hidden font-medium md:block'>{userName}</div>
             </div>
           </div>
         </div>
+        {isActiveDropdown && (
+          <HeaderDropdown
+            isActive={isActiveDropdown}
+            onClick={(e) => {
+              e?.stopPropagation();
+              setActiveDropdown(false);
+            }}
+          />
+        )}
       </div>
       {ModalType}
-      {isActiveDropdown && <HeaderDropdown isActive={isActiveDropdown} onClick={handlePopUpDropdown} />}
     </div>
   );
 }
-
-//mr-[3.75rem] md:mr-[5.25rem] lg:mr-[9.5rem]

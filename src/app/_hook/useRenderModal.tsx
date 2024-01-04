@@ -27,6 +27,7 @@ export default function useRenderModal(): [
   const callModal: CallModalType = (condition) => {
     const newReturnModal = returnModal({ ...condition, setModalType });
     const modalName = condition.name;
+    document.body.style.overflowY = 'hidden';
     if (newReturnModal) {
       setModalType(newReturnModal);
       setRecoilModalType(modalName);
