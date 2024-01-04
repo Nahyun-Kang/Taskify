@@ -99,7 +99,9 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
                 inviteList.length !== idx + 1 ? 'border-b-[0.0625rem]' : ''
               }`}
             >
-              <span className='text-black80 sm:text-[0.875rem] md:text-[1rem]'>{val.invitee.email}</span>
+              <span className='overflow-hidden text-ellipsis text-black80 sm:text-[0.875rem] md:text-[1rem]'>
+                {val.invitee.email}
+              </span>
               <CancelInvite size='large' onClick={() => handleCancelInvite(val.id)} />
             </div>
           ))}
