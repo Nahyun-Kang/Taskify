@@ -1,5 +1,5 @@
 import { SubmitHandler, FieldValues } from 'react-hook-form';
-import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard';
+import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard/type';
 
 export const MODALTYPE = {
   COLUMN: {

@@ -2,7 +2,7 @@ import { useState, Dispatch, SetStateAction, ReactElement, JSXElementConstructor
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import returnModal from '@/src/app/_util/returnModal';
-import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard';
+import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard/type';
 import { modalNameState } from '@/src/app/_recoil/ModalNameAtom';
 
 export interface CallModalType {

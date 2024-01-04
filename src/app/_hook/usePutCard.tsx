@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, SetStateAction, ReactElement, JSXElementConstructor } from 'react';
+import { useState, useEffect, Dispatch } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { cardStateAboutColumn } from '../_recoil/CardAtom';
 import { CardInfo } from '../(afterLogin)/_constant/type';
@@ -10,7 +10,7 @@ import { CallModalType } from './useRenderModal';
 export const usePutCard = (
   cardId: number,
   columnId: number,
-  setModalType: Dispatch<SetStateAction<ReactElement<unknown, string | JSXElementConstructor<unknown>> | null>>,
+  setModalType: Dispatch<React.SetStateAction<React.ReactElement | null>>,
   callModal: CallModalType,
 ) => {
   const setCards = useSetRecoilState(cardStateAboutColumn(columnId));

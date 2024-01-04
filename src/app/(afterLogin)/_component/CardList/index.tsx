@@ -17,12 +17,7 @@ import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 import { isAxiosError } from 'axios';
 import { DraggableStateSnapshot, DraggableProvided, Draggable } from 'react-beautiful-dnd';
-import {
-  cardStateAboutColumn,
-  columnState,
-  countAboutCardList,
-  showColumnModalState,
-} from '@/src/app/_recoil/CardAtom';
+import { cardStateAboutColumn, columnState, countAboutCardList } from '@/src/app/_recoil/CardAtom';
 interface CardListProps {
   id: number;
   title: string;
@@ -36,8 +31,6 @@ export function CardList({ id, title, boardId }: CardListProps) {
   const [modalType, callModal, setModalType] = useRenderModal();
   const setColumns = useSetRecoilState(columnState);
   const target = useRef<HTMLDivElement>(null);
-
-  const setShow = useSetRecoilState(showColumnModalState);
 
   const getCard = useCallback(async () => {
     const query = cursorId ? `cursorId=${cursorId}&` : '';
@@ -96,7 +89,6 @@ export function CardList({ id, title, boardId }: CardListProps) {
   // 칼럼 수정 모달 호출을 위한 함수
 
   const handleRenderUpdateColumn = () => {
-    setShow(true);
     callModal({
       name: '칼럼 관리',
       onSubmit: onSubmitForUpdateColumn,

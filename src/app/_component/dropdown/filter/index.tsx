@@ -3,12 +3,12 @@ import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
-import { ChangeEvent, FocusEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FocusEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { dashboardIdState } from '@/src/app/_recoil/CardAtom';
 import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
-import { Dispatch, SetStateAction } from 'react';
+
 interface Admin {
   id: number;
   email: string;
@@ -20,19 +20,23 @@ interface Admin {
   userId: number;
 }
 
+interface SelectUser {
+  name: string;
+  profile: string;
+}
+
 export default function DropdownAndFilter({
   assignee,
 }: {
   assignee?: { profileImageUrl: string; nickname: string; id: number };
 }) {
-  const [imageValue, setImageValue] = useState('');
+  const [imageValue, setImageValue] = useState(assignee?.profileImageUrl || '');
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
   const [openDropdown, setOpenDropdown] = useState(false); // 드롭다운 개폐여부
   const [curretValue, setCurrentValue] = useState<string>(assignee?.nickname || ''); // 인풋에 대한 입력값 참조
   const [assignId, setAssignId] = useState((Number(assignee?.id) as number) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
   const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 인풋에 이름 입력 다하거나 OR 드롭다운 내부에 있는 이름 클릭하면 TRUE가됨+ 인풋이 DIV로 바뀜 (IMG와 이름 가져오기 위해)
   const [dropdownList, setDropdownList] = useState<Admin[] | null>(null);
-
   const [dashboardId] = useRecoilState(dashboardIdState);
 
   const { register, setValue, trigger } = useFormContext();
@@ -62,9 +66,9 @@ export default function DropdownAndFilter({
   };
 
   // 드롭 다운 내 사용자 클릭을 받아서, 담당자로 지정
-  const handleOnChangeDropdown = (e: MouseEvent<HTMLSpanElement>, id: number) => {
-    const { innerText } = e.target as HTMLElement;
-    setCurrentValue(innerText);
+  const handleOnChangeDropdown = (user: SelectUser, id: number) => {
+    setCurrentValue(user.name);
+    setImageValue(user.profile);
     setOpenDropdown(false);
     setAssignId(id);
     setIsSelectionComplete(true);
@@ -142,14 +146,9 @@ export default function DropdownAndFilter({
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
-              {assignee?.profileImageUrl || imageValue ? (
+              {imageValue ? (
                 <div className=' relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
-                  <Image
-                    src={assignee?.profileImageUrl || imageValue}
-                    alt='circleLogo'
-                    fill
-                    style={{ borderRadius: '50%' }}
-                  />
+                  <Image src={imageValue} alt='circleLogo' fill style={{ borderRadius: '50%' }} />
                 </div>
               ) : (
                 <DefaultProfile nickName={curretValue} index={assignId as number} />
@@ -200,7 +199,6 @@ export default function DropdownAndFilter({
                   userId={admin.userId}
                   onClick={handleOnChangeDropdown}
                   profile={admin.profileImageUrl}
-                  setImageValue={setImageValue}
                 />
               );
             })}
@@ -218,23 +216,20 @@ export const AdminOption = ({
   userId,
   assignId,
   profile,
-  setImageValue,
 }: {
-  onClick: (e: MouseEvent<HTMLElement>, userId: number) => void;
+  onClick: (user: SelectUser, id: number) => void;
   name: string;
   userId: number;
   assignId: number;
   profile: string | null;
-  setImageValue: Dispatch<SetStateAction<string>>;
 }) => {
-  const handleSelectDropdown = (e: MouseEvent<HTMLSpanElement>) => {
-    onClick(e, userId as number);
-    if (profile) setImageValue(profile);
+  const handleSelectDropdown = (name: string, profile: string) => {
+    onClick({ name, profile }, userId);
   };
   return (
     <>
       {name ? (
-        <div onClick={handleSelectDropdown} className='flex items-center gap-[0.375rem]'>
+        <div onClick={() => handleSelectDropdown(name, profile as string)} className='flex items-center gap-[0.375rem]'>
           {assignId === userId ? (
             <Image src={check} alt='check' width={22} height={22} />
           ) : (
@@ -248,7 +243,7 @@ export const AdminOption = ({
             ) : (
               <DefaultProfile nickName={name} index={userId} />
             )}
-            <span className='text-[0.875rem] text-[1rem] md:text-[1rem]' id={name}>
+            <span className='text-[0.875rem]  md:text-[1rem]' id={name}>
               {name}
             </span>
           </div>

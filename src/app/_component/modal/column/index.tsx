@@ -6,11 +6,11 @@ import InputForm from '@/src/app/_component/InputForm';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { showColumnModalState, columnState } from '@/src/app/_recoil/CardAtom';
+import { columnState, showColumnModalState } from '@/src/app/_recoil/CardAtom';
 import { useRef } from 'react';
 import { isAxiosError } from 'axios';
 import { requiredValidate } from '@/src/app/_constant/Input';
-import { columnTitleValidate } from '../../../_constant/Input';
+import { columnTitleValidate } from '@/src/app/_constant/Input';
 // 컬럼 생성 모달 내용
 export function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; labelTitle: string }) {
   return (
@@ -56,41 +56,48 @@ export function UpdateColumn({
     }
   };
 
-  if (!show) return <>{modalType}</>;
+  if (!show) {
+    setShow(true);
+    return <>{modalType}</>;
+  }
 
   return (
     <>
-      <div onClick={modalOutSideClick}>
-        <div
-          ref={modalRef}
-          className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'
-        >
-          <div className='relative gap-[1.5rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:w-[33.75rem] md:px-[1.75rem] md:pt-[2rem]'>
-            <div className=' flex flex-col gap-[2rem]'>
-              <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
-              <InputForm.TextInput
-                label={labelTitle}
-                placeholder='컬럼 제목을 수정해주세요'
-                id='title'
-                isRequired={true}
-                validationRules={{ ...columnTitleValidate, ...requiredValidate }}
-              />
-              <span
-                id='칼럼 삭제'
-                onClick={handleRenderDeleteColumn}
-                className='font-Pretendard absolute text-[0.875rem] text-gray40 underline sm:bottom-[4.5rem] sm:left-[1.25rem] md:bottom-[1.75rem] md:left-[1.75rem]'
-              >
-                삭제하기
-              </span>
+      {modalType ? (
+        <>{modalType}</>
+      ) : (
+        <div onClick={modalOutSideClick}>
+          <div
+            ref={modalRef}
+            className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'
+          >
+            <div className='relative gap-[1.5rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:w-[33.75rem] md:px-[1.75rem] md:pt-[2rem]'>
+              <div className=' flex flex-col gap-[2rem]'>
+                <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
+                <InputForm.TextInput
+                  label={labelTitle}
+                  placeholder='컬럼 제목을 수정해주세요'
+                  id='title'
+                  isRequired={true}
+                  validationRules={{ ...columnTitleValidate, ...requiredValidate }}
+                />
+                <span
+                  id='칼럼 삭제'
+                  onClick={handleRenderDeleteColumn}
+                  className='font-Pretendard absolute text-[0.875rem] text-gray40 underline sm:bottom-[4.5rem] sm:left-[1.25rem] md:bottom-[1.75rem] md:left-[1.75rem]'
+                >
+                  삭제하기
+                </span>
 
-              <div className='flex gap-[0.75rem]  sm:justify-between md:justify-end'>
-                <Cancel size={btnSize} onClick={onClose} />
-                <Confirm btnName={btnName} size={btnSize} onClick={() => {}} />
+                <div className='flex gap-[0.75rem]  sm:justify-between md:justify-end'>
+                  <Cancel size={btnSize} onClick={onClose} />
+                  <Confirm btnName={btnName} size={btnSize} onClick={() => {}} />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
