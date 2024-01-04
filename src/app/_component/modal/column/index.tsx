@@ -6,7 +6,7 @@ import InputForm from '@/src/app/_component/InputForm';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { columnState, showColumnModalState } from '@/src/app/_recoil/CardAtom';
+import { columnState, showColumnModalStateAboutId } from '@/src/app/_recoil/CardAtom';
 import { useRef } from 'react';
 import { isAxiosError } from 'axios';
 import { requiredValidate } from '@/src/app/_constant/Input';
@@ -42,7 +42,7 @@ export function UpdateColumn({
   onClose: () => void;
 }) {
   const [modalType, callModal] = useRenderModal();
-  const [show, setShow] = useRecoilState(showColumnModalState);
+  const [show, setShow] = useRecoilState(showColumnModalStateAboutId(columnId));
 
   const handleRenderDeleteColumn = () => {
     callModal({ name: '칼럼 삭제', columnId: columnId });
@@ -57,7 +57,6 @@ export function UpdateColumn({
   };
 
   if (!show) {
-    setShow(true);
     return <>{modalType}</>;
   }
 

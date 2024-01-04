@@ -26,15 +26,33 @@ export const columnState = atom<Column[]>({
   default: [],
 });
 
-export const showToDoModalState = atom<boolean>({
-  key: `showToDoModalState`,
-  default: true,
-});
+const todoModalCache = new Map();
 
-export const showColumnModalState = atom<boolean>({
-  key: `showColumnModalState`,
-  default: true,
-});
+export const showToDoModalStateAboutCard = (cardId: number) => {
+  if (!todoModalCache.has(cardId)) {
+    const showToDoModalState = atom<boolean>({
+      key: `showToDoModalState${cardId}`,
+      default: false,
+    });
+    todoModalCache.set(cardId, showToDoModalState);
+  }
+
+  return todoModalCache.get(cardId);
+};
+
+const columnModalCache = new Map();
+
+export const showColumnModalStateAboutId = (columnId: number) => {
+  if (!columnModalCache.has(columnId)) {
+    const showColumnModalState = atom<boolean>({
+      key: `showColumnModalState${columnId}`,
+      default: false,
+    });
+    columnModalCache.set(columnId, showColumnModalState);
+  }
+
+  return columnModalCache.get(columnId);
+};
 
 export const openPopOverState = atom<boolean>({
   key: `openPopOverState`,

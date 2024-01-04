@@ -17,7 +17,12 @@ import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 import { isAxiosError } from 'axios';
 import { DraggableStateSnapshot, DraggableProvided, Draggable } from 'react-beautiful-dnd';
-import { cardStateAboutColumn, columnState, countAboutCardList } from '@/src/app/_recoil/CardAtom';
+import {
+  cardStateAboutColumn,
+  columnState,
+  countAboutCardList,
+  showColumnModalStateAboutId,
+} from '@/src/app/_recoil/CardAtom';
 interface CardListProps {
   id: number;
   title: string;
@@ -27,6 +32,7 @@ interface CardListProps {
 export function CardList({ id, title, boardId }: CardListProps) {
   const [cards, setCards] = useRecoilState<CardInfo[] | []>(cardStateAboutColumn(id));
   const [cardNumCount, setCardNumCount] = useRecoilState<number>(countAboutCardList(id));
+  const setShow = useSetRecoilState(showColumnModalStateAboutId(id));
   const [cursorId, setCursorId] = useState('');
   const [modalType, callModal, setModalType] = useRenderModal();
   const setColumns = useSetRecoilState(columnState);
@@ -94,6 +100,7 @@ export function CardList({ id, title, boardId }: CardListProps) {
       onSubmit: onSubmitForUpdateColumn,
       columnId: id,
     });
+    setShow(true);
   };
 
   const onIntersect: IntersectionObserverCallback = (entries) => {
