@@ -67,7 +67,7 @@ export function ErrorMessage({ message }: { message: string }) {
 
 export function Label({ label, isRequired, htmlFor }: LabelProps) {
   return (
-    <label htmlFor={htmlFor} className='dark:text-white8 text-black md:text-[1.125rem]'>
+    <label htmlFor={htmlFor} className='text-black dark:text-white8 md:text-[1.125rem]'>
       {label}
       {isRequired && <p className='inline text-violet'> *</p>}
     </label>
