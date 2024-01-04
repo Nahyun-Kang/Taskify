@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import Link from 'next/link';
 
 import Crown from '@/src/app/_component/Icons/Crown';
@@ -16,6 +16,7 @@ import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
 import { UserDataType } from '@/src/app/_constant/type';
 import { dashboardSelector } from '@/src/app/_recoil/dashboardAtom';
+import { dropdownState } from '@/src/app/_recoil/Dropdown';
 
 export default function Header() {
   const pathname = usePathname();
@@ -23,10 +24,11 @@ export default function Header() {
   const [ModalType, callModal, setModalType] = useRenderModal();
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
-  const [isActiveDropdown, setActiveDropdown] = useState(false);
+  // const [isActiveDropdown, setActiveDropdown] = useState(false);
   const [userName, setUserName] = useState('');
   const [userProfileImg, setUserProfileImg] = useState<string | null>(null);
   const userInfo = useRecoilValue(userInfoState);
+  const [isActiveDropdown, setActiveDropdown] = useRecoilState(dropdownState);
 
   const dashboardId = pathname.replace(/[^0-9]/g, '');
   const titleClass = !isDisabledButtons ? 'hidden lg:block' : '';
@@ -46,9 +48,6 @@ export default function Header() {
     }
   };
 
-  const handlePopUpDropdown = () => {
-    setActiveDropdown((prev) => !prev);
-  };
   useEffect(() => {
     if (selectDashboard) {
       setFolderName(selectDashboard.title);
@@ -108,14 +107,25 @@ export default function Header() {
             )}
             <div
               className='relative mr-[.75rem] flex cursor-pointer items-center gap-3 md:mr-[2.5rem] lg:mr-[5rem]'
-              onClick={handlePopUpDropdown}
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveDropdown((prev) => !prev);
+              }}
             >
               <HeaderProfile nickName={userName} profileImg={userProfileImg} />
               <div className='text-1 text-black30 hidden font-medium md:block'>{userName}</div>
             </div>
           </div>
         </div>
-        {isActiveDropdown && <HeaderDropdown isActive={isActiveDropdown} onClick={handlePopUpDropdown} />}
+        {isActiveDropdown && (
+          <HeaderDropdown
+            isActive={isActiveDropdown}
+            onClick={(e) => {
+              e?.stopPropagation();
+              setActiveDropdown(false);
+            }}
+          />
+        )}
       </div>
       {ModalType}
     </div>

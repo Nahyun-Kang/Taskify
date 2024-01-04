@@ -1,11 +1,12 @@
 'use client';
 import { accessTokenState, userInfoState } from '@/src/app/_recoil/AuthAtom';
 import { useRouter } from 'next/navigation';
+import { MouseEvent } from 'react';
 import { useResetRecoilState } from 'recoil';
 
 interface Props {
   isActive: boolean;
-  onClick: () => void;
+  onClick: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
 export default function HeaderDropdown({ isActive, onClick }: Props) {
