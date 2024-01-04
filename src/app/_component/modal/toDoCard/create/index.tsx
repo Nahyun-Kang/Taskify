@@ -1,3 +1,4 @@
+'use client';
 import DropdownAndFilter from '@/src/app/_component/dropdown/filter';
 import InputForm from '@/src/app/_component/InputForm';
 import { titleValidate } from '@/src/app/_constant/Input';

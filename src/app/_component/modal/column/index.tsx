@@ -10,7 +10,7 @@ import { columnState, showColumnModalState } from '@/src/app/_recoil/CardAtom';
 import { useRef } from 'react';
 import { isAxiosError } from 'axios';
 import { requiredValidate } from '@/src/app/_constant/Input';
-import { columnTitleValidate } from '../../../_constant/Input';
+import { columnTitleValidate } from '@/src/app/_constant/Input';
 // 컬럼 생성 모달 내용
 export function CreateColumn({ mainTitle, labelTitle }: { mainTitle: string; labelTitle: string }) {
   return (

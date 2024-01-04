@@ -8,7 +8,7 @@ import { CreateColumn, UpdateColumn, DeleteColumn } from '@/src/app/_component/m
 import { CreateDashboard, InviteDashboard } from '@/src/app/_component/modal/dashBoard';
 import { CompleteSignUp, MismatchPW, UseAlreadyEmail } from '@/src/app/_component/modal/sign';
 
-import { Base } from './base';
+import { Base } from '@/src/app/_component/modal/base';
 import CreateToDo from '@/src/app/_component/modal/toDoCard/create';
 import UpdateToDo from '@/src/app/_component/modal/toDoCard/update';
 import DetailToDo from '@/src/app/_component/modal/toDoCard/detail';

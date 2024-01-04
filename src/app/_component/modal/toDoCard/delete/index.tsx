@@ -1,3 +1,5 @@
+'use client';
+
 import { TodoProps } from '@/src/app/_component/modal/toDoCard/type';
 
 export default function DeleteTodo({ mainTitle }: TodoProps) {

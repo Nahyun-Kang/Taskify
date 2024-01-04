@@ -1,9 +1,11 @@
-import Dropdown from '../../../dropdown';
-import DropdownAndFilter from '../../../dropdown/filter';
-import InputForm from '../../../InputForm';
+'use client';
+
+import Dropdown from '@/src/app/_component/dropdown';
+import DropdownAndFilter from '@/src/app/_component/dropdown/filter';
+import InputForm from '@/src/app/_component/InputForm';
 import { titleValidate } from '@/src/app/_constant/Input';
 import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
-import { ToDoCardDetailProps } from '../type';
+import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard/type';
 export default function UpdateToDo({ mainTitle, cardData }: { mainTitle: string; cardData: ToDoCardDetailProps }) {
   return (
     <div className='flex flex-col gap-6 md:max-w-[28.125rem]'>
