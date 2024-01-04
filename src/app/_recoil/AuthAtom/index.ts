@@ -29,5 +29,3 @@ export const accessTokenState = atom<accessTokenType>({
   },
   effects_UNSTABLE: [persistAtom],
 });
-
-//왜 안되지?

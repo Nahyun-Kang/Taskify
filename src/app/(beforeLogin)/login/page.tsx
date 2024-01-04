@@ -2,7 +2,6 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import Sign from '@/src/app/_component/Button/Sign';
@@ -10,7 +9,6 @@ import InputForm from '@/src/app/_component/InputForm';
 import AuthLayout from '@/src/app/(beforeLogin)/_component/Auth/AuthLayout';
 import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { accessTokenState, userInfoState } from '@/src/app/_recoil/AuthAtom';
 import { getAccessToken } from '@/src/app/_util/getAccessToken';
 
@@ -18,7 +16,6 @@ export default function LogIn() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });
   const setUserInfo = useSetRecoilState(userInfoState);
   const setToken = useSetRecoilState(accessTokenState);
-  const [modalType, callModal] = useRenderModal();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const values = methods.watch();
@@ -35,13 +32,6 @@ export default function LogIn() {
       router.push('/myboard');
       setIsLoading(false);
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        const response = error.response;
-
-        if (response && response.data.message) {
-          callModal({ name: response.data.message, onSubmit: () => {} });
-        }
-      }
       setIsLoading(false);
     }
   };
@@ -72,7 +62,6 @@ export default function LogIn() {
           </div>
           <Sign size='small' isActive={!isLoading} type='submit' />
         </form>
-        {modalType}
       </FormProvider>
     </AuthLayout>
   );
