@@ -11,11 +11,18 @@ import { useSetRecoilState } from 'recoil';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { useRef } from 'react';
 
-export default function DashboardList() {
+interface DashboardListProps {
+  dashboards: DashboardProps[];
+  setDashboards: (value: DashboardProps[]) => void;
+  page: number;
+  setPage: (value: number) => void;
+}
+
+export default function DashboardList({ dashboards, setDashboards, page, setPage }: DashboardListProps) {
   const [modalType, callModal, setModalType] = useRenderModal();
   const router = useRouter();
   const preModalType = useRef(modalType);
-  const [dashboards, setDashboards] = useState<DashboardProps[]>([]);
+
   const setDashboardData = useSetRecoilState(dashboardState);
   const handleCreate = async () => {
     callModal({
@@ -43,14 +50,13 @@ export default function DashboardList() {
   const [isActiveBack, setIsActiveBack] = useState(false);
   const [isActiveForward, setIsActiveForward] = useState(false);
 
-  const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
 
   const handlePageNation = (direction: 'back' | 'forward') => {
     if (direction === 'back') {
-      setPage((prevPage) => prevPage - 1);
+      setPage(page - 1);
     } else if (direction === 'forward') {
-      setPage((prevPage) => prevPage + 1);
+      setPage(page + 1);
     }
   };
 
@@ -71,7 +77,7 @@ export default function DashboardList() {
     };
 
     getDashboardList(page, 5);
-  }, [page]);
+  }, [page, setDashboards]);
   return (
     <div className='flex w-full flex-col gap-2 bg-gray10 md:gap-6'>
       <div className='flex flex-col gap-2 md:gap-3'>

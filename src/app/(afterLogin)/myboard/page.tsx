@@ -1,14 +1,14 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { getAccessToken } from '@/src/app/_util/getAccessToken';
 import DashboardList from '@/src/app/(afterLogin)/_component/DashboardList';
 import InvitationDashboard from '@/src/app/(afterLogin)/_component/InvitationDashboard';
+import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 
 export default function MyBoard() {
   const router = useRouter();
-
   useEffect(() => {
     const accessToken = getAccessToken();
     if (!accessToken) {
@@ -17,11 +17,13 @@ export default function MyBoard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const [dashboards, setDashboards] = useState<DashboardProps[]>([]);
+  const [page, setPage] = useState(1);
   return (
     <div className='flex flex-1 bg-gray10'>
       <div className='mt-[4.3125rem] flex max-w-[63.875rem] flex-1 flex-col gap-11 p-6 px-10 md:p-10'>
-        <DashboardList />
-        <InvitationDashboard />
+        <DashboardList dashboards={dashboards} setDashboards={setDashboards} page={page} setPage={setPage} />
+        <InvitationDashboard setDashboards={setDashboards} page={page} />
       </div>
     </div>
   );
