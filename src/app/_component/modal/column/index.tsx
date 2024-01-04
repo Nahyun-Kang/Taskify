@@ -68,9 +68,9 @@ export function UpdateColumn({
         <div onClick={modalOutSideClick}>
           <div
             ref={modalRef}
-            className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'
+            className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70 dark:bg-opacity-90'
           >
-            <div className='relative gap-[1.5rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:w-[33.75rem] md:px-[1.75rem] md:pt-[2rem]'>
+            <div className='relative gap-[1.5rem] rounded-[0.5rem] border border-white bg-white dark:border-0 dark:bg-black90 dark:text-white8 sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:w-[33.75rem] md:px-[1.75rem] md:pt-[2rem]'>
               <div className=' flex flex-col gap-[2rem]'>
                 <span className='font-Pretendard text-[1.5rem] font-bold'>{mainTitle}</span>
                 <InputForm.TextInput
@@ -145,11 +145,11 @@ export function DeleteColumn({ mainTitle, btnName, btnSize, onClose, columnId }:
       <div onClick={modalOutSideClick}>
         <div
           ref={modalRef}
-          className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'
+          className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70 dark:bg-opacity-90'
         >
-          <div className='relative gap-[1.5rem] rounded-[0.5rem] border border-white bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:w-[33.75rem] md:px-[1.75rem] md:pt-[2rem]'>
+          <div className='relative gap-[1.5rem] rounded-[0.5rem] border border-white bg-white dark:border-0 dark:bg-black90 dark:text-white8 sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:w-[33.75rem] md:px-[1.75rem] md:pt-[2rem]'>
             <div className=' flex flex-col gap-[2rem]'>
-              <span className='mb-[3.125rem] flex items-center justify-center text-[1rem] font-medium text-black'>
+              <span className='mb-[3.125rem] flex items-center justify-center text-[1rem] font-medium'>
                 {mainTitle}
               </span>
               <div className='flex gap-[0.75rem]  sm:justify-between md:justify-end'>

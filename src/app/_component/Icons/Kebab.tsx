@@ -1,6 +1,6 @@
 export default function Kebab() {
   return (
-    <svg className='dark:fill-gray5 h-6 w-6 cursor-pointer md:h-8 md:w-8' xmlns='http://www.w3.org/2000/svg'>
+    <svg className='h-6 w-6 cursor-pointer dark:fill-white8 md:h-8 md:w-8' xmlns='http://www.w3.org/2000/svg'>
       <g id='more_vert_FILL0_wght300_GRAD0_opsz24'>
         <path
           id='Vector'

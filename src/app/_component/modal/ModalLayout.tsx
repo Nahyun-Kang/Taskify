@@ -47,10 +47,10 @@ export default function ModalLayout({ children, btnName, btnSize, onClose, sign,
     <div onClick={modalOutSideClick}>
       <div
         ref={modalRef}
-        className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'
+        className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70 dark:bg-opacity-90'
       >
         <div
-          className={`hide-scrollbar relative max-h-[95%] gap-[1.5rem] overflow-scroll rounded-[0.5rem] bg-white sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:px-[1.75rem] md:pt-[2rem] ${Size[size]}`}
+          className={`hide-scrollbar relative max-h-[95%] gap-[1.5rem] overflow-scroll rounded-[0.5rem] bg-white sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:px-[1.75rem] md:pt-[2rem] ${Size[size]} dark:bg-black90 dark:text-white8`}
         >
           <div className=' flex flex-col gap-[2rem]'>
             {children}

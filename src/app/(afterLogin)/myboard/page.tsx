@@ -20,7 +20,7 @@ export default function MyBoard() {
   const [dashboards, setDashboards] = useState<DashboardProps[]>([]);
   const [page, setPage] = useState(1);
   return (
-    <div className='flex flex-1 bg-gray10'>
+    <div className='flex flex-1'>
       <div className='mt-[4.3125rem] flex max-w-[63.875rem] flex-1 flex-col gap-11 p-6 px-10 md:p-10'>
         <DashboardList dashboards={dashboards} setDashboards={setDashboards} page={page} setPage={setPage} />
         <InvitationDashboard setDashboards={setDashboards} page={page} />

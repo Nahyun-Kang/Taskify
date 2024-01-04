@@ -66,7 +66,9 @@ export default function SideMenu() {
           </div>
         </Link>
         <div className='m-auto mb-[0.9375rem] flex w-fit items-center'>
-          <div className='hidden text-[.75rem] font-bold text-gray50 md:mr-6 md:block lg:mr-[10rem]'>Dash Board</div>
+          <div className='hidden text-[.75rem] font-bold text-gray50 dark:text-gray30 md:mr-6 md:block lg:mr-[10rem]'>
+            Dash Board
+          </div>
           <Image
             src={addIcon}
             alt='대시보드 추가 버튼'

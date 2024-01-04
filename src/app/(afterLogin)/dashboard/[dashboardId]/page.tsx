@@ -74,7 +74,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
 
   return (
     <>
-      <div className='flex w-full flex-col pt-[4.3125rem] lg:h-screen lg:flex-row'>
+      <div className='flex w-full flex-col pt-[4.3125rem] dark:bg-black lg:h-screen lg:flex-row'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {columns.map((column) => (
             <Droppable key={column.id} droppableId={column.id.toString()}>
@@ -85,7 +85,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
                   style={{
                     backgroundColor: snapshot.isDraggingOver ? '#F1EFFD' : '#FAFAFA',
                   }}
-                  className='border-gray-20 hide-scrollbar flex flex-col border-b bg-gray10 lg:h-full lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r'
+                  className='border-gray-20 hide-scrollbar flex flex-col border-b bg-gray10 dark:border-black80 lg:h-full lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r'
                 >
                   <CardList key={column.id + 'col'} id={column.id} title={column.title} boardId={params.dashboardId} />
                   {provided.placeholder}
@@ -97,7 +97,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
         {loading ? (
           <></>
         ) : (
-          <div className='border-gray-20 flex w-full flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:gap-[1.5625rem] md:p-5 lg:flex-col lg:pt-[4.5rem]'>
+          <div className='border-gray-20 flex w-full flex-col gap-[1.0625rem] border-b bg-gray10 px-3 py-4 dark:border-black80 dark:bg-black md:gap-[1.5625rem] md:p-5 lg:flex-col lg:pt-[4.5rem]'>
             <div className='h-[3.75rem] md:h-[4.375rem] lg:w-[22.125rem]'>
               <AddColumn screen='mobile' id={MODALTYPE.COLUMN.CREATE} onClick={handleRenderCreateColumn} />
             </div>
