@@ -21,6 +21,7 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
   const [isActiveForward, setIsActiveForward] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
+  const [isChange, setIsChange] = useState(false);
 
   const handlePageNation = (direction: 'back' | 'forward') => {
     if (direction === 'back') {
@@ -31,9 +32,7 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
   };
 
   const handleDelete = (memberId: number) => {
-    const result = deleteMember(memberId);
-    if (!result) return;
-    setMemberList((prevMembers) => prevMembers.filter((member: membersProps) => member.id !== memberId));
+    deleteMember(memberId, setIsChange);
   };
 
   useEffect(() => {
@@ -48,7 +47,7 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
       }
     };
     getMemberList(page, 4);
-  }, [page, dashboardId]);
+  }, [page, dashboardId, isChange]);
 
   return (
     <div className='item-center flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem]'>
