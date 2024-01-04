@@ -39,14 +39,14 @@ export function DetailIconButton({
         {kebab && <Image src={kebab} alt='케밥' fill priority />}
         {isOpenPopOver ? (
           <div
-            className='absolute right-2 top-full z-10 h-[5.125rem] w-[5.8125rem] rounded-[0.375rem] border border-[#d9d9d9]  bg-white p-[0.375rem] shadow-md'
+            className='absolute right-2 top-full z-10 h-[5.125rem] w-[5.8125rem] rounded-[0.375rem] border border-[#d9d9d9]  bg-white p-[0.375rem] shadow-md '
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
             <p
               onClick={() => onUpdate(cardData)}
-              className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem]'
+              className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet'
             >
               수정하기
             </p>
