@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Link from 'next/link';
 
 import Crown from '@/src/app/_component/Icons/Crown';
@@ -15,7 +15,7 @@ import HeaderDropdown from '@/src/app/(afterLogin)/_component/Header/HeaderDropd
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
 import { UserDataType } from '@/src/app/_constant/type';
-import { dashboardSelector } from '@/src/app/_recoil/dashboardAtom';
+import { dashboardSelector, inviteListChange } from '@/src/app/_recoil/dashboardAtom';
 
 export default function Header() {
   const pathname = usePathname();
@@ -27,6 +27,7 @@ export default function Header() {
   const [userName, setUserName] = useState('');
   const [userProfileImg, setUserProfileImg] = useState<string | null>(null);
   const userInfo = useRecoilValue(userInfoState);
+  const setIsChange = useSetRecoilState(inviteListChange);
 
   const dashboardId = pathname.replace(/[^0-9]/g, '');
   const titleClass = !isDisabledButtons ? 'hidden lg:block' : '';
@@ -72,7 +73,7 @@ export default function Header() {
   }, [userInfo]);
 
   const handleInvitation = () => {
-    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType) });
+    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType, setIsChange) });
   };
 
   return (

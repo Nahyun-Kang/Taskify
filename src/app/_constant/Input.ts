@@ -94,3 +94,10 @@ export const titleValidate = {
     message: '제목은 열 자 이하로 작성해주세요.',
   },
 };
+
+export const dashboardTitleValidate = {
+  maxLength: {
+    value: 15,
+    message: '대시보드 이름은 열다섯 자 이하로 작성해주세요.',
+  },
+};
