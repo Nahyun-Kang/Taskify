@@ -31,7 +31,7 @@ export default function AddDashboard({ screen = 'desktop', onClick }: AddDashboa
   const iconSize = screen === 'mobile' ? 'small' : 'large';
   return (
     <button
-      className={`flex ${width} ${height} items-center justify-center gap-[0.75rem] rounded-[0.5rem] bg-white ${fontSize} border border-gray30 font-semibold text-black80`}
+      className={`flex ${width} ${height} items-center justify-center gap-[0.75rem] rounded-[0.5rem] bg-white ${fontSize} border border-gray30 font-semibold text-black80 dark:border-black60 dark:bg-black90 dark:text-white8`}
       onClick={onClick}
     >
       새로운 대시보드

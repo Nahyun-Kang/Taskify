@@ -52,7 +52,7 @@ export default function TagInput({
     <InputWrapper>
       <Label label={label} htmlFor={id} isRequired={isRequired} />
       <div
-        className={`box-border flex min-h-[1.5rem] w-full flex-wrap items-center gap-2 rounded-lg border px-4 py-[0.6875rem] placeholder:text-gray40 focus-within:border-violet ${
+        className={`box-border flex min-h-[1.5rem] w-full flex-wrap items-center gap-2 rounded-lg border px-4 py-[0.6875rem] placeholder:text-gray40 focus-within:border-violet dark:bg-black80 ${
           errorMessage ? 'border-red' : 'border-gray30'
         }`}
       >

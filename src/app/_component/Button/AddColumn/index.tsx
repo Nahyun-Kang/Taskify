@@ -32,7 +32,7 @@ export default function AddColumn({ screen = 'desktop', onClick, id }: AddColumn
   const iconSize = screen === 'mobile' ? 'small' : 'large';
   return (
     <button
-      className={`flex ${width} ${height} items-center justify-center gap-[0.75rem] rounded-[0.25rem] bg-white ${fontSize} border border-gray30 font-bold text-black80`}
+      className={`flex ${width} ${height} items-center justify-center gap-[0.75rem] rounded-[0.25rem] bg-white ${fontSize} border border-gray30 font-bold text-black80 dark:border-black60 dark:bg-black80 dark:text-white8`}
       onClick={onClick}
       id={id}
     >

@@ -213,14 +213,14 @@ export default function DetailToDo({
           <div onClick={modalOutSideClick}>
             <div
               ref={modalRef}
-              className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70'
+              className='fixed left-0 top-0 z-[1000] flex h-[100vh] w-[100vw] items-center justify-center bg-black bg-opacity-70 dark:bg-opacity-90'
             >
               <div
-                className='hide-scrollbar relative flex max-h-[80%] flex-col gap-4 overflow-scroll rounded-lg border bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[2.5rem] md:w-[42.5rem] md:gap-6 md:px-[1.75rem] md:pb-[2rem] lg:w-[45.625rem]'
+                className='hide-scrollbar relative flex max-h-[80%] flex-col gap-4 overflow-scroll rounded-lg bg-white dark:bg-black90 dark:text-white8 sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[2.5rem] md:w-[42.5rem] md:gap-6 md:px-[1.75rem] md:pb-[2rem] lg:w-[45.625rem]'
                 onClick={handleKebabClose}
               >
-                <div className='sticky top-0 z-[2] flex w-full justify-between bg-white sm:pt-[2.5rem] md:pt-[2rem]'>
-                  <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
+                <div className='sticky top-0 z-[2] flex w-full justify-between bg-white dark:bg-black90 sm:pt-[2.5rem] md:pt-[2rem]'>
+                  <span className='flex text-[1.5rem] font-bold'>{cardData.title}</span>
                   <DetailIconButton
                     handleKebab={handleKebab}
                     onUpdate={RenderUpdatedoModal}

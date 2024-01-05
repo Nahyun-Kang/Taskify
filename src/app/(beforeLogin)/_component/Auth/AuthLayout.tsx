@@ -12,7 +12,7 @@ interface Props {
 
 export default function AuthLayout({ children, message }: Props) {
   return (
-    <div className='flex h-screen w-screen items-center justify-center bg-gray10'>
+    <div className='flex min-h-screen w-screen items-center justify-center bg-gray10 py-10 dark:bg-black dark:text-white'>
       <div className='flex flex-col items-center md:w-[32.5rem]'>
         <div className='mb-[2.5rem] flex flex-col items-center gap-[.5437rem] md:mb-[3.75rem] md:gap-[.625rem]'>
           <Link href='/' className=' flex w-[8.75rem] flex-col items-center gap-[1.3125rem]  md:w-[12.5rem]'>
@@ -23,7 +23,7 @@ export default function AuthLayout({ children, message }: Props) {
         </div>
         {children}
         <div className='mt-[1.5rem] flex gap-2 text-base font-normal'>
-          <div className='text-black80'>{message.check}</div>
+          <div className='text-black80 dark:text-gray30'>{message.check}</div>
           <Link href={`${message.href}`} className='cursor-pointer text-violet underline'>
             {message.link}
           </Link>

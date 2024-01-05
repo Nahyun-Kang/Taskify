@@ -44,14 +44,16 @@ export default function InvitationList({ list, handleInvitation }: Props) {
                   수락
                 </button>
                 <button
-                  className={`border-[.0625rem] border-gray30 text-violet ${buttonClass}`}
+                  className={`border-[.0625rem] border-gray30 text-violet dark:border-black60 dark:bg-black60 dark:text-white8 ${buttonClass}`}
                   onClick={() => handleInvitation(item.id, false)}
                 >
                   거절
                 </button>
               </div>
             </div>
-            {idx !== list.length - 1 && <div className='mb-4 w-full border-b md:mb-[1.25rem]'></div>}
+            {idx !== list.length - 1 && (
+              <div className='mb-4 w-full border-b dark:border-black60 md:mb-[1.25rem]'></div>
+            )}
           </div>
         );
       })}

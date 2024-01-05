@@ -1,5 +1,4 @@
 'use client';
-import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
 import { useInputField } from '@/src/app/_component/InputForm/InputStyle';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
@@ -9,6 +8,7 @@ import { useFormContext } from 'react-hook-form';
 import circle from '@/public/icons/Ellipse 54.svg';
 import { useRecoilState } from 'recoil';
 import { dashboardIdState } from '@/src/app/_recoil/CardAtom';
+import ArrowDown from '@/src/app/_component/Icons/ArrowDown';
 interface Column {
   id: number;
   title: string;
@@ -65,13 +65,13 @@ export default function Dropdown({ column }: { column?: number }) {
   }, [column]);
 
   return (
-    <div className='relative flex w-full flex-col items-start gap-[0.625rem] md:w-[13.5625rem]'>
-      <label className='text-black md:text-[1.125rem]'>상태</label>
+    <div className='relative flex w-full flex-col items-start gap-[0.625rem] dark:text-white8 md:w-[13.5625rem]'>
+      <label className='md:text-[1.125rem]'>상태</label>
       <div className='flex w-full flex-col items-start gap-[0.125rem]'>
         <span className='relative h-[3rem] w-full'>
           <div
             className={
-              'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none md:h-[3rem] md:w-[13.5625rem]' +
+              'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none md:h-[3rem] md:w-[13.5625rem] ' +
               (focus ? 'border-violet' : 'border-gray-300')
             }
           >
@@ -91,14 +91,14 @@ export default function Dropdown({ column }: { column?: number }) {
 
           <input className='hidden' value={Number(columnId) as number} id='columnId' {...register} />
           <div onClick={handleOpenDropdown} className='absolute right-[1rem] top-[0.625rem] h-[1.625rem] w-[1.625rem]'>
-            <Image fill src={dropdown} alt='dropdown' />
+            <ArrowDown />
           </div>
         </span>
 
         {openDropdown ? (
           <div
             className={
-              'absolute top-[100%] z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none'
+              'absolute top-[100%] z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none dark:bg-black90'
             }
           >
             {dropdownList?.map((column) => {

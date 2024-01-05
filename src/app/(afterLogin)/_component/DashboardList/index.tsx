@@ -79,7 +79,7 @@ export default function DashboardList({ dashboards, setDashboards, page, setPage
     getDashboardList(page, 5);
   }, [page, setDashboards]);
   return (
-    <div className='flex w-full flex-col gap-2 bg-gray10 md:gap-6'>
+    <div className='flex w-full flex-col gap-2 md:gap-6'>
       <div className='flex flex-col gap-2 md:gap-3'>
         <div className='grid auto-rows-[3.875rem] gap-2 md:auto-rows-[4.25rem] md:grid-cols-2 md:gap-3 lg:auto-rows-[4.375rem]'>
           <AddDashboard screen='free' onClick={handleCreate} />
@@ -95,7 +95,7 @@ export default function DashboardList({ dashboards, setDashboards, page, setPage
           ))}
         </div>
         <div className='ml-auto flex items-center gap-3'>
-          <span className='flex w-full text-[0.75rem] md:text-[0.875rem]'>
+          <span className='flex w-full text-[0.75rem] dark:text-gray35 md:text-[0.875rem]'>
             {totalPage} 페이지 중 {page}
           </span>
           <PageNation

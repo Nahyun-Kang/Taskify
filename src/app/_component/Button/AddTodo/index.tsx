@@ -24,7 +24,7 @@ export default function AddTodo({ screen = 'desktop', onClick, id }: AddTodoProp
   const iconSize = screen === 'mobile' ? 'small' : 'large';
   return (
     <button
-      className={`flex w-full ${height} items-center justify-center rounded-[0.375rem] border border-gray30 bg-white font-semibold text-black80`}
+      className={`flex w-full ${height} items-center justify-center rounded-[0.375rem] border border-gray30 bg-white font-semibold text-black80 dark:border-black60 dark:bg-black80`}
       onClick={onClick}
       id={id}
     >

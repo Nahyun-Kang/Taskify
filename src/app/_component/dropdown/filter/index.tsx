@@ -1,5 +1,4 @@
 'use client';
-import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import Image from 'next/image';
@@ -8,7 +7,7 @@ import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { dashboardIdState } from '@/src/app/_recoil/CardAtom';
 import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
-
+import ArrowDown from '@/src/app/_component/Icons/ArrowDown';
 interface Admin {
   id: number;
   email: string;
@@ -135,14 +134,14 @@ export default function DropdownAndFilter({
 
   return (
     <div className='relative flex flex-col items-start gap-[0.625rem] md:w-[13.5625rem] md:text-[1.125rem]'>
-      <label className='text-black'>담당자</label>
+      <label>담당자</label>
       <div className='flex w-full flex-col items-start gap-[0.125rem]'>
         <span className='relative w-full'>
           {isSelectionComplete ? (
             <div
               onClick={handleRenderInputBox}
               className={
-                'flex h-[3rem] w-full items-center gap-[0.8rem] rounded-[0.375rem] border px-[1rem] py-[0.625rem]  outline-none' +
+                'flex h-[3rem] w-full items-center gap-[0.8rem] rounded-[0.375rem] border px-[1rem] py-[0.625rem]  outline-none dark:bg-black90 ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
@@ -165,7 +164,7 @@ export default function DropdownAndFilter({
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               className={
-                'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] text-[0.875rem] outline-none md:h-[3rem] md:w-[13.5625rem] md:text-[1rem] ' +
+                'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] text-[0.875rem] outline-none dark:bg-black90 md:h-[3rem] md:w-[13.5625rem] md:text-[1rem] ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             />
@@ -180,14 +179,14 @@ export default function DropdownAndFilter({
             })}
           />
           <div onClick={handleOpenDropdown} className='absolute right-[1rem] top-[0.625rem] h-[1.625rem] w-[1.625rem]'>
-            <Image fill src={dropdown} alt='dropdown' />
+            <ArrowDown />
           </div>
         </span>
 
         {openDropdown && SearchAdminName?.length ? (
           <div
             className={
-              'absolute top-full z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none'
+              'absolute top-full z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none dark:bg-black90'
             }
           >
             {SearchAdminName?.map((admin) => {

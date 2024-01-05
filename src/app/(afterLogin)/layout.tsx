@@ -15,7 +15,9 @@ export default function AfterLoginLayout({ children }: { children: ReactNode }) 
     >
       <Header />
       <SideMenu />
-      <div className='flex min-h-screen bg-gray10 pl-[4.1875rem] md:pl-[10rem] lg:pl-[18.75rem]'>{children}</div>
+      <div className='flex min-h-screen bg-gray10 pl-[4.1875rem] dark:bg-black md:pl-[10rem] lg:pl-[18.75rem]'>
+        {children}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,5 @@
 'use client';
 import Image from 'next/image';
-import kebab from '@/public/icons/kebab.svg';
-import close from '@/public/icons/close_icon.svg';
 import React, { useEffect, useState } from 'react';
 import Tag from '@/src/app/_component/Chip/Tag';
 import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard/type';
@@ -16,6 +14,8 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import DefaultProfile from '@/src/app/_component/DefaultProfile';
 // import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import { UserDataType } from '@/src/app/_constant/type';
+import Kebab from '@/src/app/_component/Icons/Kebab';
+import CloseIcon from '@/src/app/_component/Icons/CloseIcon';
 interface DetailIconButtonProps {
   handleKebab: (e: React.MouseEvent<HTMLElement>) => void;
   onUpdate: (cardData: ToDoCardDetailProps) => void;
@@ -36,23 +36,23 @@ export function DetailIconButton({
   return (
     <div className='flex items-center gap-1 sm:right-[0.75rem] sm:top-[0.75rem] md:right-[1.75rem] md:top-[2rem] md:gap-[1.5rem]'>
       <span onClick={handleKebab} className=' relative h-[1.75rem] w-[1.75rem] '>
-        {kebab && <Image src={kebab} alt='케밥' fill priority />}
+        <Kebab />
         {isOpenPopOver ? (
           <div
-            className='absolute right-2 top-full z-10 h-[5.125rem] w-[5.8125rem] rounded-[0.375rem] border border-[#d9d9d9]  bg-white p-[0.375rem] shadow-md '
+            className='absolute right-2 top-full z-10 h-[5.125rem] w-[5.8125rem] rounded-[0.375rem] border border-[#d9d9d9] bg-white p-[0.375rem] shadow-md dark:border-black60 dark:bg-black90'
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
             <p
               onClick={() => onUpdate(cardData)}
-              className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet'
+              className='m-auto whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet dark:border-0 dark:hover:bg-black80 dark:hover:text-white8'
             >
               수정하기
             </p>
             <p
               onClick={onDelete}
-              className=' mt-[0.375rem] whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet'
+              className=' mt-[0.375rem] whitespace-nowrap rounded-[0.25rem] border border-white px-[1rem] py-[0.25rem] text-[0.875rem] hover:bg-violet8 hover:text-violet dark:border-0 dark:hover:bg-black80 dark:hover:text-white8'
             >
               삭제하기
             </p>
@@ -60,7 +60,7 @@ export function DetailIconButton({
         ) : null}
       </span>
       <span onClick={onClose} className=' relative h-[2.125rem] w-[2.125rem]'>
-        {close && <Image src={close} alt='닫기' fill priority />}
+        <CloseIcon />
       </span>
     </div>
   );
@@ -99,7 +99,7 @@ export function DetailMainContent({
           ))}
         </div>
       </div>
-      <div className='flex flex-wrap py-4 text-[0.875rem] text-black'>{description}</div>
+      <div className='flex flex-wrap py-4 text-[0.875rem]'>{description}</div>
     </>
   );
 }
@@ -198,24 +198,26 @@ export function DetailCardComment({ data, cardId }: { data: CommentType2; cardId
 
   return (
     <div className='mt-4 flex gap-[0.625rem] md:mt-5'>
-      <div className='flex flex-col items-start'>
-        {data?.author?.profileImageUrl ? (
-          <div className='relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
-            <Image
-              src={data?.author?.profileImageUrl}
-              alt='댓글 프로필'
-              priority
-              fill
-              style={{ borderRadius: '50%' }}
-            />
-          </div>
-        ) : (
-          <DefaultProfile nickName={data?.author?.nickname} index={data?.author?.id} />
-        )}
-      </div>
+      {!isUpdate && (
+        <div className='flex flex-col items-start'>
+          {data?.author?.profileImageUrl ? (
+            <div className='relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
+              <Image
+                src={data?.author?.profileImageUrl}
+                alt='댓글 프로필'
+                priority
+                fill
+                style={{ borderRadius: '50%' }}
+              />
+            </div>
+          ) : (
+            <DefaultProfile nickName={data?.author?.nickname} index={data?.author?.id} />
+          )}
+        </div>
+      )}
       <div className='flex w-full flex-col gap-[0.375rem]'>
         <div className='flex gap-[0.5rem]'>
-          <span className='text-[0.875rem] font-semibold text-black'>{data?.author?.nickname}</span>
+          <span className='text-[0.875rem] font-semibold'>{data?.author?.nickname}</span>
           <span className='text-[0.75rem] text-[#9fa6b2]'>{formatTime(data && (data.createdAt as string))}</span>
         </div>
         {isUpdate ? (
@@ -223,7 +225,7 @@ export function DetailCardComment({ data, cardId }: { data: CommentType2; cardId
             <input
               id='content2'
               type='text'
-              className='w-full border-b-2  border-black focus:outline-none'
+              className='w-full border-b-2 border-black focus:outline-none dark:border-white8 dark:bg-black90'
               placeholder='댓글을 입력해 주세요'
               defaultValue={data.content}
               onBlur={handleOnBlur}
@@ -231,7 +233,7 @@ export function DetailCardComment({ data, cardId }: { data: CommentType2; cardId
             <div className='flex w-full justify-end gap-2'>
               <button
                 type='button'
-                className='w-14 rounded-full px-2 py-1 text-black hover:bg-gray20'
+                className='w-14 rounded-full px-2 py-1 hover:bg-gray20 dark:hover:bg-black60'
                 onClick={() => {
                   setIsUpdate(false);
                 }}
@@ -245,7 +247,7 @@ export function DetailCardComment({ data, cardId }: { data: CommentType2; cardId
           </div>
         ) : (
           <>
-            <p className='text-[0.875rem] text-black'>{data?.content}</p>
+            <p className='text-[0.875rem]'>{data?.content}</p>
             <div className='flex gap-[0.75rem]'>
               {data?.author?.id === (userId as number) ? (
                 <>
