@@ -5,21 +5,38 @@ import ModalMainContent from '../../_component/modalMainContent';
 import InputForm from '../../../InputForm';
 import { SubmitHandler, FieldValues } from 'react-hook-form';
 import ModalPortal from '../../_component/modalPortal';
-export function DeleteColumn2() {
-  const handleClose = () => {};
-  const onSubmit = () => {};
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { deleteColumnsForColumnId } from '@/src/app/_recoil/ModalAtom/columnAtom';
+import { columnState } from '@/src/app/_recoil/CardAtom';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+export function DeleteColumn2({ columnId }: { columnId: number }) {
+  const [isOpenDeleteColumn, setIsOpenDeleteColumn] = useRecoilState(deleteColumnsForColumnId(columnId));
+  const handleClose = () => setIsOpenDeleteColumn(false);
+  const setColumns = useSetRecoilState(columnState);
+  const onSubmit = async () => {
+    try {
+      await axiosInstance.delete(`columns/${columnId}`);
+      setColumns((oldColumns) => oldColumns.filter((column) => column.id != columnId));
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsOpenDeleteColumn(false);
+    }
+  };
   return (
     <>
-      <ModalPortal>
-        <ModalOutside>
-          <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
-            <ModalLayout btnName='삭제' btnSize='large' sign={false} onClose={handleClose} onSubmit={() => {}}>
-              <ModalTitle title='칼럼 삭제' />
-              <ModalMainContent content='칼럼의 모든 카드가 삭제됩니다.' />
-            </ModalLayout>
-          </InputForm>
-        </ModalOutside>
-      </ModalPortal>
+      {isOpenDeleteColumn && (
+        <ModalPortal>
+          <ModalOutside>
+            <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
+              <ModalLayout btnName='삭제' btnSize='large' sign={false} onClose={handleClose}>
+                <ModalTitle title='칼럼 삭제' />
+                <ModalMainContent content='칼럼의 모든 카드가 삭제됩니다.' />
+              </ModalLayout>
+            </InputForm>
+          </ModalOutside>
+        </ModalPortal>
+      )}
     </>
   );
 }

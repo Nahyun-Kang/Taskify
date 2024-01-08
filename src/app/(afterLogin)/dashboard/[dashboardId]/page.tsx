@@ -30,28 +30,6 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
     setLoading(false);
   };
 
-  // const onSubmitForCreateColumn = async (form: FieldValues) => {
-  //   const titleValue = form.title;
-  //   let errorOccurred = false;
-  //   try {
-  //     if (columns.find((column) => column.title === titleValue)) {
-  //       return callModal({ name: '중복된 컬럼 이름입니다.' });
-  //     }
-  //     const res = await axiosInstance.post('columns', { ...form, dashboardId: Number(params.dashboardId) });
-  //     setColumns((oldColumns: Column[]) => [...oldColumns, res.data]);
-  //   } catch (error) {
-  //     errorOccurred = true;
-  //     if (isAxiosError(error)) {
-  //       const serverErrorMessage = error.response?.data.message;
-  //       return callModal({ name: serverErrorMessage ? serverErrorMessage : error.message });
-  //     }
-  //   } finally {
-  //     if (!errorOccurred) {
-  //       setModalType(null);
-  //     }
-  //   }
-  // };
-
   const openCreateColumn = async () => {
     setCreateColumn(true);
   };
@@ -85,7 +63,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
                   }}
                   className='border-gray-20 hide-scrollbar flex flex-col border-b bg-gray10 lg:h-full lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r'
                 >
-                  <CardList key={column.id + 'col'} id={column.id} title={column.title} boardId={params.dashboardId} />
+                  <CardList key={column.id + 'col'} id={column.id} title={column.title} />
                   {provided.placeholder}
                 </div>
               )}

@@ -8,13 +8,28 @@ export const getColumnsForDashboardIdState = atom<number | null>({
   key: `getColumnsForDashboardIdState`,
   default: null,
 });
+const updateColumnCache = new Map();
+export const updateColumnsForColumnId = (columnId: number) => {
+  if (!updateColumnCache.has(columnId)) {
+    const updateColumns = atom<boolean>({
+      key: `updateColumns${columnId}`,
+      default: false,
+    });
+    updateColumnCache.set(columnId, updateColumns);
+  }
 
-export const updateColumnsForColumnIdState = atom<number | null>({
-  key: `updateColumnsForColumnIdState`,
-  default: null,
-});
+  return updateColumnCache.get(columnId);
+};
 
-export const deleteColumnsForColumnIdState = atom<number | null>({
-  key: `deleteColumnsForColumnIdState`,
-  default: null,
-});
+const deleteColumnCache = new Map();
+export const deleteColumnsForColumnId = (columnId: number) => {
+  if (!deleteColumnCache.has(columnId)) {
+    const deleteColumns = atom<boolean>({
+      key: `deleteColumns${columnId}`,
+      default: false,
+    });
+    deleteColumnCache.set(columnId, deleteColumns);
+  }
+
+  return deleteColumnCache.get(columnId);
+};
