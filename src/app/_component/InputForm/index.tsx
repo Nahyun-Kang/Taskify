@@ -43,7 +43,7 @@ export default function InputForm({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(submit)} noValidate className='w-full'>
+      <form onSubmit={methods.handleSubmit(submit)} noValidate>
         {children}
       </form>
     </FormProvider>

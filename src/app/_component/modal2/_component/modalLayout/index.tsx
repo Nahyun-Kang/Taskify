@@ -10,19 +10,11 @@ interface ModalLayoutrProps {
   sign: boolean;
   size?: string | undefined;
   onClose: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onSubmit?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 // 모달 레이아웃 + cancelBtn은 커스텀 훅의 modalType을 null로 만들어서 렌더링안되도록 + confirmBtn은 api연동할 때 자유롭게 만들 수 있도록 하기 위해 남겨두었습니다
-export default function ModalLayout({
-  children,
-  btnName,
-  btnSize,
-  onClose,
-  sign,
-  size = 'small',
-  onSubmit,
-}: ModalLayoutrProps) {
+export default function ModalLayout({ children, btnName, btnSize, onClose, sign, size = 'small' }: ModalLayoutrProps) {
   const Size: { [key: string]: string } = {
     small: 'md:w-[33.75rem]',
     large: 'md:w-[31.625rem]',
@@ -40,7 +32,7 @@ export default function ModalLayout({
           {sign ? (
             <Confirm btnName={btnName} size={btnSize} onClick={onClose} />
           ) : (
-            <Confirm btnName={btnName} size={btnSize} onClick={onSubmit} />
+            <Confirm btnName={btnName} size={btnSize} />
           )}
         </div>
       </div>

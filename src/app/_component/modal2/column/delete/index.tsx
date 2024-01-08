@@ -2,16 +2,24 @@ import ModalTitle from '../../_component/modalTitle';
 import ModalLayout from '@/src/app/_component/modal2/_component/modalLayout';
 import ModalOutside from '../../_component/modalOutside';
 import ModalMainContent from '../../_component/modalMainContent';
-export function DeleteColumn() {
+import InputForm from '../../../InputForm';
+import { SubmitHandler, FieldValues } from 'react-hook-form';
+import ModalPortal from '../../_component/modalPortal';
+export function DeleteColumn2() {
   const handleClose = () => {};
+  const onSubmit = () => {};
   return (
     <>
-      <ModalOutside>
-        <ModalLayout btnName='삭제' btnSize='large' sign={false} onClose={handleClose} onSubmit={() => {}}>
-          <ModalTitle title='칼럼 삭제' />
-          <ModalMainContent content='' />
-        </ModalLayout>
-      </ModalOutside>
+      <ModalPortal>
+        <ModalOutside>
+          <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
+            <ModalLayout btnName='삭제' btnSize='large' sign={false} onClose={handleClose} onSubmit={() => {}}>
+              <ModalTitle title='칼럼 삭제' />
+              <ModalMainContent content='칼럼의 모든 카드가 삭제됩니다.' />
+            </ModalLayout>
+          </InputForm>
+        </ModalOutside>
+      </ModalPortal>
     </>
   );
 }

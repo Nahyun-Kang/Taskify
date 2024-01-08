@@ -21,6 +21,7 @@ export default function Confirm({ size, onClick, btnName }: ConfirmProps) {
   const { width, height, paddingY } = sizes[size];
   return (
     <button
+      type='submit'
       className={`flex items-center justify-center rounded-[0.5rem] bg-violet ${paddingY} ${height} ${width} text-[0.8125rem] text-white disabled:bg-gray40 md:text-[1rem]`}
       onClick={onClick}
       disabled={btnName === '삭제' ? false : !isValid}
