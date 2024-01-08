@@ -6,33 +6,66 @@ import ModalOutside from '../../_component/modalOutside';
 import DropdownAndFilter from '../../../dropdown/filter';
 import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 import ModalPortal from '../../_component/modalPortal';
+import { cardListStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/CardAtom';
+import { useSetRecoilState, useRecoilState } from 'recoil';
+import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
+import { FieldValues } from 'react-hook-form';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { createTodoAboutColumnId } from '@/src/app/_recoil/ModalAtom/todoAtom';
+import { SubmitHandler } from 'react-hook-form';
 
-export function CreateTodo2({ columnId }: { columnId: number }) {
-  const handleClose = () => {};
+export function CreateTodo2({ columnId, dashboardId }: { columnId: number; dashboardId: number }) {
+  const setCardList = useSetRecoilState<CardInfo[] | []>(cardListStateAboutColumn(columnId));
+  const setCardNumCount = useSetRecoilState<number>(countAboutCardList(columnId));
+  const [createTodo, setCreateTodo] = useRecoilState(createTodoAboutColumnId(columnId));
+
+  const onSubmit = async (form: FieldValues) => {
+    try {
+      const res = await axiosInstance.post('cards', { ...form, dashboardId, columnId });
+      setCardList((prev) => [...(prev || []), res.data]);
+      setCardNumCount((prev) => (prev ? prev + 1 : 1));
+    } catch (error) {
+      alert(error);
+    } finally {
+      setCreateTodo(false);
+    }
+  };
+
+  const handleClose = () => setCreateTodo(false);
+
   return (
     <>
-      <ModalPortal>
-        <ModalOutside>
-          <ModalLayout btnName='생성' btnSize='large' sign={false} onClose={handleClose} onSubmit={() => {}}>
-            <ModalTitle title='할 일 생성' />
-            <DropdownAndFilter />
-            <InputForm.TextInput
-              label='제목'
-              placeholder='제목을 입력해주세요'
-              id='title'
-              isRequired={true}
-              validationRules={titleValidate}
-            />
-            <InputForm.TextInput label='설명' placeholder='설명을 입력해주세요' id='description' isRequired={true} />
-            <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 선택' />
-            <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' />
-            <div className='flex flex-col gap-[0.625rem]'>
-              <span>이미지</span>
-              <AddImageFile size='small' columnId={columnId} />
-            </div>
-          </ModalLayout>
-        </ModalOutside>
-      </ModalPortal>
+      {createTodo && (
+        <ModalPortal>
+          <ModalOutside>
+            <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
+              <ModalLayout btnName='생성' btnSize='large' sign={false} onClose={handleClose}>
+                <ModalTitle title='할 일 생성' />
+                <DropdownAndFilter />
+                <InputForm.TextInput
+                  label='제목'
+                  placeholder='제목을 입력해주세요'
+                  id='title'
+                  isRequired={true}
+                  validationRules={titleValidate}
+                />
+                <InputForm.TextInput
+                  label='설명'
+                  placeholder='설명을 입력해주세요'
+                  id='description'
+                  isRequired={true}
+                />
+                <InputForm.DateInput label='마감일' id='dueDate' placeholder='날짜 선택' />
+                <InputForm.TagInput label='태그' id='tags' placeholder='입력 후 Enter' />
+                <div className='flex flex-col gap-[0.625rem]'>
+                  <span>이미지</span>
+                  <AddImageFile size='small' columnId={columnId} />
+                </div>
+              </ModalLayout>
+            </InputForm>
+          </ModalOutside>
+        </ModalPortal>
+      )}
     </>
   );
 }

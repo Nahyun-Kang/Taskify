@@ -5,13 +5,13 @@ import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard/type';
 
 const atomCache = new Map();
 
-export const cardStateAboutColumn = (columnId: number) => {
+export const cardListStateAboutColumn = (columnId: number) => {
   if (!atomCache.has(columnId)) {
-    const cardState = atom<CardInfo[]>({
+    const cardListState = atom<CardInfo[]>({
       key: `cardState${columnId}`,
       default: [],
     });
-    atomCache.set(columnId, cardState);
+    atomCache.set(columnId, cardListState);
   }
 
   return atomCache.get(columnId);

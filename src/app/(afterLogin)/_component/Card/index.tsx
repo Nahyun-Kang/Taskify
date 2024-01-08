@@ -1,12 +1,10 @@
 import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
-import { MODALTYPE } from '@/src/app/_constant/modalType';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
 import { openPopOverState } from '@/src/app/_recoil/CardAtom';
-import { showToDoModalStateAboutCard } from '@/src/app/_recoil/CardAtom';
 import Image from 'next/image';
-
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { detailTodoAboutCardId } from '@/src/app/_recoil/ModalAtom/todoAtom';
+import DetailToDo2 from '@/src/app/_component/modal2/todo/detail';
 
 interface CardProps {
   title: string;
@@ -31,24 +29,18 @@ export default function Card({
   id,
   columnId,
 }: CardProps) {
-  const [modalType, callModal] = useRenderModal();
-  const setShow = useSetRecoilState(showToDoModalStateAboutCard(id));
   const setIsOpenPopOver = useSetRecoilState(openPopOverState);
+  const [isOpenDetailTodoModal, setIsOpenDetailTodoModal] = useRecoilState(detailTodoAboutCardId(id));
 
-  // 할 일 카드 상세 모달을 호출하기 위한 함수
-  const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+  const openDetailTodoModal = () => {
+    setIsOpenDetailTodoModal(true);
     setIsOpenPopOver(false);
-
-    callModal({ name: '할 일 카드 상세', cardId: id, columnId });
-    setShow(true);
   };
 
   return (
     <>
       <div
-        id={MODALTYPE.TODO.DETAIL}
-        onClick={handleRenderDetaildoModal}
+        onClick={openDetailTodoModal}
         className='flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3 md:flex-row lg:flex-col lg:items-stretch lg:p-5'
       >
         {imageUrl && (
@@ -107,8 +99,8 @@ export default function Card({
             </div>
           </div>
         </div>
+        {isOpenDetailTodoModal ? <DetailToDo2 cardId={id} columnId={columnId} /> : null}
       </div>
-      {modalType}
     </>
   );
 }

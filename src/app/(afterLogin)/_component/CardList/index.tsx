@@ -13,17 +13,21 @@ import { Colors } from '@/src/app/(afterLogin)/_constant/color';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 import { DraggableStateSnapshot, DraggableProvided, Draggable } from 'react-beautiful-dnd';
-import { cardStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/CardAtom';
+import { cardListStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/CardAtom';
 import { deleteColumnsForColumnId, updateColumnsForColumnId } from '@/src/app/_recoil/ModalAtom/columnAtom';
 import UpdateColumn2 from '@/src/app/_component/modal2/column/update';
 import { DeleteColumn2 } from '@/src/app/_component/modal2/column/delete';
+import { createTodoAboutColumnId } from '@/src/app/_recoil/ModalAtom/todoAtom';
+import { CreateTodo2 } from '@/src/app/_component/modal2/todo/create';
 interface CardListProps {
   id: number;
   title: string;
+  dashboardId: string;
 }
 
-export function CardList({ id, title }: CardListProps) {
-  const [cards, setCards] = useRecoilState<CardInfo[] | []>(cardStateAboutColumn(id));
+export function CardList({ id, title, dashboardId }: CardListProps) {
+  const [createTodo, setCreateTodo] = useRecoilState(createTodoAboutColumnId(id));
+  const [cardList, setCardList] = useRecoilState<CardInfo[] | []>(cardListStateAboutColumn(id));
   const [cardNumCount, setCardNumCount] = useRecoilState<number>(countAboutCardList(id));
   const [cursorId, setCursorId] = useState('');
   const [updateColumnState, setUpdateColumnState] = useRecoilState(updateColumnsForColumnId(id));
@@ -33,7 +37,7 @@ export function CardList({ id, title }: CardListProps) {
   const getCard = useCallback(async () => {
     const query = cursorId ? `cursorId=${cursorId}&` : '';
     const { data } = await axiosInstance.get(`cards?${query}columnId=${id}`);
-    setCards((prev) => [
+    setCardList((prev) => [
       ...prev,
       ...(data.cards as CardInfo[]).sort((a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()),
     ]);
@@ -43,7 +47,7 @@ export function CardList({ id, title }: CardListProps) {
   }, [cursorId]);
 
   const openUpdateColumnModal = () => setUpdateColumnState(true);
-
+  const openCreateTodoModal = () => setCreateTodo(true);
   const onIntersect: IntersectionObserverCallback = (entries) => {
     entries.forEach((entry) => {
       if (entry.intersectionRatio > 0) {
@@ -67,8 +71,8 @@ export function CardList({ id, title }: CardListProps) {
   };
 
   useEffect(() => {
-    return () => setCards([]);
-  }, [setCards]);
+    return () => setCardList([]);
+  }, [setCardList]);
 
   return (
     <div className='md:min-w-none hide-scrollbar relative flex flex-1 flex-col gap-[1.0625rem] bg-gray10 px-3 py-4 md:w-full md:gap-[1.5625rem] md:p-5 lg:h-full lg:min-w-[22.125rem] lg:flex-col lg:gap-0 lg:overflow-scroll lg:pt-0'>
@@ -89,11 +93,11 @@ export function CardList({ id, title }: CardListProps) {
           </button>
         </div>
         <div className='h-[2rem] md:h-[2.5rem]'>
-          <AddTodo screen='mobile' onClick={() => {}} />
+          <AddTodo screen='mobile' onClick={openCreateTodoModal} />
         </div>
       </div>
       <div className='flex flex-col justify-center gap-[0.625rem] md:gap-4'>
-        {cards.map((card, index) => (
+        {cardList.map((card, index) => (
           <Draggable draggableId={card.id.toString()} index={index} key={card.id}>
             {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
               <div ref={innerRef} {...draggableProps} style={getStyle(draggableProps.style, snapshot)}>
@@ -118,6 +122,7 @@ export function CardList({ id, title }: CardListProps) {
       {cursorId !== null && <div className='h-4 flex-shrink-0' ref={target}></div>}
       {updateColumnState ? <UpdateColumn2 columnId={id} /> : null}
       {deleteColumnState ? <DeleteColumn2 columnId={id} /> : null}
+      {createTodo ? <CreateTodo2 columnId={id} dashboardId={+dashboardId} /> : null}
     </div>
   );
 }

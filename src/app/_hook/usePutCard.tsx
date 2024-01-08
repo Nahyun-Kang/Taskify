@@ -1,6 +1,6 @@
 import { useState, useEffect, Dispatch } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { cardStateAboutColumn } from '../_recoil/CardAtom';
+import { cardListStateAboutColumn } from '../_recoil/CardAtom';
 import { CardInfo } from '../(afterLogin)/_constant/type';
 import { FieldValues } from 'react-hook-form';
 import { axiosInstance } from '../_util/axiosInstance';
@@ -13,7 +13,7 @@ export const usePutCard = (
   setModalType: Dispatch<React.SetStateAction<React.ReactElement | null>>,
   callModal: CallModalType,
 ) => {
-  const setCards = useSetRecoilState(cardStateAboutColumn(columnId));
+  const setCardList = useSetRecoilState(cardListStateAboutColumn(columnId));
   const setCardDataForDetail = useSetRecoilState(updateCardState);
   const [updatedCard, setUpdatedCard] = useState<CardInfo | null>(null);
 
@@ -41,9 +41,9 @@ export const usePutCard = (
   };
   useEffect(() => {
     if (updatedCard !== null) {
-      setCards((oldCards: CardInfo[]) => oldCards.map((item) => (item.id === cardId ? updatedCard : item)));
+      setCardList((oldCards: CardInfo[]) => oldCards.map((item) => (item.id === cardId ? updatedCard : item)));
     }
-  }, [updatedCard, cardId, setCards]);
+  }, [updatedCard, cardId, setCardList]);
 
   return { putCard, updatedCard };
 };

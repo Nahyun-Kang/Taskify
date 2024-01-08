@@ -63,7 +63,12 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
                   }}
                   className='border-gray-20 hide-scrollbar flex flex-col border-b bg-gray10 lg:h-full lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r'
                 >
-                  <CardList key={column.id + 'col'} id={column.id} title={column.title} />
+                  <CardList
+                    key={column.id + 'col'}
+                    id={column.id}
+                    title={column.title}
+                    dashboardId={params.dashboardId}
+                  />
                   {provided.placeholder}
                 </div>
               )}

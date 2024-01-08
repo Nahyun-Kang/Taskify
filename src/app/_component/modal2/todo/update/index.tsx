@@ -8,7 +8,7 @@ import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 import { ToDoCardDetailProps } from '../../../modal/toDoCard/type';
 import Dropdown from '../../../dropdown';
 import ModalPortal from '../../_component/modalPortal';
-export function UpdateTodo({ cardData }: { cardData: ToDoCardDetailProps }) {
+export function UpdateTodo2({ cardData }: { cardData: ToDoCardDetailProps }) {
   const handleClose = () => {};
   return (
     <>
