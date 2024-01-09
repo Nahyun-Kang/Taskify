@@ -2,8 +2,7 @@ import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { openPopOverState } from '@/src/app/_recoil/CardAtom';
-import { showToDoModalStateAboutCard } from '@/src/app/_recoil/CardAtom';
+import { openPopOverState, showToDoModalStateAboutCard } from '@/src/app/_recoil/CardAtom';
 import Image from 'next/image';
 
 import { useSetRecoilState } from 'recoil';
@@ -49,7 +48,7 @@ export default function Card({
       <div
         id={MODALTYPE.TODO.DETAIL}
         onClick={handleRenderDetaildoModal}
-        className='flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3 dark:border-black60 dark:bg-black90 md:flex-row lg:flex-col lg:items-stretch lg:p-5'
+        className='flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3 dark:border-black60 dark:bg-black90 md:flex-row md:items-center lg:flex-col lg:items-stretch lg:p-5'
       >
         {imageUrl && (
           <div className='flex h-full w-full items-center overflow-hidden rounded md:h-[3.3125rem] md:w-[5.6725rem] lg:h-full lg:w-full'>
@@ -67,7 +66,7 @@ export default function Card({
         <div className='flex flex-1 flex-col gap-[0.625rem]'>
           <div className='text-[0.875rem] text-black80 dark:text-white8 md:text-[1rem]'>{title}</div>
           <div className='flex justify-between gap-4'>
-            <div className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]'>
+            <div className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:flex-wrap md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]'>
               {tags.length > 0 && (
                 <div className='flex flex-wrap gap-[0.375rem]'>
                   {tags.map((tag, index) => (
@@ -76,9 +75,9 @@ export default function Card({
                 </div>
               )}
 
-              <div className='flex flex-1 justify-between'>
+              <div className='flex shrink-0 grow justify-between gap-[0.375rem]'>
                 <div className='flex items-center gap-[0.375rem]'>
-                  <div className='relative h-[0.875rem] w-[0.875rem] md:h-[1.125rem] md:w-[1.125rem]'>
+                  <div className='relative h-[0.875rem] w-[0.875rem] shrink-0 md:h-[1.125rem] md:w-[1.125rem]'>
                     <Image src={calendarIcon} fill alt='달력 아이콘' />
                   </div>
                   <span className='flex text-[0.625rem] text-gray50 md:translate-y-[0.0625rem] md:text-[0.75rem]'>
@@ -87,7 +86,7 @@ export default function Card({
                 </div>
                 {
                   <span
-                    className={`relative flex h-[1.375rem] w-[1.375rem] items-center justify-center rounded-full md:h-[1.5rem] md:w-[1.5rem] ${bgColor} overflow-hidden text-[0.625rem] font-semibold text-white md:text-[0.75rem]`}
+                    className={`relative flex h-[1.375rem] w-[1.375rem] shrink-0 items-center justify-center rounded-full md:h-[1.5rem] md:w-[1.5rem] ${bgColor} overflow-hidden text-[0.625rem] font-semibold text-white md:text-[0.75rem]`}
                   >
                     {profileImageUrl ? (
                       <Image
