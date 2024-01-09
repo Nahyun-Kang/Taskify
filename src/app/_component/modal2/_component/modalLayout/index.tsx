@@ -2,18 +2,32 @@
 import { ReactNode } from 'react';
 import Cancel from '@/src/app/_component/Button/Cancel';
 import Confirm from '@/src/app/_component/Button/Confirm';
-
+import { useRouter, usePathname } from 'next/navigation';
+import { useRecoilValue } from 'recoil';
+import { modalNameState } from '@/src/app/_recoil/ModalNameAtom';
 interface ModalLayoutrProps {
   children: ReactNode;
   btnName: string;
   btnSize: 'small' | 'large';
   sign: boolean;
   size?: string | undefined;
-  onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClose: () => void;
 }
 
 // 모달 레이아웃 + cancelBtn은 커스텀 훅의 modalType을 null로 만들어서 렌더링안되도록 + confirmBtn은 api연동할 때 자유롭게 만들 수 있도록 하기 위해 남겨두었습니다
 export default function ModalLayout({ children, btnName, btnSize, onClose, sign, size = 'small' }: ModalLayoutrProps) {
+  const router = useRouter();
+  const pathName = usePathname();
+  const currentModalName = useRecoilValue(modalNameState);
+
+  const handleSignConfirm = () => {
+    if (pathName === '/signup' && currentModalName === '가입이 완료되었습니다!') {
+      router.push('/login');
+      onClose();
+    }
+    onClose();
+  };
+
   const Size: { [key: string]: string } = {
     small: 'md:w-[33.75rem]',
     large: 'md:w-[31.625rem]',
@@ -30,7 +44,7 @@ export default function ModalLayout({ children, btnName, btnSize, onClose, sign,
         <div className={`flex gap-[0.75rem] md:justify-end ${SignBtnSize}`}>
           {sign ? null : <Cancel size={btnSize} onClick={onClose} />}
           {sign ? (
-            <Confirm btnName={btnName} size={btnSize} onClick={onClose} />
+            <Confirm btnName={btnName} size={btnSize} onClick={handleSignConfirm} />
           ) : (
             <Confirm btnName={btnName} size={btnSize} />
           )}

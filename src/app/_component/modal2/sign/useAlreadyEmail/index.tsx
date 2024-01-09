@@ -2,9 +2,11 @@ import ModalLayout from '../../_component/modalLayout';
 import ModalOutside from '../../_component/modalOutside';
 import ModalPortal from '../../_component/modalPortal';
 import ModalMainContent from '../../_component/modalMainContent';
-
-export default function MismatchPW() {
-  const handleClose = () => {};
+import { useSetRecoilState } from 'recoil';
+import { useAlreadyEmailState } from '@/src/app/_recoil/ModalAtom/signAtom';
+export default function UseAlreadyEmail() {
+  const setIsOpenErrorModal = useSetRecoilState(useAlreadyEmailState);
+  const handleClose = () => setIsOpenErrorModal(false);
   return (
     <ModalPortal>
       <ModalOutside closeModal={handleClose}>

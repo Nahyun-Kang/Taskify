@@ -6,9 +6,12 @@ interface ConfirmProps {
   btnName: string;
 }
 export default function Confirm({ size, onClick, btnName }: ConfirmProps) {
-  const {
-    formState: { isValid },
-  } = useFormContext();
+  let isValid = true;
+  const formContext = useFormContext();
+
+  if (formContext && formContext.formState) {
+    isValid = formContext.formState.isValid;
+  }
   const sizes = {
     large: {
       width: 'w-[8.625rem] md:w-[7.5rem]',
