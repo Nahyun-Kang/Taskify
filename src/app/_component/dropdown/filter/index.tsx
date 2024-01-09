@@ -28,7 +28,7 @@ interface SelectUser {
 export default function DropdownAndFilter({
   assignee,
 }: {
-  assignee: { profileImageUrl: string; nickname: string; id: number };
+  assignee?: { profileImageUrl: string; nickname: string; id: number };
 }) {
   const [imageValue, setImageValue] = useState(assignee?.profileImageUrl || '');
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
