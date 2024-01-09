@@ -5,12 +5,12 @@ import ModalMainContent from '../../_component/modalMainContent';
 import InputForm from '../../../InputForm';
 import { SubmitHandler, FieldValues } from 'react-hook-form';
 import ModalPortal from '../../_component/modalPortal';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { deleteColumnsForColumnId } from '@/src/app/_recoil/ModalAtom/columnAtom';
 import { columnState } from '@/src/app/_recoil/CardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 export function DeleteColumn2({ columnId }: { columnId: number }) {
-  const [isOpenDeleteColumn, setIsOpenDeleteColumn] = useRecoilState(deleteColumnsForColumnId(columnId));
+  const setIsOpenDeleteColumn = useSetRecoilState(deleteColumnsForColumnId(columnId));
   const handleClose = () => setIsOpenDeleteColumn(false);
   const setColumns = useSetRecoilState(columnState);
   const onSubmit = async () => {
@@ -25,18 +25,16 @@ export function DeleteColumn2({ columnId }: { columnId: number }) {
   };
   return (
     <>
-      {isOpenDeleteColumn && (
-        <ModalPortal>
-          <ModalOutside closeModal={handleClose}>
-            <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
-              <ModalLayout btnName='삭제' btnSize='large' sign={false} onClose={handleClose}>
-                <ModalTitle title='칼럼 삭제' />
-                <ModalMainContent content='칼럼의 모든 카드가 삭제됩니다.' />
-              </ModalLayout>
-            </InputForm>
-          </ModalOutside>
-        </ModalPortal>
-      )}
+      <ModalPortal>
+        <ModalOutside closeModal={handleClose}>
+          <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
+            <ModalLayout btnName='삭제' btnSize='large' sign={false} onClose={handleClose}>
+              <ModalTitle title='칼럼 삭제' />
+              <ModalMainContent content='칼럼의 모든 카드가 삭제됩니다.' />
+            </ModalLayout>
+          </InputForm>
+        </ModalOutside>
+      </ModalPortal>
     </>
   );
 }

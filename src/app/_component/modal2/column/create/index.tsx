@@ -8,14 +8,14 @@ import ModalOutside from '../../_component/modalOutside';
 import { SubmitHandler } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form';
 import ModalPortal from '../../_component/modalPortal';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { createColumnState } from '@/src/app/_recoil/ModalAtom/columnAtom';
 import { columnState } from '@/src/app/_recoil/CardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { Column } from '@/src/app/(afterLogin)/_constant/type';
 
 export function CreateColumn2({ dashboardId }: { dashboardId: string }) {
-  const [createColumn, setCreateColumn] = useRecoilState(createColumnState);
+  const setCreateColumn = useSetRecoilState(createColumnState);
   const [columns, setColumns] = useRecoilState(columnState);
 
   const handleClose = () => setCreateColumn(false);
@@ -36,23 +36,21 @@ export function CreateColumn2({ dashboardId }: { dashboardId: string }) {
   };
   return (
     <>
-      {createColumn && (
-        <ModalPortal>
-          <ModalOutside closeModal={handleClose}>
-            <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
-              <ModalLayout btnName='생성' btnSize='large' sign={false} onClose={handleClose}>
-                <ModalTitle title='칼럼 생성' />
-                <InputForm.TextInput
-                  label='이름'
-                  placeholder='컬럼 제목을 입력해주세요'
-                  id='title'
-                  validationRules={{ ...columnTitleValidate, ...requiredValidate }}
-                />
-              </ModalLayout>
-            </InputForm>
-          </ModalOutside>
-        </ModalPortal>
-      )}
+      <ModalPortal>
+        <ModalOutside closeModal={handleClose}>
+          <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
+            <ModalLayout btnName='생성' btnSize='large' sign={false} onClose={handleClose}>
+              <ModalTitle title='칼럼 생성' />
+              <InputForm.TextInput
+                label='이름'
+                placeholder='컬럼 제목을 입력해주세요'
+                id='title'
+                validationRules={{ ...columnTitleValidate, ...requiredValidate }}
+              />
+            </ModalLayout>
+          </InputForm>
+        </ModalOutside>
+      </ModalPortal>
     </>
   );
 }

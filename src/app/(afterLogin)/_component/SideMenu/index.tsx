@@ -9,39 +9,20 @@ import textLogo from '@/public/logo/logo_text_only.svg';
 import smallLogo from '@/public/logo/nav_logo_small.svg';
 import IdxIcon from '@/src/app/(afterLogin)/_component/Icons/IdxIcon';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
-import { createDashboard, getDashboards } from '@/src/app/_api/Dashboards';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { getDashboards } from '@/src/app/_api/Dashboards';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useRecoilState } from 'recoil';
-import { useRef } from 'react';
+import { createDashboardModalAboutSide } from '@/src/app/_recoil/ModalAtom/dashboardAtom';
+import CreateDashboard2 from '@/src/app/_component/modal2/dashboard/create';
+
 export default function SideMenu() {
-  const [modalType, callModal, setModalType] = useRenderModal();
-  const preModalType = useRef(modalType);
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useRecoilState(createDashboardModalAboutSide);
   const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
   const pathName = usePathname();
   const currentBoard = pathName.replace('/dashboard/', '');
 
-  const handleCreate = async () => {
-    callModal({
-      name: '새로운 대시보드',
-      onSubmit: async (data) => {
-        try {
-          const newDashboard = await createDashboard(data);
-          setDashboardData((prev) => {
-            return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
-          });
-          setModalType(null);
-          if (preModalType.current !== null && modalType === null) {
-            router.push(`/dashboard/${newDashboard.id}`);
-          }
-        } catch (error) {
-          // console.error(error);
-        }
-      },
-    });
-  };
+  const openModal = () => setIsOpen(true);
   useEffect(() => {
     const fetchDashboard = async () => {
       const data = await getDashboards();
@@ -51,10 +32,6 @@ export default function SideMenu() {
     };
     fetchDashboard();
   }, [setDashboardData]);
-
-  useEffect(() => {
-    preModalType.current = modalType;
-  }, [modalType]);
 
   return (
     <div className='fixed z-[11]'>
@@ -71,7 +48,7 @@ export default function SideMenu() {
             src={addIcon}
             alt='대시보드 추가 버튼'
             className='h-[1.25rem] w-[1.25rem] cursor-pointer'
-            onClick={handleCreate}
+            onClick={openModal}
           />
         </div>
         <div className='m-auto flex w-[2.5rem] flex-col items-center md:m-0 md:w-full md:items-start md:pr-3'>
@@ -102,7 +79,7 @@ export default function SideMenu() {
           })}
         </div>
       </div>
-      {modalType}
+      {isOpen ? <CreateDashboard2 side /> : null}
     </div>
   );
 }

@@ -1,16 +1,15 @@
 'use client';
-import { createDashboard, getPaginatedDashboards } from '@/src/app/_api/Dashboards';
+import { getPaginatedDashboards } from '@/src/app/_api/Dashboards';
 import AddDashboard from '@/src/app/_component/Button/AddDashboard';
 import CardDashboard from '@/src/app/_component/Button/CardDashboard';
 import PageNation from '@/src/app/_component/Button/PageNation';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { useRouter } from 'next/navigation';
+
 import { useEffect, useState } from 'react';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
-import { useSetRecoilState } from 'recoil';
-import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
-import { useRef } from 'react';
+import { useRecoilState } from 'recoil';
 
+import CreateDashboard2 from '@/src/app/_component/modal2/dashboard/create';
+import { createDashboardModal } from '@/src/app/_recoil/ModalAtom/dashboardAtom';
 interface DashboardListProps {
   dashboards: DashboardProps[];
   setDashboards: (value: DashboardProps[]) => void;
@@ -19,37 +18,9 @@ interface DashboardListProps {
 }
 
 export default function DashboardList({ dashboards, setDashboards, page, setPage }: DashboardListProps) {
-  const [modalType, callModal, setModalType] = useRenderModal();
-  const router = useRouter();
-  const preModalType = useRef(modalType);
-
-  const setDashboardData = useSetRecoilState(dashboardState);
-  const handleCreate = async () => {
-    callModal({
-      name: '새로운 대시보드',
-      onSubmit: async (data) => {
-        try {
-          const newDashboard = await createDashboard(data);
-
-          setDashboardData((prev) => {
-            return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
-          });
-          setModalType(null);
-          if (preModalType.current !== null && modalType === null) {
-            router.push(`/dashboard/${newDashboard.id}`);
-          }
-        } catch (error) {
-          // console.error(error);
-        } finally {
-          setModalType(null);
-        }
-      },
-    });
-  };
-
+  const [isOpenNewDashboard, setIsOpenNewDashboard] = useRecoilState(createDashboardModal);
   const [isActiveBack, setIsActiveBack] = useState(false);
   const [isActiveForward, setIsActiveForward] = useState(false);
-
   const [totalPage, setTotalPage] = useState(0);
 
   const handlePageNation = (direction: 'back' | 'forward') => {
@@ -60,9 +31,7 @@ export default function DashboardList({ dashboards, setDashboards, page, setPage
     }
   };
 
-  useEffect(() => {
-    preModalType.current = modalType;
-  }, [modalType]);
+  const openNewDashboardModal = () => setIsOpenNewDashboard(true);
 
   useEffect(() => {
     const getDashboardList = async (page: number, pageSize: number) => {
@@ -82,7 +51,7 @@ export default function DashboardList({ dashboards, setDashboards, page, setPage
     <div className='flex w-full flex-col gap-2 bg-gray10 md:gap-6'>
       <div className='flex flex-col gap-2 md:gap-3'>
         <div className='grid auto-rows-[3.875rem] gap-2 md:auto-rows-[4.25rem] md:grid-cols-2 md:gap-3 lg:auto-rows-[4.375rem]'>
-          <AddDashboard screen='free' onClick={handleCreate} />
+          <AddDashboard screen='free' onClick={openNewDashboardModal} />
           {dashboards?.map((dashboard) => (
             <CardDashboard
               key={dashboard.id}
@@ -107,7 +76,7 @@ export default function DashboardList({ dashboards, setDashboards, page, setPage
           />
         </div>
       </div>
-      {modalType}
+      {isOpenNewDashboard ? <CreateDashboard2 /> : null}
     </div>
   );
 }
