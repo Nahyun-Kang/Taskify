@@ -1,12 +1,12 @@
 'use client';
 import Image from 'next/image';
 import ModalOutside from '../../_component/modalOutside';
-import { DetailIconButton } from '../../../modal/toDoCard/detail/DetailComponent';
-import { DetailMainContent } from '../../../modal/toDoCard/detail/DetailComponent';
-import { DetailAssignee } from '../../../modal/toDoCard/detail/DetailComponent';
+import Comment from '@/src/app/_component/modal2/todo/detail/_component/Comment';
+import Assignee from '@/src/app/_component/modal2/todo/detail/_component/Assignee';
+import MainContent from '@/src/app/_component/modal2/todo/detail/_component/MainContent';
+import IconButton from '@/src/app/_component/modal2/todo/detail/_component/IconButton';
 import CommentInput from '../../../InputForm/CommentInput';
-import { DetailCardComment } from '../../../modal/toDoCard/detail/DetailComponent';
-import { SkeletonUIAboutComments } from '../../../modal/toDoCard/SkeletonForComments';
+import { SkeletonUIAboutComments } from '@/src/app/_component/modal2/todo/SkeletonForComments';
 import ModalPortal from '../../_component/modalPortal';
 import { useRef } from 'react';
 import { useState, useEffect, useCallback } from 'react';
@@ -14,14 +14,13 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { openPopOverState } from '@/src/app/_recoil/CardAtom';
 import { commentsStateAboutCardId } from '@/src/app/_recoil/CardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import { CommentType2 } from '../../../modal/toDoCard/detail/DetailComponent';
 import useObserver from '@/src/app/_hook/useObserver';
-import { ToDoCardDetailProps } from '../../../modal/toDoCard/type';
+import { ToDoCardDetailProps } from '@/src/app/_component/modal2/todo/type';
 import { useParams } from 'next/navigation';
 import { detailTodoAboutCardId } from '@/src/app/_recoil/ModalAtom/todoAtom';
 import InputForm from '../../../InputForm';
 import { FieldValues } from 'react-hook-form';
-
+import { CommentType } from '@/src/app/_component/modal2/todo/type';
 export default function DetailToDo2({ cardId, columnId }: { cardId: number; columnId: number }) {
   const [nowCursorId, setNowCursorId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +41,7 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
       const res = await axiosInstance.get(`comments?${cursorQuery}cardId=${cardId}`);
       const { comments } = res.data;
       const { cursorId } = res.data;
-      setComments((oldComments: CommentType2[]) => [...(oldComments || []), ...comments]);
+      setComments((oldComments: CommentType[]) => [...(oldComments || []), ...comments]);
       setNowCursorId(cursorId);
       setIsLoading(false);
     } catch (error) {
@@ -64,7 +63,7 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
         cardId,
         dashboardId: Number(params.dashboardId),
       });
-      setComments((prev: CommentType2[]) => [, ...(prev ? prev : []), res.data]);
+      setComments((prev: CommentType[]) => [, ...(prev ? prev : []), res.data]);
     } catch (error) {
     } finally {
     }
@@ -126,11 +125,11 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
           >
             <div className='sticky top-0 z-[2] flex w-full justify-between bg-white sm:pt-[2.5rem] md:pt-[2rem]'>
               <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
-              <DetailIconButton handleKebab={handleKebab} cardId={cardId} />
+              <IconButton handleKebab={handleKebab} cardId={cardId} />
             </div>
             <div className='flex flex-col-reverse justify-between md:flex-row'>
               <div className='md:w-[26.25rem] lg:w-[28.125rem]'>
-                <DetailMainContent columnId={columnId} tags={cardData.tags} description={cardData.description} />
+                <MainContent columnId={columnId} tags={cardData.tags} description={cardData.description} />
                 <div className='mb-[1.1875rem] flex sm:w-[17.9375rem] md:mb-6 md:w-full'>
                   {cardData.imageUrl && (
                     <Image
@@ -151,13 +150,13 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
                   <SkeletonUIAboutComments />
                 ) : comments && Array.isArray(comments) ? (
                   [...comments].map((comment, index) => (
-                    <DetailCardComment key={comment?.id || `comment-${index}`} data={comment} cardId={cardId} />
+                    <Comment key={comment?.id || `comment-${index}`} data={comment} cardId={cardId} />
                   ))
                 ) : null}
 
                 {nowCursorId === null ? null : <div ref={target}></div>}
               </div>
-              <DetailAssignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
+              <Assignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
             </div>
           </div>
         </ModalOutside>
