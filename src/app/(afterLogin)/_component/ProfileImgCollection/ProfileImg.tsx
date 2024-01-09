@@ -21,7 +21,7 @@ export default function Profile({ idx, values, total, count }: Props) {
   const color = idx === count - 2 ? 'bg-[#F4D7DA] text-[#D25B68]' : `${Colors[idx]} text-white`;
   const createContent = () => {
     if (idx === count - 2) {
-      return `+${total - idx}`;
+      return `+${total - idx - 1}`;
     } else if (values?.profileImageUrl) {
       return (
         <div
