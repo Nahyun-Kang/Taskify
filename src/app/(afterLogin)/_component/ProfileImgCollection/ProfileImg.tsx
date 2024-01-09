@@ -1,10 +1,11 @@
 import { memberType } from '@/src/app/(afterLogin)/_constant/type';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
 import { TypeNumber } from '@/src/app/(afterLogin)/_constant/type';
+import ProfileImage from '../ProfileImage';
 
 interface Props {
   idx: number;
-  values?: memberType;
+  values: memberType;
   total: number;
   count: number;
 }
@@ -19,26 +20,16 @@ const Size: TypeNumber = {
 
 export default function Profile({ idx, values, total, count }: Props) {
   const color = idx === count - 2 ? 'bg-[#F4D7DA] text-[#D25B68]' : `${Colors[idx]} text-white`;
-  const createContent = () => {
-    if (idx === count - 2) {
-      return `+${total - idx - 1}`;
-    } else if (values?.profileImageUrl) {
-      return (
-        <div
-          className='h-full w-full'
-          style={{ backgroundImage: `url(${values.profileImageUrl})`, backgroundSize: 'contain' }}
-        ></div>
-      );
-    } else {
-      return values?.nickname[0];
-    }
-  };
 
   return (
     <div
       className={`flex h-[2.125rem] w-[2.125rem] items-center justify-center overflow-hidden rounded-full border-2 border-white bg-contain text-[0.875rem] font-semibold md:h-[2.375rem] md:w-[2.375rem] md:text-[1rem] ${Size[idx]} ${color} font-mp`}
     >
-      {createContent()}
+      {idx === count - 2 ? (
+        `+${total - idx - 1}`
+      ) : (
+        <ProfileImage profileImageUrl={values.profileImageUrl} nickname={values.nickname} />
+      )}
     </div>
   );
 }

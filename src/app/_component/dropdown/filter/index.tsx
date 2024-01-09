@@ -6,8 +6,9 @@ import { ChangeEvent, FocusEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { dashboardIdState } from '@/src/app/_recoil/CardAtom';
-import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
 import ArrowDown from '@/src/app/_component/Icons/ArrowDown';
+import ProfileImageContainer from '@/src/app/(afterLogin)/_component/ProfileImage/ProfileImageContainer';
+import ProfileImage from '@/src/app/(afterLogin)/_component/ProfileImage';
 interface Admin {
   id: number;
   email: string;
@@ -27,13 +28,13 @@ interface SelectUser {
 export default function DropdownAndFilter({
   assignee,
 }: {
-  assignee?: { profileImageUrl: string; nickname: string; id: number };
+  assignee: { profileImageUrl: string; nickname: string; id: number };
 }) {
   const [imageValue, setImageValue] = useState(assignee?.profileImageUrl || '');
   const [focus, setFocus] = useState(false); // 인풋 포커스 여부
   const [openDropdown, setOpenDropdown] = useState(false); // 드롭다운 개폐여부
-  const [curretValue, setCurrentValue] = useState<string>(assignee?.nickname || ''); // 인풋에 대한 입력값 참조
-  const [assignId, setAssignId] = useState((Number(assignee?.id) as number) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
+  const [currentValue, setCurrentValue] = useState<string>(assignee?.nickname || ''); // 인풋에 대한 입력값 참조
+  const [assignId, setAssignId] = useState(Number(assignee?.id) as number); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
   const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 인풋에 이름 입력 다하거나 OR 드롭다운 내부에 있는 이름 클릭하면 TRUE가됨+ 인풋이 DIV로 바뀜 (IMG와 이름 가져오기 위해)
   const [dropdownList, setDropdownList] = useState<Admin[] | null>(null);
   const [dashboardId] = useRecoilState(dashboardIdState);
@@ -80,7 +81,7 @@ export default function DropdownAndFilter({
   const SearchAdminName = (dropdownList as Admin[])?.filter((admin) => {
     if (!dropdownList) return;
     if (dropdownList.length > 0) {
-      if (admin.nickname.includes(curretValue)) {
+      if (admin.nickname.includes(currentValue)) {
         return true;
       }
     } else {
@@ -145,21 +146,16 @@ export default function DropdownAndFilter({
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
-              {imageValue ? (
-                <div className=' relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
-                  <Image src={imageValue} alt='circleLogo' fill style={{ borderRadius: '50%' }} />
-                </div>
-              ) : (
-                <DefaultProfile nickName={curretValue} index={assignId as number} />
-              )}
-
-              <span className='text-[1rem]'>{curretValue}</span>
+              <ProfileImageContainer userId={assignId} size='small'>
+                <ProfileImage profileImageUrl={imageValue} nickname={currentValue} />
+              </ProfileImageContainer>
+              <span className='text-[1rem]'>{currentValue}</span>
             </div>
           ) : (
             <input
               placeholder='이름을 입력해주세요'
               ref={inputRef}
-              value={curretValue}
+              value={currentValue}
               onChange={handleOnChangeInput}
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
@@ -235,13 +231,9 @@ export const AdminOption = ({
             <div className='w-[1.375rem]'></div>
           )}
           <div className='flex  items-center justify-center gap-[0.5rem]'>
-            {profile !== null ? (
-              <div className=' relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
-                <Image src={profile} alt='circleLogo' fill style={{ borderRadius: '50%' }} />
-              </div>
-            ) : (
-              <DefaultProfile nickName={name} index={userId} />
-            )}
+            <ProfileImageContainer userId={userId} size='small'>
+              <ProfileImage profileImageUrl={profile} nickname={name} />
+            </ProfileImageContainer>
             <span className='text-[0.875rem]  md:text-[1rem]' id={name}>
               {name}
             </span>
