@@ -38,7 +38,7 @@ export function CreateColumn2({ dashboardId }: { dashboardId: string }) {
     <>
       {createColumn && (
         <ModalPortal>
-          <ModalOutside>
+          <ModalOutside closeModal={handleClose}>
             <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
               <ModalLayout btnName='생성' btnSize='large' sign={false} onClose={handleClose}>
                 <ModalTitle title='칼럼 생성' />

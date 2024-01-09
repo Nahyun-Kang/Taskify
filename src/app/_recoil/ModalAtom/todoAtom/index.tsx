@@ -1,3 +1,5 @@
+import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
+import { ToDoCardDetailProps } from '@/src/app/_component/modal/toDoCard/type';
 import { atom } from 'recoil';
 
 const createTodoCache = new Map();
@@ -36,7 +38,7 @@ export const updateTodoAboutCardId = (cardId: number) => {
     updateTodoCache.set(cardId, updateTodo);
   }
 
-  return detailTodoCache.get(cardId);
+  return updateTodoCache.get(cardId);
 };
 
 const deleteTodoCache = new Map();
@@ -51,3 +53,13 @@ export const deleteTodoAboutCardId = (cardId: number) => {
 
   return deleteTodoCache.get(cardId);
 };
+
+export const detailcardDataState = atom<ToDoCardDetailProps | null>({
+  key: `detailcardData`,
+  default: null,
+});
+
+export const updateCardState = atom<CardInfo | null>({
+  key: 'updateCardState',
+  default: null,
+});

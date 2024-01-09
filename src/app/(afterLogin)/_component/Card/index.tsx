@@ -2,9 +2,16 @@ import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
 import { openPopOverState } from '@/src/app/_recoil/CardAtom';
 import Image from 'next/image';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { detailTodoAboutCardId } from '@/src/app/_recoil/ModalAtom/todoAtom';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import {
+  detailTodoAboutCardId,
+  deleteTodoAboutCardId,
+  updateTodoAboutCardId,
+} from '@/src/app/_recoil/ModalAtom/todoAtom';
 import DetailToDo2 from '@/src/app/_component/modal2/todo/detail';
+import { UpdateTodo2 } from '@/src/app/_component/modal2/todo/update';
+import React from 'react';
+import { DeleteTodo2 } from '@/src/app/_component/modal2/todo/delete';
 
 interface CardProps {
   title: string;
@@ -31,8 +38,10 @@ export default function Card({
 }: CardProps) {
   const setIsOpenPopOver = useSetRecoilState(openPopOverState);
   const [isOpenDetailTodoModal, setIsOpenDetailTodoModal] = useRecoilState(detailTodoAboutCardId(id));
-
-  const openDetailTodoModal = () => {
+  const isOpenUpdateTodoModal = useRecoilValue(updateTodoAboutCardId(id));
+  const isOpenDeleteTodoModal = useRecoilValue(deleteTodoAboutCardId(id));
+  const openDetailTodoModal = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
     setIsOpenDetailTodoModal(true);
     setIsOpenPopOver(false);
   };
@@ -100,6 +109,8 @@ export default function Card({
           </div>
         </div>
         {isOpenDetailTodoModal ? <DetailToDo2 cardId={id} columnId={columnId} /> : null}
+        {isOpenUpdateTodoModal ? <UpdateTodo2 cardId={id} columnId={columnId} /> : null}
+        {isOpenDeleteTodoModal ? <DeleteTodo2 cardId={id} columnId={columnId} /> : null}
       </div>
     </>
   );

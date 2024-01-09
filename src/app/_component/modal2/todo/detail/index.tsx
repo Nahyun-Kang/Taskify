@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import ModalOutside from '../../_component/modalOutside';
-import ModalLayout from '../../_component/modalLayout';
 import { DetailIconButton } from '../../../modal/toDoCard/detail/DetailComponent';
 import { DetailMainContent } from '../../../modal/toDoCard/detail/DetailComponent';
 import { DetailAssignee } from '../../../modal/toDoCard/detail/DetailComponent';
@@ -20,16 +19,19 @@ import useObserver from '@/src/app/_hook/useObserver';
 import { ToDoCardDetailProps } from '../../../modal/toDoCard/type';
 import { useParams } from 'next/navigation';
 import { detailTodoAboutCardId } from '@/src/app/_recoil/ModalAtom/todoAtom';
+import InputForm from '../../../InputForm';
+import { FieldValues } from 'react-hook-form';
 
 export default function DetailToDo2({ cardId, columnId }: { cardId: number; columnId: number }) {
   const [nowCursorId, setNowCursorId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [observerLoading, setObserverLoading] = useState(false);
-  const [commentValue, setCommentValue] = useState<string>('');
   const [cardData, setCardData] = useState<ToDoCardDetailProps | null>(null);
+
   const setIsOpenPopOver = useSetRecoilState(openPopOverState);
   const [comments, setComments] = useRecoilState(commentsStateAboutCardId(cardId));
   const setIsOpenDetailTodoModal = useSetRecoilState(detailTodoAboutCardId(cardId));
+
   const target = useRef(null);
 
   const getComments = useCallback(async () => {
@@ -52,26 +54,30 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
 
   const params = useParams();
 
-  const onSubmitCreateComment = async () => {
+  const handleClose = () => setIsOpenDetailTodoModal(false);
+
+  const onSubmitCreateComment = async (form: FieldValues) => {
     try {
       const res = await axiosInstance.post('comments', {
-        content: commentValue,
+        ...form,
         columnId,
         cardId,
         dashboardId: Number(params.dashboardId),
       });
       setComments((prev: CommentType2[]) => [, ...(prev ? prev : []), res.data]);
-      setCommentValue('');
     } catch (error) {
     } finally {
     }
   };
 
-  const handleClose = () => setIsOpenDetailTodoModal(false);
   const handleKebab = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-
     setIsOpenPopOver((prev) => !prev);
+  };
+
+  const handleKebabClose = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setIsOpenPopOver(false);
   };
 
   const arriveAtIntersection: IntersectionObserverCallback = (entries) => {
@@ -113,8 +119,11 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
   return (
     <>
       <ModalPortal>
-        <ModalOutside>
-          <ModalLayout btnName='생성' btnSize='large' sign={false} onClose={handleClose} onSubmit={() => {}}>
+        <ModalOutside closeModal={handleClose}>
+          <div
+            className='hide-scrollbar relative flex max-h-[80%] flex-col gap-4 overflow-scroll rounded-lg border bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[2.5rem] md:w-[42.5rem] md:gap-6 md:px-[1.75rem] md:pb-[2rem] lg:w-[45.625rem]'
+            onClick={handleKebabClose}
+          >
             <div className='sticky top-0 z-[2] flex w-full justify-between bg-white sm:pt-[2.5rem] md:pt-[2rem]'>
               <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
               <DetailIconButton handleKebab={handleKebab} cardId={cardId} />
@@ -135,14 +144,9 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
                     />
                   )}
                 </div>
-                <CommentInput
-                  id='content'
-                  placeholder='댓글을 입력해주세요'
-                  onChange={(e) => setCommentValue((e.target as HTMLInputElement).value)}
-                  label='댓글'
-                  onSubmit={onSubmitCreateComment}
-                  value={commentValue}
-                ></CommentInput>
+                <InputForm onSubmit={onSubmitCreateComment}>
+                  <CommentInput id='content' placeholder='댓글을 입력해주세요' label='댓글'></CommentInput>
+                </InputForm>
                 {isLoading ? (
                   <SkeletonUIAboutComments />
                 ) : comments && Array.isArray(comments) ? (
@@ -155,7 +159,7 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
               </div>
               <DetailAssignee assignee={cardData.assignee} dueDate={cardData.dueDate} />
             </div>
-          </ModalLayout>
+          </div>
         </ModalOutside>
       </ModalPortal>
     </>

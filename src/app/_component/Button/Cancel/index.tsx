@@ -1,6 +1,6 @@
 interface CancelProps {
   size: 'large' | 'small' | 'free';
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 export default function Cancel({ size, onClick }: CancelProps) {
   const sizes = {

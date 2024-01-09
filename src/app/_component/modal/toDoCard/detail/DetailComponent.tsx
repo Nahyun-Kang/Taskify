@@ -33,18 +33,24 @@ export function DetailIconButton({ handleKebab, cardId }: DetailIconButtonProps)
   const setIsDetailTodoModal = useSetRecoilState(detailTodoAboutCardId(cardId));
   const [isOpenPopOver, setIsOpenPopOver] = useRecoilState(openPopOverState);
 
-  const openUpdateTodoModal = () => {
+  const openUpdateTodoModal = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
     setIsDetailTodoModal(false);
     setIsOpenUpdateTodoModal(true);
     setIsOpenPopOver(false);
   };
 
-  const openDeleteTodoModal = () => {
+  const openDeleteTodoModal = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
     setIsDetailTodoModal(false);
-    setIsOpenDeleteTodoModal(false);
+    setIsOpenDeleteTodoModal(true);
+    setIsOpenPopOver(false);
   };
 
-  const CloseModal = () => setIsOpenUpdateTodoModal(false);
+  const CloseModal = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    setIsDetailTodoModal(false);
+  };
 
   return (
     <div className='flex items-center gap-1 sm:right-[0.75rem] sm:top-[0.75rem] md:right-[1.75rem] md:top-[2rem] md:gap-[1.5rem]'>

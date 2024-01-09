@@ -15,10 +15,11 @@ export default function UpdateColumn2({ columnId }: { columnId: number }) {
   const setDeleteColumnState = useSetRecoilState(deleteColumnsForColumnId(columnId));
   const setColumns = useSetRecoilState(columnState);
 
-  const onClose = () => setUpdateColumnState(null);
+  const onClose = () => setUpdateColumnState(false);
 
   const openDeleteColumnModal = () => {
     setUpdateColumnState(false);
+
     setDeleteColumnState(true);
   };
 
@@ -36,7 +37,7 @@ export default function UpdateColumn2({ columnId }: { columnId: number }) {
     <>
       {updateColumnState && (
         <ModalPortal>
-          <ModalOutside>
+          <ModalOutside closeModal={onClose}>
             <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
               <ModalLayout btnName='생성' btnSize='large' sign={false} onClose={onClose}>
                 <ModalTitle title='칼럼 관리' />

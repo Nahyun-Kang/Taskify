@@ -51,7 +51,7 @@
 //   const [isOpenPopOver, setIsOpenPopOver] = useRecoilState(openPopOverState);
 //   const [comments, setComments] = useRecoilState(commentsStateAboutCardId(cardId));
 
-//   // const { putCard, updatedCard } = usePutCard(cardId, columnId, setModalType, callModal);
+//   const { putCard, updatedCard } = usePutCard(cardId, columnId);
 //   const setCardListOtherColumn = useSetRecoilState(cardListStateAboutColumn(updatedCard?.columnId as number));
 //   const setCountOtherColumn = useSetRecoilState(countAboutCardList(updatedCard?.columnId as number));
 
@@ -262,5 +262,5 @@
 //         </>
 //       )}
 //     </>
-//   );
-// }
+// //   );
+// // }

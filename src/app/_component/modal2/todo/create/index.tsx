@@ -37,7 +37,7 @@ export function CreateTodo2({ columnId, dashboardId }: { columnId: number; dashb
     <>
       {createTodo && (
         <ModalPortal>
-          <ModalOutside>
+          <ModalOutside closeModal={handleClose}>
             <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
               <ModalLayout btnName='생성' btnSize='large' sign={false} onClose={handleClose}>
                 <ModalTitle title='할 일 생성' />

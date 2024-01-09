@@ -27,7 +27,7 @@ export function DeleteColumn2({ columnId }: { columnId: number }) {
     <>
       {isOpenDeleteColumn && (
         <ModalPortal>
-          <ModalOutside>
+          <ModalOutside closeModal={handleClose}>
             <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
               <ModalLayout btnName='삭제' btnSize='large' sign={false} onClose={handleClose}>
                 <ModalTitle title='칼럼 삭제' />
