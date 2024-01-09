@@ -7,12 +7,10 @@ import circle from '@/public/icons/Ellipse 54.svg';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { columnState, commentsStateAboutCardId } from '@/src/app/_recoil/CardAtom';
 import formatTime from '@/src/app/_util/formatTime';
-// import CommentUpdateInput from '@/src/app/_component/InputForm/commentUpdateInput';
-// import { FieldValues } from 'react-hook-form';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 // 할 일 카드 상세 모달은 내용이 너무 많아서 일단 분리해 놓았습니다
-import DefaultProfile from '@/src/app/_component/DefaultProfile';
-// import { userInfoState } from '@/src/app/_recoil/AuthAtom';
+import ProfileImage from '@/src/app/(afterLogin)/_component/ProfileImage';
+import ProfileImageContainer from '@/src/app/(afterLogin)/_component/ProfileImage/ProfileImageContainer';
 import { UserDataType } from '@/src/app/_constant/type';
 import Kebab from '@/src/app/_component/Icons/Kebab';
 import CloseIcon from '@/src/app/_component/Icons/CloseIcon';
@@ -86,7 +84,7 @@ export function DetailMainContent({
               <div className='flex flex-shrink-0 items-center rounded-[6.25rem] bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
                 <div className='flex gap-[0.375rem] overflow-hidden'>
                   <Image src={circle} alt='circle' width={6} height={6} priority />
-                  <span className='whitespace-nowrap'>{newColumn?.title}</span>
+                  <span className='whitespace-nowrap text-violet'>{newColumn?.title}</span>
                 </div>
               </div>
             }
@@ -115,13 +113,9 @@ export function DetailAssignee({ assignee, dueDate }: DetailAssignee) {
       <div className='flex flex-col gap-[0.375rem]'>
         <span className='text-[0.75rem] font-semibold leading-5'>담당자</span>
         <div className='flex items-center  gap-[0.3125rem]'>
-          {assignee?.profileImageUrl ? (
-            <div className='relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
-              <Image src={assignee.profileImageUrl} fill alt='담당자 프로필' priority style={{ borderRadius: '50%' }} />
-            </div>
-          ) : (
-            <DefaultProfile nickName={assignee?.nickname} index={assignee?.id as number} />
-          )}
+          <ProfileImageContainer userId={assignee.id} size='large'>
+            <ProfileImage profileImageUrl={assignee.profileImageUrl} nickname={assignee.nickname} />
+          </ProfileImageContainer>
           <span>{assignee?.nickname}</span>
         </div>
       </div>
@@ -200,18 +194,10 @@ export function DetailCardComment({ data, cardId }: { data: CommentType2; cardId
     <div className='mt-4 flex gap-[0.625rem] md:mt-5'>
       {!isUpdate && (
         <div className='flex flex-col items-start'>
-          {data?.author?.profileImageUrl ? (
-            <div className='relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
-              <Image
-                src={data?.author?.profileImageUrl}
-                alt='댓글 프로필'
-                priority
-                fill
-                style={{ borderRadius: '50%' }}
-              />
-            </div>
-          ) : (
-            <DefaultProfile nickName={data?.author?.nickname} index={data?.author?.id} />
+          {data?.author?.profileImageUrl && (
+            <ProfileImageContainer userId={data?.author.id} size='large'>
+              <ProfileImage profileImageUrl={data?.author.profileImageUrl} nickname={data?.author.nickname} />
+            </ProfileImageContainer>
           )}
         </div>
       )}

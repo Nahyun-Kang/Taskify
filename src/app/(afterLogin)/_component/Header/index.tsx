@@ -25,6 +25,7 @@ export default function Header() {
   const [createdByMe, setCreatedByMe] = useState(false);
   const [userName, setUserName] = useState('');
   const [userProfileImg, setUserProfileImg] = useState<string | null>(null);
+  const [profileDropdown, setProfileDropdown] = useState(false);
   const userInfo = useRecoilValue(userInfoState);
   const [isActiveDropdown, setActiveDropdown] = useRecoilState(dropdownState);
   const setIsChange = useSetRecoilState(inviteListChange);
@@ -97,8 +98,12 @@ export default function Header() {
               </div>
             )}
             {!isDisabledButtons && (
-              <div className='ml-3 md:ml-6 lg:ml-8 '>
-                <ProfileCollection dashboardId={dashboardId} userId={userInfo.id} />
+              <div
+                className='ml-3 md:ml-6 lg:ml-8 '
+                onMouseOver={() => setProfileDropdown(true)}
+                onMouseLeave={() => setProfileDropdown(false)}
+              >
+                <ProfileCollection dashboardId={dashboardId} userId={userInfo.id} profileDropdown={profileDropdown} />
               </div>
             )}
             {!isDisabledButtons && (

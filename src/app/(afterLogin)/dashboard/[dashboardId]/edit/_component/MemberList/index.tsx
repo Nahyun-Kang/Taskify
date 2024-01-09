@@ -2,10 +2,11 @@
 import Delete from '@/src/app/_component/Button/Delete';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import { useEffect, useState } from 'react';
-import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
 import { deleteMember, getMembers } from '@/src/app/_api/Dashboards';
 import crown from '@/public/images/crown_icon.svg';
 import Image from 'next/image';
+import ProfileImageContainer from '@/src/app/(afterLogin)/_component/ProfileImage/ProfileImageContainer';
+import ProfileImage from '@/src/app/(afterLogin)/_component/ProfileImage';
 
 interface membersProps {
   id: number;
@@ -77,14 +78,9 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
               }`}
             >
               <div className='flex items-center justify-center gap-[0.75rem]'>
-                {val.profileImageUrl === null ? (
-                  <DefaultProfile nickName={val.nickname} index={index} />
-                ) : (
-                  <div
-                    className={`flex items-center justify-center rounded-full font-mon text-[1rem] font-semibold text-white sm:h-[2.125rem] sm:w-[2.125rem]  sm:text-[0.875rem]  md:h-[2.375rem] md:w-[2.375rem] md:text-[1rem]`}
-                    style={{ backgroundImage: `url(${val.profileImageUrl})`, backgroundSize: 'contain' }}
-                  ></div>
-                )}
+                <ProfileImageContainer userId={val.userId} size='large'>
+                  <ProfileImage profileImageUrl={val.profileImageUrl} nickname={val.nickname} />
+                </ProfileImageContainer>
                 <span className='text-black80 dark:text-white8 sm:text-[0.875rem] md:text-[1rem] '>{val.nickname}</span>
               </div>
               {val.isOwner ? (
