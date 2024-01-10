@@ -26,21 +26,6 @@ export default function SignUp() {
     setChecked(event.target.checked);
   };
 
-  //회원가입 성공시 부르는 모달
-  // const callCompleteSignUpModal = () => {
-  //   callModal({
-  //     name: '가입이 완료되었습니다!',
-  //     onSubmit: () => {
-  //       router.push('/login');
-  //     },
-  //   });
-  // };
-
-  // //회원가입 실패시 부르는 모달
-  // const callSignUpErrorModal = () => {
-  //   callModal({ name: '이미 사용 중인 이메일입니다.', onSubmit: () => {} });
-  // };
-
   //submit 함수
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

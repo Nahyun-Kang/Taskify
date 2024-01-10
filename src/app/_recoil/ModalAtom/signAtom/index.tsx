@@ -9,3 +9,8 @@ export const useAlreadyEmailState = atom<boolean>({
   key: `useAlreadyEmailState`,
   default: false,
 });
+
+export const editPasswordState = atom<boolean>({
+  key: `editPasswordState`,
+  default: false,
+});

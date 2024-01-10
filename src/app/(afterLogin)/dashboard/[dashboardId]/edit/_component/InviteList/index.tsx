@@ -4,11 +4,10 @@ import addBox from '@/public/icons/add_box.svg';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import CancelInvite from '@/src/app/_component/Button/CancelInvite';
 import { deleteInvitation, getInvitations } from '@/src/app/_api/Dashboards';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
-import submitInvitation from '@/src/app/(afterLogin)/_util/submitInvitation';
 import { useRecoilState } from 'recoil';
 import { inviteListChange } from '@/src/app/_recoil/dashboardAtom';
-
+import { inviteDashboardForList } from '@/src/app/_recoil/ModalAtom/dashboardAtom';
+import InviteDashboard from '@/src/app/_component/modal2/dashboard/invite';
 interface InviteListProps {
   id: number;
   invitee: {
@@ -24,9 +23,8 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   const [isActiveForward, setIsActiveForward] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const [modalType, callModal, setModalType] = useRenderModal();
   const [isChange, setIsChange] = useRecoilState(inviteListChange);
-
+  const [isOpenInviteModal, setIsOpenInviteModal] = useRecoilState(inviteDashboardForList);
   const handlePageNation = (direction: 'back' | 'forward') => {
     if (direction === 'back') {
       setPage((prevPage) => prevPage - 1);
@@ -35,9 +33,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
     }
   };
 
-  const handleInvite = () => {
-    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType, setIsChange) });
-  };
+  const openInviteModal = () => setIsOpenInviteModal(true);
 
   const handleCancelInvite = (inviteId: number) => {
     deleteInvitation(dashboardId, inviteId, setIsChange);
@@ -83,7 +79,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
             </div>
             <button
               className='flex h-[1.75rem] w-[5.375rem] items-center justify-center gap-[0.5625rem] rounded-[0.25rem] bg-violet text-[0.75rem] text-white md:h-[2rem] md:w-[105px]'
-              onClick={handleInvite}
+              onClick={openInviteModal}
             >
               <Image src={addBox.src} width={16} height={16} alt='초대 버튼' /> 초대하기
             </button>
@@ -107,7 +103,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
             </div>
           ))}
       </div>
-      {modalType}
+      {isOpenInviteModal ? <InviteDashboard dashboardId={dashboardId} setIsChange={setIsChange} list /> : null}
     </div>
   );
 }

@@ -29,7 +29,6 @@ export function CreateColumn2({ dashboardId }: { dashboardId: string }) {
       const newColumn = await createColumn(titleValue, +dashboardId);
       setColumns((oldColumns: Column[]) => [...oldColumns, newColumn]);
     } catch (error) {
-      alert(error);
     } finally {
       setCreateColumn(false);
     }
