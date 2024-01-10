@@ -28,6 +28,7 @@ export default function InputForm({
     // setIsLoading(true);
     try {
       await onSubmit(data);
+      document.body.style.overflowY = 'auto';
     } catch (error) {
       // setIsLoading(false);
     } finally {

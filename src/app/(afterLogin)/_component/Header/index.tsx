@@ -24,6 +24,7 @@ export default function Header() {
   const [createdByMe, setCreatedByMe] = useState(false);
   const [userName, setUserName] = useState('');
   const [userProfileImg, setUserProfileImg] = useState<string | null>(null);
+  const [profileDropdown, setProfileDropdown] = useState(false);
   const userInfo = useRecoilValue(userInfoState);
   const [isActiveDropdown, setActiveDropdown] = useRecoilState(dropdownState);
   const setIsChange = useSetRecoilState(inviteListChange);
@@ -72,12 +73,12 @@ export default function Header() {
 
   return (
     <div className='relative z-[11]'>
-      <div className='fixed left-0 right-0 top-0 h-[4.375rem] border-b-[.0625rem] bg-white'>
+      <div className='fixed left-0 right-0 top-0 h-[4.375rem] border-b-[.0625rem] bg-white dark:border-black60 dark:bg-black90'>
         <div className=' flex h-full items-center justify-between'>
           {/* 헤더영역 왼쪽 */}
           <div className={`${marginClass} justify-end md:ml-[12.5rem] lg:ml-[21.25rem]`}>
             <div className='flex items-center gap-2'>
-              <div className={`text-black30 text-xl font-bold ${titleClass}`}>{folderName}</div>
+              <div className={`text-black30 text-xl font-bold ${titleClass} dark:text-white8`}>{folderName}</div>
               {createdByMe && <Crown className='hidden lg:block' />}
             </div>
           </div>
@@ -94,8 +95,12 @@ export default function Header() {
               </div>
             )}
             {!isDisabledButtons && (
-              <div className='ml-3 md:ml-6 lg:ml-8 '>
-                <ProfileCollection dashboardId={dashboardId} userId={userInfo.id} />
+              <div
+                className='ml-3 md:ml-6 lg:ml-8 '
+                onMouseOver={() => setProfileDropdown(true)}
+                onMouseLeave={() => setProfileDropdown(false)}
+              >
+                <ProfileCollection dashboardId={dashboardId} userId={userInfo.id} profileDropdown={profileDropdown} />
               </div>
             )}
             {!isDisabledButtons && (
@@ -109,7 +114,7 @@ export default function Header() {
               }}
             >
               <HeaderProfile nickName={userName} profileImg={userProfileImg} />
-              <div className='text-1 text-black30 hidden font-medium md:block'>{userName}</div>
+              <div className='text-1 text-black30 hidden font-medium dark:text-white8 md:block'>{userName}</div>
             </div>
           </div>
         </div>

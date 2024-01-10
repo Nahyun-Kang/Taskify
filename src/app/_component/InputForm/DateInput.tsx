@@ -29,7 +29,6 @@ export default function DateInput({ label, id, initialDate }: DateInputProps) {
           render={({ field }) => (
             <DatePicker
               {...field}
-              closeOnScroll={(e) => e.target === document}
               wrapperClassName='w-full'
               className='placeholder:text-gray4 h-[1.125rem] w-full bg-inherit outline-0'
               dateFormat='Pp'

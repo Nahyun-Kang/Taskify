@@ -55,18 +55,16 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   }, [page, dashboardId, isChange]);
 
   return (
-    <div className='item-center flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem]'>
+    <div className='item-center flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem] dark:bg-black90'>
       <div className='flex'>
         <div className='grid flex-none grid-rows-2 md:w-auto md:grid-flow-col md:gap-[1.5rem]'>
-          <p className='h-10 w-full text-[1.25rem] font-bold text-black md:flex md:h-[2.5rem] md:text-[1.5rem]'>
-            초대 내역
-          </p>
+          <p className='h-10 w-full text-[1.25rem] font-bold md:flex md:h-[2.5rem] md:text-[1.5rem]'>초대 내역</p>
           <span className='flex w-full items-center text-[1rem] text-gray40 sm:text-[0.875rem]'>이메일</span>
         </div>
         <div className='flex w-full flex-row items-center justify-end gap-3 md:items-start md:gap-4'>
           <div className='flex w-full flex-col items-end gap-[1rem] md:flex-row md:items-center md:justify-end'>
             <div className='flex w-full items-center justify-end gap-[1rem] md:w-auto'>
-              <span className='whitespace-nowrap text-black80 sm:text-[0.75rem] md:text-[0.875rem]'>
+              <span className='whitespace-nowrap text-black80 dark:text-gray35 sm:text-[0.75rem] md:text-[0.875rem]'>
                 {totalPage} 페이지 중 {page}
               </span>
               <PageNation
@@ -96,7 +94,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
                 inviteList.length !== idx + 1 ? 'border-b-[0.0625rem]' : ''
               }`}
             >
-              <span className='overflow-hidden text-ellipsis text-black80 sm:text-[0.875rem] md:text-[1rem]'>
+              <span className='overflow-hidden text-ellipsis text-black80 dark:text-white8 sm:text-[0.875rem] md:text-[1rem]'>
                 {val.invitee.email}
               </span>
               <CancelInvite size='large' onClick={() => handleCancelInvite(val.id)} />

@@ -1,5 +1,4 @@
 'use client';
-import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
 import { getMembersForDropdown } from '@/src/app/_api/todo';
 import Image from 'next/image';
@@ -7,8 +6,9 @@ import { ChangeEvent, FocusEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { dashboardIdState } from '@/src/app/_recoil/ModalAtom/todo';
-import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
-
+import ArrowDown from '@/src/app/_component/Icons/ArrowDown';
+import ProfileImageContainer from '@/src/app/(afterLogin)/_component/ProfileImage/ProfileImageContainer';
+import ProfileImage from '@/src/app/(afterLogin)/_component/ProfileImage';
 interface Admin {
   id: number;
   email: string;
@@ -33,8 +33,8 @@ export default function DropdownAndFilter({
   const [imageValue, setImageValue] = useState(assignee?.profileImageUrl || '');
   const [focus, setFocus] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
-  const [curretValue, setCurrentValue] = useState<string>(assignee?.nickname || '');
-  const [assignId, setAssignId] = useState((Number(assignee?.id) as number) || null);
+  const [currentValue, setCurrentValue] = useState<string>(assignee?.nickname || '');
+  const [assignId, setAssignId] = useState(Number(assignee?.id) as number);
   const [isSelectionComplete, setIsSelectionComplete] = useState(false);
   const [dropdownList, setDropdownList] = useState<Admin[] | null>(null);
   const [dashboardId] = useRecoilState(dashboardIdState);
@@ -77,7 +77,7 @@ export default function DropdownAndFilter({
   const SearchAdminName = (dropdownList as Admin[])?.filter((admin) => {
     if (!dropdownList) return;
     if (dropdownList.length > 0) {
-      if (admin.nickname.includes(curretValue)) {
+      if (admin.nickname.includes(currentValue)) {
         return true;
       }
     } else {
@@ -123,37 +123,32 @@ export default function DropdownAndFilter({
 
   return (
     <div className='relative flex flex-col items-start gap-[0.625rem] md:w-[13.5625rem] md:text-[1.125rem]'>
-      <label className='text-black'>담당자</label>
+      <label>담당자</label>
       <div className='flex w-full flex-col items-start gap-[0.125rem]'>
         <span className='relative w-full'>
           {isSelectionComplete ? (
             <div
               onClick={handleRenderInputBox}
               className={
-                'flex h-[3rem] w-full items-center gap-[0.8rem] rounded-[0.375rem] border px-[1rem] py-[0.625rem]  outline-none' +
+                'dark:bg-black90 flex h-[3rem] w-full items-center gap-[0.8rem] rounded-[0.375rem] border px-[1rem]  py-[0.625rem] outline-none ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
-              {imageValue ? (
-                <div className=' relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
-                  <Image src={imageValue} alt='circleLogo' fill style={{ borderRadius: '50%' }} />
-                </div>
-              ) : (
-                <DefaultProfile nickName={curretValue} index={assignId as number} />
-              )}
-
-              <span className='text-[1rem]'>{curretValue}</span>
+              <ProfileImageContainer userId={assignId} size='small'>
+                <ProfileImage profileImageUrl={imageValue} nickname={currentValue} />
+              </ProfileImageContainer>
+              <span className='text-[1rem]'>{currentValue}</span>
             </div>
           ) : (
             <input
               placeholder='이름을 입력해주세요'
               ref={inputRef}
-              value={curretValue}
+              value={currentValue}
               onChange={handleOnChangeInput}
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               className={
-                'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] text-[0.875rem] outline-none md:h-[3rem] md:w-[13.5625rem] md:text-[1rem] ' +
+                'dark:bg-black90 flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] text-[0.875rem] outline-none md:h-[3rem] md:w-[13.5625rem] md:text-[1rem] ' +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             />
@@ -168,14 +163,14 @@ export default function DropdownAndFilter({
             })}
           />
           <div onClick={handleOpenDropdown} className='absolute right-[1rem] top-[0.625rem] h-[1.625rem] w-[1.625rem]'>
-            <Image fill src={dropdown} alt='dropdown' />
+            <ArrowDown />
           </div>
         </span>
 
         {openDropdown && SearchAdminName?.length ? (
           <div
             className={
-              'absolute top-full z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none'
+              'dark:bg-black90 absolute top-full z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none'
             }
           >
             {SearchAdminName?.map((admin) => {
@@ -223,13 +218,9 @@ export const AdminOption = ({
             <div className='w-[1.375rem]'></div>
           )}
           <div className='flex  items-center justify-center gap-[0.5rem]'>
-            {profile !== null ? (
-              <div className=' relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
-                <Image src={profile} alt='circleLogo' fill style={{ borderRadius: '50%' }} />
-              </div>
-            ) : (
-              <DefaultProfile nickName={name} index={userId} />
-            )}
+            <ProfileImageContainer userId={userId} size='small'>
+              <ProfileImage profileImageUrl={profile} nickname={name} />
+            </ProfileImageContainer>
             <span className='text-[0.875rem]  md:text-[1rem]' id={name}>
               {name}
             </span>

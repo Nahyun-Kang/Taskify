@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import logoLarge from '@/public/logo/nav_logo_large.svg';
-import logoSmall from '@/public/logo/nav_logo_small.svg';
+import TextLogo from '@/src/app/_component/Icons/TextLogo';
+import SmallLogo from '@/src/app/_component/Icons/SmallLogo';
 import heroImg from '@/public/images/hero.png';
 import landingImg1 from '@/public/images/landing1.png';
 import landingImg2 from '@/public/images/landing2.png';
@@ -15,11 +15,11 @@ const ColCenter = 'flex flex-col justify-center';
 
 export default function Home() {
   return (
-    <div className='bg-white'>
+    <div className='bg-white dark:bg-[#000] dark:text-white'>
       <header className='m-auto flex h-[3.75rem] max-w-[120rem] items-center justify-between px-6 md:pr-0'>
         <Link href='/'>
-          <Image className='sm:hidden' src={logoSmall} alt='logo' />
-          <Image className='hidden h-[2.4375rem] w-[7.5625rem] sm:block' src={logoLarge} alt='로고' />
+          <SmallLogo />
+          <TextLogo />
         </Link>
         <div className='flex gap-5 text-[0.875rem] md:gap-9 md:pr-10 md:text-base lg:pr-20'>
           <Link href='/login'>로그인</Link>
@@ -58,7 +58,7 @@ export default function Home() {
           </Link>
         </section>
         <section className='m-4 mt-20 w-full px-4 md:mt-[11.5rem] md:px-10'>
-          <div className='flex h-full flex-col  rounded-lg bg-gray10 md:m-auto md:max-w-[75rem] lg:h-[37.5rem] lg:flex-row'>
+          <div className='flex h-full flex-col rounded-lg bg-gray10 dark:bg-black md:m-auto md:max-w-[75rem] lg:h-[37.5rem] lg:flex-row'>
             <div className='min-h-[22.6875rem] flex-1 text-center md:min-h-[30.375rem] md:pl-[3.75rem] md:text-left'>
               <div className='h-m-[1.375rem] mt-[3.75rem] text-[1.125rem] font-medium text-gray40 md:mt-[3.9375rem] md:text-[1.375rem] lg:mt-[7.6875rem]'>
                 Point 1
@@ -73,7 +73,7 @@ export default function Home() {
           </div>
         </section>
         <section className='m-4 mt-20 w-full px-4 md:mt-[11.5rem] md:px-10'>
-          <div className='flex h-full flex-col  rounded-lg bg-gray10 md:m-auto md:max-w-[75rem] lg:h-[37.5rem] lg:flex-row-reverse'>
+          <div className='flex h-full flex-col  rounded-lg bg-gray10 dark:bg-black md:m-auto md:max-w-[75rem] lg:h-[37.5rem] lg:flex-row-reverse'>
             <div className='min-h-[22.6875rem] flex-1 text-center md:min-h-[30.375rem] md:pl-[3.75rem] md:text-left'>
               <div className='h-m-[1.375rem] mt-[3.75rem] text-[1.125rem] font-medium text-gray40 md:mt-[3.9375rem] md:text-[1.375rem] lg:mt-[7.6875rem]'>
                 Point 2

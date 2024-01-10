@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import { editPasswordState } from '@/src/app/_recoil/ModalAtom/sign';
 import { editPassword } from '@/src/app/_api/users';
 import { FieldValues } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 export default function PasswordEdit() {
   const [isOpenUpdatedModal, setIsOpenUpdatedModal] = useRecoilState(editPasswordState);

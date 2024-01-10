@@ -24,7 +24,8 @@ axiosInstance.interceptors.response.use(
     const method = error.config?.method?.toLowerCase();
     const url = error.config.url.toLowerCase();
     const status = error.response.status;
-    axiosErrors({ method, url, status });
+    const message = error.response.data.message;
+    axiosErrors({ method, url, status, message });
     return Promise.reject(error);
   },
 );

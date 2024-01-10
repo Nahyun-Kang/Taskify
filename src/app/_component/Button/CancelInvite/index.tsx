@@ -10,7 +10,7 @@ export default function CancelInvite({ size, onClick }: CancelInviteProps) {
   const { width, height, paddingY, paddingX } = sizes[size];
   return (
     <button
-      className={`flex items-center justify-center rounded-[0.25rem] border border-gray30 bg-white ${paddingX} ${paddingY} ${height} ${width} text-nowrap text-[0.8125rem] text-violet`}
+      className={`flex items-center justify-center rounded-[0.25rem] border border-gray30 bg-white ${paddingX} ${paddingY} ${height} ${width} text-nowrap text-[0.8125rem] text-violet dark:border-black60 dark:bg-black60 dark:text-white8`}
       onClick={onClick}
     >
       취소

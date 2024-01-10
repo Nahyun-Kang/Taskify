@@ -11,6 +11,7 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { ChangeEvent, KeyboardEvent, useCallback, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
+import toast from 'react-hot-toast';
 
 export default function InvitationDashboard({
   setDashboards,
@@ -68,6 +69,7 @@ export default function InvitationDashboard({
     await putInvitation(invitationId, accepted);
     if (accepted) {
       const data = await getDashboards();
+      toast.success('초대를 수락하셨습니다');
       if (data) {
         setDashboardData(data);
         const result = await getPaginatedDashboards(page, 5);
@@ -80,15 +82,15 @@ export default function InvitationDashboard({
   useInfiniteScroll({ target, onIntersect: onIntersect, size: cursorId });
 
   return (
-    <div className='rounded-lg border-none bg-white px-[1.75rem] pb-[.0625rem] pt-8'>
-      <h2 className='mb-5 text-[1.25rem] font-bold text-black80 md:text-[1.5rem]'>초대받은 대시보드</h2>
+    <div className='rounded-lg border-none bg-white px-[1.75rem] pb-[.0625rem] pt-8 text-black80 dark:bg-black90 dark:text-white8'>
+      <h2 className='mb-5 text-[1.25rem] font-bold  md:text-[1.5rem]'>초대받은 대시보드</h2>
       {(invitations.length > 0 || hasSearched) && (
-        <div className='mb-6 flex w-full gap-2 rounded-[.375rem] border-[.0625rem] px-4 py-2'>
+        <div className='mb-6 flex w-full gap-2 rounded-[.375rem] border-[.0625rem] px-4 py-2 dark:bg-black80'>
           <MagnifyingGlass />
           <input
             onChange={handleInputChange}
             placeholder='검색'
-            className='w-full text-[.875rem] focus:outline-none md:text-base'
+            className='w-full text-[.875rem] focus:outline-none dark:bg-black80 md:text-base'
             onKeyDown={handleEnterPress}
           ></input>
         </div>

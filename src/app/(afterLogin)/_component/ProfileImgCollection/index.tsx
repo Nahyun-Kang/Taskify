@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react';
 import Profile from '@/src/app/(afterLogin)/_component/ProfileImgCollection/ProfileImg';
 import { memberType } from '@/src/app/(afterLogin)/_constant/type';
 import { getMembers } from '@/src/app/_api/Dashboards';
+import ProfileDropdown from '@/src/app/(afterLogin)/_component/ProfileImgCollection/ProfileDropdown';
 
 interface Props {
   dashboardId: string;
   userId: number | null;
+  profileDropdown: boolean;
 }
 
-export default function ProfileCollection({ dashboardId, userId }: Props) {
+export default function ProfileCollection({ dashboardId, userId, profileDropdown }: Props) {
   const [count, setCount] = useState(4);
   const [members, setMembers] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -29,6 +31,7 @@ export default function ProfileCollection({ dashboardId, userId }: Props) {
 
   const arr = members.filter((el: memberType) => el.userId !== userId);
   const profiles = arr?.slice(0, count - 1);
+  const dropdownMembers = arr?.slice(count - 2);
 
   const handleResize = () => {
     if (window.innerWidth >= 1440) {
@@ -38,8 +41,8 @@ export default function ProfileCollection({ dashboardId, userId }: Props) {
     }
   };
 
-  const getMemeberList = async () => {
-    const result = await getMembers(dashboardId, 1, 6);
+  const getMemberList = async () => {
+    const result = await getMembers(dashboardId, 1, 10);
     setMembers(result.members);
     setTotalCount(result.totalCount);
   };
@@ -55,7 +58,7 @@ export default function ProfileCollection({ dashboardId, userId }: Props) {
 
   useEffect(() => {
     if (userId) {
-      getMemeberList();
+      getMemberList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dashboardId, userId]);
@@ -65,6 +68,7 @@ export default function ProfileCollection({ dashboardId, userId }: Props) {
         profiles?.map((member: memberType, i: number) => (
           <Profile idx={i} values={member} total={totalCount} key={i + 'p'} count={count} />
         ))}
+      {dropdownMembers.length !== 0 && profileDropdown && <ProfileDropdown members={dropdownMembers} />}
     </div>
   );
 }

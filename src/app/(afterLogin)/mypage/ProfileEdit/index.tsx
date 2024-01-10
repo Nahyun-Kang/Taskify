@@ -11,6 +11,7 @@ import { FieldValues } from 'react-hook-form';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function ProfileEdit() {
   const inputClass = getInputClass(false) + ' text-gray40';
@@ -26,6 +27,7 @@ export default function ProfileEdit() {
     };
     const res = await axiosInstance.put('users/me', profile);
     setUser(res.data);
+    toast.success('프로필이 성공적으로 변경되었습니다');
   };
 
   useEffect(() => {
@@ -46,7 +48,7 @@ export default function ProfileEdit() {
               editUser(data);
             }}
           >
-            <div className='flex flex-col gap-6 md:flex-row md:gap-4'>
+            <div className='flex flex-col gap-6 dark:bg-black90 md:flex-row md:gap-4'>
               <AddImageFile size='big' profileImageUrl={user.profileImageUrl} />
               <div className='flex w-full flex-col gap-4 md:gap-5'>
                 <InputWrapper>

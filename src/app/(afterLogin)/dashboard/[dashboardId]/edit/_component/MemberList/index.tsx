@@ -2,10 +2,11 @@
 import Delete from '@/src/app/_component/Button/Delete';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import { useEffect, useState } from 'react';
-import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
 import { deleteMember, getMembers } from '@/src/app/_api/Dashboards';
 import crown from '@/public/images/crown_icon.svg';
 import Image from 'next/image';
+import ProfileImageContainer from '@/src/app/(afterLogin)/_component/ProfileImage/ProfileImageContainer';
+import ProfileImage from '@/src/app/(afterLogin)/_component/ProfileImage';
 
 interface membersProps {
   id: number;
@@ -50,11 +51,11 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
   }, [page, dashboardId, isChange]);
 
   return (
-    <div className='item-center flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem]'>
+    <div className='item-center flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem] dark:bg-black90'>
       <div className='flex w-full justify-between'>
-        <p className='font-bold text-black sm:text-[1.25rem] md:text-[1.5rem]'>구성원</p>
+        <p className='font-bold sm:text-[1.25rem] md:text-[1.5rem]'>구성원</p>
         <div className='flex items-center gap-[1rem]'>
-          <span className=' text-black80 sm:text-[0.75rem] md:text-[0.875rem]'>
+          <span className=' text-black80 dark:text-gray35 sm:text-[0.75rem] md:text-[0.875rem]'>
             {totalPage} 페이지 중 {page}
           </span>
           <PageNation
@@ -73,19 +74,14 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
             <div
               key={val.id}
               className={`max-h[4.375rem] flex items-center justify-between  border-gray20	py-[1.75rem] ${
-                memberList.length !== index + 1 ? 'border-b-[0.0625rem]' : ''
+                memberList.length !== index + 1 ? 'border-b-[0.0625rem] dark:border-black60' : ''
               }`}
             >
               <div className='flex items-center justify-center gap-[0.75rem]'>
-                {val.profileImageUrl === null ? (
-                  <DefaultProfile nickName={val.nickname} index={index} />
-                ) : (
-                  <div
-                    className={`flex items-center justify-center rounded-full font-mon text-[1rem] font-semibold text-white sm:h-[2.125rem] sm:w-[2.125rem]  sm:text-[0.875rem]  md:h-[2.375rem] md:w-[2.375rem] md:text-[1rem]`}
-                    style={{ backgroundImage: `url(${val.profileImageUrl})`, backgroundSize: 'contain' }}
-                  ></div>
-                )}
-                <span className='text-black80 sm:text-[0.875rem] md:text-[1rem]'>{val.nickname}</span>
+                <ProfileImageContainer userId={val.userId} size='large'>
+                  <ProfileImage profileImageUrl={val.profileImageUrl} nickname={val.nickname} />
+                </ProfileImageContainer>
+                <span className='text-black80 dark:text-white8 sm:text-[0.875rem] md:text-[1rem] '>{val.nickname}</span>
               </div>
               {val.isOwner ? (
                 <div className='flex h-[2rem] w-[5.25rem] items-center justify-center'>

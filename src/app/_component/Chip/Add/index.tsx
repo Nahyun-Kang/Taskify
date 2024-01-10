@@ -10,7 +10,9 @@ export default function Add({ size }: AddProps) {
   const imageSize = size === 'small' ? 14.545 : 16;
 
   return (
-    <div className={`flex ${divSize} shrink-0 items-center justify-center rounded-[0.25rem] bg-violet8 p-[0.1875rem]`}>
+    <div
+      className={`flex ${divSize} shrink-0 items-center justify-center rounded-[0.25rem] bg-violet8 p-[0.1875rem] dark:bg-gray30`}
+    >
       <Image width={imageSize} height={imageSize} src={addIcon.src} alt='추가' />
     </div>
   );
