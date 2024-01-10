@@ -4,6 +4,7 @@ import Confirm from '@/src/app/_component/Button/Confirm';
 import InputForm from '@/src/app/_component/InputForm';
 import { editPassword } from '@/src/app/_api/users';
 import useRenderModal from '@/src/app/_hook/useRenderModal';
+import toast from 'react-hot-toast';
 
 export default function PasswordEdit() {
   const [modalType, callModal] = useRenderModal();
@@ -13,6 +14,7 @@ export default function PasswordEdit() {
         <InputForm
           onSubmit={(data) => {
             editPassword(data, callModal);
+            toast.success('비밀번호가 성공적으로 변경되었습니다');
           }}
         >
           <div className='flex flex-col gap-4 md:gap-5'>

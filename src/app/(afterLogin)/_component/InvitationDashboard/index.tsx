@@ -11,6 +11,7 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { ChangeEvent, KeyboardEvent, useCallback, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
+import toast from 'react-hot-toast';
 
 export default function InvitationDashboard({
   setDashboards,
@@ -68,6 +69,7 @@ export default function InvitationDashboard({
     await putInvitation(invitationId, accepted);
     if (accepted) {
       const data = await getDashboards();
+      toast.success('초대를 수락하셨습니다');
       if (data) {
         setDashboardData(data);
         const result = await getPaginatedDashboards(page, 5);

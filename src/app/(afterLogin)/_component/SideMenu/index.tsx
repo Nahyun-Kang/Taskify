@@ -15,6 +15,7 @@ import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { useRef } from 'react';
+import toast from 'react-hot-toast';
 export default function SideMenu() {
   const [modalType, callModal, setModalType] = useRenderModal();
   const preModalType = useRef(modalType);
@@ -33,6 +34,7 @@ export default function SideMenu() {
             return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
           });
           setModalType(null);
+          toast.success('대시보드가 생성되었습니다!');
           if (preModalType.current !== null && modalType === null) {
             router.push(`/dashboard/${newDashboard.id}`);
           }

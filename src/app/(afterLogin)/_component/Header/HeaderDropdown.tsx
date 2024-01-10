@@ -2,6 +2,7 @@
 import { accessTokenState, userInfoState } from '@/src/app/_recoil/AuthAtom';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
+import toast from 'react-hot-toast';
 import { useResetRecoilState } from 'recoil';
 
 interface Props {
@@ -21,6 +22,7 @@ export default function HeaderDropdown({ isActive, onClick }: Props) {
     setAccessToken();
     localStorage.removeItem('taskifyUserData');
     router.push('/');
+    toast.success('로그아웃 되었습니다.');
     onClick(e);
   };
   const handleClickManageAccount = (e: MouseEvent<HTMLButtonElement>) => {
