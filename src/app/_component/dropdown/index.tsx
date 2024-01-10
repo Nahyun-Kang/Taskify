@@ -2,13 +2,13 @@
 import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
 import { useInputField } from '@/src/app/_component/InputForm/InputStyle';
-import { getColumns } from '../../_api/column';
+import { getColumns } from '@/src/app/_api/column';
 import Image from 'next/image';
 import { MouseEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import circle from '@/public/icons/Ellipse 54.svg';
 import { useRecoilState } from 'recoil';
-import { dashboardIdState } from '@/src/app/_recoil/CardAtom';
+import { dashboardIdState } from '@/src/app/_recoil/ModalAtom/todo';
 interface Column {
   id: number;
   title: string;
@@ -19,10 +19,10 @@ interface Column {
 }
 
 export default function Dropdown({ column }: { column?: number }) {
-  const [focus, setFocus] = useState(false); // 인풋 포커스 여부
-  const [openDropdown, setOpenDropdown] = useState(false); // 드롭다운 개폐여부
-  const [curretValue, setCurrentValue] = useState<string>(''); // 인풋에 대한 입력값 참조
-  const [columnId, setColumnId] = useState<number | null>(Number(column) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
+  const [focus, setFocus] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [curretValue, setCurrentValue] = useState<string>('');
+  const [columnId, setColumnId] = useState<number | null>(Number(column) || null);
   const [dropdownList, setDropdownList] = useState<Column[] | null>(null);
   const [dashboardId] = useRecoilState(dashboardIdState);
 
@@ -118,7 +118,6 @@ export default function Dropdown({ column }: { column?: number }) {
   );
 }
 
-// 받아온 데이터에 있는 요소들을 표현한 컴포넌트
 export const ColumnOption = ({
   onClick,
   name,

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { ChangeEvent, FocusEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
-import { dashboardIdState } from '@/src/app/_recoil/CardAtom';
+import { dashboardIdState } from '@/src/app/_recoil/ModalAtom/todo';
 import DefaultProfile from '@/src/app/(afterLogin)/_component/DefaultProfile';
 
 interface Admin {
@@ -31,11 +31,11 @@ export default function DropdownAndFilter({
   assignee?: { profileImageUrl: string; nickname: string; id: number };
 }) {
   const [imageValue, setImageValue] = useState(assignee?.profileImageUrl || '');
-  const [focus, setFocus] = useState(false); // 인풋 포커스 여부
-  const [openDropdown, setOpenDropdown] = useState(false); // 드롭다운 개폐여부
-  const [curretValue, setCurrentValue] = useState<string>(assignee?.nickname || ''); // 인풋에 대한 입력값 참조
-  const [assignId, setAssignId] = useState((Number(assignee?.id) as number) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
-  const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 인풋에 이름 입력 다하거나 OR 드롭다운 내부에 있는 이름 클릭하면 TRUE가됨+ 인풋이 DIV로 바뀜 (IMG와 이름 가져오기 위해)
+  const [focus, setFocus] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [curretValue, setCurrentValue] = useState<string>(assignee?.nickname || '');
+  const [assignId, setAssignId] = useState((Number(assignee?.id) as number) || null);
+  const [isSelectionComplete, setIsSelectionComplete] = useState(false);
   const [dropdownList, setDropdownList] = useState<Admin[] | null>(null);
   const [dashboardId] = useRecoilState(dashboardIdState);
 
@@ -43,7 +43,6 @@ export default function DropdownAndFilter({
   const mount = useRef(true);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // input 태그의 사용자 입력을 받고, 받아온 데이터의 요소들과 입력 값이 일치하는 경우 해당 요소 담당자로 지정
   const handleOnChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setOpenDropdown(true);
     setCurrentValue(e.target.value);
@@ -65,7 +64,6 @@ export default function DropdownAndFilter({
     trigger('assigneeUserId');
   };
 
-  // 드롭 다운 내 사용자 클릭을 받아서, 담당자로 지정
   const handleOnChangeDropdown = (user: SelectUser, id: number) => {
     setCurrentValue(user.name);
     setImageValue(user.profile);
@@ -75,8 +73,6 @@ export default function DropdownAndFilter({
     setValue('assigneeUserId', +id);
     trigger('assigneeUserId');
   };
-
-  // 사용자 입력 받을 시 Dropdown filter 기능
 
   const SearchAdminName = (dropdownList as Admin[])?.filter((admin) => {
     if (!dropdownList) return;
@@ -89,7 +85,6 @@ export default function DropdownAndFilter({
     }
   });
 
-  // 각 종 동적 UI
   const handleRenderInputBox = () => setIsSelectionComplete(false);
   const handleInputFocus = () => setFocus(true);
   const handleInputBlur = (e: FocusEvent<HTMLInputElement>) => {
@@ -202,7 +197,6 @@ export default function DropdownAndFilter({
   );
 }
 
-// 받아온 데이터에 있는 요소들을 표현한 컴포넌트
 export const AdminOption = ({
   onClick,
   name,

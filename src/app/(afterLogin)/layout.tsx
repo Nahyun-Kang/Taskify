@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import Header from '@/src/app/(afterLogin)/_component/Header';
 import SideMenu from '@/src/app/(afterLogin)/_component/SideMenu';
 import { useSetRecoilState } from 'recoil';
-import { dropdownState } from '../_recoil/Dropdown';
+import { dropdownState } from '@/src/app/_recoil/Dropdown';
 
 export default function AfterLoginLayout({ children }: { children: ReactNode }) {
   const setIsActiveDropdown = useSetRecoilState(dropdownState);

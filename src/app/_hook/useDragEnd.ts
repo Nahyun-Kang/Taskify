@@ -1,5 +1,5 @@
 import { useRecoilCallback } from 'recoil';
-import { cardListStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/CardAtom';
+import { cardListStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/ModalAtom/todo';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { DropResult } from 'react-beautiful-dnd';
 

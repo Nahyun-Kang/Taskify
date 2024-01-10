@@ -1,4 +1,4 @@
-import { axiosInstance } from '../../_util/axiosInstance';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { FieldValues } from 'react-hook-form';
 
 export async function createColumn(data: FieldValues, dashboardId: number) {

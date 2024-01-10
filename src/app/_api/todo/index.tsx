@@ -1,5 +1,5 @@
 import { FieldValues } from 'react-hook-form';
-import { axiosInstance } from '../../_util/axiosInstance';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 
 export async function createTodoCard(data: FieldValues, dashboardId: number, columnId: number) {
   try {
