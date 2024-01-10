@@ -6,6 +6,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { dashboardSelector, dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { updateDashboard } from '@/src/app/_api/Dashboards';
 import { dashboardTitleValidate } from '@/src/app/_constant/Input';
+import toast from 'react-hot-toast';
 
 interface EditBoardProps {
   dashboardId: string | undefined;
@@ -21,6 +22,7 @@ export default function EditBoard({ dashboardId }: EditBoardProps) {
       ...prevDashboard,
       dashboards: [result, ...prevDashboard.dashboards.filter((item) => item.id !== Number(dashboardId))],
     }));
+    toast.success('대시보드 이름이 변경되었습니다!');
   };
 
   return (
