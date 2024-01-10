@@ -28,7 +28,6 @@ export default function CreateTodo({ columnId, dashboardId }: { columnId: number
       setCardList((prev) => [...(prev || []), newCard]);
       setCardNumCount((prev) => (prev ? prev + 1 : 1));
     } catch (error) {
-      alert(error);
     } finally {
       setCreateTodo(false);
     }

@@ -15,8 +15,7 @@ import { usePathname } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { createDashboardModalAboutSide } from '@/src/app/_recoil/ModalAtom/dashboard';
 import CreateDashboard from '@/src/app/_component/modal/dashboard/create';
-
-import toast from 'react-hot-toast';
+import { darkMode, darkModeText } from '@/src/app/darkMode';
 export default function SideMenu() {
   const [isOpen, setIsOpen] = useRecoilState(createDashboardModalAboutSide);
   const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
@@ -36,7 +35,7 @@ export default function SideMenu() {
 
   return (
     <div className='fixed z-[11]'>
-      <div className='hide-scrollbar dark:bg-black90 h-screen w-[4.1875rem] overflow-scroll border-r-[.0625rem] bg-white pt-[1.1875rem] dark:border-black80 md:w-[10rem] md:pl-[0.75rem] lg:w-[18.75rem]'>
+      <div className={`h-screen w-[4.1875rem] overflow-scroll border-r-[.0625rem] bg-white pt-[1.1875rem] ${darkMode}`}>
         <Link href='/myboard'>
           <div className='mb-[2.4294rem] flex items-center justify-center md:mb-[3.7456rem] md:justify-start'>
             <SmallLogo />
@@ -61,8 +60,8 @@ export default function SideMenu() {
                 href={`/dashboard/${item.id}`}
                 key={idx.toString()}
                 className={`${
-                  item.id === Number(currentBoard) ? 'dark:text-white8 bg-violet8 dark:bg-black80' : ''
-                } dark:text-gray35 flex h-[2.25rem] w-full items-center justify-center rounded text-gray50 hover:bg-violet8 dark:hover:bg-black80 md:h-[2.625rem] md:justify-start md:pl-[0.75rem] lg:h-[2.8125rem]`}
+                  item.id === Number(currentBoard) ? `bg-violet8 ${darkMode} ${darkModeText}` : ''
+                } flex h-[2.25rem] w-full items-center justify-center rounded text-gray50 hover:bg-violet8 ${darkModeText}`}
               >
                 <div className='flex w-full items-center justify-center md:justify-start'>
                   <IdxIcon color={item.color} className='md:mr-[1rem]' />

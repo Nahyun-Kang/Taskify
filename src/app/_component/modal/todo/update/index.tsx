@@ -29,9 +29,7 @@ export default function UpdateTodo({ cardId, columnId }: { cardId: number; colum
     try {
       const newCard = await updateTodoCard(data, cardId);
       setEditCard(newCard);
-    } catch (error) {
-      alert(error);
-    }
+    } catch (error) {}
   };
 
   const handleClose = () => {
@@ -43,13 +41,12 @@ export default function UpdateTodo({ cardId, columnId }: { cardId: number; colum
       const res = await axiosInstance.get(`cards/${cardId}`);
       const newData = res.data;
       setCardData(newData);
-    } catch (error) {
-      alert(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
     handleRenderCard();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

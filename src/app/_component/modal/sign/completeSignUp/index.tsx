@@ -16,6 +16,7 @@ export default function CompleteSignUp() {
   useEffect(() => {
     setModalName(content);
     return () => setModalName('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

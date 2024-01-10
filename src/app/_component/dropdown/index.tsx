@@ -9,6 +9,7 @@ import circle from '@/public/icons/Ellipse 54.svg';
 import { useRecoilState } from 'recoil';
 import { dashboardIdState } from '@/src/app/_recoil/ModalAtom/todo';
 import ArrowDown from '@/src/app/_component/Icons/ArrowDown';
+import { darkMode, darkModeText } from '@/src/app/darkMode';
 interface Column {
   id: number;
   title: string;
@@ -29,7 +30,6 @@ export default function Dropdown({ column }: { column?: number }) {
   const { register } = useInputField('columnId', {});
   const { setValue } = useFormContext();
 
-  // 드롭 다운 내 사용자 클릭을 받아서, 담당자로 지정
   const handleOnChangeDropdown = (e: MouseEvent<HTMLSpanElement>, id: number) => {
     const { innerText } = e.target as HTMLElement;
     setCurrentValue(innerText);
@@ -37,8 +37,6 @@ export default function Dropdown({ column }: { column?: number }) {
     setColumnId(+id);
     setValue('columnId', +id);
   };
-
-  // 각 종 동적 UI
 
   const handleOpenDropdown = () => {
     setFocus(!focus);
@@ -64,7 +62,7 @@ export default function Dropdown({ column }: { column?: number }) {
   }, [column]);
 
   return (
-    <div className='dark:text-white8 relative flex w-full flex-col items-start gap-[0.625rem] md:w-[13.5625rem]'>
+    <div className={`relative flex w-full flex-col items-start gap-[0.625rem] ${darkModeText}`}>
       <label className='md:text-[1.125rem]'>상태</label>
       <div className='flex w-full flex-col items-start gap-[0.125rem]'>
         <span className='relative h-[3rem] w-full'>
@@ -96,9 +94,7 @@ export default function Dropdown({ column }: { column?: number }) {
 
         {openDropdown ? (
           <div
-            className={
-              'dark:bg-black90 absolute top-[100%] z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none'
-            }
+            className={`absolute top-[100%] z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none ${darkMode}`}
           >
             {dropdownList?.map((column) => {
               return (

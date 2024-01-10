@@ -28,7 +28,6 @@ export default function UpdateColumn({ columnId }: { columnId: number }) {
       const newColumn = await updateColumn(data, columnId);
       setColumns((oldColumns) => oldColumns.map((column) => (column.id === columnId ? { ...newColumn } : column)));
     } catch (error) {
-      alert(error);
     } finally {
       setUpdateColumnState(null);
     }

@@ -11,7 +11,7 @@ import { useSetRecoilState } from 'recoil';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { createDashboardModal, createDashboardModalAboutSide } from '@/src/app/_recoil/ModalAtom/dashboard';
 import SelectColor from '@/src/app/_component/Chip/SelectColor';
-
+import toast from 'react-hot-toast';
 export default function CreateDashboard({ side }: { side?: boolean }) {
   const router = useRouter();
   const setIsOpenCreateDashboardModal = useSetRecoilState(side ? createDashboardModalAboutSide : createDashboardModal);
@@ -27,6 +27,7 @@ export default function CreateDashboard({ side }: { side?: boolean }) {
 
       router.push(`/dashboard/${newDashboard.id}`);
       setIsOpenCreateDashboardModal(false);
+      toast.success('대시보드가 생성되었습니다!');
     } catch (error) {}
   };
   const handleClose = () => setIsOpenCreateDashboardModal(false);

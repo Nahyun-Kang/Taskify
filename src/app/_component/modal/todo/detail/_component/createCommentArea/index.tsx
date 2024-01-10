@@ -13,9 +13,7 @@ export default function CreateCommentArea({ cardId, columnId }: { cardId: number
     try {
       const newComment = await createComment(data, Number(params.dashboardId), cardId, columnId);
       setComments((prev: CommentType[]) => [newComment, ...(prev ? prev : [])]);
-    } catch (error) {
-      alert(error);
-    }
+    } catch (error) {}
   };
 
   return (

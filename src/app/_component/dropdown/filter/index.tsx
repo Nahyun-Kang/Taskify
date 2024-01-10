@@ -9,6 +9,8 @@ import { dashboardIdState } from '@/src/app/_recoil/ModalAtom/todo';
 import ArrowDown from '@/src/app/_component/Icons/ArrowDown';
 import ProfileImageContainer from '@/src/app/(afterLogin)/_component/ProfileImage/ProfileImageContainer';
 import ProfileImage from '@/src/app/(afterLogin)/_component/ProfileImage';
+import { darkMode } from '@/src/app/darkMode';
+
 interface Admin {
   id: number;
   email: string;
@@ -130,7 +132,7 @@ export default function DropdownAndFilter({
             <div
               onClick={handleRenderInputBox}
               className={
-                'dark:bg-black90 flex h-[3rem] w-full items-center gap-[0.8rem] rounded-[0.375rem] border px-[1rem]  py-[0.625rem] outline-none ' +
+                `flex h-[3rem] w-full items-center gap-[0.8rem] rounded-[0.375rem] border px-[1rem] py-[0.625rem] outline-none ${darkMode}` +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >
@@ -148,7 +150,7 @@ export default function DropdownAndFilter({
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               className={
-                'dark:bg-black90 flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] text-[0.875rem] outline-none md:h-[3rem] md:w-[13.5625rem] md:text-[1rem] ' +
+                `flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] text-[0.875rem] outline-none ${darkMode}` +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             />
@@ -169,9 +171,7 @@ export default function DropdownAndFilter({
 
         {openDropdown && SearchAdminName?.length ? (
           <div
-            className={
-              'dark:bg-black90 absolute top-full z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none'
-            }
+            className={`absolute top-full z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none ${darkMode}`}
           >
             {SearchAdminName?.map((admin) => {
               return (

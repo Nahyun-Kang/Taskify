@@ -17,6 +17,7 @@ import { detailTodoAboutCardId } from '@/src/app/_recoil/ModalAtom/todo';
 import { CommentType } from '@/src/app/_component/modal/todo/type';
 import { getDetailTodoCard } from '@/src/app/_api/todo';
 import CreateCommentArea from '@/src/app/_component/modal/todo/detail/_component/createCommentArea';
+import { darkMode, darkModeText } from '@/src/app/darkMode';
 
 export default function DetailToDo({ cardId, columnId }: { cardId: number; columnId: number }) {
   const [nowCursorId, setNowCursorId] = useState('');
@@ -42,7 +43,6 @@ export default function DetailToDo({ cardId, columnId }: { cardId: number; colum
       setNowCursorId(cursorId);
       setIsLoading(false);
     } catch (error) {
-      alert(error);
       setIsLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,9 +75,7 @@ export default function DetailToDo({ cardId, columnId }: { cardId: number; colum
     try {
       const newCard = await getDetailTodoCard(cardId);
       setCardData(newCard);
-    } catch (error) {
-      alert(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -102,7 +100,7 @@ export default function DetailToDo({ cardId, columnId }: { cardId: number; colum
       <ModalPortal>
         <ModalOutside closeModal={closeModal}>
           <div
-            className='hide-scrollbar dark:bg-black90 dark:text-white8 relative flex max-h-[80%] flex-col gap-4 overflow-scroll rounded-lg border bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[2.5rem] md:w-[42.5rem] md:gap-6 md:px-[1.75rem]  md:pb-[2rem] lg:w-[45.625rem]'
+            className={`relative flex max-h-[80%] flex-col gap-4 overflow-scroll rounded-lg border bg-white ${darkMode} ${darkModeText}`}
             onClick={handleKebabClose}
           >
             <div className='sticky top-0 z-[2] flex w-full justify-between bg-white sm:pt-[2.5rem] md:pt-[2rem]'>

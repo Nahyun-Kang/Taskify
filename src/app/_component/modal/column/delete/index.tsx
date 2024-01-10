@@ -19,7 +19,6 @@ export default function DeleteColumn({ columnId }: { columnId: number }) {
       await deleteColumn(columnId);
       setColumns((oldColumns) => oldColumns.filter((column) => column.id != columnId));
     } catch (error) {
-      alert(error);
     } finally {
       setIsOpenDeleteColumn(false);
     }

@@ -12,7 +12,7 @@ import DetailToDo from '@/src/app/_component/modal/todo/detail';
 import UpdateTodo from '@/src/app/_component/modal/todo/update';
 import React from 'react';
 import DeleteTodo from '@/src/app/_component/modal/todo/delete';
-
+import { darkMode, darkModeText } from '@/src/app/darkMode';
 interface CardProps {
   title: string;
   tags: string[];
@@ -50,7 +50,7 @@ export default function Card({
     <>
       <div
         onClick={openDetailTodoModal}
-        className='dark:bg-black90 flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3 dark:border-black60 md:flex-row lg:flex-col lg:items-stretch lg:p-5'
+        className={` flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3 md:flex-row lg:flex-col lg:items-stretch lg:p-5 ${darkMode}`}
       >
         {imageUrl && (
           <div className='flex h-full w-full items-center overflow-hidden rounded md:h-[3.3125rem] md:w-[5.6725rem] lg:h-full lg:w-full'>
@@ -66,7 +66,7 @@ export default function Card({
           </div>
         )}
         <div className='flex flex-1 flex-col gap-[0.625rem]'>
-          <div className='dark:text-white8 text-[0.875rem] text-black80 md:text-[1rem]'>{title}</div>
+          <div className={` text-[0.875rem] text-black80 md:text-[1rem] ${darkModeText}`}>{title}</div>
           <div className='flex justify-between gap-4'>
             <div className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]'>
               {tags.length > 0 && (
