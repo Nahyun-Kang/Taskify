@@ -1,11 +1,12 @@
 'use client';
-import Image from 'next/image';
+
 import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { commentsStateAboutCardId } from '@/src/app/_recoil/ModalAtom/todo';
 import formatTime from '@/src/app/_util/formatTime';
 import { deleteCommentInfo } from '@/src/app/_api/comment';
-import DefaultProfile from '@/src/app/_component/DefaultProfile';
+import ProfileImage from '@/src/app/(afterLogin)/_component/ProfileImage';
+import ProfileImageContainer from '@/src/app/(afterLogin)/_component/ProfileImage/ProfileImageContainer';
 import { UserDataType } from '@/src/app/_constant/type';
 import { updateCommentInfo } from '@/src/app/_api/comment';
 import { CommentType } from '@/src/app/_component/modal/todo/type';
@@ -59,18 +60,10 @@ export default function Comment({ data, cardId }: { data: CommentType; cardId: n
   return (
     <div className='mt-4 flex gap-[0.625rem] md:mt-5'>
       <div className='flex flex-col items-start'>
-        {data?.author?.profileImageUrl ? (
-          <div className='relative rounded-full border sm:h-[2.125rem] sm:w-[2.125rem] sm:text-[0.875rem] md:h-[2.375rem] md:w-[2.375rem]'>
-            <Image
-              src={data?.author?.profileImageUrl}
-              alt='댓글 프로필'
-              priority
-              fill
-              style={{ borderRadius: '50%' }}
-            />
-          </div>
-        ) : (
-          <DefaultProfile nickName={data?.author?.nickname} index={data?.author?.id} />
+        {data?.author?.profileImageUrl && (
+          <ProfileImageContainer userId={data?.author.id} size='large'>
+            <ProfileImage profileImageUrl={data?.author.profileImageUrl} nickname={data?.author.nickname} />
+          </ProfileImageContainer>
         )}
       </div>
       <div className='flex w-full flex-col gap-[0.375rem]'>

@@ -25,7 +25,7 @@ export default function MainContent({
               <div className='flex flex-shrink-0 items-center rounded-[6.25rem] bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
                 <div className='flex gap-[0.375rem] overflow-hidden'>
                   <Image src={circle} alt='circle' width={6} height={6} priority />
-                  <span className='whitespace-nowrap'>{newColumn?.title}</span>
+                  <span className='whitespace-nowrap text-violet'>{newColumn?.title}</span>
                 </div>
               </div>
             }

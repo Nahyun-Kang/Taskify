@@ -36,7 +36,7 @@ export default function ModalLayout({ children, btnName, btnSize, onClose, sign,
   const SignBtnSize = sign ? 'sm:justify-center' : 'sm:justify-between';
   return (
     <div
-      className={`hide-scrollbar relative max-h-[95%] gap-[1.5rem] overflow-scroll rounded-[0.5rem] bg-white sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:px-[1.75rem] md:pt-[2rem] ${Size[size]}`}
+      className={`hide-scrollbar relative max-h-[95%] gap-[1.5rem] overflow-scroll rounded-[0.5rem] bg-white sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:px-[1.75rem] md:pt-[2rem] ${Size[size]} dark:bg-black90 dark:text-white8`}
     >
       <div className=' flex flex-col gap-[2rem]'>
         {children}
