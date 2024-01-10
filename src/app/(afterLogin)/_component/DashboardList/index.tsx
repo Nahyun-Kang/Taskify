@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 import { useRecoilState } from 'recoil';
 
-import CreateDashboard2 from '@/src/app/_component/modal/dashboard/create';
+import CreateDashboard from '@/src/app/_component/modal/dashboard/create';
 import { createDashboardModal } from '@/src/app/_recoil/ModalAtom/dashboard';
 interface DashboardListProps {
   dashboards: DashboardProps[];
@@ -64,7 +64,7 @@ export default function DashboardList({ dashboards, setDashboards, page, setPage
           ))}
         </div>
         <div className='ml-auto flex items-center gap-3'>
-          <span className='flex w-full text-[0.75rem] dark:text-gray35 md:text-[0.875rem]'>
+          <span className='dark:text-gray35 flex w-full text-[0.75rem] md:text-[0.875rem]'>
             {totalPage} 페이지 중 {page}
           </span>
           <PageNation
@@ -76,7 +76,7 @@ export default function DashboardList({ dashboards, setDashboards, page, setPage
           />
         </div>
       </div>
-      {isOpenNewDashboard ? <CreateDashboard2 /> : null}
+      {isOpenNewDashboard ? <CreateDashboard /> : null}
     </div>
   );
 }

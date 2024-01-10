@@ -124,15 +124,15 @@ export default function DropdownAndFilter({
   }, [isSelectionComplete]);
 
   return (
-    <div className='relative flex flex-col items-start gap-[0.625rem] md:w-[13.5625rem] md:text-[1.125rem]'>
+    <div className='relative flex w-full flex-col items-start gap-[0.625rem] md:text-[1.125rem]'>
       <label>담당자</label>
       <div className='flex w-full flex-col items-start gap-[0.125rem]'>
-        <span className='relative w-full'>
+        <span className='relative w-full '>
           {isSelectionComplete ? (
             <div
               onClick={handleRenderInputBox}
               className={
-                `flex h-[3rem] w-full items-center gap-[0.8rem] rounded-[0.375rem] border px-[1rem] py-[0.625rem] outline-none ${darkMode}` +
+                `flex h-[3rem]  items-center gap-[0.8rem] rounded-[0.375rem] border px-[1rem] py-[0.625rem]  outline-none ${darkMode}` +
                 (focus ? 'border-violet' : 'border-gray-300')
               }
             >

@@ -64,18 +64,18 @@ export default function Dropdown({ column }: { column?: number }) {
   return (
     <div className={`relative flex w-full flex-col items-start gap-[0.625rem] ${darkModeText}`}>
       <label className='md:text-[1.125rem]'>상태</label>
-      <div className='flex w-full flex-col items-start gap-[0.125rem]'>
-        <span className='relative h-[3rem] w-full'>
+      <div className='flex w-full  flex-col items-start gap-[0.125rem]'>
+        <span className='relative h-[3rem] w-full '>
           <div
             className={
-              'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none md:h-[3rem] md:w-[13.5625rem] ' +
+              'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none md:h-[3rem] ' +
               (focus ? 'border-violet' : 'border-gray-300')
             }
           >
             {dropdownList?.filter((dropdown) => {
               dropdown.title === curretValue;
             }) ? (
-              <div className='flex items-center rounded-full bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
+              <div className='flex items-center rounded-full bg-[#F1EFFD] px-[1rem] py-[0.625rem]'>
                 <div className='flex gap-[0.375rem]'>
                   <Image src={circle} alt='circle' width={6} height={6} />
                   <span className='text-[0.625rem] text-violet md:text-[0.75rem]'>{curretValue}</span>
