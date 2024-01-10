@@ -77,7 +77,7 @@ export default function Card({
 
               <div className='flex shrink-0 grow justify-between gap-[0.375rem]'>
                 <div className='flex items-center gap-[0.375rem]'>
-                  <div className='relative h-[0.875rem] w-[0.875rem] shrink-0 md:h-[1.125rem] md:w-[1.125rem]'>
+                  <div className='relative h-[0.875rem] w-[0.875rem] md:h-[1.125rem] md:w-[1.125rem]'>
                     <Image src={calendarIcon} fill alt='달력 아이콘' />
                   </div>
                   <span className='flex text-[0.625rem] text-gray50 md:translate-y-[0.0625rem] md:text-[0.75rem]'>
@@ -86,7 +86,7 @@ export default function Card({
                 </div>
                 {
                   <span
-                    className={`relative flex h-[1.375rem] w-[1.375rem] shrink-0 items-center justify-center rounded-full md:h-[1.5rem] md:w-[1.5rem] ${bgColor} overflow-hidden text-[0.625rem] font-semibold text-white md:text-[0.75rem]`}
+                    className={`relative flex h-[1.375rem] w-[1.375rem] items-center justify-center rounded-full md:h-[1.5rem] md:w-[1.5rem] ${bgColor} overflow-hidden text-[0.625rem] font-semibold text-white md:text-[0.75rem]`}
                   >
                     {profileImageUrl ? (
                       <Image
