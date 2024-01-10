@@ -10,6 +10,7 @@ import { useRecoilState } from 'recoil';
 
 import CreateDashboard from '@/src/app/_component/modal/dashboard/create';
 import { createDashboardModal } from '@/src/app/_recoil/ModalAtom/dashboard';
+import { darkModeTextGray } from '@/src/app/darkMode';
 interface DashboardListProps {
   dashboards: DashboardProps[];
   setDashboards: (value: DashboardProps[]) => void;
@@ -64,7 +65,7 @@ export default function DashboardList({ dashboards, setDashboards, page, setPage
           ))}
         </div>
         <div className='ml-auto flex items-center gap-3'>
-          <span className='dark:text-gray35 flex w-full text-[0.75rem] md:text-[0.875rem]'>
+          <span className={` flex w-full text-[0.75rem] md:text-[0.875rem] ${darkModeTextGray}`}>
             {totalPage} 페이지 중 {page}
           </span>
           <PageNation
