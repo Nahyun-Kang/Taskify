@@ -1,5 +1,5 @@
 'use client';
-
+import { useState } from 'react';
 import { columnTitleValidate, requiredValidate } from '@/src/app/_constant/Input';
 import InputForm from '@/src/app/_component/InputForm';
 import ModalTitle from '@/src/app/_component/modal/_component/modalTitle';
@@ -11,23 +11,25 @@ import ModalPortal from '@/src/app/_component/modal/_component/modalPortal';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { createColumnState } from '@/src/app/_recoil/ModalAtom/column';
 import { columnState } from '@/src/app/_recoil/ModalAtom/todo';
-import { Column } from '@/src/app/(afterLogin)/_constant/type';
 import { createColumn } from '@/src/app/_api/column';
+import Base from '@/src/app/_component/modal/base';
 
 export default function CreateColumn({ dashboardId }: { dashboardId: string }) {
   const setCreateColumn = useSetRecoilState(createColumnState);
+  const [isOpenDuplicated, setIsOpenDuplicated] = useState<boolean>(false);
   const [columns, setColumns] = useRecoilState(columnState);
 
   const handleClose = () => setCreateColumn(false);
+  const closeBaseModal = () => setIsOpenDuplicated(false);
+
+  const checkDuplicated = (value: string) => {
+    return columns.find((column) => column.title === value) ? '중복된 칼럼 이름입니다.' : true;
+  };
   const onSubmit = async (form: FieldValues) => {
     const titleValue = form.title;
     try {
-      if (columns.find((column) => column.title === titleValue)) {
-        alert('중복된 컬럼 이름입니다.');
-        return;
-      }
       const newColumn = await createColumn(titleValue, +dashboardId);
-      setColumns((oldColumns: Column[]) => [...oldColumns, newColumn]);
+      setColumns((oldColumns) => [...oldColumns, newColumn]);
     } catch (error) {
     } finally {
       setCreateColumn(false);
@@ -44,12 +46,19 @@ export default function CreateColumn({ dashboardId }: { dashboardId: string }) {
                 label='이름'
                 placeholder='컬럼 제목을 입력해주세요'
                 id='title'
-                validationRules={{ ...columnTitleValidate, ...requiredValidate }}
+                validationRules={{
+                  ...columnTitleValidate,
+                  ...requiredValidate,
+                  validate: {
+                    checkDuplicated,
+                  },
+                }}
               />
             </ModalLayout>
           </InputForm>
         </ModalOutside>
       </ModalPortal>
+      {isOpenDuplicated && <Base content='중복된 칼럼 이름입니다.' onClose={closeBaseModal} duplicated />}
     </>
   );
 }

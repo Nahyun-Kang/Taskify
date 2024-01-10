@@ -1,7 +1,7 @@
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { FieldValues } from 'react-hook-form';
 
-export async function createColumn(data: FieldValues, dashboardId: number) {
+export async function createColumn(data: string, dashboardId: number) {
   try {
     const res = await axiosInstance.post('columns', {
       title: data,

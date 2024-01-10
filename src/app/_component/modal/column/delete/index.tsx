@@ -1,4 +1,3 @@
-import ModalTitle from '@/src/app/_component/modal/_component/modalTitle';
 import ModalLayout from '@/src/app/_component/modal/_component/modalLayout';
 import ModalOutside from '@/src/app/_component/modal/_component/modalOutside';
 import ModalMainContent from '@/src/app/_component/modal/_component/modalMainContent';
@@ -31,7 +30,6 @@ export default function DeleteColumn({ columnId }: { columnId: number }) {
         <ModalOutside closeModal={handleClose}>
           <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
             <ModalLayout btnName='삭제' btnSize='large' sign={false} onClose={handleClose}>
-              <ModalTitle title='칼럼 삭제' />
               <ModalMainContent content='칼럼의 모든 카드가 삭제됩니다.' />
             </ModalLayout>
           </InputForm>
