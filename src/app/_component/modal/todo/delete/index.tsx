@@ -10,7 +10,7 @@ import { deleteTodoAboutCardId, countAboutCardList, cardListStateAboutColumn } f
 import { deleteTodoCard } from '@/src/app/_api/todo';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 
-export function DeleteTodo({ cardId, columnId }: { cardId: number; columnId: number }) {
+export default function DeleteTodo({ cardId, columnId }: { cardId: number; columnId: number }) {
   const setIsOpenDeleteTodoModal = useSetRecoilState(deleteTodoAboutCardId(cardId));
   const setCardList = useSetRecoilState(cardListStateAboutColumn(columnId));
   const setCount = useSetRecoilState(countAboutCardList(columnId));

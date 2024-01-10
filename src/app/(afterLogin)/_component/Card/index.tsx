@@ -1,17 +1,17 @@
 import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
-import { openPopOverState } from '@/src/app/_recoil/CardAtom';
 import Image from 'next/image';
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import {
   detailTodoAboutCardId,
   deleteTodoAboutCardId,
   updateTodoAboutCardId,
-} from '@/src/app/_recoil/ModalAtom/todoAtom';
-import DetailToDo2 from '@/src/app/_component/modal2/todo/detail';
-import { UpdateTodo2 } from '@/src/app/_component/modal2/todo/update';
+  openPopOverState,
+} from '@/src/app/_recoil/ModalAtom/todo';
+import DetailToDo from '@/src/app/_component/modal/todo/detail';
+import UpdateTodo from '@/src/app/_component/modal/todo/update';
 import React from 'react';
-import { DeleteTodo2 } from '@/src/app/_component/modal2/todo/delete';
+import DeleteTodo from '@/src/app/_component/modal/todo/delete';
 
 interface CardProps {
   title: string;
@@ -108,9 +108,9 @@ export default function Card({
             </div>
           </div>
         </div>
-        {isOpenDetailTodoModal ? <DetailToDo2 cardId={id} columnId={columnId} /> : null}
-        {isOpenUpdateTodoModal ? <UpdateTodo2 cardId={id} columnId={columnId} /> : null}
-        {isOpenDeleteTodoModal ? <DeleteTodo2 cardId={id} columnId={columnId} /> : null}
+        {isOpenDetailTodoModal ? <DetailToDo cardId={id} columnId={columnId} /> : null}
+        {isOpenUpdateTodoModal ? <UpdateTodo cardId={id} columnId={columnId} /> : null}
+        {isOpenDeleteTodoModal ? <DeleteTodo cardId={id} columnId={columnId} /> : null}
       </div>
     </>
   );

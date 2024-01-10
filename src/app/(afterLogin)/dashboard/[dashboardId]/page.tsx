@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import { CardList } from '@/src/app/(afterLogin)/_component/CardList';
 import AddColumn from '@/src/app/_component/Button/AddColumn';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import { createColumnState } from '@/src/app/_recoil/ModalAtom/columnAtom';
-import { columnState, dashboardIdState } from '@/src/app/_recoil/CardAtom';
+import { createColumnState } from '@/src/app/_recoil/ModalAtom/column';
+import { columnState, dashboardIdState } from '@/src/app/_recoil/ModalAtom/todo';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useCardDragEnd from '@/src/app/_hook/useDragEnd';
 import { getAccessToken } from '@/src/app/_util/getAccessToken';
-import { CreateColumn2 } from '@/src/app/_component/modal2/column/create';
+import CreateColumn from '@/src/app/_component/modal/column/create';
 
 export default function DashBoard({ params }: { params: { dashboardId: string } }) {
   const [columns, setColumns] = useRecoilState(columnState);
@@ -84,7 +84,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
           </div>
         )}
       </div>
-      {createColumn && <CreateColumn2 dashboardId={params.dashboardId} />}
+      {createColumn && <CreateColumn dashboardId={params.dashboardId} />}
     </>
   );
 }

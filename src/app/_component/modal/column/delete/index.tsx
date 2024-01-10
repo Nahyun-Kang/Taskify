@@ -10,7 +10,7 @@ import { deleteColumnsForColumnId } from '@/src/app/_recoil/ModalAtom/column';
 import { columnState } from '@/src/app/_recoil/ModalAtom/todo';
 import { deleteColumn } from '@/src/app/_api/column';
 
-export function DeleteColumn({ columnId }: { columnId: number }) {
+export default function DeleteColumn({ columnId }: { columnId: number }) {
   const setIsOpenDeleteColumn = useSetRecoilState(deleteColumnsForColumnId(columnId));
   const handleClose = () => setIsOpenDeleteColumn(false);
   const setColumns = useSetRecoilState(columnState);

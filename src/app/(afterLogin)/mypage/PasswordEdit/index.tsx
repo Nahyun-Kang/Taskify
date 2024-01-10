@@ -2,9 +2,9 @@
 
 import Confirm from '@/src/app/_component/Button/Confirm';
 import InputForm from '@/src/app/_component/InputForm';
-import Base from '@/src/app/_component/modal2/base';
+import Base from '@/src/app/_component/modal/base';
 import { useRecoilState } from 'recoil';
-import { editPasswordState } from '@/src/app/_recoil/ModalAtom/signAtom';
+import { editPasswordState } from '@/src/app/_recoil/ModalAtom/sign';
 import { editPassword } from '@/src/app/_api/users';
 import { FieldValues } from 'react-hook-form';
 

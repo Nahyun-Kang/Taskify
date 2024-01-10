@@ -14,8 +14,9 @@ import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfil
 import { UserDataType } from '@/src/app/_constant/type';
 import { dropdownState } from '@/src/app/_recoil/Dropdown';
 import { dashboardSelector, inviteListChange } from '@/src/app/_recoil/dashboardAtom';
-import { inviteDashboardState } from '@/src/app/_recoil/ModalAtom/dashboardAtom';
-import InviteDashboard from '@/src/app/_component/modal2/dashboard/invite';
+import { inviteDashboardState } from '@/src/app/_recoil/ModalAtom/dashboard';
+import InviteDashboard from '@/src/app/_component/modal/dashboard/invite';
+
 export default function Header() {
   const pathname = usePathname();
   const isDisabledButtons = pathname === '/myboard' || pathname === '/mypage' || pathname === '/';

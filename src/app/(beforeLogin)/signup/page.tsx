@@ -9,9 +9,9 @@ import { AUTH_MESSAGE } from '@/src/app/(beforeLogin)/_constants/auth';
 import { nicknameValidate } from '@/src/app/_constant/Input';
 import { handleSignUp } from '@/src/app/_api/users';
 import { useRecoilState } from 'recoil';
-import CompleteSignUp from '../../_component/modal2/sign/completeSignUp';
-import { completeSignUpState, useAlreadyEmailState } from '../../_recoil/ModalAtom/signAtom';
-import UseAlreadyEmail from '../../_component/modal2/sign/useAlreadyEmail';
+import CompleteSignUp from '@/src/app/_component/modal/sign/completeSignUp';
+import { completeSignUpState, useAlreadyEmailState } from '@/src/app/_recoil/ModalAtom/sign';
+import UseAlreadyEmail from '@/src/app/_component/modal/sign/useAlreadyEmail';
 
 export default function SignUp() {
   const methods = useForm<FieldValues>({ mode: 'onBlur', reValidateMode: 'onChange' });

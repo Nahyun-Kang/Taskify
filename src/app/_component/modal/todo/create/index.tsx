@@ -17,7 +17,7 @@ import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import { SubmitHandler, FieldValues } from 'react-hook-form';
 import { createTodoCard } from '@/src/app/_api/todo';
 
-export function CreateTodo({ columnId, dashboardId }: { columnId: number; dashboardId: number }) {
+export default function CreateTodo({ columnId, dashboardId }: { columnId: number; dashboardId: number }) {
   const setCardList = useSetRecoilState<CardInfo[] | []>(cardListStateAboutColumn(columnId));
   const setCardNumCount = useSetRecoilState<number>(countAboutCardList(columnId));
   const [createTodo, setCreateTodo] = useRecoilState(createTodoAboutColumnId(columnId));

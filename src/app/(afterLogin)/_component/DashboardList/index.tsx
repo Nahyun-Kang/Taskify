@@ -8,8 +8,8 @@ import { useEffect, useState } from 'react';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 import { useRecoilState } from 'recoil';
 
-import CreateDashboard2 from '@/src/app/_component/modal2/dashboard/create';
-import { createDashboardModal } from '@/src/app/_recoil/ModalAtom/dashboardAtom';
+import CreateDashboard2 from '@/src/app/_component/modal/dashboard/create';
+import { createDashboardModal } from '@/src/app/_recoil/ModalAtom/dashboard';
 interface DashboardListProps {
   dashboards: DashboardProps[];
   setDashboards: (value: DashboardProps[]) => void;

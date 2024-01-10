@@ -6,8 +6,8 @@ import CancelInvite from '@/src/app/_component/Button/CancelInvite';
 import { deleteInvitation, getInvitations } from '@/src/app/_api/Dashboards';
 import { useRecoilState } from 'recoil';
 import { inviteListChange } from '@/src/app/_recoil/dashboardAtom';
-import { inviteDashboardForList } from '@/src/app/_recoil/ModalAtom/dashboardAtom';
-import InviteDashboard from '@/src/app/_component/modal2/dashboard/invite';
+import { inviteDashboardForList } from '@/src/app/_recoil/ModalAtom/dashboard';
+import InviteDashboard from '@/src/app/_component/modal/dashboard/invite';
 interface InviteListProps {
   id: number;
   invitee: {

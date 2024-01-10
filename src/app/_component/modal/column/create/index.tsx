@@ -14,7 +14,7 @@ import { columnState } from '@/src/app/_recoil/ModalAtom/todo';
 import { Column } from '@/src/app/(afterLogin)/_constant/type';
 import { createColumn } from '@/src/app/_api/column';
 
-export function CreateColumn({ dashboardId }: { dashboardId: string }) {
+export default function CreateColumn({ dashboardId }: { dashboardId: string }) {
   const setCreateColumn = useSetRecoilState(createColumnState);
   const [columns, setColumns] = useRecoilState(columnState);
 

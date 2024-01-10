@@ -1,22 +1,22 @@
 import { titleValidate } from '@/src/app/_constant/Input';
-import InputForm from '../../../InputForm';
-import ModalTitle from '../../_component/modalTitle';
-import ModalLayout from '@/src/app/_component/modal2/_component/modalLayout';
-import ModalOutside from '../../_component/modalOutside';
-import DropdownAndFilter from '../../../dropdown/filter';
+import InputForm from '@/src/app/_component/InputForm';
+import ModalTitle from '@/src/app/_component/modal/_component/modalTitle';
+import ModalLayout from '@/src/app/_component/modal/_component/modalLayout';
+import ModalOutside from '@/src/app/_component/modal/_component/modalOutside';
+import ModalPortal from '@/src/app/_component/modal/_component/modalPortal';
+import DropdownAndFilter from '@/src/app/_component/dropdown/filter';
 import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
-import Dropdown from '../../../dropdown';
-import ModalPortal from '../../_component/modalPortal';
+import Dropdown from '@/src/app/_component/dropdown';
 import { useSetRecoilState } from 'recoil';
-import { updateTodoAboutCardId } from '@/src/app/_recoil/ModalAtom/todoAtom';
-import { cardListStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/CardAtom';
+import { updateTodoAboutCardId, cardListStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/ModalAtom/todo';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { SubmitHandler } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form';
 import { updateTodoCard } from '@/src/app/_api/todo';
-export function UpdateTodo2({ cardId, columnId }: { cardId: number; columnId: number }) {
+
+export default function UpdateTodo({ cardId, columnId }: { cardId: number; columnId: number }) {
   const [cardData, setCardData] = useState<CardInfo | null>(null);
   const [editCard, setEditCard] = useState<CardInfo | null>(null);
   const setIsOpenUpdateTodoModal = useSetRecoilState(updateTodoAboutCardId(cardId));

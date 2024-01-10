@@ -13,8 +13,8 @@ import { getDashboards } from '@/src/app/_api/Dashboards';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { usePathname } from 'next/navigation';
 import { useRecoilState } from 'recoil';
-import { createDashboardModalAboutSide } from '@/src/app/_recoil/ModalAtom/dashboardAtom';
-import CreateDashboard2 from '@/src/app/_component/modal2/dashboard/create';
+import { createDashboardModalAboutSide } from '@/src/app/_recoil/ModalAtom/dashboard';
+import CreateDashboard from '@/src/app/_component/modal/dashboard/create';
 
 export default function SideMenu() {
   const [isOpen, setIsOpen] = useRecoilState(createDashboardModalAboutSide);
@@ -79,7 +79,7 @@ export default function SideMenu() {
           })}
         </div>
       </div>
-      {isOpen ? <CreateDashboard2 side /> : null}
+      {isOpen ? <CreateDashboard side /> : null}
     </div>
   );
 }

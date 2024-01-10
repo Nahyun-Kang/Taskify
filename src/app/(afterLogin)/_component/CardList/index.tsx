@@ -9,16 +9,18 @@ import Image from 'next/image';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
-
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 import { DraggableStateSnapshot, DraggableProvided, Draggable } from 'react-beautiful-dnd';
-import { cardListStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/CardAtom';
-import { deleteColumnsForColumnId, updateColumnsForColumnId } from '@/src/app/_recoil/ModalAtom/columnAtom';
-import UpdateColumn2 from '@/src/app/_component/modal2/column/update';
-import { DeleteColumn2 } from '@/src/app/_component/modal2/column/delete';
-import { createTodoAboutColumnId } from '@/src/app/_recoil/ModalAtom/todoAtom';
-import { CreateTodo2 } from '@/src/app/_component/modal2/todo/create';
+import { deleteColumnsForColumnId, updateColumnsForColumnId } from '@/src/app/_recoil/ModalAtom/column';
+import UpdateColumn from '@/src/app/_component/modal/column/update';
+import DeleteColumn from '@/src/app/_component/modal/column/delete';
+import {
+  createTodoAboutColumnId,
+  cardListStateAboutColumn,
+  countAboutCardList,
+} from '@/src/app/_recoil/ModalAtom/todo';
+import CreateTodo from '@/src/app/_component/modal/todo/create';
 interface CardListProps {
   id: number;
   title: string;
@@ -120,9 +122,9 @@ export function CardList({ id, title, dashboardId }: CardListProps) {
         ))}
       </div>
       {cursorId !== null && <div className='h-4 flex-shrink-0' ref={target}></div>}
-      {updateColumnState ? <UpdateColumn2 columnId={id} /> : null}
-      {deleteColumnState ? <DeleteColumn2 columnId={id} /> : null}
-      {createTodo ? <CreateTodo2 columnId={id} dashboardId={+dashboardId} /> : null}
+      {updateColumnState ? <UpdateColumn columnId={id} /> : null}
+      {deleteColumnState ? <DeleteColumn columnId={id} /> : null}
+      {createTodo ? <CreateTodo columnId={id} dashboardId={+dashboardId} /> : null}
     </div>
   );
 }
