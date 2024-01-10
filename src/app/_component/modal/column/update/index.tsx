@@ -38,7 +38,7 @@ export default function UpdateColumn({ columnId }: { columnId: number }) {
       <ModalPortal>
         <ModalOutside closeModal={onClose}>
           <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
-            <ModalLayout btnName='생성' btnSize='large' sign={false} onClose={onClose}>
+            <ModalLayout btnName='변경' btnSize='large' sign={false} onClose={onClose}>
               <ModalTitle title='칼럼 관리' />
               <InputForm.TextInput
                 label='이름'

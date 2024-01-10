@@ -1,5 +1,4 @@
 import InputForm from '@/src/app/_component/InputForm';
-import ModalTitle from '@/src/app/_component/modal/_component/modalTitle';
 import ModalLayout from '@/src/app/_component/modal/_component/modalLayout';
 import ModalOutside from '@/src/app/_component/modal/_component/modalOutside';
 import ModalPortal from '@/src/app/_component/modal/_component/modalPortal';
@@ -35,7 +34,6 @@ export default function DeleteTodo({ cardId, columnId }: { cardId: number; colum
           <ModalOutside closeModal={handleClose}>
             <InputForm onSubmit={onSubmit as SubmitHandler<FieldValues>}>
               <ModalLayout btnName='삭제' btnSize='large' sign={false} onClose={handleClose}>
-                <ModalTitle title='할 일 삭제' />
                 <ModalMainContent content='할 일 카드가 삭제됩니다' />
               </ModalLayout>
             </InputForm>
