@@ -3,6 +3,7 @@ export interface axiosErrorProps {
   method: string;
   url: string;
   status: number;
+  message?: string;
 }
 
 export function authErrorMessages({ method, url, status }: axiosErrorProps) {
