@@ -8,7 +8,7 @@ import ModalPortal from '../../_component/modalPortal';
 import { useSetRecoilState } from 'recoil';
 import { updateColumnsForColumnId, deleteColumnsForColumnId } from '@/src/app/_recoil/ModalAtom/columnAtom';
 import { columnState } from '@/src/app/_recoil/CardAtom';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { updateColumn } from '@/src/app/_api/column';
 
 export default function UpdateColumn2({ columnId }: { columnId: number }) {
   const setUpdateColumnState = useSetRecoilState(updateColumnsForColumnId(columnId));
@@ -23,10 +23,10 @@ export default function UpdateColumn2({ columnId }: { columnId: number }) {
     setDeleteColumnState(true);
   };
 
-  const onSubmit = async (form: FieldValues) => {
+  const onSubmit = async (data: FieldValues) => {
     try {
-      const res = await axiosInstance.put(`columns/${columnId}`, { ...form });
-      setColumns((oldColumns) => oldColumns.map((column) => (column.id === columnId ? { ...res.data } : column)));
+      const newColumn = await updateColumn(data, columnId);
+      setColumns((oldColumns) => oldColumns.map((column) => (column.id === columnId ? { ...newColumn } : column)));
     } catch (error) {
       alert(error);
     } finally {

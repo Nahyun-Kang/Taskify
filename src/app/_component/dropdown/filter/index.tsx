@@ -1,7 +1,7 @@
 'use client';
 import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { getMembersForDropdown } from '@/src/app/_api/todo';
 import Image from 'next/image';
 import { ChangeEvent, FocusEvent, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -102,22 +102,15 @@ export default function DropdownAndFilter({
     setOpenDropdown(!openDropdown);
   };
 
-  // const idToNickname = () => {
-  //   if (assignee === null) return;
-
-  //   const idForUpdate = dropdownList?.filter((dropdown) => dropdown.id === assignee);
-  //   if (idForUpdate) setCurrentValue(idForUpdate[0]?.nickname);
-  // };
-  // 담당자 지정 후 수정을 위해 DIV박스 누르면 INPUT으로 바꾸고, 인풋창에 바로 포커스 (이렇게 안하면 두 번 클릭해야 포커스가 됨)
   useEffect(() => {
     const getMember = async () => {
-      const res = await axiosInstance.get(`members?dashboardId=${dashboardId}`);
-      const { members } = res.data;
-      setDropdownList(members);
+      const memberList = await getMembersForDropdown(dashboardId);
+
+      setDropdownList(memberList);
     };
 
     getMember();
-    // idToNickname();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

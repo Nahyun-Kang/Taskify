@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { SubmitHandler } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form';
-
+import { updateTodoCard } from '@/src/app/_api/todo';
 export function UpdateTodo2({ cardId, columnId }: { cardId: number; columnId: number }) {
   const [cardData, setCardData] = useState<CardInfo | null>(null);
   const [editCard, setEditCard] = useState<CardInfo | null>(null);
@@ -25,17 +25,12 @@ export function UpdateTodo2({ cardId, columnId }: { cardId: number; columnId: nu
   const setCardListOtherColumn = useSetRecoilState(cardListStateAboutColumn(editCard?.columnId as number));
   const setCountOtherColumn = useSetRecoilState(countAboutCardList(editCard?.columnId as number));
 
-  const onSubmit = async (form: FieldValues) => {
+  const onSubmit = async (data: FieldValues) => {
     try {
-      const res = await axiosInstance.put(`cards/${cardId}`, {
-        ...form,
-        columnId: +form.columnId,
-        assigneeUserId: +form.assigneeUserId,
-      });
-      setEditCard(res.data);
+      const newCard = await updateTodoCard(data, cardId);
+      setEditCard(newCard);
     } catch (error) {
       alert(error);
-    } finally {
     }
   };
 

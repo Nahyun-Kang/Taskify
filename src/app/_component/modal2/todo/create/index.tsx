@@ -10,19 +10,19 @@ import { cardListStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import { FieldValues } from 'react-hook-form';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { createTodoAboutColumnId } from '@/src/app/_recoil/ModalAtom/todoAtom';
 import { SubmitHandler } from 'react-hook-form';
+import { createTodoCard } from '@/src/app/_api/todo';
 
 export function CreateTodo2({ columnId, dashboardId }: { columnId: number; dashboardId: number }) {
   const setCardList = useSetRecoilState<CardInfo[] | []>(cardListStateAboutColumn(columnId));
   const setCardNumCount = useSetRecoilState<number>(countAboutCardList(columnId));
   const [createTodo, setCreateTodo] = useRecoilState(createTodoAboutColumnId(columnId));
 
-  const onSubmit = async (form: FieldValues) => {
+  const onSubmit = async (data: FieldValues) => {
     try {
-      const res = await axiosInstance.post('cards', { ...form, dashboardId, columnId });
-      setCardList((prev) => [...(prev || []), res.data]);
+      const newCard = await createTodoCard(data, dashboardId, columnId);
+      setCardList((prev) => [...(prev || []), newCard]);
       setCardNumCount((prev) => (prev ? prev + 1 : 1));
     } catch (error) {
       alert(error);

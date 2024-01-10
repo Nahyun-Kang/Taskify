@@ -7,7 +7,6 @@ import AddColumn from '@/src/app/_component/Button/AddColumn';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { createColumnState } from '@/src/app/_recoil/ModalAtom/columnAtom';
 import { columnState, dashboardIdState } from '@/src/app/_recoil/CardAtom';
-import { MODALTYPE } from '@/src/app/_constant/modalType';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useCardDragEnd from '@/src/app/_hook/useDragEnd';
 import { getAccessToken } from '@/src/app/_util/getAccessToken';
@@ -80,7 +79,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
         ) : (
           <div className='border-gray-20 flex w-full flex-col gap-[1.0625rem] rounded-[0.375rem] border-b bg-gray10 px-3 py-4 md:gap-[1.5625rem] md:p-5 lg:flex-col lg:pt-[4.5rem]'>
             <div className='h-[3.75rem] md:h-[4.375rem] lg:w-[22.125rem]'>
-              <AddColumn screen='mobile' id={MODALTYPE.COLUMN.CREATE} onClick={openCreateColumn} />
+              <AddColumn screen='mobile' onClick={openCreateColumn} />
             </div>
           </div>
         )}

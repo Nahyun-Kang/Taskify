@@ -8,7 +8,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { deleteTodoAboutCardId } from '@/src/app/_recoil/ModalAtom/todoAtom';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { deleteTodoCard } from '@/src/app/_api/todo';
 import { cardListStateAboutColumn } from '@/src/app/_recoil/CardAtom';
 import { countAboutCardList } from '@/src/app/_recoil/CardAtom';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
@@ -20,7 +20,7 @@ export function DeleteTodo2({ cardId, columnId }: { cardId: number; columnId: nu
 
   const onSubmit = async () => {
     try {
-      await axiosInstance.delete(`cards/${cardId}`);
+      await deleteTodoCard(cardId);
       setCardList((oldCards: CardInfo[]) => oldCards.filter((item) => item.id !== cardId));
       setCount((prev: number) => prev - 1);
     } catch (error) {

@@ -11,8 +11,8 @@ import ModalPortal from '../../_component/modalPortal';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { createColumnState } from '@/src/app/_recoil/ModalAtom/columnAtom';
 import { columnState } from '@/src/app/_recoil/CardAtom';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { Column } from '@/src/app/(afterLogin)/_constant/type';
+import { createColumn } from '@/src/app/_api/column';
 
 export function CreateColumn2({ dashboardId }: { dashboardId: string }) {
   const setCreateColumn = useSetRecoilState(createColumnState);
@@ -26,8 +26,8 @@ export function CreateColumn2({ dashboardId }: { dashboardId: string }) {
         alert('중복된 컬럼 이름입니다.');
         return;
       }
-      const res = await axiosInstance.post('columns', { title: titleValue, dashboardId: +dashboardId });
-      setColumns((oldColumns: Column[]) => [...oldColumns, res.data]);
+      const newColumn = await createColumn(titleValue, +dashboardId);
+      setColumns((oldColumns: Column[]) => [...oldColumns, newColumn]);
     } catch (error) {
       alert(error);
     } finally {

@@ -8,14 +8,15 @@ import ModalPortal from '../../_component/modalPortal';
 import { useSetRecoilState } from 'recoil';
 import { deleteColumnsForColumnId } from '@/src/app/_recoil/ModalAtom/columnAtom';
 import { columnState } from '@/src/app/_recoil/CardAtom';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { deleteColumn } from '@/src/app/_api/column';
 export function DeleteColumn2({ columnId }: { columnId: number }) {
   const setIsOpenDeleteColumn = useSetRecoilState(deleteColumnsForColumnId(columnId));
   const handleClose = () => setIsOpenDeleteColumn(false);
   const setColumns = useSetRecoilState(columnState);
+
   const onSubmit = async () => {
     try {
-      await axiosInstance.delete(`columns/${columnId}`);
+      await deleteColumn(columnId);
       setColumns((oldColumns) => oldColumns.filter((column) => column.id != columnId));
     } catch (error) {
       alert(error);

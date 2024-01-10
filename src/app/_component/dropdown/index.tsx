@@ -2,7 +2,7 @@
 import dropdown from '@/public/icons/arrow_drop_down_icon.svg';
 import check from '@/public/icons/check.svg';
 import { useInputField } from '@/src/app/_component/InputForm/InputStyle';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { getColumns } from '../../_api/column';
 import Image from 'next/image';
 import { MouseEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -47,17 +47,16 @@ export default function Dropdown({ column }: { column?: number }) {
 
   useEffect(() => {
     const getMember = async () => {
-      const res = await axiosInstance.get(`columns?dashboardId=${dashboardId}`);
-      const { data } = res.data;
+      const columnList = await getColumns(+dashboardId);
       if (column) {
-        const MemberForUpdate: Column[] = data?.filter((dropdown: Column) => {
+        const columnForUpdate: Column[] = columnList?.filter((dropdown: Column) => {
           return dropdown.id === column;
         });
-        const [newMember] = MemberForUpdate;
+        const [newMember] = columnForUpdate;
         const newColumn = newMember.title;
         setCurrentValue(newColumn);
       }
-      setDropdownList(data);
+      setDropdownList(columnList);
     };
 
     getMember();

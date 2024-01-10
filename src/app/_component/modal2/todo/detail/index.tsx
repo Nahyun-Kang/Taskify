@@ -21,6 +21,7 @@ import { detailTodoAboutCardId } from '@/src/app/_recoil/ModalAtom/todoAtom';
 import InputForm from '../../../InputForm';
 import { FieldValues } from 'react-hook-form';
 import { CommentType } from '@/src/app/_component/modal2/todo/type';
+import { getDetailTodoCard } from '@/src/app/_api/todo';
 export default function DetailToDo2({ cardId, columnId }: { cardId: number; columnId: number }) {
   const [nowCursorId, setNowCursorId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +54,10 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
 
   const params = useParams();
 
-  const handleClose = () => setIsOpenDetailTodoModal(false);
+  const closeModal = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    setIsOpenDetailTodoModal(false);
+  };
 
   const onSubmitCreateComment = async (form: FieldValues) => {
     try {
@@ -89,10 +93,8 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
   };
   const handleRenderCard = async () => {
     try {
-      const res = await axiosInstance.get(`cards/${cardId}`);
-
-      const newData = res.data;
-      setCardData(newData);
+      const newCard = await getDetailTodoCard(cardId);
+      setCardData(newCard);
     } catch (error) {
       alert(error);
     }
@@ -118,7 +120,7 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
   return (
     <>
       <ModalPortal>
-        <ModalOutside closeModal={handleClose}>
+        <ModalOutside closeModal={closeModal}>
           <div
             className='hide-scrollbar relative flex max-h-[80%] flex-col gap-4 overflow-scroll rounded-lg border bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[2.5rem] md:w-[42.5rem] md:gap-6 md:px-[1.75rem] md:pb-[2rem] lg:w-[45.625rem]'
             onClick={handleKebabClose}
