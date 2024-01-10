@@ -1,11 +1,10 @@
 'use client';
 import Image from 'next/image';
 import ModalOutside from '../../_component/modalOutside';
-import Comment from '@/src/app/_component/modal2/todo/detail/_component/Comment';
-import Assignee from '@/src/app/_component/modal2/todo/detail/_component/Assignee';
-import MainContent from '@/src/app/_component/modal2/todo/detail/_component/MainContent';
-import IconButton from '@/src/app/_component/modal2/todo/detail/_component/IconButton';
-import CommentInput from '../../../InputForm/CommentInput';
+import Comment from '@/src/app/_component/modal2/todo/detail/_component/comment';
+import Assignee from '@/src/app/_component/modal2/todo/detail/_component/assignee';
+import MainContent from '@/src/app/_component/modal2/todo/detail/_component/mainContent';
+import IconButton from '@/src/app/_component/modal2/todo/detail/_component/iconButton';
 import { SkeletonUIAboutComments } from '@/src/app/_component/modal2/todo/SkeletonForComments';
 import ModalPortal from '../../_component/modalPortal';
 import { useRef } from 'react';
@@ -13,15 +12,14 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { openPopOverState } from '@/src/app/_recoil/CardAtom';
 import { commentsStateAboutCardId } from '@/src/app/_recoil/CardAtom';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { getCommentInfo } from '@/src/app/_api/comment';
 import useObserver from '@/src/app/_hook/useObserver';
 import { ToDoCardDetailProps } from '@/src/app/_component/modal2/todo/type';
-import { useParams } from 'next/navigation';
 import { detailTodoAboutCardId } from '@/src/app/_recoil/ModalAtom/todoAtom';
-import InputForm from '../../../InputForm';
-import { FieldValues } from 'react-hook-form';
 import { CommentType } from '@/src/app/_component/modal2/todo/type';
 import { getDetailTodoCard } from '@/src/app/_api/todo';
+import CreateCommentArea from './_component/createCommentArea';
+
 export default function DetailToDo2({ cardId, columnId }: { cardId: number; columnId: number }) {
   const [nowCursorId, setNowCursorId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -39,9 +37,9 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
     try {
       setIsLoading(true);
       const cursorQuery = nowCursorId ? `cursorId=${nowCursorId}&` : '';
-      const res = await axiosInstance.get(`comments?${cursorQuery}cardId=${cardId}`);
-      const { comments } = res.data;
-      const { cursorId } = res.data;
+      const newCommentList = await getCommentInfo(cursorQuery, cardId);
+      const { comments } = newCommentList;
+      const { cursorId } = newCommentList;
       setComments((oldComments: CommentType[]) => [...(oldComments || []), ...comments]);
       setNowCursorId(cursorId);
       setIsLoading(false);
@@ -52,25 +50,9 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nowCursorId, cardId]);
 
-  const params = useParams();
-
   const closeModal = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     setIsOpenDetailTodoModal(false);
-  };
-
-  const onSubmitCreateComment = async (form: FieldValues) => {
-    try {
-      const res = await axiosInstance.post('comments', {
-        ...form,
-        columnId,
-        cardId,
-        dashboardId: Number(params.dashboardId),
-      });
-      setComments((prev: CommentType[]) => [, ...(prev ? prev : []), res.data]);
-    } catch (error) {
-    } finally {
-    }
   };
 
   const handleKebab = (e: React.MouseEvent<HTMLElement>) => {
@@ -145,9 +127,7 @@ export default function DetailToDo2({ cardId, columnId }: { cardId: number; colu
                     />
                   )}
                 </div>
-                <InputForm onSubmit={onSubmitCreateComment}>
-                  <CommentInput id='content' placeholder='댓글을 입력해주세요' label='댓글'></CommentInput>
-                </InputForm>
+                <CreateCommentArea cardId={cardId} columnId={columnId} />
                 {isLoading ? (
                   <SkeletonUIAboutComments />
                 ) : comments && Array.isArray(comments) ? (

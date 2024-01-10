@@ -4,25 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { commentsStateAboutCardId } from '@/src/app/_recoil/CardAtom';
 import formatTime from '@/src/app/_util/formatTime';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { deleteCommentInfo } from '@/src/app/_api/comment';
 import DefaultProfile from '@/src/app/_component/DefaultProfile';
 import { UserDataType } from '@/src/app/_constant/type';
+import { updateCommentInfo } from '@/src/app/_api/comment';
+import { CommentType } from '../../../type';
 
-export interface CommentType2 {
-  id: number;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  cardId: number;
-  author: {
-    profileImageUrl: string;
-    nickname: string;
-    id: number;
-  };
-}
-export default function Comment({ data, cardId }: { data: CommentType2; cardId: number }) {
-  // const userInfo = useRecoilValue(userInfoState);
-  // const { id:  } = userInfo;
+export default function Comment({ data, cardId }: { data: CommentType; cardId: number }) {
   const [userId, setUserId] = useState<number | null>(null);
   const [value, setValue] = useState(data ? data.content : '');
   const [isUpdate, setIsUpdate] = useState(false);
@@ -30,13 +18,10 @@ export default function Comment({ data, cardId }: { data: CommentType2; cardId: 
 
   const updateComments = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    const res = await axiosInstance.put(`comments/${data.id}`, {
-      content: value,
-    });
-
-    setComments((oldComments: CommentType2[]) => {
+    const newComment = await updateCommentInfo(data.id, value);
+    setComments((oldComments: CommentType[]) => {
       if (oldComments) {
-        return oldComments.map((comment) => (comment?.id === data?.id ? { ...res.data } : comment));
+        return oldComments.map((comment) => (comment?.id === data?.id ? { ...newComment } : comment));
       }
       return null;
     });
@@ -44,8 +29,8 @@ export default function Comment({ data, cardId }: { data: CommentType2; cardId: 
   };
 
   const deleteComments = async () => {
-    await axiosInstance.delete(`comments/${data.id}`);
-    setComments((oldComments: CommentType2[]) =>
+    await deleteCommentInfo(data.id);
+    setComments((oldComments: CommentType[]) =>
       oldComments ? oldComments.filter((comment) => comment?.id !== data?.id) : [],
     );
   };
@@ -139,5 +124,3 @@ export default function Comment({ data, cardId }: { data: CommentType2; cardId: 
     </div>
   );
 }
-
-// 댓글 수정 누르면 해당 댓글 부분의 내용영역만 input 필드로 바꿔야될까 음... input 위치가 좀 애매하네요
