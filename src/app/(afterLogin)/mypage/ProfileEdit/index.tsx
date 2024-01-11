@@ -2,16 +2,16 @@
 import { getAccessToken } from '@/src/app/_util/getAccessToken';
 import { useRouter } from 'next/navigation';
 
-import InputForm from '@/src/app/_component/InputForm';
 import AddImageFile from '@/src/app/(afterLogin)/_component/AddImageFile';
 import Confirm from '@/src/app/_component/Button/Confirm';
+import InputForm from '@/src/app/_component/InputForm';
 import { getInputClass, InputWrapper, Label } from '@/src/app/_component/InputForm/InputStyle';
-import { useRecoilState } from 'recoil';
-import { FieldValues } from 'react-hook-form';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { useEffect, useState } from 'react';
+import { FieldValues } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useRecoilState } from 'recoil';
 
 export default function ProfileEdit() {
   const inputClass = getInputClass(false) + ' text-gray40';
@@ -42,7 +42,7 @@ export default function ProfileEdit() {
   return (
     mount && (
       <div>
-        <div className='flex w-full'>
+        <div className='w-full'>
           <InputForm
             onSubmit={(data) => {
               editUser(data);

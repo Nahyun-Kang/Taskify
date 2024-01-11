@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { commentsStateAboutCardId } from '@/src/app/_recoil/ModalAtom/todo';
-import formatTime from '@/src/app/_util/formatTime';
-import { deleteCommentInfo } from '@/src/app/_api/comment';
 import ProfileImage from '@/src/app/(afterLogin)/_component/ProfileImage';
 import ProfileImageContainer from '@/src/app/(afterLogin)/_component/ProfileImage/ProfileImageContainer';
-import { UserDataType } from '@/src/app/_constant/type';
-import { updateCommentInfo } from '@/src/app/_api/comment';
+import { deleteCommentInfo, updateCommentInfo } from '@/src/app/_api/comment';
 import { CommentType } from '@/src/app/_component/modal/todo/type';
+import { UserDataType } from '@/src/app/_constant/type';
+import { commentsStateAboutCardId } from '@/src/app/_recoil/ModalAtom/todo';
+import formatTime from '@/src/app/_util/formatTime';
+import React, { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 export default function Comment({ data, cardId }: { data: CommentType; cardId: number }) {
   const [userId, setUserId] = useState<number | null>(null);
@@ -66,7 +65,7 @@ export default function Comment({ data, cardId }: { data: CommentType; cardId: n
       </div>
       <div className='flex w-full flex-col gap-[0.375rem]'>
         <div className='flex gap-[0.5rem]'>
-          <span className='text-[0.875rem] font-semibold text-black'>{data?.author?.nickname}</span>
+          <span className='text-[0.875rem] font-semibold text-black dark:text-white8'>{data?.author?.nickname}</span>
           <span className='text-[0.75rem] text-[#9fa6b2]'>{formatTime(data && (data.createdAt as string))}</span>
         </div>
         {isUpdate ? (
@@ -96,7 +95,7 @@ export default function Comment({ data, cardId }: { data: CommentType; cardId: n
           </div>
         ) : (
           <>
-            <p className='text-[0.875rem] text-black'>{data?.content}</p>
+            <p className='text-[0.875rem] text-black dark:text-white8'>{data?.content}</p>
             <div className='flex gap-[0.75rem]'>
               {data?.author?.id === (userId as number) ? (
                 <>

@@ -66,7 +66,7 @@ export default function Card({
           </div>
         )}
         <div className='flex flex-1 flex-col gap-[0.625rem]'>
-          <div className={` text-[0.875rem] text-black80 md:text-[1rem] ${darkModeText}`}>{title}</div>
+          <div className={`text-[0.875rem] text-black80 md:text-[1rem] ${darkModeText}`}>{title}</div>
           <div className='flex justify-between gap-4'>
             <div className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:flex-wrap md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]'>
               {tags.length > 0 && (
