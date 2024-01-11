@@ -9,7 +9,7 @@ import {
   openPopOverState,
   updateTodoAboutCardId,
 } from '@/src/app/_recoil/ModalAtom/todo';
-import { darkModeText } from '@/src/app/darkMode';
+import { darkMode, darkModeText } from '@/src/app/darkMode';
 import Image from 'next/image';
 import React from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
