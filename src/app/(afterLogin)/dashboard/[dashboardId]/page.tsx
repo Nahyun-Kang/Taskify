@@ -1,6 +1,6 @@
 'use client';
-import { CardList } from '@/src/app/(afterLogin)/_component/CardList';
 import { Column } from '@/src/app/(afterLogin)/_constant/type';
+import { CardList } from '@/src/app/(afterLogin)/dashboard/[dashboardId]/_component/CardList';
 import AddColumn from '@/src/app/_component/Button/AddColumn';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
 import useCardDragEnd from '@/src/app/_hook/useDragEnd';

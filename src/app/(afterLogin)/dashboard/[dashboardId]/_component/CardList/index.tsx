@@ -1,9 +1,9 @@
 'use client';
 
 import settingIcon from '@/public/icons/settings_icon.svg';
-import Card from '@/src/app/(afterLogin)/_component/Card';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
+import Card from '@/src/app/(afterLogin)/dashboard/[dashboardId]/_component/Card';
 import AddTodo from '@/src/app/_component/Button/AddTodo';
 import Number from '@/src/app/_component/Chip/Number';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
