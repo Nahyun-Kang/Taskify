@@ -1,13 +1,13 @@
+import { FieldValues } from 'react-hook-form';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import toast from 'react-hot-toast';
 import Confirm from '@/src/app/_component/Button/Confirm';
 import SelectColor from '@/src/app/_component/Chip/SelectColor';
 import InputForm from '@/src/app/_component/InputForm';
-import { FieldValues } from 'react-hook-form';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import selectAlert from '@/src/app/_util/SelectAlert';
 import { dashboardSelector, dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { updateDashboard } from '@/src/app/_api/Dashboards';
 import { dashboardTitleValidate } from '@/src/app/_constant/Input';
-import toast from 'react-hot-toast';
-import selectAlert from '@/src/app/_util/SelectAlert';
 
 interface EditBoardProps {
   dashboardId: string | undefined;

@@ -1,13 +1,16 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import toast from 'react-hot-toast';
+import { inviteListChange } from '@/src/app/_recoil/dashboardAtom';
+import { inviteDashboardForList } from '@/src/app/_recoil/ModalAtom/dashboard';
+import InviteDashboard from '@/src/app/_component/modal/dashboard/invite';
+import SelectAlert from '@/src/app/_util/SelectAlert';
 import addBox from '@/public/icons/add_box.svg';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import CancelInvite from '@/src/app/_component/Button/CancelInvite';
 import { deleteInvitation, getInvitations } from '@/src/app/_api/Dashboards';
-import { useRecoilState } from 'recoil';
-import { inviteListChange } from '@/src/app/_recoil/dashboardAtom';
-import { inviteDashboardForList } from '@/src/app/_recoil/ModalAtom/dashboard';
-import InviteDashboard from '@/src/app/_component/modal/dashboard/invite';
+
 interface InviteListProps {
   id: number;
   invitee: {
@@ -25,6 +28,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   const [totalPage, setTotalPage] = useState(0);
   const [isChange, setIsChange] = useRecoilState(inviteListChange);
   const [isOpenInviteModal, setIsOpenInviteModal] = useRecoilState(inviteDashboardForList);
+
   const handlePageNation = (direction: 'back' | 'forward') => {
     if (direction === 'back') {
       setPage((prevPage) => prevPage - 1);
@@ -35,8 +39,12 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
 
   const openInviteModal = () => setIsOpenInviteModal(true);
 
-  const handleCancelInvite = (inviteId: number) => {
-    deleteInvitation(dashboardId, inviteId, setIsChange);
+  const handleCancelInvite = async (inviteId: number) => {
+    const answer = await SelectAlert({ work: 'Cancel' });
+    if (answer) {
+      deleteInvitation(dashboardId, inviteId, setIsChange);
+      toast.success('멤버 초대가 취소 되었습니다.');
+    }
   };
 
   useEffect(() => {
@@ -55,7 +63,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   }, [page, dashboardId, isChange]);
 
   return (
-    <div className='item-center flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem] dark:bg-black90'>
+    <div className='item-center dark:bg-black90 flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem]'>
       <div className='flex'>
         <div className='grid flex-none grid-rows-2 md:w-auto md:grid-flow-col md:gap-[1.5rem]'>
           <p className='h-10 w-full text-[1.25rem] font-bold md:flex md:h-[2.5rem] md:text-[1.5rem]'>초대 내역</p>
@@ -64,7 +72,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
         <div className='flex w-full flex-row items-center justify-end gap-3 md:items-start md:gap-4'>
           <div className='flex w-full flex-col items-end gap-[1rem] md:flex-row md:items-center md:justify-end'>
             <div className='flex w-full items-center justify-end gap-[1rem] md:w-auto'>
-              <span className='whitespace-nowrap text-black80 dark:text-gray35 sm:text-[0.75rem] md:text-[0.875rem]'>
+              <span className='dark:text-gray35 whitespace-nowrap text-black80 sm:text-[0.75rem] md:text-[0.875rem]'>
                 {totalPage} 페이지 중 {page}
               </span>
               <PageNation
@@ -94,7 +102,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
                 inviteList.length !== idx + 1 ? 'border-b-[0.0625rem]' : ''
               }`}
             >
-              <span className='overflow-hidden text-ellipsis text-black80 dark:text-white8 sm:text-[0.875rem] md:text-[1rem]'>
+              <span className='dark:text-white8 overflow-hidden text-ellipsis text-black80 sm:text-[0.875rem] md:text-[1rem]'>
                 {val.invitee.email}
               </span>
               <CancelInvite size='large' onClick={() => handleCancelInvite(val.id)} />
