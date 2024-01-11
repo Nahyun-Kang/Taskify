@@ -4,17 +4,14 @@ import ModalPortal from '@/src/app/_component/modal/_component/modalPortal';
 import ModalMainContent from '@/src/app/_component/modal/_component/modalMainContent';
 import { useSetRecoilState } from 'recoil';
 import { editPasswordState } from '@/src/app/_recoil/ModalAtom/sign';
-import { Dispatch, SetStateAction } from 'react';
 
 interface BaseProps {
   content: string;
-  onClose?: Dispatch<SetStateAction<boolean>>;
-  duplicated?: boolean;
 }
 
-export default function Base({ content, onClose, duplicated }: BaseProps) {
+export default function Base({ content }: BaseProps) {
   const setIsOpenUpdatedModal = useSetRecoilState(editPasswordState);
-  const handleClose = () => (duplicated ? onClose : setIsOpenUpdatedModal(false));
+  const handleClose = () => setIsOpenUpdatedModal(false);
   return (
     <ModalPortal>
       <ModalOutside closeModal={handleClose}>
