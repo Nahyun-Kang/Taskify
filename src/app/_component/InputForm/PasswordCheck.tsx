@@ -30,7 +30,7 @@ export default function PasswordCheck({ label, placeholder, id, initialValue = '
         <input
           id={id}
           type={inputType}
-          className='placeholder:text-gray4 inline-flex h-6 flex-1 bg-inherit outline-0'
+          className='placeholder:text-gray4 inline-flex h-6 w-full flex-1 bg-inherit outline-0'
           placeholder={placeholder}
           defaultValue={initialValue}
           {...register(id, {
