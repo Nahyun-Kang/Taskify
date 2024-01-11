@@ -1,14 +1,15 @@
 'use client';
 import check from '@/public/icons/check.svg';
 import { useInputField } from '@/src/app/_component/InputForm/InputStyle';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { getColumns } from '@/src/app/_api/column';
 import Image from 'next/image';
 import { MouseEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import circle from '@/public/icons/Ellipse 54.svg';
 import { useRecoilState } from 'recoil';
-import { dashboardIdState } from '@/src/app/_recoil/CardAtom';
+import { dashboardIdState } from '@/src/app/_recoil/ModalAtom/todo';
 import ArrowDown from '@/src/app/_component/Icons/ArrowDown';
+import { darkMode, darkModeText } from '@/src/app/darkMode';
 interface Column {
   id: number;
   title: string;
@@ -19,17 +20,16 @@ interface Column {
 }
 
 export default function Dropdown({ column }: { column?: number }) {
-  const [focus, setFocus] = useState(false); // 인풋 포커스 여부
-  const [openDropdown, setOpenDropdown] = useState(false); // 드롭다운 개폐여부
-  const [curretValue, setCurrentValue] = useState<string>(''); // 인풋에 대한 입력값 참조
-  const [columnId, setColumnId] = useState<number | null>(Number(column) || null); // 담당자 ID (클릭 시 체크표시 렌더링 + REACT-HOOK-FORM 이용하신다길래 그대로 유지)
+  const [focus, setFocus] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [curretValue, setCurrentValue] = useState<string>('');
+  const [columnId, setColumnId] = useState<number | null>(Number(column) || null);
   const [dropdownList, setDropdownList] = useState<Column[] | null>(null);
   const [dashboardId] = useRecoilState(dashboardIdState);
 
   const { register } = useInputField('columnId', {});
   const { setValue } = useFormContext();
 
-  // 드롭 다운 내 사용자 클릭을 받아서, 담당자로 지정
   const handleOnChangeDropdown = (e: MouseEvent<HTMLSpanElement>, id: number) => {
     const { innerText } = e.target as HTMLElement;
     setCurrentValue(innerText);
@@ -38,8 +38,6 @@ export default function Dropdown({ column }: { column?: number }) {
     setValue('columnId', +id);
   };
 
-  // 각 종 동적 UI
-
   const handleOpenDropdown = () => {
     setFocus(!focus);
     setOpenDropdown(!openDropdown);
@@ -47,17 +45,16 @@ export default function Dropdown({ column }: { column?: number }) {
 
   useEffect(() => {
     const getMember = async () => {
-      const res = await axiosInstance.get(`columns?dashboardId=${dashboardId}`);
-      const { data } = res.data;
+      const columnList = await getColumns(+dashboardId);
       if (column) {
-        const MemberForUpdate: Column[] = data?.filter((dropdown: Column) => {
+        const columnForUpdate: Column[] = columnList?.filter((dropdown: Column) => {
           return dropdown.id === column;
         });
-        const [newMember] = MemberForUpdate;
+        const [newMember] = columnForUpdate;
         const newColumn = newMember.title;
         setCurrentValue(newColumn);
       }
-      setDropdownList(data);
+      setDropdownList(columnList);
     };
 
     getMember();
@@ -65,20 +62,20 @@ export default function Dropdown({ column }: { column?: number }) {
   }, [column]);
 
   return (
-    <div className='relative flex w-full flex-col items-start gap-[0.625rem] dark:text-white8 md:w-[13.5625rem]'>
+    <div className={`relative flex w-full flex-col items-start gap-[0.625rem] ${darkModeText}`}>
       <label className='md:text-[1.125rem]'>상태</label>
-      <div className='flex w-full flex-col items-start gap-[0.125rem]'>
-        <span className='relative h-[3rem] w-full'>
+      <div className='flex w-full  flex-col items-start gap-[0.125rem]'>
+        <span className='relative h-[3rem] w-full '>
           <div
             className={
-              'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none md:h-[3rem] md:w-[13.5625rem] ' +
+              'flex w-full items-center gap-[0.8rem] rounded-[0.375rem] border border-gray-300 px-[1rem] py-[0.625rem] outline-none md:h-[3rem] ' +
               (focus ? 'border-violet' : 'border-gray-300')
             }
           >
             {dropdownList?.filter((dropdown) => {
               dropdown.title === curretValue;
             }) ? (
-              <div className='flex items-center rounded-full bg-[#F1EFFD] px-[0.5rem] py-[0.25rem]'>
+              <div className='flex items-center rounded-full bg-[#F1EFFD] px-[1rem] py-[0.625rem]'>
                 <div className='flex gap-[0.375rem]'>
                   <Image src={circle} alt='circle' width={6} height={6} />
                   <span className='text-[0.625rem] text-violet md:text-[0.75rem]'>{curretValue}</span>
@@ -97,9 +94,7 @@ export default function Dropdown({ column }: { column?: number }) {
 
         {openDropdown ? (
           <div
-            className={
-              'absolute top-[100%] z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none dark:bg-black90'
-            }
+            className={`absolute top-[100%] z-50 mt-[2px] flex w-full flex-col gap-[0.9375rem] rounded-[0.375rem] border border-gray-300 bg-white px-[1rem] py-[0.625rem] outline-none ${darkMode}`}
           >
             {dropdownList?.map((column) => {
               return (
@@ -119,7 +114,6 @@ export default function Dropdown({ column }: { column?: number }) {
   );
 }
 
-// 받아온 데이터에 있는 요소들을 표현한 컴포넌트
 export const ColumnOption = ({
   onClick,
   name,

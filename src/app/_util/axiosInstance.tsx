@@ -21,7 +21,7 @@ axiosInstance.interceptors.response.use(
       };
       Alert(alertParams);
     }
-    const method = error.config.method.toLowerCase();
+    const method = error.config?.method?.toLowerCase();
     const url = error.config.url.toLowerCase();
     const status = error.response.status;
     const message = error.response.data.message;

@@ -9,41 +9,20 @@ import TextLogo from '@/src/app/_component/Icons/TextLogo';
 import SmallLogo from '@/src/app/_component/Icons/SmallLogo';
 import IdxIcon from '@/src/app/(afterLogin)/_component/Icons/IdxIcon';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
-import { createDashboard, getDashboards } from '@/src/app/_api/Dashboards';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
+import { getDashboards } from '@/src/app/_api/Dashboards';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useRecoilState } from 'recoil';
-import { useRef } from 'react';
-import toast from 'react-hot-toast';
+import { createDashboardModalAboutSide } from '@/src/app/_recoil/ModalAtom/dashboard';
+import CreateDashboard from '@/src/app/_component/modal/dashboard/create';
+import { darkMode, darkModeText } from '@/src/app/darkMode';
 export default function SideMenu() {
-  const [modalType, callModal, setModalType] = useRenderModal();
-  const preModalType = useRef(modalType);
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useRecoilState(createDashboardModalAboutSide);
   const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
   const pathName = usePathname();
   const currentBoard = pathName.replace('/dashboard/', '');
 
-  const handleCreate = async () => {
-    callModal({
-      name: '새로운 대시보드',
-      onSubmit: async (data) => {
-        try {
-          const newDashboard = await createDashboard(data);
-          setDashboardData((prev) => {
-            return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
-          });
-          setModalType(null);
-          toast.success('대시보드가 생성되었습니다!');
-          if (preModalType.current !== null && modalType === null) {
-            router.push(`/dashboard/${newDashboard.id}`);
-          }
-        } catch (error) {
-          // console.error(error);
-        }
-      },
-    });
-  };
+  const openModal = () => setIsOpen(true);
   useEffect(() => {
     const fetchDashboard = async () => {
       const data = await getDashboards();
@@ -54,13 +33,11 @@ export default function SideMenu() {
     fetchDashboard();
   }, [setDashboardData]);
 
-  useEffect(() => {
-    preModalType.current = modalType;
-  }, [modalType]);
-
   return (
     <div className='fixed z-[11]'>
-      <div className='hide-scrollbar h-screen w-[4.1875rem] overflow-scroll border-r-[.0625rem] bg-white pt-[1.1875rem] dark:border-black80 dark:bg-black90 md:w-[10rem] md:pl-[0.75rem] lg:w-[18.75rem]'>
+      <div
+        className={`hide-scrollbar h-screen w-[4.1875rem] overflow-scroll border-r-[.0625rem] bg-white pt-[1.1875rem]  md:w-[10rem] md:pl-[0.75rem] lg:w-[18.75rem] ${darkMode}`}
+      >
         <Link href='/myboard'>
           <div className='mb-[2.4294rem] flex items-center justify-center md:mb-[3.7456rem] md:justify-start'>
             <SmallLogo />
@@ -75,7 +52,7 @@ export default function SideMenu() {
             src={addIcon}
             alt='대시보드 추가 버튼'
             className='h-[1.25rem] w-[1.25rem] cursor-pointer'
-            onClick={handleCreate}
+            onClick={openModal}
           />
         </div>
         <div className='m-auto flex w-[2.5rem] flex-col items-center gap-1 md:m-0 md:w-full md:items-start md:pr-3 '>
@@ -85,8 +62,8 @@ export default function SideMenu() {
                 href={`/dashboard/${item.id}`}
                 key={idx.toString()}
                 className={`${
-                  item.id === Number(currentBoard) ? 'bg-violet8 dark:bg-black80 dark:text-white8' : ''
-                } flex h-[2.25rem] w-full items-center justify-center rounded text-gray50 hover:bg-violet8 dark:text-gray35 dark:hover:bg-black80 md:h-[2.625rem] md:justify-start md:pl-[0.75rem] lg:h-[2.8125rem]`}
+                  item.id === Number(currentBoard) ? `bg-violet8 ${darkMode} ${darkModeText}` : ''
+                } flex h-[2.25rem] w-full items-center justify-center rounded text-gray50 hover:bg-violet8 ${darkModeText}`}
               >
                 <div className='flex w-full items-center justify-center md:justify-start'>
                   <IdxIcon color={item.color} className='md:mr-[1rem]' />
@@ -106,7 +83,7 @@ export default function SideMenu() {
           })}
         </div>
       </div>
-      {modalType}
+      {isOpen ? <CreateDashboard side /> : null}
     </div>
   );
 }
