@@ -1,4 +1,4 @@
-import { cardStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/CardAtom';
+import { cardListStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/ModalAtom/todo';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { DropResult } from '@hello-pangea/dnd';
 import { useRecoilCallback } from 'recoil';
@@ -12,9 +12,9 @@ export default function useDragCardEnd() {
 
         const OriginalSourceCount = snapshot.getLoadable(countAboutCardList(+source.droppableId)).contents;
         const OriginalDestinationCount = snapshot.getLoadable(countAboutCardList(+destination.droppableId)).contents;
-        const OriginalSourceCards = [...snapshot.getLoadable(cardStateAboutColumn(+source.droppableId)).contents];
+        const OriginalSourceCards = [...snapshot.getLoadable(cardListStateAboutColumn(+source.droppableId)).contents];
         const OriginalDestinationCards = [
-          ...snapshot.getLoadable(cardStateAboutColumn(+destination.droppableId)).contents,
+          ...snapshot.getLoadable(cardListStateAboutColumn(+destination.droppableId)).contents,
         ];
 
         try {
@@ -25,8 +25,8 @@ export default function useDragCardEnd() {
 
           destinationCards.push(movedCard);
 
-          set(cardStateAboutColumn(+source.droppableId), sourceCards);
-          set(cardStateAboutColumn(+destination.droppableId), destinationCards);
+          set(cardListStateAboutColumn(+source.droppableId), sourceCards);
+          set(cardListStateAboutColumn(+destination.droppableId), destinationCards);
           set(countAboutCardList(+source.droppableId), OriginalSourceCount - 1);
           set(countAboutCardList(+destination.droppableId), OriginalDestinationCount + 1);
 
@@ -35,8 +35,8 @@ export default function useDragCardEnd() {
             columnId: +destination.droppableId,
           });
         } catch (error) {
-          set(cardStateAboutColumn(+source.droppableId), OriginalSourceCards);
-          set(cardStateAboutColumn(+destination.droppableId), OriginalDestinationCards);
+          set(cardListStateAboutColumn(+source.droppableId), OriginalSourceCards);
+          set(cardListStateAboutColumn(+destination.droppableId), OriginalDestinationCards);
           set(countAboutCardList(+source.droppableId), OriginalSourceCount);
           set(countAboutCardList(+destination.droppableId), OriginalDestinationCount);
         }

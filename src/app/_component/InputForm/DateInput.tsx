@@ -5,7 +5,7 @@ import ko from 'date-fns/locale/ko';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useFormContext } from 'react-hook-form';
-import CalendarIcon from '../Icons/CalendarIcon';
+import CalendarIcon from '@/src/app/_component/Icons/CalendarIcon';
 
 interface DateInputProps extends CommonInputProps {
   initialDate?: Date;

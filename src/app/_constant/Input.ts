@@ -22,6 +22,9 @@ export interface CommonInputProps {
       value: number;
       message: string;
     };
+    validate?: {
+      [key: string]: (value: string) => string | boolean;
+    };
   };
   errorText?: string;
 }

@@ -9,7 +9,6 @@ import PasswordInput from '@/src/app/_component/InputForm/PasswrdInput';
 import TagInput from '@/src/app/_component/InputForm/TagInput';
 import TextInput from '@/src/app/_component/InputForm/TextInput';
 import { ReactNode, useEffect } from 'react';
-// import CommentUpdateInput from './commentUpdateInput';
 
 export default function InputForm({
   children,
@@ -44,7 +43,7 @@ export default function InputForm({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(submit)} noValidate className='w-full'>
+      <form onSubmit={methods.handleSubmit(submit)} noValidate>
         {children}
       </form>
     </FormProvider>
@@ -58,4 +57,3 @@ InputForm.TextInput = TextInput;
 InputForm.DateInput = DateInput;
 InputForm.TagInput = TagInput;
 InputForm.CommentInput = CommentInput;
-// InputForm.CommentUpdateInput = CommentUpdateInput;

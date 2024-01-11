@@ -5,47 +5,27 @@ import IdxIcon from '@/src/app/(afterLogin)/_component/Icons/IdxIcon';
 import LeftArrowIcon from '@/src/app/(afterLogin)/_component/Icons/LeftArrowIcon';
 import RightArrowIcon from '@/src/app/(afterLogin)/_component/Icons/RightArrowIcon';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
-import { createDashboard, getDashboards } from '@/src/app/_api/Dashboards';
+import { getDashboards } from '@/src/app/_api/Dashboards';
 import SmallLogo from '@/src/app/_component/Icons/SmallLogo';
 import TextLogo from '@/src/app/_component/Icons/TextLogo';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
+import CreateDashboard from '@/src/app/_component/modal/dashboard/create';
+import { createDashboardModalAboutSide } from '@/src/app/_recoil/ModalAtom/dashboard';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
+import { darkMode, darkModeText } from '@/src/app/darkMode';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 export default function SideMenu() {
   const [showInMobile, setShowInMobile] = useState(false);
-  const [modalType, callModal, setModalType] = useRenderModal();
-  const preModalType = useRef(modalType);
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useRecoilState(createDashboardModalAboutSide);
   const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
   const pathName = usePathname();
   const currentBoard = pathName.replace('/dashboard/', '');
 
-  const handleCreate = async () => {
-    callModal({
-      name: '새로운 대시보드',
-      onSubmit: async (data) => {
-        try {
-          const newDashboard = await createDashboard(data);
-          setDashboardData((prev) => {
-            return { ...prev, dashboards: [newDashboard, ...prev.dashboards] };
-          });
-          setModalType(null);
-          toast.success('대시보드가 생성되었습니다!');
-          if (preModalType.current !== null && modalType === null) {
-            router.push(`/dashboard/${newDashboard.id}`);
-          }
-        } catch (error) {
-          // console.error(error);
-        }
-      },
-    });
-  };
+  const openModal = () => setIsOpen(true);
   useEffect(() => {
     const fetchDashboard = async () => {
       const data = await getDashboards();
@@ -56,16 +36,12 @@ export default function SideMenu() {
     fetchDashboard();
   }, [setDashboardData]);
 
-  useEffect(() => {
-    preModalType.current = modalType;
-  }, [modalType]);
-
   return (
     <div className='fixed z-[11]'>
       <div
         className={`hide-scrollbar duration-400 h-screen transition-all md:transition-none ${
           showInMobile ? 'w-[10rem] pl-[0.75rem]' : 'w-[4.1875rem]'
-        } overflow-scroll border-r-[.0625rem] bg-white pt-[1.1875rem] dark:border-black80 dark:bg-black90 md:w-[10rem] md:pl-[0.75rem] lg:w-[18.75rem]`}
+        } overflow-scroll border-r-[.0625rem] bg-white pt-[1.1875rem] ${darkMode} md:w-[10rem] md:pl-[0.75rem] lg:w-[18.75rem]`}
       >
         <Link href='/myboard'>
           <div className={`mb-[2.4294rem] flex items-center justify-center md:mb-[3.7456rem] md:justify-start`}>
@@ -85,7 +61,7 @@ export default function SideMenu() {
             src={addIcon}
             alt='대시보드 추가 버튼'
             className='h-[1.25rem] w-[1.25rem] cursor-pointer'
-            onClick={handleCreate}
+            onClick={openModal}
           />
         </div>
         <button
@@ -106,8 +82,8 @@ export default function SideMenu() {
                 href={`/dashboard/${item.id}`}
                 key={idx.toString()}
                 className={`${
-                  item.id === Number(currentBoard) ? 'bg-violet8 dark:bg-black80 dark:text-white8' : ''
-                } flex  w-full items-center  rounded text-gray50 hover:bg-violet8 dark:text-gray35 dark:hover:bg-black80 ${
+                  item.id === Number(currentBoard) ? `bg-violet8 ${darkMode} ${darkModeText}` : ''
+                } flex  w-full items-center  rounded text-gray50 hover:bg-violet8 ${darkModeText} dark:hover:bg-black80 ${
                   showInMobile ? 'h-[2.625rem] justify-start pl-[0.75rem]' : 'h-[2.25rem] justify-center'
                 } md:h-[2.625rem] md:justify-start md:pl-[0.75rem] lg:h-[2.8125rem]`}
               >
@@ -137,7 +113,7 @@ export default function SideMenu() {
           })}
         </div>
       </div>
-      {modalType}
+      {isOpen ? <CreateDashboard side /> : null}
     </div>
   );
 }
