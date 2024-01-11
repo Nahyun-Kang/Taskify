@@ -1,18 +1,18 @@
 import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
-import Image from 'next/image';
-import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
-import {
-  detailTodoAboutCardId,
-  deleteTodoAboutCardId,
-  updateTodoAboutCardId,
-  openPopOverState,
-} from '@/src/app/_recoil/ModalAtom/todo';
+import DeleteTodo from '@/src/app/_component/modal/todo/delete';
 import DetailToDo from '@/src/app/_component/modal/todo/detail';
 import UpdateTodo from '@/src/app/_component/modal/todo/update';
-import React from 'react';
-import DeleteTodo from '@/src/app/_component/modal/todo/delete';
+import {
+  deleteTodoAboutCardId,
+  detailTodoAboutCardId,
+  openPopOverState,
+  updateTodoAboutCardId,
+} from '@/src/app/_recoil/ModalAtom/todo';
 import { darkMode, darkModeText } from '@/src/app/darkMode';
+import Image from 'next/image';
+import React from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 interface CardProps {
   title: string;
   tags: string[];
@@ -50,7 +50,7 @@ export default function Card({
     <>
       <div
         onClick={openDetailTodoModal}
-        className={` flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3 md:flex-row lg:flex-col lg:items-stretch lg:p-5 ${darkMode}`}
+        className={`flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3 md:flex-row lg:flex-col lg:items-stretch lg:p-5 ${darkMode}`}
       >
         {imageUrl && (
           <div className='flex h-full w-full items-center overflow-hidden rounded md:h-[3.3125rem] md:w-[5.6725rem] lg:h-full lg:w-full'>
@@ -68,7 +68,7 @@ export default function Card({
         <div className='flex flex-1 flex-col gap-[0.625rem]'>
           <div className={` text-[0.875rem] text-black80 md:text-[1rem] ${darkModeText}`}>{title}</div>
           <div className='flex justify-between gap-4'>
-            <div className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]'>
+            <div className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:flex-wrap md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]'>
               {tags.length > 0 && (
                 <div className='flex flex-wrap gap-[0.375rem]'>
                   {tags.map((tag, index) => (
@@ -77,7 +77,7 @@ export default function Card({
                 </div>
               )}
 
-              <div className='flex flex-1 justify-between'>
+              <div className='flex shrink-0 grow justify-between gap-[0.375rem]'>
                 <div className='flex items-center gap-[0.375rem]'>
                   <div className='relative h-[0.875rem] w-[0.875rem] md:h-[1.125rem] md:w-[1.125rem]'>
                     <Image src={calendarIcon} fill alt='달력 아이콘' />
