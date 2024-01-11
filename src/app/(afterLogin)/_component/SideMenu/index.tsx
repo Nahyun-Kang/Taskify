@@ -17,12 +17,12 @@ import { createDashboardModalAboutSide } from '@/src/app/_recoil/ModalAtom/dashb
 import CreateDashboard from '@/src/app/_component/modal/dashboard/create';
 import { darkMode, darkModeText } from '@/src/app/darkMode';
 export default function SideMenu() {
-  const [isOpen, setIsOpen] = useRecoilState(createDashboardModalAboutSide);
+  const [isOpenCreateDashboard, setIsOpenCreateDashboard] = useRecoilState(createDashboardModalAboutSide);
   const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
   const pathName = usePathname();
   const currentBoard = pathName.replace('/dashboard/', '');
 
-  const openModal = () => setIsOpen(true);
+  const openModal = () => setIsOpenCreateDashboard(true);
   useEffect(() => {
     const fetchDashboard = async () => {
       const data = await getDashboards();
@@ -83,7 +83,7 @@ export default function SideMenu() {
           })}
         </div>
       </div>
-      {isOpen ? <CreateDashboard side /> : null}
+      {isOpenCreateDashboard && <CreateDashboard side />}
     </div>
   );
 }

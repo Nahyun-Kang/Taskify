@@ -15,7 +15,7 @@ import CreateColumn from '@/src/app/_component/modal/column/create';
 export default function DashBoard({ params }: { params: { dashboardId: string } }) {
   const [columns, setColumns] = useRecoilState(columnState);
   const setDashBoardId = useSetRecoilState(dashboardIdState);
-  const [createColumn, setCreateColumn] = useRecoilState(createColumnState);
+  const [isOpenCreateColumn, setIsOpenCreateColumn] = useRecoilState(createColumnState);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
@@ -30,7 +30,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
   };
 
   const openCreateColumn = async () => {
-    setCreateColumn(true);
+    setIsOpenCreateColumn(true);
   };
 
   const handleOnDragEnd = useCardDragEnd();
@@ -84,7 +84,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
           </div>
         )}
       </div>
-      {createColumn && <CreateColumn dashboardId={params.dashboardId} />}
+      {isOpenCreateColumn && <CreateColumn dashboardId={params.dashboardId} />}
     </>
   );
 }

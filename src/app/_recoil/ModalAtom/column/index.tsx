@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { RecoilState } from 'recoil';
 export const createColumnState = atom<boolean>({
   key: `createColumnState`,
   default: false,
@@ -9,7 +10,7 @@ export const getColumnsForDashboardIdState = atom<number | null>({
   default: null,
 });
 const updateColumnCache = new Map();
-export const updateColumnsForColumnId = (columnId: number) => {
+export const updateColumnsForColumnId = (columnId: number): RecoilState<boolean> => {
   if (!updateColumnCache.has(columnId)) {
     const updateColumns = atom<boolean>({
       key: `updateColumns${columnId}`,
@@ -22,7 +23,7 @@ export const updateColumnsForColumnId = (columnId: number) => {
 };
 
 const deleteColumnCache = new Map();
-export const deleteColumnsForColumnId = (columnId: number) => {
+export const deleteColumnsForColumnId = (columnId: number): RecoilState<boolean> => {
   if (!deleteColumnCache.has(columnId)) {
     const deleteColumns = atom<boolean>({
       key: `deleteColumns${columnId}`,

@@ -108,9 +108,9 @@ export default function Card({
             </div>
           </div>
         </div>
-        {isOpenDetailTodoModal ? <DetailToDo cardId={id} columnId={columnId} /> : null}
-        {isOpenUpdateTodoModal ? <UpdateTodo cardId={id} columnId={columnId} /> : null}
-        {isOpenDeleteTodoModal ? <DeleteTodo cardId={id} columnId={columnId} /> : null}
+        {isOpenDetailTodoModal && <DetailToDo cardId={id} columnId={columnId} />}
+        {isOpenUpdateTodoModal && <UpdateTodo cardId={id} columnId={columnId} />}
+        {isOpenDeleteTodoModal && <DeleteTodo cardId={id} columnId={columnId} />}
       </div>
     </>
   );

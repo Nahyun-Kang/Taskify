@@ -24,7 +24,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [isChange, setIsChange] = useRecoilState(inviteListChange);
-  const [isOpenInviteModal, setIsOpenInviteModal] = useRecoilState(inviteDashboardForList);
+  const [isOpenInviteDashboard, setIsOpenInviteDashboard] = useRecoilState(inviteDashboardForList);
   const handlePageNation = (direction: 'back' | 'forward') => {
     if (direction === 'back') {
       setPage((prevPage) => prevPage - 1);
@@ -33,7 +33,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
     }
   };
 
-  const openInviteModal = () => setIsOpenInviteModal(true);
+  const openInviteModal = () => setIsOpenInviteDashboard(true);
 
   const handleCancelInvite = (inviteId: number) => {
     deleteInvitation(dashboardId, inviteId, setIsChange);
@@ -101,7 +101,7 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
             </div>
           ))}
       </div>
-      {isOpenInviteModal ? <InviteDashboard dashboardId={dashboardId} setIsChange={setIsChange} list /> : null}
+      {isOpenInviteDashboard && <InviteDashboard dashboardId={dashboardId} setIsChange={setIsChange} list />}
     </div>
   );
 }

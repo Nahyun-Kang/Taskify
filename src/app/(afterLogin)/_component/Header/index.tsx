@@ -33,7 +33,7 @@ export default function Header() {
   const titleClass = !isDisabledButtons ? 'hidden lg:block' : '';
   const marginClass = isDisabledButtons ? 'ml-[5.6875rem]' : '';
   const selectDashboard = useRecoilValue(dashboardSelector(dashboardId));
-  const [isOpenInviteModal, setIsOpenInviteModal] = useRecoilState(inviteDashboardState);
+  const [isOpenInviteDashboard, setIsOpenInviteDashBoard] = useRecoilState(inviteDashboardState);
   const getFolderName = (pathname: string) => {
     switch (pathname) {
       case '/myboard':
@@ -69,7 +69,7 @@ export default function Header() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
-  const openInviteModal = () => setIsOpenInviteModal(true);
+  const openInviteModal = () => setIsOpenInviteDashBoard(true);
 
   return (
     <div className='relative z-[11]'>
@@ -128,7 +128,7 @@ export default function Header() {
           />
         )}
       </div>
-      {isOpenInviteModal ? <InviteDashboard dashboardId={dashboardId} setIsChange={setIsChange} /> : null}
+      {isOpenInviteDashboard && <InviteDashboard dashboardId={dashboardId} setIsChange={setIsChange} />}
     </div>
   );
 }

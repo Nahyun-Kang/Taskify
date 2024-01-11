@@ -43,7 +43,7 @@ export default function PasswordEdit() {
           </div>
         </InputForm>
       </div>
-      {isOpenUpdatedModal ? <Base content='비밀번호가 변경되었습니다.' /> : null}
+      {isOpenUpdatedModal && <Base content='비밀번호가 변경되었습니다.' />}
     </div>
   );
 }

@@ -28,12 +28,12 @@ interface CardListProps {
 }
 
 export function CardList({ id, title, dashboardId }: CardListProps) {
-  const [createTodo, setCreateTodo] = useRecoilState(createTodoAboutColumnId(id));
+  const [isOpenCreateTodo, setIsOpenCreateTodo] = useRecoilState(createTodoAboutColumnId(id));
   const [cardList, setCardList] = useRecoilState<CardInfo[] | []>(cardListStateAboutColumn(id));
   const [cardNumCount, setCardNumCount] = useRecoilState<number>(countAboutCardList(id));
   const [cursorId, setCursorId] = useState('');
-  const [updateColumnState, setUpdateColumnState] = useRecoilState(updateColumnsForColumnId(id));
-  const deleteColumnState = useRecoilValue(deleteColumnsForColumnId(id));
+  const [isOpenUpdateColumn, setIsOpenUpdateColumn] = useRecoilState(updateColumnsForColumnId(id));
+  const isOpenDeleteColumnState = useRecoilValue(deleteColumnsForColumnId(id));
   const target = useRef<HTMLDivElement>(null);
 
   const getCard = useCallback(async () => {
@@ -48,8 +48,8 @@ export function CardList({ id, title, dashboardId }: CardListProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cursorId]);
 
-  const openUpdateColumnModal = () => setUpdateColumnState(true);
-  const openCreateTodoModal = () => setCreateTodo(true);
+  const openUpdateColumnModal = () => setIsOpenUpdateColumn(true);
+  const openCreateTodoModal = () => setIsOpenCreateTodo(true);
   const onIntersect: IntersectionObserverCallback = (entries) => {
     entries.forEach((entry) => {
       if (entry.intersectionRatio > 0) {
@@ -122,9 +122,9 @@ export function CardList({ id, title, dashboardId }: CardListProps) {
         ))}
       </div>
       {cursorId !== null && <div className='h-4 flex-shrink-0' ref={target}></div>}
-      {updateColumnState ? <UpdateColumn columnId={id} /> : null}
-      {deleteColumnState ? <DeleteColumn columnId={id} /> : null}
-      {createTodo ? <CreateTodo columnId={id} dashboardId={+dashboardId} /> : null}
+      {isOpenUpdateColumn && <UpdateColumn columnId={id} />}
+      {isOpenDeleteColumnState && <DeleteColumn columnId={id} />}
+      {isOpenCreateTodo && <CreateTodo columnId={id} dashboardId={+dashboardId} />}
     </div>
   );
 }
