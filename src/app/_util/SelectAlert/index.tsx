@@ -17,7 +17,6 @@ export default function SelectAlert({ work }: SelectAlertParamsProps) {
     reverseButtons: true,
     showCancelButton: true,
   }).then((result) => {
-    console.log('result : ', result);
     return result.isConfirmed;
   });
 }
