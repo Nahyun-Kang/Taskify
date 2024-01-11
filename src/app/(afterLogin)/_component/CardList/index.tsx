@@ -2,27 +2,26 @@
 
 import settingIcon from '@/public/icons/settings_icon.svg';
 import Card from '@/src/app/(afterLogin)/_component/Card';
+import { Colors } from '@/src/app/(afterLogin)/_constant/color';
+import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import AddTodo from '@/src/app/_component/Button/AddTodo';
 import Number from '@/src/app/_component/Chip/Number';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import Image from 'next/image';
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { Colors } from '@/src/app/(afterLogin)/_constant/color';
-import { FieldValues } from 'react-hook-form';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { useSetRecoilState } from 'recoil';
 import { MODALTYPE } from '@/src/app/_constant/modalType';
-import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
-import { isAxiosError } from 'axios';
-import { DraggableStateSnapshot, DraggableProvided, Draggable } from 'react-beautiful-dnd';
+import useRenderModal from '@/src/app/_hook/useRenderModal';
 import {
   cardStateAboutColumn,
   columnState,
   countAboutCardList,
   showColumnModalStateAboutId,
 } from '@/src/app/_recoil/CardAtom';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { Draggable, DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
+import { isAxiosError } from 'axios';
+import Image from 'next/image';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FieldValues } from 'react-hook-form';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 interface CardListProps {
   id: number;
   title: string;
