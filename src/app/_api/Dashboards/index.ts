@@ -127,3 +127,14 @@ export async function putInvitation(invitationId: number, accepted: boolean) {
     throw error;
   }
 }
+
+export async function postInvitation(data: FieldValues, dashboardId: string | undefined) {
+  try {
+    const res = await axiosInstance.post(`dashboards/${dashboardId}/invitations`, {
+      email: data.title,
+    });
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}

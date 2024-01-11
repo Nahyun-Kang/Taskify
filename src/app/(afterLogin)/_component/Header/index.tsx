@@ -8,19 +8,18 @@ import HeaderButton from '@/src/app/(afterLogin)/_component/Header/HeaderButton'
 import add from '@/public/images/add_box_icon.svg';
 import manage from '@/public/images/manage_icon.svg';
 import ProfileCollection from '@/src/app/(afterLogin)/_component/ProfileImgCollection';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
-import submitInvitation from '@/src/app/(afterLogin)/_util/submitInvitation';
 import HeaderDropdown from '@/src/app/(afterLogin)/_component/Header/HeaderDropdown';
 import { userInfoState } from '@/src/app/_recoil/AuthAtom';
 import HeaderProfile from '@/src/app/(afterLogin)/_component/Header/HeaderProfile';
 import { UserDataType } from '@/src/app/_constant/type';
 import { dropdownState } from '@/src/app/_recoil/Dropdown';
 import { dashboardSelector, inviteListChange } from '@/src/app/_recoil/dashboardAtom';
+import { inviteDashboardState } from '@/src/app/_recoil/ModalAtom/dashboard';
+import InviteDashboard from '@/src/app/_component/modal/dashboard/invite';
 
 export default function Header() {
   const pathname = usePathname();
   const isDisabledButtons = pathname === '/myboard' || pathname === '/mypage' || pathname === '/';
-  const [ModalType, callModal, setModalType] = useRenderModal();
   const [folderName, setFolderName] = useState('');
   const [createdByMe, setCreatedByMe] = useState(false);
   const [userName, setUserName] = useState('');
@@ -34,7 +33,7 @@ export default function Header() {
   const titleClass = !isDisabledButtons ? 'hidden lg:block' : '';
   const marginClass = isDisabledButtons ? 'ml-[5.6875rem]' : '';
   const selectDashboard = useRecoilValue(dashboardSelector(dashboardId));
-
+  const [isOpenInviteModal, setIsOpenInviteModal] = useRecoilState(inviteDashboardState);
   const getFolderName = (pathname: string) => {
     switch (pathname) {
       case '/myboard':
@@ -70,9 +69,7 @@ export default function Header() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
-  const handleInvitation = () => {
-    callModal({ name: '초대하기', onSubmit: submitInvitation(dashboardId, setModalType, setIsChange) });
-  };
+  const openInviteModal = () => setIsOpenInviteModal(true);
 
   return (
     <div className='relative z-[11]'>
@@ -92,7 +89,7 @@ export default function Header() {
                 <Link href={`${pathname.includes('edit') ? pathname : pathname + '/edit'}`}>
                   <HeaderButton imageSrc={manage}>관리</HeaderButton>
                 </Link>
-                <HeaderButton imageSrc={add} onClick={handleInvitation}>
+                <HeaderButton imageSrc={add} onClick={openInviteModal}>
                   초대하기
                 </HeaderButton>
               </div>
@@ -131,7 +128,7 @@ export default function Header() {
           />
         )}
       </div>
-      {ModalType}
+      {isOpenInviteModal ? <InviteDashboard dashboardId={dashboardId} setIsChange={setIsChange} /> : null}
     </div>
   );
 }

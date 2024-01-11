@@ -1,12 +1,18 @@
 import calendarIcon from '@/public/icons/calendar_icon.svg';
 import Tag from '@/src/app/_component/Chip/Tag';
-import { MODALTYPE } from '@/src/app/_constant/modalType';
-import useRenderModal from '@/src/app/_hook/useRenderModal';
-import { openPopOverState, showToDoModalStateAboutCard } from '@/src/app/_recoil/CardAtom';
+import DeleteTodo from '@/src/app/_component/modal/todo/delete';
+import DetailToDo from '@/src/app/_component/modal/todo/detail';
+import UpdateTodo from '@/src/app/_component/modal/todo/update';
+import {
+  deleteTodoAboutCardId,
+  detailTodoAboutCardId,
+  openPopOverState,
+  updateTodoAboutCardId,
+} from '@/src/app/_recoil/ModalAtom/todo';
+import { darkModeText } from '@/src/app/darkMode';
 import Image from 'next/image';
-
-import { useSetRecoilState } from 'recoil';
-
+import React from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 interface CardProps {
   title: string;
   tags: string[];
@@ -30,25 +36,21 @@ export default function Card({
   id,
   columnId,
 }: CardProps) {
-  const [modalType, callModal] = useRenderModal();
-  const setShow = useSetRecoilState(showToDoModalStateAboutCard(id));
   const setIsOpenPopOver = useSetRecoilState(openPopOverState);
-
-  // 할 일 카드 상세 모달을 호출하기 위한 함수
-  const handleRenderDetaildoModal = async (e: React.MouseEvent<HTMLDivElement>) => {
+  const [isOpenDetailTodoModal, setIsOpenDetailTodoModal] = useRecoilState(detailTodoAboutCardId(id));
+  const isOpenUpdateTodoModal = useRecoilValue(updateTodoAboutCardId(id));
+  const isOpenDeleteTodoModal = useRecoilValue(deleteTodoAboutCardId(id));
+  const openDetailTodoModal = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
+    setIsOpenDetailTodoModal(true);
     setIsOpenPopOver(false);
-
-    callModal({ name: '할 일 카드 상세', cardId: id, columnId });
-    setShow(true);
   };
 
   return (
     <>
       <div
-        id={MODALTYPE.TODO.DETAIL}
-        onClick={handleRenderDetaildoModal}
-        className='flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3 dark:border-black60 dark:bg-black90 md:flex-row md:items-center lg:flex-col lg:items-stretch lg:p-5'
+        onClick={openDetailTodoModal}
+        className={`flex flex-grow-0 flex-col gap-[0.625rem] rounded-[0.375rem] border border-gray30 bg-white px-3 py-3 md:flex-row lg:flex-col lg:items-stretch lg:p-5 ${darkMode}`}
       >
         {imageUrl && (
           <div className='flex h-full w-full items-center overflow-hidden rounded md:h-[3.3125rem] md:w-[5.6725rem] lg:h-full lg:w-full'>
@@ -64,7 +66,7 @@ export default function Card({
           </div>
         )}
         <div className='flex flex-1 flex-col gap-[0.625rem]'>
-          <div className='text-[0.875rem] text-black80 dark:text-white8 md:text-[1rem]'>{title}</div>
+          <div className={` text-[0.875rem] text-black80 md:text-[1rem] ${darkModeText}`}>{title}</div>
           <div className='flex justify-between gap-4'>
             <div className='flex flex-1 flex-col flex-wrap gap-[0.375rem] md:flex-row md:flex-wrap md:items-center md:gap-4 lg:flex-col lg:items-stretch lg:gap-[0.625rem]'>
               {tags.length > 0 && (
@@ -106,8 +108,10 @@ export default function Card({
             </div>
           </div>
         </div>
+        {isOpenDetailTodoModal ? <DetailToDo cardId={id} columnId={columnId} /> : null}
+        {isOpenUpdateTodoModal ? <UpdateTodo cardId={id} columnId={columnId} /> : null}
+        {isOpenDeleteTodoModal ? <DeleteTodo cardId={id} columnId={columnId} /> : null}
       </div>
-      {modalType}
     </>
   );
 }
