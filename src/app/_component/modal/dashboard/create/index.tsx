@@ -30,6 +30,7 @@ export default function CreateDashboard({ side }: { side?: boolean }) {
       toast.success('대시보드가 생성되었습니다!');
     } catch (error) {}
   };
+
   const handleClose = () => setIsOpenCreateDashboardModal(false);
   return (
     <ModalPortal>
