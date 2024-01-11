@@ -1,4 +1,6 @@
 'use client';
+import { useSetRecoilState } from 'recoil';
+import { useRouter } from 'next/navigation';
 import DeleteDashboard from '@/src/app/_component/Button/DeleteDashboard';
 import useGetWindowSize from '@/src/app/_hook/useGetWindowSize';
 import EditBoard from '@/src/app/(afterLogin)/dashboard/[dashboardId]/edit/_component/EditBoard';
@@ -6,9 +8,8 @@ import InviteList from '@/src/app/(afterLogin)/dashboard/[dashboardId]/edit/_com
 import MemberList from '@/src/app/(afterLogin)/dashboard/[dashboardId]/edit/_component/MemberList';
 import { deleteDashboard } from '@/src/app/_api/Dashboards';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
-import { useSetRecoilState } from 'recoil';
-import { useRouter } from 'next/navigation';
 import EditLayout from '@/src/app/(afterLogin)/_component/EditLayout';
+import SelectAlert from '@/src/app/_util/SelectAlert';
 
 export default function BoardEdit({ params }: { params: { dashboardId: string } }) {
   const router = useRouter();
@@ -17,14 +18,17 @@ export default function BoardEdit({ params }: { params: { dashboardId: string } 
   const isMobile = windowSize < 510 ? true : false;
 
   const handleDelete = async () => {
-    const result = await deleteDashboard(params.dashboardId);
-    if (!result) return;
-    if (result === 204) {
-      setDashboardData((prevDashboard) => ({
-        ...prevDashboard,
-        dashboards: prevDashboard.dashboards.filter((item) => item.id !== Number(params.dashboardId)),
-      }));
-      router.replace('/myboard');
+    const answer = await SelectAlert({ work: 'Delete' });
+    if (answer) {
+      const result = await deleteDashboard(params.dashboardId);
+      if (!result) return;
+      if (result === 204) {
+        setDashboardData((prevDashboard) => ({
+          ...prevDashboard,
+          dashboards: prevDashboard.dashboards.filter((item) => item.id !== Number(params.dashboardId)),
+        }));
+        router.replace('/myboard');
+      }
     }
   };
 
