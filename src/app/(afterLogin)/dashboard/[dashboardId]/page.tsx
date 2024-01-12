@@ -1,16 +1,16 @@
 'use client';
-import { useSetRecoilState, useRecoilState } from 'recoil';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { CardList } from '@/src/app/(afterLogin)/_component/CardList';
+import { CardList } from '@/src/app/(afterLogin)/dashboard/[dashboardId]/_component/CardList';
 import AddColumn from '@/src/app/_component/Button/AddColumn';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import CreateColumn from '@/src/app/_component/modal/column/create';
+import useCardDragEnd from '@/src/app/_hook/useDragEnd';
 import { createColumnState } from '@/src/app/_recoil/ModalAtom/column';
 import { columnState, dashboardIdState } from '@/src/app/_recoil/ModalAtom/todo';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import useCardDragEnd from '@/src/app/_hook/useDragEnd';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { getAccessToken } from '@/src/app/_util/getAccessToken';
-import CreateColumn from '@/src/app/_component/modal/column/create';
+import { DragDropContext, Droppable } from '@hello-pangea/dnd';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 export default function DashBoard({ params }: { params: { dashboardId: string } }) {
   const [columns, setColumns] = useRecoilState(columnState);
@@ -49,7 +49,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
 
   return (
     <>
-      <div className='flex w-full flex-col pt-[4.3125rem] dark:bg-black lg:h-screen lg:flex-row'>
+      <div className='flex w-full flex-col overflow-x-auto pt-[4.3125rem] dark:bg-black lg:h-screen lg:flex-row'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {columns.map((column) => (
             <Droppable key={column.id} droppableId={column.id.toString()}>
@@ -57,10 +57,9 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  style={{
-                    backgroundColor: snapshot.isDraggingOver ? '#F1EFFD' : '#FAFAFA',
-                  }}
-                  className='border-gray-20 hide-scrollbar flex flex-col border-b bg-gray10 dark:border-black80 lg:h-full lg:min-w-[22.125rem] lg:flex-col lg:overflow-scroll lg:border-b-0 lg:border-r'
+                  className={`${
+                    snapshot.isDraggingOver ? 'bg-violet8' : 'bg-gray10 dark:bg-black'
+                  } border-gray-20 flex flex-col border-b bg-gray10 dark:border-black80 lg:h-full lg:min-w-[22.125rem] lg:flex-col lg:border-b-0 lg:border-r`}
                 >
                   <CardList
                     key={column.id + 'col'}

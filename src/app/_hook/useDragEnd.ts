@@ -1,7 +1,7 @@
-import { useRecoilCallback } from 'recoil';
 import { cardListStateAboutColumn, countAboutCardList } from '@/src/app/_recoil/ModalAtom/todo';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import { DropResult } from 'react-beautiful-dnd';
+import { DropResult } from '@hello-pangea/dnd';
+import { useRecoilCallback } from 'recoil';
 
 export default function useDragCardEnd() {
   return useRecoilCallback(

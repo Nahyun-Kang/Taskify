@@ -1,10 +1,10 @@
 'use client';
-import { ReactNode } from 'react';
 import Cancel from '@/src/app/_component/Button/Cancel';
 import Confirm from '@/src/app/_component/Button/Confirm';
-import { useRouter, usePathname } from 'next/navigation';
-import { useRecoilValue } from 'recoil';
 import { modalNameState } from '@/src/app/_recoil/ModalNameAtom';
+import { usePathname, useRouter } from 'next/navigation';
+import { ReactNode } from 'react';
+import { useRecoilValue } from 'recoil';
 
 interface ModalLayoutrProps {
   children: ReactNode;
@@ -38,7 +38,7 @@ export default function ModalLayout({ children, btnName, btnSize, onClose, sign,
     <div
       className={`hide-scrollbar relative max-h-[95%] gap-[1.5rem] overflow-scroll rounded-[0.5rem] bg-white sm:px-[1.25rem] sm:pb-[1.25rem] sm:pt-[1.75rem] md:px-[1.75rem] md:pt-[2rem] ${Size[size]} dark:bg-black90 dark:text-white8`}
     >
-      <div className=' flex flex-col gap-[2rem]'>
+      <div className='flex flex-col gap-[2rem]'>
         {children}
 
         <div className={`flex gap-[0.75rem] md:justify-end ${SignBtnSize}`}>

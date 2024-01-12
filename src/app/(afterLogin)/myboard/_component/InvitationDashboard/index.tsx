@@ -1,17 +1,17 @@
 'use client';
 
 import MagnifyingGlass from '@/src/app/(afterLogin)/_component/Icons/MagnifyingGlass';
-import InvitationList from '@/src/app/(afterLogin)/_component/InvitationDashboard/InvitationList';
-import NoInvitation from '@/src/app/(afterLogin)/_component/InvitationDashboard/NoInvitation';
+import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 import { Invitations } from '@/src/app/(afterLogin)/_constant/type';
+import InvitationList from '@/src/app/(afterLogin)/myboard/_component/InvitationDashboard/InvitationList';
+import NoInvitation from '@/src/app/(afterLogin)/myboard/_component/InvitationDashboard/NoInvitation';
 import { getDashboards, getPaginatedDashboards, putInvitation } from '@/src/app/_api/Dashboards';
 import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
 import { dashboardState } from '@/src/app/_recoil/dashboardAtom';
 import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { ChangeEvent, KeyboardEvent, useCallback, useRef, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
 import toast from 'react-hot-toast';
+import { useSetRecoilState } from 'recoil';
 
 export default function InvitationDashboard({
   setDashboards,

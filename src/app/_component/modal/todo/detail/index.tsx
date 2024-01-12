@@ -1,23 +1,21 @@
 'use client';
-import Image from 'next/image';
-import ModalOutside from '@/src/app/_component/modal/_component/modalOutside';
-import Comment from '@/src/app/_component/modal/todo/detail/_component/comment';
-import Assignee from '@/src/app/_component/modal/todo/detail/_component/assignee';
-import MainContent from '@/src/app/_component/modal/todo/detail/_component/mainContent';
-import IconButton from '@/src/app/_component/modal/todo/detail/_component/iconButton';
-import { SkeletonUIAboutComments } from '@/src/app/_component/modal/todo/SkeletonForComments';
-import ModalPortal from '@/src/app/_component/modal/_component/modalPortal';
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { openPopOverState, commentsStateAboutCardId } from '@/src/app/_recoil/ModalAtom/todo';
 import { getCommentInfo } from '@/src/app/_api/comment';
-import useObserver from '@/src/app/_hook/useObserver';
-import { ToDoCardDetailProps } from '@/src/app/_component/modal/todo/type';
-import { detailTodoAboutCardId } from '@/src/app/_recoil/ModalAtom/todo';
-import { CommentType } from '@/src/app/_component/modal/todo/type';
 import { getDetailTodoCard } from '@/src/app/_api/todo';
+import ModalOutside from '@/src/app/_component/modal/_component/modalOutside';
+import ModalPortal from '@/src/app/_component/modal/_component/modalPortal';
+import { SkeletonUIAboutComments } from '@/src/app/_component/modal/todo/SkeletonForComments';
+import Assignee from '@/src/app/_component/modal/todo/detail/_component/assignee';
+import Comment from '@/src/app/_component/modal/todo/detail/_component/comment';
 import CreateCommentArea from '@/src/app/_component/modal/todo/detail/_component/createCommentArea';
+import IconButton from '@/src/app/_component/modal/todo/detail/_component/iconButton';
+import MainContent from '@/src/app/_component/modal/todo/detail/_component/mainContent';
+import { CommentType, ToDoCardDetailProps } from '@/src/app/_component/modal/todo/type';
+import useObserver from '@/src/app/_hook/useObserver';
+import { commentsStateAboutCardId, detailTodoAboutCardId, openPopOverState } from '@/src/app/_recoil/ModalAtom/todo';
 import { darkMode, darkModeText } from '@/src/app/darkMode';
+import Image from 'next/image';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 export default function DetailToDo({ cardId, columnId }: { cardId: number; columnId: number }) {
   const [nowCursorId, setNowCursorId] = useState('');
@@ -100,13 +98,13 @@ export default function DetailToDo({ cardId, columnId }: { cardId: number; colum
       <ModalPortal>
         <ModalOutside closeModal={closeModal}>
           <div
-            className={`hide-scrollbar  relative flex max-h-[80%] flex-col gap-4 overflow-scroll
-             rounded-lg bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[2.5rem] md:w-[42.5rem]
+            className={`hide-scrollbar relative flex max-h-[80%] flex-col gap-4 overflow-scroll
+              rounded-lg bg-white sm:w-[20.4375rem] sm:px-[1.25rem] sm:pb-[2.5rem] md:w-[42.5rem]
               md:gap-6 md:px-[1.75rem] md:pb-[2rem] lg:w-[45.625rem] ${darkMode} ${darkModeText}`}
             onClick={handleKebabClose}
           >
-            <div className='sticky top-0 z-[2] flex w-full justify-between bg-white sm:pt-[2.5rem] md:pt-[2rem]'>
-              <span className='flex text-[1.5rem] font-bold text-black'>{cardData.title}</span>
+            <div className='sticky top-0 z-[2] flex w-full justify-between bg-white dark:border-black60 dark:bg-black90 sm:pt-[2.5rem] md:pt-[2rem]'>
+              <span className='flex text-[1.5rem] font-bold text-black dark:text-white8 '>{cardData.title}</span>
               <IconButton handleKebab={handleKebab} cardId={cardId} />
             </div>
             <div className='flex flex-col-reverse justify-between md:flex-row'>

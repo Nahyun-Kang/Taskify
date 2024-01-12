@@ -1,3 +1,4 @@
+import CalendarIcon from '@/src/app/_component/Icons/CalendarIcon';
 import { InputWrapper, Label, getInputClass } from '@/src/app/_component/InputForm/InputStyle';
 import { CommonInputProps } from '@/src/app/_constant/Input';
 import { format } from 'date-fns';
@@ -5,7 +6,6 @@ import ko from 'date-fns/locale/ko';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useFormContext } from 'react-hook-form';
-import CalendarIcon from '@/src/app/_component/Icons/CalendarIcon';
 
 interface DateInputProps extends CommonInputProps {
   initialDate?: Date;
@@ -20,7 +20,7 @@ export default function DateInput({ label, id, initialDate }: DateInputProps) {
       <Label label={label} isRequired={false} htmlFor={id} />
       <div className={getInputClass(false)}>
         <div className='pointer-events-none min-h-[1.5rem]'>
-          <CalendarIcon color='#171717' />
+          <CalendarIcon />
         </div>
         <Controller
           name={id}
