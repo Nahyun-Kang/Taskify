@@ -57,11 +57,11 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
   }, [page, dashboardId, isChange]);
 
   return (
-    <div className='item-center dark:bg-black90 flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem]'>
+    <div className='item-center flex w-full flex-col gap-[1.25rem] rounded-lg bg-white p-[1.75rem] dark:bg-black90'>
       <div className='flex w-full justify-between'>
         <p className='font-bold sm:text-[1.25rem] md:text-[1.5rem]'>구성원</p>
         <div className='flex items-center gap-[1rem]'>
-          <span className=' dark:text-gray35 text-black80 sm:text-[0.75rem] md:text-[0.875rem]'>
+          <span className=' text-black80 dark:text-gray35 sm:text-[0.75rem] md:text-[0.875rem]'>
             {totalPage} 페이지 중 {page}
           </span>
           <PageNation
@@ -87,7 +87,7 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
                 <ProfileImageContainer userId={val.userId} size='large'>
                   <ProfileImage profileImageUrl={val.profileImageUrl} nickname={val.nickname} />
                 </ProfileImageContainer>
-                <span className='dark:text-white8 text-black80 sm:text-[0.875rem] md:text-[1rem] '>{val.nickname}</span>
+                <span className='text-black80 dark:text-white8 sm:text-[0.875rem] md:text-[1rem] '>{val.nickname}</span>
               </div>
               {val.isOwner ? (
                 <div className='flex h-[2rem] w-[5.25rem] items-center justify-center'>
