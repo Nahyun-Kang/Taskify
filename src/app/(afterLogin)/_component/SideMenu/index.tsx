@@ -82,7 +82,9 @@ export default function SideMenu() {
                 href={`/dashboard/${item.id}`}
                 key={idx.toString()}
                 className={`${
-                  item.id === Number(currentBoard) ? `bg-violet8 ${darkModeText} bg-black80 dark:border-black60` : ''
+                  item.id === Number(currentBoard)
+                    ? `bg-violet8 ${darkModeText} dark:border-black60 dark:bg-black80`
+                    : ''
                 } flex  w-full items-center  rounded text-gray50 hover:bg-violet8 ${darkModeText} dark:hover:bg-black80 ${
                   showInMobile ? 'h-[2.625rem] justify-start pl-[0.75rem]' : 'h-[2.25rem] justify-center'
                 } md:h-[2.625rem] md:justify-start md:pl-[0.75rem] lg:h-[2.8125rem]`}
