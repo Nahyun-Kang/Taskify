@@ -1,14 +1,14 @@
 'use client';
 
 import Tag from '@/src/app/_component/Chip/Tag';
-import ko from 'date-fns/locale/ko';
-import { ChangeEvent, KeyboardEvent, MouseEvent, ReactNode, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import CalendarIcon from '@/src/app/_component/Icons/CalendarIcon';
 import CloseIcon from '@/src/app/_component/Icons/CloseIcon';
 import EyeOffIcon from '@/src/app/_component/Icons/EyeOffIcon';
 import EyeOnIcon from '@/src/app/_component/Icons/EyeOnIcon';
+import ko from 'date-fns/locale/ko';
+import { ChangeEvent, KeyboardEvent, MouseEvent, ReactNode, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface CommonInputProps {
   type?: string;
@@ -165,7 +165,7 @@ function DateInput({ labelText, id, hasError = false }: { labelText: string; id:
       <Label labelText={labelText} isRequired={false} htmlFor={id} />
       <div className={getInputClass(hasError)}>
         <div className='pointer-events-none min-h-[1.5rem]'>
-          <CalendarIcon color={startDate ? '#171717' : '#9FA6B2'} />
+          <CalendarIcon />
         </div>
         <DatePicker
           closeOnScroll={(e) => e.target === document}
