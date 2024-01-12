@@ -19,7 +19,7 @@ interface DashboardListProps {
 }
 
 export default function DashboardList({ dashboards, setDashboards, page, setPage }: DashboardListProps) {
-  const [isOpenNewDashboard, setIsOpenNewDashboard] = useRecoilState(createDashboardModal);
+  const [isOpenCreateDashboard, setIsOpenCreateDashboard] = useRecoilState(createDashboardModal);
   const [isActiveBack, setIsActiveBack] = useState(false);
   const [isActiveForward, setIsActiveForward] = useState(false);
   const [totalPage, setTotalPage] = useState(0);
@@ -32,7 +32,7 @@ export default function DashboardList({ dashboards, setDashboards, page, setPage
     }
   };
 
-  const openNewDashboardModal = () => setIsOpenNewDashboard(true);
+  const openNewDashboardModal = () => setIsOpenCreateDashboard(true);
 
   useEffect(() => {
     const getDashboardList = async (page: number, pageSize: number) => {
@@ -77,7 +77,7 @@ export default function DashboardList({ dashboards, setDashboards, page, setPage
           />
         </div>
       </div>
-      {isOpenNewDashboard ? <CreateDashboard /> : null}
+      {isOpenCreateDashboard && <CreateDashboard />}
     </div>
   );
 }

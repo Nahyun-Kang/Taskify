@@ -20,12 +20,12 @@ import { useRecoilState } from 'recoil';
 
 export default function SideMenu() {
   const [showInMobile, setShowInMobile] = useState(false);
-  const [isOpen, setIsOpen] = useRecoilState(createDashboardModalAboutSide);
+  const [isOpenCreateDashboard, setIsOpenCreateDashboard] = useRecoilState(createDashboardModalAboutSide);
   const [dashboardData, setDashboardData] = useRecoilState(dashboardState);
   const pathName = usePathname();
   const currentBoard = pathName.replace('/dashboard/', '');
 
-  const openModal = () => setIsOpen(true);
+  const openModal = () => setIsOpenCreateDashboard(true);
   useEffect(() => {
     const fetchDashboard = async () => {
       const data = await getDashboards();
@@ -113,7 +113,7 @@ export default function SideMenu() {
           })}
         </div>
       </div>
-      {isOpen ? <CreateDashboard side /> : null}
+      {isOpenCreateDashboard && <CreateDashboard side />}
     </div>
   );
 }

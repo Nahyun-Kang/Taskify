@@ -1,5 +1,4 @@
 'use client';
-import { useState } from 'react';
 import { columnTitleValidate, requiredValidate } from '@/src/app/_constant/Input';
 import InputForm from '@/src/app/_component/InputForm';
 import ModalTitle from '@/src/app/_component/modal/_component/modalTitle';
@@ -12,15 +11,11 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { createColumnState } from '@/src/app/_recoil/ModalAtom/column';
 import { columnState } from '@/src/app/_recoil/ModalAtom/todo';
 import { createColumn } from '@/src/app/_api/column';
-import Base from '@/src/app/_component/modal/base';
 
 export default function CreateColumn({ dashboardId }: { dashboardId: string }) {
   const setCreateColumn = useSetRecoilState(createColumnState);
-  const [isOpenDuplicated, setIsOpenDuplicated] = useState<boolean>(false);
   const [columns, setColumns] = useRecoilState(columnState);
-
   const handleClose = () => setCreateColumn(false);
-  const closeBaseModal = () => setIsOpenDuplicated(false);
 
   const checkDuplicated = (value: string) => {
     return columns.find((column) => column.title === value) ? '중복된 칼럼 이름입니다.' : true;
@@ -58,7 +53,6 @@ export default function CreateColumn({ dashboardId }: { dashboardId: string }) {
           </InputForm>
         </ModalOutside>
       </ModalPortal>
-      {isOpenDuplicated && <Base content='중복된 칼럼 이름입니다.' onClose={closeBaseModal} duplicated />}
     </>
   );
 }

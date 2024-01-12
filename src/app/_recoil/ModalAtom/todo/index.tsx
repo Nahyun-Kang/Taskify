@@ -3,9 +3,10 @@ import { ToDoCardDetailProps } from '@/src/app/_component/modal/todo/type';
 import { atom } from 'recoil';
 import { Column } from '@/src/app/(afterLogin)/_constant/type';
 import { CommentType } from '@/src/app/_component/modal/todo/type';
+import { RecoilState } from 'recoil';
 
 const createTodoCache = new Map();
-export const createTodoAboutColumnId = (ColumnId: number) => {
+export const createTodoAboutColumnId = (ColumnId: number): RecoilState<boolean> => {
   if (!createTodoCache.has(ColumnId)) {
     const createTodo = atom<boolean>({
       key: `createTodo${ColumnId}`,
@@ -18,7 +19,7 @@ export const createTodoAboutColumnId = (ColumnId: number) => {
 };
 
 const detailTodoCache = new Map();
-export const detailTodoAboutCardId = (cardId: number) => {
+export const detailTodoAboutCardId = (cardId: number): RecoilState<boolean> => {
   if (!detailTodoCache.has(cardId)) {
     const detailTodo = atom<boolean>({
       key: `detailTodo${cardId}`,
@@ -31,7 +32,7 @@ export const detailTodoAboutCardId = (cardId: number) => {
 };
 
 const updateTodoCache = new Map();
-export const updateTodoAboutCardId = (cardId: number) => {
+export const updateTodoAboutCardId = (cardId: number): RecoilState<boolean> => {
   if (!updateTodoCache.has(cardId)) {
     const updateTodo = atom<boolean>({
       key: `updateTodo${cardId}`,
@@ -44,7 +45,7 @@ export const updateTodoAboutCardId = (cardId: number) => {
 };
 
 const deleteTodoCache = new Map();
-export const deleteTodoAboutCardId = (cardId: number) => {
+export const deleteTodoAboutCardId = (cardId: number): RecoilState<boolean> => {
   if (!deleteTodoCache.has(cardId)) {
     const deleteTodo = atom<boolean>({
       key: `deleteTodo${cardId}`,

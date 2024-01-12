@@ -29,7 +29,7 @@ export default function UpdateColumn({ columnId }: { columnId: number }) {
       setColumns((oldColumns) => oldColumns.map((column) => (column.id === columnId ? { ...newColumn } : column)));
     } catch (error) {
     } finally {
-      setUpdateColumnState(null);
+      setUpdateColumnState(false);
     }
   };
   return (

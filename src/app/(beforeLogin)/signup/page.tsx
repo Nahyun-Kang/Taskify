@@ -75,8 +75,8 @@ export default function SignUp() {
           </div>
         </FormProvider>
       </AuthLayout>
-      {isOpenSuccessModal ? <CompleteSignUp /> : null}
-      {isOpenErrorModal ? <UseAlreadyEmail /> : null}
+      {isOpenSuccessModal && <CompleteSignUp />}
+      {isOpenErrorModal && <UseAlreadyEmail />}
     </>
   );
 }

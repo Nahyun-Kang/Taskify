@@ -42,12 +42,8 @@ export default function ModalLayout({ children, btnName, btnSize, onClose, sign,
         {children}
 
         <div className={`flex gap-[0.75rem] md:justify-end ${SignBtnSize}`}>
-          {sign ? null : <Cancel size={btnSize} onClick={onClose} />}
-          {sign ? (
-            <Confirm btnName={btnName} size={btnSize} onClick={handleSignConfirm} />
-          ) : (
-            <Confirm btnName={btnName} size={btnSize} />
-          )}
+          {!sign && <Cancel size={btnSize} onClick={onClose} />}
+          <Confirm btnName={btnName} size={btnSize} onClick={sign ? handleSignConfirm : undefined} />
         </div>
       </div>
     </div>
