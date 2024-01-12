@@ -1,26 +1,26 @@
 'use client';
 
 import settingIcon from '@/public/icons/settings_icon.svg';
-import Card from '@/src/app/(afterLogin)/_component/Card';
-import AddTodo from '@/src/app/_component/Button/AddTodo';
-import Number from '@/src/app/_component/Chip/Number';
-import { axiosInstance } from '@/src/app/_util/axiosInstance';
-import Image from 'next/image';
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import { Colors } from '@/src/app/(afterLogin)/_constant/color';
 import { CardInfo } from '@/src/app/(afterLogin)/_constant/type';
-import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
-import { DraggableStateSnapshot, DraggableProvided, Draggable } from 'react-beautiful-dnd';
-import { deleteColumnsForColumnId, updateColumnsForColumnId } from '@/src/app/_recoil/ModalAtom/column';
-import UpdateColumn from '@/src/app/_component/modal/column/update';
+import Card from '@/src/app/(afterLogin)/dashboard/[dashboardId]/_component/Card';
+import AddTodo from '@/src/app/_component/Button/AddTodo';
+import Number from '@/src/app/_component/Chip/Number';
 import DeleteColumn from '@/src/app/_component/modal/column/delete';
+import UpdateColumn from '@/src/app/_component/modal/column/update';
+import CreateTodo from '@/src/app/_component/modal/todo/create';
+import useInfiniteScroll from '@/src/app/_hook/useInfiniteScroll';
+import { deleteColumnsForColumnId, updateColumnsForColumnId } from '@/src/app/_recoil/ModalAtom/column';
 import {
-  createTodoAboutColumnId,
   cardListStateAboutColumn,
   countAboutCardList,
+  createTodoAboutColumnId,
 } from '@/src/app/_recoil/ModalAtom/todo';
-import CreateTodo from '@/src/app/_component/modal/todo/create';
+import { axiosInstance } from '@/src/app/_util/axiosInstance';
+import { Draggable, DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
+import Image from 'next/image';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 interface CardListProps {
   id: number;
   title: string;
@@ -77,7 +77,7 @@ export function CardList({ id, title, dashboardId }: CardListProps) {
   }, [setCardList]);
 
   return (
-    <div className='md:min-w-none hide-scrollbar relative flex flex-1 flex-col gap-[1.0625rem] bg-gray10 px-3 py-4 text-black dark:bg-black md:w-full md:gap-[1.5625rem] md:p-5 lg:h-full lg:min-w-[22.125rem] lg:flex-col lg:gap-0 lg:overflow-scroll lg:pt-0'>
+    <div className='md:min-w-none hide-scrollbar relative flex flex-1 flex-col gap-[1.0625rem] bg-gray10 px-3 py-4 text-black dark:bg-black md:w-full md:gap-[1.5625rem] md:p-5 lg:h-full lg:flex-col lg:gap-0 lg:overflow-scroll lg:pt-0'>
       <div className='flex flex-col gap-4 bg-gray10 dark:bg-black md:gap-6 lg:sticky lg:top-0 lg:z-10 lg:pb-4 lg:pt-5'>
         <div className='flex items-center gap-2'>
           <span

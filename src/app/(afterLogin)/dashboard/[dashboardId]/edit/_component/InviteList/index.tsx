@@ -1,13 +1,16 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import toast from 'react-hot-toast';
+import { inviteListChange } from '@/src/app/_recoil/dashboardAtom';
+import { inviteDashboardForList } from '@/src/app/_recoil/ModalAtom/dashboard';
+import InviteDashboard from '@/src/app/_component/modal/dashboard/invite';
+import SelectAlert from '@/src/app/_util/SelectAlert';
 import addBox from '@/public/icons/add_box.svg';
 import PageNation from '@/src/app/_component/Button/PageNation';
 import CancelInvite from '@/src/app/_component/Button/CancelInvite';
 import { deleteInvitation, getInvitations } from '@/src/app/_api/Dashboards';
-import { useRecoilState } from 'recoil';
-import { inviteListChange } from '@/src/app/_recoil/dashboardAtom';
-import { inviteDashboardForList } from '@/src/app/_recoil/ModalAtom/dashboard';
-import InviteDashboard from '@/src/app/_component/modal/dashboard/invite';
+
 interface InviteListProps {
   id: number;
   invitee: {
@@ -35,8 +38,12 @@ export default function InviteList({ dashboardId }: { dashboardId: string | unde
 
   const openInviteModal = () => setIsOpenInviteDashboard(true);
 
-  const handleCancelInvite = (inviteId: number) => {
-    deleteInvitation(dashboardId, inviteId, setIsChange);
+  const handleCancelInvite = async (inviteId: number) => {
+    const answer = await SelectAlert({ work: 'Cancel' });
+    if (answer) {
+      deleteInvitation(dashboardId, inviteId, setIsChange);
+      toast.success('멤버 초대가 취소 되었습니다.');
+    }
   };
 
   useEffect(() => {

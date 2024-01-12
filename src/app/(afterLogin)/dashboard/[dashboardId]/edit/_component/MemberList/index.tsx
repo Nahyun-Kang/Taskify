@@ -1,12 +1,14 @@
 'use client';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { deleteMember, getMembers } from '@/src/app/_api/Dashboards';
 import Delete from '@/src/app/_component/Button/Delete';
 import PageNation from '@/src/app/_component/Button/PageNation';
-import { useEffect, useState } from 'react';
-import { deleteMember, getMembers } from '@/src/app/_api/Dashboards';
 import crown from '@/public/images/crown_icon.svg';
-import Image from 'next/image';
 import ProfileImageContainer from '@/src/app/(afterLogin)/_component/ProfileImage/ProfileImageContainer';
 import ProfileImage from '@/src/app/(afterLogin)/_component/ProfileImage';
+import SelectAlert from '@/src/app/_util/SelectAlert';
 
 interface membersProps {
   id: number;
@@ -32,8 +34,12 @@ export default function MemberList({ dashboardId }: { dashboardId: string | unde
     }
   };
 
-  const handleDelete = (memberId: number) => {
-    deleteMember(memberId, setIsChange);
+  const handleDelete = async (memberId: number) => {
+    const answer = await SelectAlert({ work: 'Delete' });
+    if (answer) {
+      deleteMember(memberId, setIsChange);
+      toast.success('구성원이 삭제 되었습니다.');
+    }
   };
 
   useEffect(() => {

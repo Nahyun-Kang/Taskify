@@ -1,11 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import { getAccessToken } from '@/src/app/_util/getAccessToken';
-import DashboardList from '@/src/app/(afterLogin)/_component/DashboardList';
-import InvitationDashboard from '@/src/app/(afterLogin)/_component/InvitationDashboard';
 import { DashboardProps } from '@/src/app/(afterLogin)/_constant/Dashboard';
+import DashboardList from '@/src/app/(afterLogin)/myboard/_component/DashboardList';
+import InvitationDashboard from '@/src/app/(afterLogin)/myboard/_component/InvitationDashboard';
+import { getAccessToken } from '@/src/app/_util/getAccessToken';
 
 export default function MyBoard() {
   const router = useRouter();
