@@ -9,7 +9,7 @@ import { axiosInstance } from '@/src/app/_util/axiosInstance';
 import { getAccessToken } from '@/src/app/_util/getAccessToken';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, WheelEvent } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 export default function DashBoard({ params }: { params: { dashboardId: string } }) {
@@ -18,6 +18,7 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
   const [isOpenCreateColumn, setIsOpenCreateColumn] = useRecoilState(createColumnState);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const getData = async () => {
     setLoading(true);
@@ -35,6 +36,19 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
 
   const handleOnDragEnd = useCardDragEnd();
 
+  const handleScroll = (e: WheelEvent): void => {
+    const el = scrollRef.current;
+    const { deltaY } = e;
+    if (el) {
+      if (deltaY === 0) return;
+      e.preventDefault();
+      el.scrollTo({
+        left: el.scrollLeft + deltaY,
+        behavior: 'auto',
+      });
+    }
+  };
+
   useEffect(() => {
     const accessToken = getAccessToken();
     if (!accessToken) {
@@ -49,7 +63,11 @@ export default function DashBoard({ params }: { params: { dashboardId: string } 
 
   return (
     <>
-      <div className='flex w-full flex-col overflow-x-auto pt-[4.3125rem] dark:bg-black lg:h-screen lg:flex-row'>
+      <div
+        className='flex w-full flex-col overflow-x-auto pt-[4.3125rem] dark:bg-black lg:h-screen lg:flex-row'
+        ref={scrollRef}
+        onWheel={handleScroll}
+      >
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {columns.map((column) => (
             <Droppable key={column.id} droppableId={column.id.toString()}>
